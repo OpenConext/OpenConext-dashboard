@@ -31,7 +31,8 @@ I18n.translations.pt = {
         you: "Você",
         profile: "Perfil",
         switch_idp: "Escolher outro IDP",
-        super_user_switch: "Trocar Identidade"
+        super_user_switch: "Trocar Identidade",
+        welcome_txt: "Bem-vindo ao painel SURFconext. Nesta página, você vê quais serviços estão conectados ao SURFconext: se sua instituição permitir, você poderá acessar esses serviços usando sua conta institucional. Se você fizer login neste painel (canto superior direito), mostraremos os dados personalizados para sua instituição. Mais informações sobre este painel? Clique em 'Ajuda' no canto superior direito da tela."
     },
     confirmation_dialog: {
         title: "Confirme por favor",
@@ -244,12 +245,13 @@ I18n.translations.pt = {
         privacyInformation: "Informação de privacidade",
         privacyInformationInfo: "O serviço não disponibilizou informação de privacidade.",
         contractualBase: {
-            ao: "Aansluitoverenkomst (any version) has been signed",
-            ix: "Institution-provided service",
-            "r&s+coco": "R&S and CoCo claimed in eduGAIN md",
-            entree: "Kennisnet interfederation",
-            clarin: "Part of Clarin federation"
-        }
+            ao: "Service supplier has signed the SURFconext connection agreement.",
+            ix: "Service offered by SURFconext member institution.",
+            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category.",
+            entree: "Member of the Kennisnet Entree-federation.",
+            clarin: "Member of the Clarin research federation."
+        },
+        contractualBaseWiki: " For more information see the <a href=\"https://edu.nl/c83yx\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
     },
 
     attributes_policy_panel: {
@@ -525,6 +527,8 @@ I18n.translations.pt = {
         allow_maintainers_to_manage_authz_rules_tooltip: "This means the maintainers of your<br>IdP are allow to create / edit and delete<br>Authorization rules.",
         displayAdminEmailsInDashboard: "Allow members to see admin emails",
         displayAdminEmailsInDashboardTooltip:"This means that regular members of your institution<br>can see the emails of the SURFconext maintainers<br>and owners of this institution.",
+        displayStatsInDashboard: "Allow regular members to see statistics",
+        displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.",
         contact: "Contacto para {{name}}",
         contact_name: "Nome do contacto",
         contact_email: "Email do contacto",

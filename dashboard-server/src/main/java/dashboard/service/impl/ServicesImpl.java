@@ -220,6 +220,9 @@ public class ServicesImpl implements Services {
         // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on
         // the language setting)
         List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
+        if (CollectionUtils.isEmpty(typeOfServices)) {
+            typeOfServices.add(locale.equals("en") ? "Other" : "Overig");
+        }
         Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", "type_of_service",
                 typeOfServices.stream().map(CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));

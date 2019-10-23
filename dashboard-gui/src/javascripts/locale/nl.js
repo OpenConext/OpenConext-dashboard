@@ -24,14 +24,15 @@ I18n.translations.nl = {
     header: {
         welcome: "Welkom,",
         links: {
-            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a>",
             logout: "Uitloggen",
             exit: "Exit"
         },
         you: "Jij",
         profile: "Profiel",
         switch_idp: "Kies IDP",
-        super_user_switch: "Switch identiteit"
+        super_user_switch: "Switch identiteit",
+        welcome_txt: "Welkom bij het SURFconext dashboard. Op deze pagina zie je welke diensten er op SURFconext gekoppeld zijn: als je instelling dat ook toestaat, kun je op die diensten met je instellingsaccount inloggen. Na inloggen zie je informatie meer gericht op je instelling. Meer info? Klik op 'Help' rechtsbovenin."
     },
     confirmation_dialog: {
         title: "Bevestig",
@@ -249,12 +250,13 @@ I18n.translations.nl = {
         privacyInformation: "Privacy-informatie",
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd.",
         contractualBase: {
-            ao: "Aansluitoverenkomst is ondertekend.",
-            ix: "Dienst aangeboden door instelling.",
-            "r&s+coco" :"R&S en CoCo gemarkeerd in eduGAIN.",
-            entree: "Kennisnet interfederation.",
-            clarin: "Onderdeel van de Clarin federatie."
-        }
+            ao: "Aanbieder heeft de SURFconext aansluitovereenkomst getekend.",
+            ix: "Service offered by SURFconext member institution.",
+            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category\".",
+            entree: "Member of the Kennisnet Entree-federation.",
+            clarin: "Member of the Clarin research federation."
+        },
+        contractualBaseWiki: " Voor meer informatie zie de <a href=\"https://edu.nl/c83yx\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
     },
 
     attributes_policy_panel: {
@@ -293,7 +295,7 @@ I18n.translations.nl = {
         contactPersons: "In het geval van een beveiligingsincident kan deze service het beste op de volgende manier worden gecontacteerd:",
         cp_name: "Naam",
         cp_email: "Email",
-        cp_telephoneNumber: "Telephone number",
+        cp_telephoneNumber: "Telefoonnummer",
         cp_type: "Type",
         cp_type_translate_technical: "Technical",
         cp_type_translate_administrative: "Administrative",
@@ -588,10 +590,12 @@ I18n.translations.nl = {
         allow_maintainers_to_manage_authz_rules_tooltip: "Dit betekent dat de SURFconextbeheerders van uw instelling autorisatie regels mogen aanmaken, bewerken en verwijderen.",
         displayAdminEmailsInDashboard: "Leden kunnen admin emails zien",
         displayAdminEmailsInDashboardTooltip:"Dit betekent dat de email adressen van de<br>SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van uw instelling.",
-       contact: "Contactpersonen voor {{name}}",
+        displayStatsInDashboard: "Leden kunnen statistieken zien",
+        displayStatsInDashboardTooltip:"Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan uw instelling kunnen worden bekeken door reguliere gebruikers<br>van uw instelling.",
+        contact: "Contactpersonen voor {{name}}",
         contact_name: "Contact naam",
         contact_email: "Contact email",
-        contact_telephone: "Contact telephone",
+        contact_telephone: "Contact telefoon",
         contact_type: "Contact type",
         contact_types: {
             technical: "Technisch",

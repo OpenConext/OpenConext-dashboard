@@ -47,11 +47,6 @@ public class SpringSecurity {
     return new CoinUser();
   }
 
-  public static boolean isFullyAuthenticated() {
-    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CoinUser;
-  }
-
   public static void ensureAccess(IdentityProvider idp) {
     validateIdp(idp);
   }

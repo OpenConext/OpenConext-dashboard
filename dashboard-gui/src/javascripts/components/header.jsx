@@ -32,9 +32,7 @@ class Header extends React.Component {
                 {!currentUser.guest && <div className="institute">
                     <p className={`${idp.state}`}>{`${idp.name} - ${state}`}</p>
                 </div>}
-                {currentUser.guest && <div className="login">
-                    <a href="/login" className="c-button">Login</a>
-                </div>}
+
                 <div className="meta">
                     {!currentUser.guest && <div className="name">
                         {this.renderProfileLink()}
@@ -43,6 +41,9 @@ class Header extends React.Component {
                     <LanguageSelector supportedLanguageCodes={supportedLanguageCodes}/>
                     <ul className="links">
                         <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
+                        {currentUser.guest && <li className="login">
+                            <a href="/login">Login</a>
+                        </li>}
                         {!currentUser.guest && this.renderExitLogout()}
                     </ul>
                 </div>

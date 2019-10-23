@@ -95,10 +95,12 @@ class Navigation extends React.Component {
         const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser;
         const activeTab = this.props.location.pathname;
         const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
+        const currentIdp = currentUser.getCurrentIdp();
+        const showStats = hideTabs.indexOf("statistics") === -1 && !currentUser.guest && (!currentUser.dashboardMember || currentIdp.displayStatsInDashboard);
         return (
             <div className="mod-navigation">
                 <ul>
-                    {(hideTabs.indexOf("statistics") === -1 && !currentUser.guest) && this.renderItem("/statistics", "stats", activeTab)}
+                    {showStats && this.renderItem("/statistics", "stats", activeTab)}
                     {(hideTabs.indexOf("apps") === -1) && this.renderItem("/apps", "apps", activeTab)}
                     {(hideTabs.indexOf("policies") === -1 && !currentUser.guest
                         && !currentUser.dashboardMember) && this.renderItem("/policies", "policies", activeTab)}

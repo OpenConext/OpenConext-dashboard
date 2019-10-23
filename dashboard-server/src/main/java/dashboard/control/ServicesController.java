@@ -174,9 +174,20 @@ public class ServicesController extends BaseController {
                                                      Locale locale) throws IOException {
         Optional<Service> serviceByEntityId = services.getServiceById(idpEntityId, spId, EntityType
                 .valueOf(entityType), locale);
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        boolean eraseMails = currentUser.isGuest() || currentUser.isDashboardMember();
+
         return serviceByEntityId
+                .map(service -> eraseMails ? eraseMailsFromService(service) : service)
                 .map(service -> ResponseEntity.ok(createRestResponse(service)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    public static Service eraseMailsFromService(Service service) {
+        service.setSupportMail(null);
+        service.setContactPersons(Collections.emptyList());
+        service.setManipulationNotes(null);
+        return service;
     }
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")

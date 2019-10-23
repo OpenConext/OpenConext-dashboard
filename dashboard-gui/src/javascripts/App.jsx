@@ -17,6 +17,7 @@ import Dummy from "./pages/dummy";
 import PolicyRevisions from "./pages/policy_revisions";
 import History from "./pages/history";
 import Profile from "./pages/profile";
+import Welcome from "./components/welcome";
 import Stats from "./pages/stats";
 import MyIdp from "./pages/idp";
 import NotFound from "./pages/not_found";
@@ -41,15 +42,19 @@ class App extends React.Component {
         const {currentUser} = this.props;
         const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser;
         const nonGuest = !currentUser.guest;
+        const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
+        const currentIdp = currentUser.getCurrentIdp();
+        const showStats = hideTabs.indexOf("statistics") === -1 && !currentUser.guest && (!currentUser.dashboardMember || currentIdp.displayStatsInDashboard);
         return (
             <Router>
                 <div>
                     <div className="l-header">
                         <Header/>
                         <Navigation/>
+                        {!nonGuest && <Welcome/>}
                     </div>
                     <Switch>
-                        <Route exact path="/" render={() => currentUser.guest ? <Redirect to="/apps"/> : <Redirect to="/statistics"/>}/>
+                        <Route exact path="/" render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
                         <Route exact path="/apps/:id/:type/:activePanel/:jiraKey/:action" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type"
@@ -58,7 +63,7 @@ class App extends React.Component {
                         {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview}/>}
                         {isViewerOrAdmin && <Route exact path="/tickets" component={History}/>}
                         {nonGuest && <Route exact path="/profile" component={Profile}/>}
-                        {nonGuest && <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
+                        {showStats && <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
                         {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
                         {isViewerOrAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"

@@ -217,6 +217,19 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         if (CollectionUtils.isEmpty(coinUser.getAuthorities())) {
             coinUser.addAuthority(new CoinAuthority(ROLE_DASHBOARD_MEMBER));
         }
+
+        if (coinUser.isDashboardMember()) {
+            IdentityProvider idp = coinUser.getIdp();
+            if (!idp.isDisplayAdminEmailsInDashboard()) {
+                idp.getContactPersons().clear();
+            }
+            coinUser.getInstitutionIdps().forEach(anIdp -> {
+                if (!anIdp.isDisplayAdminEmailsInDashboard()) {
+                    anIdp.getContactPersons().clear();
+                }
+            });
+        }
+
         return coinUser;
     }
 

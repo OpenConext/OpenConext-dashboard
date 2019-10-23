@@ -25,7 +25,7 @@ class IDPSelector extends React.Component {
     render() {
         const {currentUser} = this.context;
 
-        if (currentUser.institutionIdps.length > 0) {
+        if (currentUser.institutionIdps.length > 0 && !currentUser.dashboardMember) {
             return (
                 <li className="select-idp">
                     <h2>{I18n.t("header.switch_idp")}</h2>

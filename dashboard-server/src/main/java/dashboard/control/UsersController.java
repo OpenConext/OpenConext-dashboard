@@ -184,6 +184,12 @@ public class UsersController extends BaseController {
     public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
         List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        IdentityProvider idp = currentUser.getIdp();
+        boolean eraseMails = currentUser.isGuest() || (currentUser.isDashboardMember() && !idp.isDisplayAdminEmailsInDashboard());
+        if (eraseMails) {
+            usersServices = usersServices.stream().map(service -> ServicesController.eraseMailsFromService(service)).collect(toList());
+        }
         return createRestResponse(usersServices);
     }
 
@@ -333,6 +339,9 @@ public class UsersController extends BaseController {
 
         this.diff(changes, idpId, idp.isDisplayAdminEmailsInDashboard(), settings.isDisplayAdminEmailsInDashboard(),
                 "coin:display_admin_emails_in_dashboard");
+
+        this.diff(changes, idpId, idp.isDisplayStatsInDashboard(), settings.isDisplayStatsInDashboard(),
+                "coin:display_stats_in_dashboard");
 
         this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 

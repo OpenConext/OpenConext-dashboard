@@ -9,6 +9,7 @@ import {getIdpRolesWithUsers, getInstitutionServiceProviders} from "../api";
 import ServiceFilter from "../components/service_filter";
 import ReactTooltip from "react-tooltip";
 import stopEvent from "../utils/stop";
+import {isEmpty} from "../utils/utils";
 
 class MyIdp extends React.Component {
     constructor(props) {
@@ -309,6 +310,20 @@ class MyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.displayStatsInDashboard")}</td>
+                        <td>{currentIdp.displayStatsInDashboard ? I18n.t("boolean.yes") : I18n.t("boolean.no")}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="displayStatsInDashboard" data-tip></i>
+                                <ReactTooltip id="displayStatsInDashboard" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.displayStatsInDashboardTooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.logo_url")}</td>
                         <td>
                             {currentIdp.logoUrl ? <img src={currentIdp.logoUrl} alt={currentIdp.logoUrl}/> : null}
@@ -414,12 +429,12 @@ class MyIdp extends React.Component {
                         </div>}
 
 
-                        <h2 className="top">{I18n.t("my_idp.roles")}
+                        {(showRoles && !isEmpty(roles)) && <h2 className="top">{I18n.t("my_idp.roles")}
                             <i className={`fa fa-caret-${showRoles ? "up" : "down"}`}
                                onClick={() => this.setState({showRoles: !this.state.showRoles})}/>
-                        </h2>
+                        </h2>}
 
-                        {showRoles && <div>
+                        {(showRoles && !isEmpty(roles)) && <div>
                             <p dangerouslySetInnerHTML={{__html: I18n.t("my_idp.sub_title_html")}}></p>
                             {this.renderRoles(Object.keys(roles))}
                         </div>}

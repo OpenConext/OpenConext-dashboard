@@ -174,7 +174,7 @@ class AppOverview extends React.Component {
                     onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
                 </td>
                 {this.renderLicenseNeeded(app)}
-                <YesNo value={!app.aansluitovereenkomstRefused}/>
+                {/*<YesNo value={!app.aansluitovereenkomstRefused}/>*/}
                 {!currentUser.guest && <YesNo value={app.connected}/>}
                 <td className="right">
                     {connect && this.renderConnectButton(app)}
@@ -732,9 +732,9 @@ class AppOverview extends React.Component {
                         <table>
                             <thead>
                             <tr>
-                                {this.renderSortableHeader(currentUser.guest ? "percent_40" :"percent_30", "name")}
-                                {this.renderSortableHeader(currentUser.guest ? "percent_30" :"percent_20", "licenseStatus")}
-                                {this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_60" :"percent_50", "name")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_40" :"percent_30", "licenseStatus")}
+                                {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
                                 {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                                 {connect}
                             </tr>

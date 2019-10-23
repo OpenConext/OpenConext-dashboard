@@ -1,6 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
-
+import PropTypes from "prop-types";
 import {AppShape} from "../shapes";
 import Contact from "./contact";
 
@@ -47,6 +47,8 @@ export default class AppMeta extends React.Component {
 
     render() {
         const app = this.props.app;
+        const {currentUser} = this.context;
+        const showContactInfo = !currentUser.dashboardMember && !currentUser.guest;
         return (
             <div className="l-left-app-meta">
                 <div className="mod-app-meta">
@@ -54,7 +56,7 @@ export default class AppMeta extends React.Component {
                         {app.name}
                     </div>
                     {this.renderLogo()}
-                    <Contact email={app.supportMail}/>
+                    {showContactInfo && <Contact email={app.supportMail}/>}
                     {this.renderUrl("support", app.supportUrl)}
                     {this.renderUrl("login", app.appUrl)}
                     {this.renderUrl("website", app.websiteUrl)}
@@ -69,7 +71,9 @@ export default class AppMeta extends React.Component {
 
 
 }
-
+AppMeta.contextTypes = {
+    currentUser: PropTypes.object
+};
 AppMeta.propTypes = {
     app: AppShape.isRequired
 };

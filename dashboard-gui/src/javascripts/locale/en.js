@@ -24,14 +24,15 @@ I18n.translations.en = {
     header: {
         welcome: "Welcome,",
         links: {
-            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help SURFconext Dashboard</a>",
+            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a>",
             logout: "Logout",
             exit: "Exit"
         },
         you: "You",
         profile: "Profile",
         switch_idp: "Switch IDP",
-        super_user_switch: "Switch identity"
+        super_user_switch: "Switch identity",
+        welcome_txt: "Welcome to the SURFconext dashboard. On this page you see what services are connected to SURFconext: if your institution allows so, you can access those services using your institutional account. If you sign in to this dashboard (top right), we'll show you data tailored to your institution. More info about this dashboard? Click 'Help' in the top right off the screen."
     },
     confirmation_dialog: {
         title: "Please confirm",
@@ -249,12 +250,13 @@ I18n.translations.en = {
         privacyInformation: "Privacy information",
         privacyInformationInfo: "The service provider has not delivered any privacy information.",
         contractualBase: {
-            ao: "Aansluitoverenkomst (any version) has been signed.",
-            ix: "Institution-provided service.",
-            "r&s+coco" :"R&S and CoCo claimed in eduGAIN md.",
-            entree: "Kennisnet interfederation.",
-            clarin: "Part of Clarin federation."
-        }
+            ao: "Service supplier has signed the SURFconext connection agreement.",
+            ix: "Service offered by SURFconext member institution.",
+            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category.",
+            entree: "Member of the Kennisnet Entree-federation.",
+            clarin: "Member of the Clarin research federation."
+        },
+        contractualBaseWiki: " For more information see the <a href=\"https://edu.nl/c83yx\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
     },
 
     attributes_policy_panel: {
@@ -530,8 +532,10 @@ I18n.translations.en = {
         research_and_scholarship_tooltip: "This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> for more information.",
         allow_maintainers_to_manage_authz_rules: "Allow SURFconext maintainers to manage Authorization rules",
         allow_maintainers_to_manage_authz_rules_tooltip: "This means the SURFconext maintainers of your<br>IdP are allowed to create, edit and delete<br>Authorization rules.",
-        displayAdminEmailsInDashboard: "Allow members to see admin emails",
+        displayAdminEmailsInDashboard: "Allow regular members to see admin emails",
         displayAdminEmailsInDashboardTooltip:"This means that regular members of your institution<br>can see the emails of the SURFconext maintainers<br>and owners of this institution.",
+        displayStatsInDashboard: "Allow regular members to see statistics",
+        displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.",
         contact: "Contact persons for {{name}}",
         contact_name: "Contact name",
         contact_email: "Contact email",

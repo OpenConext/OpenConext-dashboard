@@ -141,12 +141,13 @@ class OverviewPanel extends React.Component {
         const idpLoaLevelConfigured = (currentUser.getCurrentIdp().stepupEntities || []).some(e => e.name === app.spEntityId);
         const msg = idpLoaLevelConfigured ? "minimalLoaLevelIdp" : "minimalLoaLevel";
         const loa = idpLoaLevelConfigured ? currentUser.getCurrentIdp().stepupEntities.find(e => e.name === app.spEntityId).level : app.minimalLoaLevel;
+        const loaStripped = loa.substring(loa.lastIndexOf(".") + 1);
         if (app.strongAuthentication || idpLoaLevelConfigured) {
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("overview_panel.supports_ssa")}</h2>
                     <p dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.${msg}`,
-                            {minimalLoaLevel: loa.substring(loa.lastIndexOf("/") + 1)})}}/>
+                            {minimalLoaLevel: loaStripped})}}/>
                 </div>);
         }
         return null;
@@ -154,10 +155,13 @@ class OverviewPanel extends React.Component {
 
     renderContractualBase = () => {
         if (this.props.app.contractualBase) {
+            // TODO - add  link
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("apps.overview.contractualBase")}</h2>
-                    <h3>{I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}</h3>
+                    <h3><span>{I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}</span>
+                        <span dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.contractualBaseWiki")}}/>
+                    </h3>
                 </div>);
         }
         return null;

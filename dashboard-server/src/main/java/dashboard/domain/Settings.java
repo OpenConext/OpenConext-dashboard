@@ -27,6 +27,7 @@ public class Settings {
 
     private List<ContactPerson> contactPersons;
     private boolean displayAdminEmailsInDashboard;
+    private boolean displayStatsInDashboard;
 
     public Settings() {
     }
@@ -118,12 +119,21 @@ public class Settings {
     public void setAllowMaintainersToManageAuthzRules(boolean allowMaintainersToManageAuthzRules) {
         this.allowMaintainersToManageAuthzRules = allowMaintainersToManageAuthzRules;
     }
+
     public boolean isDisplayAdminEmailsInDashboard() {
         return displayAdminEmailsInDashboard;
     }
 
     public void setDisplayAdminEmailsInDashboard(boolean displayAdminEmailsInDashboard) {
         this.displayAdminEmailsInDashboard = displayAdminEmailsInDashboard;
+    }
+
+    public boolean isDisplayStatsInDashboard() {
+        return displayStatsInDashboard;
+    }
+
+    public void setDisplayStatsInDashboard(boolean displayStatsInDashboard) {
+        this.displayStatsInDashboard = displayStatsInDashboard;
     }
 
     public String getComments() {

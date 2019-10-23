@@ -35,6 +35,7 @@ public class IdentityProvider extends Provider implements Serializable {
     private Map<String, String> organisationDisplayNames = new HashMap<>();
     private boolean allowMaintainersToManageAuthzRules;
     private boolean displayAdminEmailsInDashboard;
+    private boolean displayStatsInDashboard;
     private List<Map<String, String>> stepupEntities;
 
     public IdentityProvider() {
@@ -68,6 +69,8 @@ public class IdentityProvider extends Provider implements Serializable {
         organisationDisplayNames.put("nl", (String) metaData.get("OrganizationDisplayName:nl"));
         allowMaintainersToManageAuthzRules = booleanValue(metaData.get("coin:allow_maintainers_to_manage_authz_rules"));
         displayAdminEmailsInDashboard = booleanValue(metaData.get("coin:display_admin_emails_in_dashboard"));
+        displayStatsInDashboard = booleanValue(metaData.get("coin:display_stats_in_dashboard"));
+
         this.stepupEntities = (List<Map<String, String>>) metaData.getOrDefault("stepupEntities", new ArrayList<>());
     }
 
@@ -123,5 +126,9 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public boolean isDisplayAdminEmailsInDashboard() {
         return displayAdminEmailsInDashboard;
+    }
+
+    public boolean isDisplayStatsInDashboard() {
+        return displayStatsInDashboard;
     }
 }

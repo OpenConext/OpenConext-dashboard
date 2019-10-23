@@ -1,0 +1,81 @@
+{
+  "payload": {
+    "id": 532,
+    "state": "prodaccepted",
+    "name": "3TU.Datacentrum | TU Delft",
+    "description": "Repository for research data from beta sciences.",
+    "logoUrl": "https://static.surfconext.nl/media/sp/TUDelft.png",
+    "websiteUrl": "http://www.tudelft.nl/",
+    "appUrl": "https://data.3tu.nl/account/signin/",
+    "serviceUrl": "http://datacentrum.3tu.nl/en/information/faq/",
+    "detailLogoUrl": "https://static.surfconext.nl/media/sp/TUDelft.png",
+    "supportUrl": "http://datacentrum.3tu.nl/en/information/faq/",
+    "enduserDescription": "Repository for research data from beta sciences.",
+    "institutionDescription": "Repository for research data from beta sciences.",
+    "institutionId": "TUDELFT",
+    "spEntityId": "https://data.3tu.nl/saml/metadata",
+    "spName": "3TU.Datacentrum | TU Delft",
+    "interfedSource": "SURFconext",
+    "manipulationNotes": "The attribute manipulation for this service does three things:\n1.  Take the email address of the user and make it the nameid value ($subjectId).\n1.  If the schacHomeOrganization is \"surfguest.nl\" add \"_surfguest.nl@vu.nl\" to the uid of the user\n1.  If there are multiple email addresses, prefer those ending with @vu.nl. \n\n\u003c/br\u003e\n# Email address filtering\n The filtering has the following features:\n1.   Prefer an address ending with @vu.nl, remove others from the list of email addresses.\n1.   If no email address ends with @vu.nl take the primary address (at location [0]. This is why there is a loop going backwards and a conditional removal if there is \u003e 1 address left).\n1.   Make the preferred address the nameid value ($subjectId).\n\u003c/br\u003e\u003c/br\u003eMore information about attributes can be found here: https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext\n",
+    "manipulation": false,
+    "contractualBase": "AO",
+    "screenshotUrls": [],
+    "categories": [
+      {
+        "name": "Type of Service",
+        "searchValue": "type_of_service",
+        "values": [
+          {
+            "count": 0,
+            "value": "Online Collaboration"
+          }
+        ]
+      }
+    ],
+    "names": {
+      "en": "3TU.Datacentrum | TU Delft",
+      "nl": "3TU.Datacentrum | TU Delft"
+    },
+    "descriptions": {
+      "en": "Repository for research data from beta sciences.",
+      "nl": "Repository voor onderzoeksgegevens uit de Beta-wetenschappen."
+    },
+    "displayNames": {
+      "en": "3TU.Datacentrum | TU Delft",
+      "nl": "3TU.Datacentrum | TU Delft"
+    },
+    "connected": true,
+    "idpVisibleOnly": false,
+    "publishedInEdugain": false,
+    "normenkaderPresent": false,
+    "exampleSingleTenant": false,
+    "policyEnforcementDecisionRequired": false,
+    "strongAuthentication": true,
+    "noConsentRequired": false,
+    "aansluitovereenkomstRefused": false,
+    "guestEnabled": false,
+    "privacyInfo": {
+      "accessData": "Some",
+      "certificationLocation": "Location",
+      "privacyPolicy": true,
+      "gdprIsInWiki": false
+    },
+    "licenseStatus": "HAS_LICENSE_SP",
+    "arp": {
+      "attributes": {},
+      "noArp": true,
+      "noAttrArp": false
+    },
+    "contactPersons": [],
+    "nameIds": [
+      "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+      "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+      "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+      "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
+    ],
+    "minimalLoaLevel": "https://loa.test2.level1",
+    "entityType": "saml20_sp",
+    "filteredUserAttributes": []
+  },
+  "language": "en"
+}
