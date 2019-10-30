@@ -24,7 +24,7 @@ I18n.translations.en = {
     header: {
         welcome: "Welcome,",
         links: {
-            help_html: "<a href=\"https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a>",
+            help_html: "<a href=\"https://edu.nl/p4um4\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a>",
             logout: "Logout",
             exit: "Exit"
         },
@@ -32,7 +32,7 @@ I18n.translations.en = {
         profile: "Profile",
         switch_idp: "Switch IDP",
         super_user_switch: "Switch identity",
-        welcome_txt: "Welcome to the SURFconext dashboard. On this page you see what services are connected to SURFconext: if your institution allows so, you can access those services using your institutional account. If you sign in to this dashboard (top right), we'll show you data tailored to your institution. More info about this dashboard? Click 'Help' in the top right off the screen."
+        welcome_txt: "Welcome to the SURFconext dashboard. On this page you see what services are connected to SURFconext: if your institution allows so, you can access those services using your institutional account. If you sign in to this dashboard (top right), we'll show you data tailored to your institution. More info about this dashboard? Click 'Help' in the top right of the screen."
     },
     confirmation_dialog: {
         title: "Please confirm",
