@@ -7,7 +7,7 @@ import CurrentUser from "./models/current_user";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
-import {ProtectedRoute, SuperUserProtectedRoute} from "./components/protected_route";
+import {SuperUserProtectedRoute} from "./components/protected_route";
 
 import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
@@ -41,6 +41,7 @@ class App extends React.Component {
     render() {
         const {currentUser} = this.props;
         const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser;
+        const isAllowedToMaintainPolicies = currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules;
         const nonGuest = !currentUser.guest;
         const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
         const currentIdp = currentUser.getCurrentIdp();
@@ -54,7 +55,8 @@ class App extends React.Component {
                         {!nonGuest && <Welcome/>}
                     </div>
                     <Switch>
-                        <Route exact path="/" render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
+                        <Route exact path="/"
+                               render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
                         <Route exact path="/apps/:id/:type/:activePanel/:jiraKey/:action" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type"
@@ -63,16 +65,17 @@ class App extends React.Component {
                         {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview}/>}
                         {isViewerOrAdmin && <Route exact path="/tickets" component={History}/>}
                         {nonGuest && <Route exact path="/profile" component={Profile}/>}
-                        {showStats && <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
+                        {showStats &&
+                        <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
                         {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
                         {isViewerOrAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"
                                                  component={SearchUser}/>
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"
                                                  component={InviteRequest}/>
-                        {isViewerOrAdmin &&  <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
-                        <ProtectedRoute currentUser={currentUser} path="/policies/:id"
-                                        component={PolicyDetail}/>
+                        {isAllowedToMaintainPolicies &&
+                        <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
+                        {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail}/>}
                         <Route exact path="/dummy" component={Dummy}/>
                         <Route component={NotFound}/>
                     </Switch>

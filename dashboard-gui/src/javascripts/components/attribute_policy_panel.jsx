@@ -20,14 +20,15 @@ class AttributePolicyPanel extends React.Component {
         const nameIdValue = app
             .nameIds.filter(val => val.includes("unspecified") || val.includes("persistent"))
             .length ? 'Persistent' : "Transient";
-
+        const {currentUser} = this.context;
         return (
             <div className="mod-attributes">
                 <table>
                     <thead>
                     <tr>
                         <th className="attribute">{I18n.t("attributes_policy_panel.attribute")}</th>
-                        <th className="value">{I18n.t("attributes_policy_panel.your_value")}</th>
+                        {!currentUser.guest &&
+                        <th className="value">{I18n.t("attributes_policy_panel.your_value")}</th>}
                         <th className="motivation">{I18n.t("attributes_policy_panel.motivation")}</th>
                     </tr>
                     </thead>
@@ -60,6 +61,7 @@ class AttributePolicyPanel extends React.Component {
     }
 
     renderAttribute(attribute) {
+        const {currentUser} = this.context;
         const renderFilters = attribute.filters.filter(flt => flt !== "*");
 
         let name = attribute.name;
@@ -81,11 +83,11 @@ class AttributePolicyPanel extends React.Component {
                         </span>
                     )}
                     {
-                        renderFilters.length > 0 &&
+                        (renderFilters.length > 0 && !currentUser.guest) &&
                         <span className="filter-info">{I18n.t("attributes_policy_panel.filter")}</span>
                     }
                 </td>
-                <td>
+                {!currentUser.guest && <td>
                     <ul>
                         {
                             attribute.userValues.length > 0 ?
@@ -105,7 +107,7 @@ class AttributePolicyPanel extends React.Component {
                             {renderFilters.map((filter, i) => <li key={i} className="filter">- {filter}</li>)}
                         </ul>
                     }
-                </td>
+                </td>}
                 <td>{this.props.app.motivations[name]}</td>
             </tr>
         );
@@ -145,6 +147,10 @@ class AttributePolicyPanel extends React.Component {
         );
     }
 }
+
+AttributePolicyPanel.contextTypes = {
+    currentUser: PropTypes.object
+};
 
 AttributePolicyPanel.propTypes = {
     app: AppShape.isRequired,

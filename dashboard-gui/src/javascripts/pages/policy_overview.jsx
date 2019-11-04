@@ -31,6 +31,10 @@ class PolicyOverview extends React.Component {
             .catch(() => this.setState({unreachable: true}));
     }
 
+    isAllowedToMaintainPolicies = currentUser => {
+        return currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
+    };
+
     render() {
         const filteredPolicies = this.filterPolicies(this.state.policies);
         const {currentUser} = this.context;
@@ -57,7 +61,7 @@ class PolicyOverview extends React.Component {
                             {this.renderSortableHeader("percent_20", "identityProviderNames")}
                             {this.renderSortableHeader("percent_10", "active")}
                             {this.renderSortableHeader("percent_10", "numberOfRevisions")}
-                            {(currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ? (<th className="percent_5"></th>) : null}
+                            {this.isAllowedToMaintainPolicies(currentUser) ? (<th className="percent_5"></th>) : null}
                         </tr>
                         </thead>
                         <tbody>
@@ -103,9 +107,8 @@ class PolicyOverview extends React.Component {
                 </fieldset>
             </div>
         );
-
         const {currentUser} = this.context;
-        return (currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ?
+        return this.isAllowedToMaintainPolicies(currentUser) ?
             (
                 <div className="l-grid">
                     <div className="l-col-8">
@@ -139,8 +142,8 @@ class PolicyOverview extends React.Component {
                 <td>{policy.serviceProviderName}</td>
                 <td>{this.renderIdpNames(policy)}</td>
                 <td><input type="checkbox" defaultChecked={policy.active} disabled={true}/></td>
-                <td>{this.renderRevisionsLink(policy)}</td>
-                {(currentUser.dashboardAdmin || currentUser.allowMaintainersToManageAuthzRules) ? (<td>{this.renderControls(policy)}</td>) : null}
+                {this.isAllowedToMaintainPolicies(currentUser) ? (<td>{this.renderRevisionsLink(policy)}</td>) : null}
+                {this.isAllowedToMaintainPolicies(currentUser) ? (<td>{this.renderControls(policy)}</td>) : null}
             </tr>
         );
     }

@@ -20,7 +20,6 @@ class CurrentUser {
         this.hideTabs = rawUser.hideTabs;
         this.supportedLanguages = rawUser.supportedLanguages;
         this.organization = rawUser.organization;
-        this.allowMaintainersToManageAuthzRules = rawUser.allowMaintainersToManageAuthzRules;
         this.guest = rawUser.guest;
     }
 
