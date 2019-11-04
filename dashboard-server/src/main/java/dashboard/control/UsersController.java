@@ -156,9 +156,16 @@ public class UsersController extends BaseController {
     }
 
 
-    @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
+    @PreAuthorize("hasAnyRole('DASHBOARD_SUPER_USER')")
     @RequestMapping("/super/idps")
     public ResponseEntity<RestResponse<Map<String, List<?>>>> idps() {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+
+        if (!currentUser.isSuperUser()) {
+            LOG.warn("IdP's endpoint is only allowed for superUser, not for {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         List<IdentityProvider> idps = manage.getAllIdentityProviders().stream()
                 .sorted(Comparator.comparing(Provider::getName))
                 .collect(toList());

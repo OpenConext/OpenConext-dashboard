@@ -108,7 +108,7 @@ public class UsersControllerTest {
 
     @Test
     public void returnsIdps() throws Exception {
-        coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
+       coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
 
         mockMvc.perform(get("/dashboard/api/users/super/idps")
             .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
