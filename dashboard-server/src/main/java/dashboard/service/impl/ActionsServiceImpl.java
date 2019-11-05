@@ -30,6 +30,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,11 +94,12 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     private Map<String, ServiceProvider> serviceProviders(List<Action> issues, EntityType entityType) {
-        return issues.stream()
+        Set<String> entityIds = issues.stream()
                 .filter(action -> StringUtils.isEmpty(action.getTypeMetaData()) || action.getTypeMetaData().equals(entityType.name()))
                 .map(Action::getSpId)
                 .filter(StringUtils::hasText)
-                .collect(Collectors.toSet())
+                .collect(Collectors.toSet());
+        return entityIds
                 .stream()
                 .map(spId -> manage.getServiceProvider(spId, entityType, true))
                 .filter(Optional::isPresent)

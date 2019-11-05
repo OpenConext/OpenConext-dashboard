@@ -58,6 +58,9 @@ public class ActionsServiceImplTest {
 
         when(manageMock.getServiceProvider("sp", EntityType.saml20_sp, true)).thenReturn(Optional.of(new ServiceProvider
                 (ImmutableMap.of("entityid", "sp", "eid", 1L))));
+        when(manageMock.getServiceProvider("sp", EntityType.oidc10_rp, true)).thenReturn(Optional.empty());
+        when(manageMock.getServiceProvider("sp", EntityType.single_tenant_template, true)).thenReturn(Optional.empty());
+
         when(jiraClientMock.searchTasks(anyString(), Matchers.any(JiraFilter.class))).thenReturn(result);
 
         JiraResponse response = service.searchTasks("idp", new JiraFilter());
