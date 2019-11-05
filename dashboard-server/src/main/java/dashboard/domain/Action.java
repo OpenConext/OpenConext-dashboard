@@ -39,6 +39,7 @@ public class Action {
     private Long spEid;
     private String idpName;
     private String spName;
+    private String typeMetaData;
 
     private ZonedDateTime requestDate;
     private ZonedDateTime updateDate;
@@ -61,6 +62,7 @@ public class Action {
         this.spId = builder.spId;
         this.spEid = builder.spEid;
         this.spName = builder.spName;
+        this.typeMetaData = builder.typeMetaData;
         this.idpName = builder.idpName;
         this.requestDate = builder.requestDate;
         this.updateDate = builder.updateDate;
@@ -98,6 +100,10 @@ public class Action {
 
     public Long getSpEid() {
         return spEid;
+    }
+
+    public String getTypeMetaData() {
+        return typeMetaData;
     }
 
     public ZonedDateTime getRequestDate() {
@@ -285,6 +291,7 @@ public class Action {
         private String spId;
         private Long spEid;
         private String spName;
+        private String typeMetaData;
         private String idpName;
         private ZonedDateTime requestDate;
         private ZonedDateTime updateDate;
@@ -308,6 +315,7 @@ public class Action {
             this.spId = action.spId;
             this.spEid = action.spEid;
             this.spName = action.spName;
+            this.typeMetaData = action.typeMetaData;
             this.idpName = action.idpName;
             this.requestDate = action.requestDate;
             this.updateDate = action.updateDate;
@@ -373,6 +381,11 @@ public class Action {
 
         public Builder spName(String spName) {
             this.spName = spName;
+            return this;
+        }
+
+        public Builder typeMetaData(String typeMetaData) {
+            this.typeMetaData = typeMetaData;
             return this;
         }
 

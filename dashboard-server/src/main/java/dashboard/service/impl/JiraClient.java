@@ -29,9 +29,6 @@ public interface JiraClient {
     String START_PROGRESS = "Start Progress";
     String INPUT_NEEDED = "Input Needed";
     String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
-    String TO_RESOLVED ="To Resolved";
-    String TO_PROGRESS ="To Progress";
-    String TO_CLOSED ="To Closed";
 
     String create(Action action, List<Change> changes) throws IllegalStateException;
 
@@ -42,7 +39,5 @@ public interface JiraClient {
     void transition(String key, String transitionId, Optional<String> resolution, Optional<String> comment);
 
     void comment(String key, String comment);
-
-    void attachments(String key, String... attachments);
 
 }

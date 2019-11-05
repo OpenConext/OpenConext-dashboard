@@ -95,6 +95,7 @@ class InviteRequest extends React.Component {
                 idpName: idp.name,
                 spEntityId: sp.spEntityId,
                 spName: sp.name,
+                typeMetaData: sp.entityType,
                 spId: sp.id,
                 message: message,
                 contactPersons: contactPersons

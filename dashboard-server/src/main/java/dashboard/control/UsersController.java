@@ -101,6 +101,7 @@ public class UsersController extends BaseController {
                 .userName(currentUser.getFriendlyName())
                 .body(body)
                 .emailTo(emailTo)
+                .typeMetaData(inviteRequest.getTypeMetaData())
                 .idpId(inviteRequest.getIdpEntityId())
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
@@ -134,7 +135,8 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> resendInviteRequest(@RequestBody ResendInviteRequest resendInviteRequest) throws IOException, MessagingException {
         JiraFilter jiraFilter = new JiraFilter();
         jiraFilter.setKey(resendInviteRequest.getJiraKey());
-        Action action = actionsService.searchTasks(resendInviteRequest.getIdpId(), jiraFilter).getIssues().stream().findAny().orElseThrow(() -> new IllegalArgumentException(String.format("Jira issue with key %s for IdP %s not found.", resendInviteRequest.getJiraKey(), resendInviteRequest.getIdpId())));
+        Action action = actionsService.searchTasks(resendInviteRequest.getIdpId(), jiraFilter).getIssues().stream().findAny()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Jira issue with key %s for IdP %s not found.", resendInviteRequest.getJiraKey(), resendInviteRequest.getIdpId())));
         String emailTo = action.getEmailTo();
         if (StringUtils.isEmpty(emailTo)) {
             throw new IllegalArgumentException(String.format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));

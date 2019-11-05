@@ -233,7 +233,7 @@ class History extends React.Component {
 
     viewInvitation = action => e => {
         stopEvent(e);
-        const type = "saml20_sp";
+        const type = action.typeMetaData || "saml20_sp";
         this.props.history.replace(`/apps/${action.spEid}/${type}/how_to_connect/${action.jiraKey}/accept`);
     };
 

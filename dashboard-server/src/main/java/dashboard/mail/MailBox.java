@@ -5,8 +5,10 @@ import com.github.mustachejava.MustacheFactory;
 import dashboard.domain.Action;
 import dashboard.domain.ContactPerson;
 import dashboard.domain.InviteRequest;
+import dashboard.manage.EntityType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.StringUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -48,8 +50,9 @@ public class MailBox {
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
-        variables.put("salutation", inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(cp -> cp.getName()).collect(Collectors.joining(", ")));
-
+        variables.put("salutation", inviteRequest.getContactPersons().stream()
+                .filter(ContactPerson::isSabContact).map(cp -> cp.getName()).collect(Collectors.joining(", ")));
+        variables.put("metaDataType", StringUtils.isEmpty(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         String html = this.mailTemplate("invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
         try {
@@ -92,6 +95,7 @@ public class MailBox {
         variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext koppeling");
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
+        variables.put("metaDataType", StringUtils.isEmpty(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
         String html = this.mailTemplate("resend_invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", action.getSpName(), jiraKey);

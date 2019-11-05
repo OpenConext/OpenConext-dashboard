@@ -208,14 +208,14 @@ export function searchJira(filter) {
     }).then(parseJson);
 }
 
-export function makeConnection(app, comments, type) {
-    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: type})
+export function makeConnection(app, comments) {
+    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: app.entityType})
         .then(parseJson)
         .then(json => json.payload);
 }
 
-export function removeConnection(app, comments, type) {
-    return fetchPost("/services/disconnect", {comments: comments, spEntityId: app.spEntityId, type: type})
+export function removeConnection(app, comments) {
+    return fetchPost("/services/disconnect", {comments: comments, spEntityId: app.spEntityId, type: app.entityType})
         .then(parseJson)
         .then(json => json.payload);
 }

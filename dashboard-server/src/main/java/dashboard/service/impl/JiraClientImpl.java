@@ -49,6 +49,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.joining;
@@ -92,6 +93,7 @@ public class JiraClientImpl implements JiraClient {
         fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));
         fields.put("customfield_" + spCustomField(), action.getSpId());
+        fields.put("customfield_" + typeMetaDataCustomField(), ImmutableMap.of("value", action.getTypeMetaData()));
         fields.put("customfield_" + idpCustomField(), action.getIdpId());
         if (action.getType().equals(Type.LINKINVITE)) {
             fields.put("customfield_" + emailToCustomField(), action.getEmailTo());
@@ -142,10 +144,13 @@ public class JiraClientImpl implements JiraClient {
                 Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
                 String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
                 Map<String, String> resolution = (Map<String, String>) fields.get("resolution");
+                String typeMetaData = Optional.ofNullable((Map<String, String>) fields.get("customfield_" + typeMetaDataCustomField())).orElse(emptyMap()).getOrDefault("value", "");
+
                 return Action.builder()
                         .jiraKey((String) issue.get("key"))
                         .idpId(Optional.ofNullable((String) fields.get("customfield_" + idpCustomField())).orElse(""))
                         .spId(Optional.ofNullable((String) fields.get("customfield_" + spCustomField())).orElse(""))
+                        .typeMetaData(typeMetaData)
                         .emailTo(Optional.ofNullable((String) fields.get("customfield_" + emailToCustomField())).orElse(""))
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
                         .resolution(resolution != null ? resolution.get("name") : null)
@@ -198,20 +203,20 @@ public class JiraClientImpl implements JiraClient {
         restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
     }
 
-    @Override
-    public void attachments(String key, String... attachments) {
-        String url = baseUrl + "/issue/" + key + "/attachments";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set(HttpHeaders.AUTHORIZATION, defaultHeaders.get(HttpHeaders.AUTHORIZATION).get(0));
-
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        Stream.of(attachments).forEach(attachment -> map.add("file", new ByteArrayResource(attachment.getBytes())));
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-        restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-    }
-
+//    @Override
+//    public void attachments(String key, String... attachments) {
+//        String url = baseUrl + "/issue/" + key + "/attachments";
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        headers.set(HttpHeaders.AUTHORIZATION, defaultHeaders.get(HttpHeaders.AUTHORIZATION).get(0));
+//
+//        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+//        Stream.of(attachments).forEach(attachment -> map.add("file", new ByteArrayResource(attachment.getBytes())));
+//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+//        restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+//    }
+//
     @Override
     public void transition(String key, String transitionId, Optional<String> resolutionOptional, Optional<String> commentOptional) {
         String url = baseUrl + "/issue/" + key + "/transitions";
@@ -289,6 +294,10 @@ public class JiraClientImpl implements JiraClient {
 
     private String spCustomField() {
         return this.mappings.get(this.environment).get("customFields").get("spEntityId");
+    }
+
+    private String typeMetaDataCustomField() {
+        return this.mappings.get(this.environment).get("customFields").get("typeMetaData");
     }
 
     private String emailToCustomField() {

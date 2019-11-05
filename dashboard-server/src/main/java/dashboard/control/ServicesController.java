@@ -196,9 +196,10 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "comments", required = false) String
                                                                 comments,
                                                         @RequestParam(value = "spEntityId") String spEntityId,
+                                                        @RequestParam(value = "type") String type,
                                                         Locale locale) throws IOException {
 
-        return createAction(idpEntityId, comments, spEntityId, Action.Type.LINKREQUEST, locale)
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale)
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
@@ -209,14 +210,15 @@ public class ServicesController extends BaseController {
                                                            @RequestParam(value = "comments", required = false) String
                                                                    comments,
                                                            @RequestParam(value = "spEntityId") String spEntityId,
+                                                           @RequestParam(value = "type") String type,
                                                            Locale locale) throws IOException {
 
-        return createAction(idpEntityId, comments, spEntityId, Action.Type.UNLINKREQUEST, locale)
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale)
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
-    private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, Action.Type
+    private Optional<Action> createAction(String idpEntityId, String comments, String entityId, String typeMetaData, Action.Type
             jiraType, Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
@@ -228,7 +230,7 @@ public class ServicesController extends BaseController {
         }
 
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
-        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
+        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(entityId)).findFirst();
 
         if (optional.isPresent()) {
             Service service = optional.get();
@@ -237,7 +239,8 @@ public class ServicesController extends BaseController {
                     .userName(currentUser.getFriendlyName())
                     .body(comments)
                     .idpId(idpEntityId)
-                    .spId(spEntityId)
+                    .spId(entityId)
+                    .typeMetaData(typeMetaData)
                     .service(service)
                     .type(jiraType).build();
 

@@ -3,7 +3,8 @@
     "customFields": {
       "spEntityId": "13018",
       "idpEntityId": "13012",
-      "emailTo": "13010"
+      "emailTo": "13010",
+      "typeMetaData": "14602"
     },
     "issueTypes": {
       "question": "11103",
@@ -17,7 +18,8 @@
     "customFields": {
       "spEntityId": "13018",
       "idpEntityId": "13012",
-      "emailTo": "13010"
+      "emailTo": "13010",
+      "typeMetaData": "14602"
     },
     "issueTypes": {
       "question": "11103",

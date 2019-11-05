@@ -13,6 +13,7 @@ public class InviteRequest {
     private String spEntityId;
     private String spName;
     private String spId;
+    private String typeMetaData;
     private String message;
 
     private List<ContactPerson> contactPersons;
@@ -55,6 +56,14 @@ public class InviteRequest {
 
     public void setSpId(String spId) {
         this.spId = spId;
+    }
+
+    public String getTypeMetaData() {
+        return typeMetaData;
+    }
+
+    public void setTypeMetaData(String typeMetaData) {
+        this.typeMetaData = typeMetaData;
     }
 
     public String getMessage() {

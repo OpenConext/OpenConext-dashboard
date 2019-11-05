@@ -61,15 +61,14 @@ public class ActionsServiceImpl implements ActionsService {
         JiraResponse jiraResponse = jiraClient.searchTasks(idp, jiraFilter);
         List<Action> issues = jiraResponse.getIssues();
 
-        Map<String, ServiceProvider> serviceProviders = issues.stream()
-                .map(Action::getSpId)
-                .filter(StringUtils::hasText)
-                .collect(Collectors.toSet())
-                .stream()
-                .map(spId -> manage.getServiceProvider(spId, EntityType.saml20_sp, true))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toMap(Provider::getId, Function.identity()));
+        Map<String, ServiceProvider> serviceProviders = serviceProviders(issues, EntityType.saml20_sp);
+
+        Map<String, ServiceProvider> relyingParties = serviceProviders(issues, EntityType.oidc10_rp);
+
+        Map<String, ServiceProvider> singleTenants = serviceProviders(issues, EntityType.single_tenant_template);
+
+        serviceProviders.putAll(relyingParties);
+        serviceProviders.putAll(singleTenants);
 
         Map<String, IdentityProvider> identityProviders = issues.stream()
                 .map(Action::getIdpId)
@@ -91,6 +90,19 @@ public class ActionsServiceImpl implements ActionsService {
                 .collect(toList());
         jiraResponse.setIssues(enrichedActions);
         return jiraResponse;
+    }
+
+    private Map<String, ServiceProvider> serviceProviders(List<Action> issues, EntityType entityType) {
+        return issues.stream()
+                .filter(action -> StringUtils.isEmpty(action.getTypeMetaData()) || action.getTypeMetaData().equals(entityType.name()))
+                .map(Action::getSpId)
+                .filter(StringUtils::hasText)
+                .collect(Collectors.toSet())
+                .stream()
+                .map(spId -> manage.getServiceProvider(spId, entityType, true))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toMap(Provider::getId, Function.identity()));
     }
 
     private String providerName(Provider provider) {
