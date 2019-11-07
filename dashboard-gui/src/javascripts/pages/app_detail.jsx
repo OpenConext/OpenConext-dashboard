@@ -63,7 +63,7 @@ class AppDetail extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const params = this.props.match.params;
         Promise.all([getApp(params.id, params.type), disableConsent()])
             .then(data => {

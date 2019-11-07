@@ -33,12 +33,15 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl"; //"https://idp.surf.nl"
 
-    public static final String role = "admin";
+    public String role = "none";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
-        if (role == "none") {
+        if (((HttpServletRequest) request).getRequestURI().endsWith("startSSO")) {
+            role = "admin";
+        }
+        if ("none".equals(role)) {
             chain.doFilter(request, response);
 
         } else {

@@ -15,7 +15,7 @@ class IDPSelector extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {currentUser} = this.context;
         this.setState({
             activeIdp: (currentUser.switchedToIdp || currentUser.getCurrentIdp()).id

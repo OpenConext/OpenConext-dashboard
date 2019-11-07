@@ -21,7 +21,7 @@ class PolicyAttributes extends React.Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState(this.markAttributes(this.props.policy));
     }
 

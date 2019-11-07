@@ -16,7 +16,7 @@ class SearchUser extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getIdpsForSuper().then(json => this.setState({idps: json.idps, roles: json.roles}));
     }
 

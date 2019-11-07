@@ -4,10 +4,10 @@ import {Route, Redirect} from "react-router-dom";
 import CurrentUser from "../models/current_user";
 
 export function ProtectedRoute({component, currentUser, ...rest}) {
-    if (currentUser.dashboardAdmin) {
-        return <Route component={component} {...rest} />;
+    if (!currentUser.guest) {
+        return <Route exact component={component} {...rest} />;
     }
-    return <Redirect to={"/apps"}/>;
+    window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`;
 }
 
 export function SuperUserProtectedRoute({component, currentUser, ...rest}) {

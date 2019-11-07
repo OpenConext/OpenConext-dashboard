@@ -24,7 +24,7 @@ class PolicyRevisions extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getPolicyRevisions(this.props.match.params.id).then(data => {
             this.setState({revisions: data.payload});
         });

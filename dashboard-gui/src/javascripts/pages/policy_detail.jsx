@@ -34,7 +34,7 @@ class PolicyDetail extends React.Component {
         policy: null
     };
 
-    componentWillMount() {
+    componentDidMount() {
         const {currentUser} = this.context;
 
         getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));

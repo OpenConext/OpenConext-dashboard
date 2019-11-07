@@ -7,7 +7,7 @@ import CurrentUser from "./models/current_user";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Navigation from "./components/navigation";
-import {SuperUserProtectedRoute} from "./components/protected_route";
+import {ProtectedRoute, SuperUserProtectedRoute} from "./components/protected_route";
 
 import AppDetail from "./pages/app_detail";
 import AppOverview from "./pages/app_overview";
@@ -57,7 +57,9 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/"
                                render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
-                        <Route exact path="/apps/:id/:type/:activePanel/:jiraKey/:action" component={AppDetail}/>
+                        <ProtectedRoute currentUser={currentUser}
+                                        path="/apps/:id/:type/:activePanel/:jiraKey/:action"
+                                        component={AppDetail}/>
                         <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
                         <Route exact path="/apps/:id/:type"
                                render={({params: {id, type}}) => <Redirect to={`/apps/${id}/${type}/overview`}/>}/>

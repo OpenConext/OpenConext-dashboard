@@ -33,7 +33,7 @@ class MyIdp extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getIdpRolesWithUsers().then(data => {
             this.setState({roles: data.payload});
             getInstitutionServiceProviders().then(data => {

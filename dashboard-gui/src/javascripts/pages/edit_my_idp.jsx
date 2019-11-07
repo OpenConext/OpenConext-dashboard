@@ -62,7 +62,7 @@ class EditMyIdp extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getInstitutionServiceProviders().then(data => {
             const serviceFilters = {...this.state.serviceFilters};
             serviceFilters.state.values.forEach(val => val.count = data.payload.filter(sp => sp.state === val.search).length);

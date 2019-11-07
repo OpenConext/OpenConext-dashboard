@@ -52,7 +52,7 @@ class Stats extends React.Component {
         this.setState(state, this.refresh);
     };
 
-    componentWillMount() {
+    componentDidMount() {
         const {from, to, scale, sp} = this.state;
         Promise.all([loginTimeFrame(from.unix(), to.unix(), scale,
             sp === this.allServiceProviderOption.value ? undefined : sp), getConnectedServiceProviders()])

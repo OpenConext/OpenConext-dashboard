@@ -33,7 +33,7 @@ class InviteRequest extends React.Component {
         message: ""
     });
 
-    componentWillMount() {
+    componentDidMount() {
         getIdpsForSuper().then(res => this.setState({idps: res.idps}));
     }
 

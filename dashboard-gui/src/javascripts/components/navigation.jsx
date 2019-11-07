@@ -22,7 +22,7 @@ class Navigation extends React.Component {
         this.callback = () => this.getAwaitingInputJiraTickets();
     }
 
-    componentWillMount() {
+    componentDidMount() {
         spinner.onStart = () => this.setState({loading: true});
         spinner.onStop = () => this.setState({loading: false});
         const {currentUser} = this.context;

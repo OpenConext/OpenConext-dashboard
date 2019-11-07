@@ -25,7 +25,7 @@ class PolicyOverview extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getPolicies()
             .then(data => this.setState({policies: data.payload}))
             .catch(() => this.setState({unreachable: true}));

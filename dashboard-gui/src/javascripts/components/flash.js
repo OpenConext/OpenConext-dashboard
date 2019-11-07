@@ -16,7 +16,7 @@ class Flash extends React.Component {
         this.callback = flash => this.setState({flash: flash});
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState({flash: getFlash()});
         emitter.addListener("flash", this.callback);
     }

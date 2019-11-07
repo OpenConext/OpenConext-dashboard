@@ -18,6 +18,11 @@ class Header extends React.Component {
         this.state = {dropDownActive: false};
     }
 
+    login = e => {
+        stopEvent(e);
+        window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`;
+    };
+
     render() {
         const {currentUser} = this.context;
         const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : [];
@@ -42,7 +47,7 @@ class Header extends React.Component {
                     <ul className="links">
                         <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
                         {currentUser.guest && <li className="login">
-                            <a href="/login">Login</a>
+                            <a href="/login" onClick={this.login}>Login</a>
                         </li>}
                         {!currentUser.guest && this.renderExitLogout()}
                     </ul>
