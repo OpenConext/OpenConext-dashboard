@@ -14,7 +14,7 @@ export function SuperUserProtectedRoute({component, currentUser, ...rest}) {
     if (currentUser.superUser) {
         return <Route component={component} {...rest} />;
     }
-    return <Redirect to={"/apps"}/>;
+    return <Redirect to={"/404"}/>;
 }
 
 ProtectedRoute.propTypes = {
