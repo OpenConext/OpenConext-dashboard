@@ -132,6 +132,7 @@ public class JiraClientImpl implements JiraClient {
     @Override
     public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
         String query = buildQueryForIdp(idp, jiraFilter);
+        Map<String, Object> result = new HashMap<>();
         try {
             ImmutableMap<String, Object> body = ImmutableMap.of(
                     "jql", query,
@@ -141,8 +142,7 @@ public class JiraClientImpl implements JiraClient {
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, defaultHeaders);
 
             String url = baseUrl + "/search";
-            Map<String, Object> result = restTemplate.postForObject(url, entity, Map.class);
-
+            result = restTemplate.postForObject(url, entity, Map.class);
             List<Action> issues = ((List<Map<String, Object>>) result.get("issues")).stream().map(issue -> {
                 Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
                 String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
@@ -171,8 +171,8 @@ public class JiraClientImpl implements JiraClient {
                 LOG.error("Jira returned a {} ({}) for query {}:\n{}", e.getStatusCode(), e.getStatusText(), query, e
                         .getResponseBodyAsString());
             }
-        } catch (RestClientException e) {
-            LOG.error("Error communicating with Jira", e);
+        } catch (Exception e) {
+            LOG.error(String.format("Error communicating with Jira: %s", result), e);
         }
         return new JiraResponse(new ArrayList<>(), 0, jiraFilter.getStartAt(), jiraFilter.getMaxResults());
     }
