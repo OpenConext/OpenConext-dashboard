@@ -498,8 +498,13 @@ I18n.translations.nl = {
     },
 
     not_found: {
-        title: "Deze pagina kon niet worden gevonden.",
-        description_html: "Controleer of het adres correct gespeld is of ga terug naar de <a href=\"/\">homepage</a>."
+        title: "OEPS, deze pagina kan momenteel niet worden vertoond.",
+        subTitle: "Mogelijke oorzaken en oplossingen zijn:",
+        reasonLoginPre: "Je probeerd een pagina te bezoeken waarvoor je ingelogd moet zijn. Klik op ",
+        reasonLoginPost: " om te kijken of je op de pagina landt waar je heen wou.",
+        reasonHelp: "Je hebt niet de juiste rechten om deze pagina te bezoeken. Kijk op de <a href=\"https://edu.nl/p4um4\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a> sectie van onze wiki om te lezen wie wat mag zien.",
+        reasonRemoved: "De URL die je probeert te bekijken bestaat niet (meer). Sorry.",
+        reasonUnknown: "Je bent ergens anders tegen aangelopen, heeft hulp nodig en / of misschien moeten we dit oplossen. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> en we zullen het onderzoeken."
     },
 
     logout: {

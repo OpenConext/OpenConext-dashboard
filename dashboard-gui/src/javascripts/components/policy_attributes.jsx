@@ -7,18 +7,12 @@ import stopEvent from "../utils/stop";
 import ReactTooltip from "react-tooltip";
 
 class PolicyAttributes extends React.Component {
-    markAttributes(policy) {
-        policy.attributes = policy.attributes.map((attr, index) => {
-            attr.index = index;
-            return attr;
-        });
-        return policy;
-    }
 
     constructor() {
         super();
-
-        this.state = {};
+        this.state = {
+            attributes: []
+        };
     }
 
     componentDidMount() {
@@ -27,6 +21,14 @@ class PolicyAttributes extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState(this.markAttributes(nextProps.policy));
+    }
+
+    markAttributes(policy) {
+        policy.attributes = policy.attributes.map((attr, index) => {
+            attr.index = index;
+            return attr;
+        });
+        return policy;
     }
 
     addAttribute(attrName) {

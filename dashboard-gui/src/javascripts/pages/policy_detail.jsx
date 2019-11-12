@@ -31,27 +31,46 @@ class PolicyDetail extends React.Component {
         allowedAttributes: [],
         connectedServiceProviders: [],
         institutionServiceProviders: [],
-        policy: null
+        policy: null,
+        loaded: false
     };
 
     componentDidMount() {
         const {currentUser} = this.context;
-
-        getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
-        getConnectedServiceProviders(currentUser.getCurrentIdpId())
-            .then(data => this.setState({connectedServiceProviders: data.payload}));
-        getAllowedAttributes().then(data => this.setState({allowedAttributes: data.payload}));
-
+        const promises = [
+            getInstitutionServiceProviders(),
+            getConnectedServiceProviders(currentUser.getCurrentIdpId()),
+            getAllowedAttributes()
+        ];
         if (this.props.match.params.id !== "new") {
-            getPolicy(this.props.match.params.id).then(data => this.setState({policy: data.payload}));
+            promises.push(getPolicy(this.props.match.params.id));
         } else {
-            getNewPolicy().then(data => this.setState({policy: data.payload}));
+            promises.push(getNewPolicy());
         }
+        Promise.all(promises).then(res => {
+            this.setState({
+                institutionServiceProviders: res[0].payload,
+                connectedServiceProviders: res[1].payload,
+                allowedAttributes: res[2].payload,
+                policy: res[3].payload,
+                loaded: true
+            });
+        });
+        // getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
+        // getConnectedServiceProviders(currentUser.getCurrentIdpId())
+        //     .then(data => this.setState({connectedServiceProviders: data.payload}));
+        // getAllowedAttributes().then(data => this.setState({allowedAttributes: data.payload}));
+        //
+        // if (this.props.match.params.id !== "new") {
+        //     getPolicy(this.props.match.params.id).then(data => this.setState({policy: data.payload}));
+        // } else {
+        //     getNewPolicy().then(data => this.setState({policy: data.payload}));
+        // }
     }
 
     render() {
-        const {policy} = this.state;
-        if (policy) {
+        const {policy, loaded} = this.state;
+        if (policy && loaded) {
             const title = policy.id ? I18n.t("policy_detail.update_policy") : I18n.t("policy_detail.create_policy");
             return (
                 <div className="l-main">
@@ -287,9 +306,10 @@ class PolicyDetail extends React.Component {
     }
 
     renderAttributes() {
+        const {policy, allowedAttributes} = this.state;
         return (<PolicyAttributes
-            policy={this.state.policy}
-            allowedAttributes={this.state.allowedAttributes}
+            policy={policy}
+            allowedAttributes={allowedAttributes}
             setAttributeState={this.setAttributeState.bind(this)}/>);
     }
 

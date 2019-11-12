@@ -432,8 +432,13 @@ I18n.translations.pt = {
     },
 
     not_found: {
-        title: "A página solicitada não foi encontrada.",
-        description_html: "Verifique o URL ou aceda à <a href=\"/\">página principal</a>."
+        title: "OOPS, i currently can’t show you that page.",
+        subTitle: "This can be due to, and may be fixed by:",
+        reasonLoginPre: "You’re trying to access a page where you need to login for. Please press ",
+        reasonLoginPost: " and see if that takes you to the page you tried to access.",
+        reasonHelp: "You don’t have the right authorisation to access that URL. Please check the Help pages <a href=\"https://edu.nl/p4um4\" target=\"_blank\" rel=\"noopener noreferrer\">Help</a> to see who should be able to access what.",
+        reasonRemoved: "The URL you tried to access does not exist (anymore). Sorry.",
+        reasonUnknown: "You ran into something else, need help and/or maybe we have to fix this. Send us a mail at <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> so we can have a look."
     },
 
     server_error: {
