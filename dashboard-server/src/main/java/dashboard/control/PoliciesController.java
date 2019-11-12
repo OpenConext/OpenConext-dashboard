@@ -75,10 +75,13 @@ public class PoliciesController extends BaseController {
     public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
         return whenDashboardAdmin(() -> {
             LOG.debug("Create a policy: {}", policy);
+            Optional<ServiceProvider> serviceProviderOptional = manage.getServiceProvider(policy.getServiceProviderId(), EntityType
+                    .saml20_sp, false);
+            ServiceProvider serviceProvider = serviceProviderOptional.orElseGet(() -> manage.getServiceProvider(policy.getServiceProviderId(), EntityType
+                    .oidc10_rp, false).get());
 
-            ServiceProvider serviceProvider = manage.getServiceProvider(policy.getServiceProviderId(), EntityType
-                .saml20_sp, false).get();
             LOG.debug("PolicyEnforcementDecisionRequired:" + serviceProvider.isPolicyEnforcementDecisionRequired());
+
             if (!serviceProvider.isPolicyEnforcementDecisionRequired()) {
                 sendNewPolicyWithoutEnforcementDecisionEnabledEmail(policy, getCurrentUser());
             }
