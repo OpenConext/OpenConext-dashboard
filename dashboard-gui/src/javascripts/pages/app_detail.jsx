@@ -12,6 +12,7 @@ import ApplicationUsagePanel from "../components/application_usage_panel";
 import AttributePolicyPanel from "../components/attribute_policy_panel";
 import IdpUsagePanel from "../components/idp_usage_panel";
 import HowToConnectPanel from "../components/how_to_connect_panel";
+import SSIDPanel from "../components/ssid_panel";
 import SirtfiPanel from "../components/sirtfi_panel";
 import PrivacyPanel from "../components/privacy_panel";
 import ConsentPanel from "../components/consent_panel";
@@ -20,7 +21,7 @@ import {privacyProperties} from "../utils/privacy";
 import {isEmpty} from "../utils/utils";
 
 const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
-    "idp_usage", "sirtfi_security", "application_usage"];
+    "idp_usage", "sirtfi_security", "application_usage"]; //"ssid"
 
 class AppDetail extends React.Component {
 
@@ -59,6 +60,10 @@ class AppDetail extends React.Component {
             "how_to_connect": {
                 component: HowToConnectPanel,
                 icon: "fa-chain"
+            },
+            "ssid": {
+                component: SSIDPanel,
+                icon: "fa-cog"
             }
         };
     }
@@ -130,32 +135,35 @@ class AppDetail extends React.Component {
                             inviteAction: params.action
                         };
                         if (res.payload.total > 0) {
-                            const action = res.payload.issues[0];
-                            if (!action.rejected) {
-                                if (params.jiraKey && action.status !== "Awaiting Input") {
-                                    const i18nParam = action.status === "Closed" ? "denied" : "approved";
-                                    setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
-                                        jiraKey: action.jiraKey,
-                                        action: I18n.t(`apps.detail.${i18nParam}`),
-                                    }), "warning");
-                                    newState.conflictingJiraIssue = action;
-                                } else if (!params.jiraKey) {
-                                    let message = I18n.t("apps.detail.outstandingIssue", {
-                                        jiraKey: action.jiraKey,
-                                        type: I18n.t("history.action_types_name." + action.type),
-                                        status: I18n.t("history.statuses." + action.status)
-                                    });
-                                    if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
-                                        message += I18n.t("apps.detail.outstandingIssueLink", {
-                                            link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
-                                            linkName: I18n.t("apps.detail.how_to_connect")
-                                        });
-                                        newState.jiraKey = action.jiraKey;
-                                        newState.inviteAction = "accept";
-                                    } else {
+                            const nonRejected = res.payload.issues.filter(action => !action.rejected)
+                            if (nonRejected.length > 0) {
+                                const action = nonRejected[0];
+                                if (!action.rejected) {
+                                    if (params.jiraKey && action.status !== "Awaiting Input") {
+                                        const i18nParam = action.status === "Closed" ? "denied" : "approved";
+                                        setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
+                                            jiraKey: action.jiraKey,
+                                            action: I18n.t(`apps.detail.${i18nParam}`),
+                                        }), "warning");
                                         newState.conflictingJiraIssue = action;
+                                    } else if (!params.jiraKey) {
+                                        let message = I18n.t("apps.detail.outstandingIssue", {
+                                            jiraKey: action.jiraKey,
+                                            type: I18n.t("history.action_types_name." + action.type),
+                                            status: I18n.t("history.statuses." + action.status)
+                                        });
+                                        if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
+                                            message += I18n.t("apps.detail.outstandingIssueLink", {
+                                                link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
+                                                linkName: I18n.t("apps.detail.how_to_connect")
+                                            });
+                                            newState.jiraKey = action.jiraKey;
+                                            newState.inviteAction = "accept";
+                                        } else {
+                                            newState.conflictingJiraIssue = action;
+                                        }
+                                        setFlash(message, "warning");
                                     }
-                                    setFlash(message, "warning");
                                 }
                             }
                         }

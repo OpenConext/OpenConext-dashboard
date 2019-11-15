@@ -142,6 +142,7 @@ I18n.translations.en = {
             license_data: "License",
             overview: "Overview",
             sirtfi_security: "Sirtfi Security",
+            ssid: "SURF Secure ID",
             privacy: "Privacy",
             consent: "Consent",
             back: "Back",

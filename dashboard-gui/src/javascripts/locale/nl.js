@@ -142,6 +142,7 @@ I18n.translations.nl = {
             license_data: "Licentie",
             overview: "Overzicht",
             sirtfi_security: "Sirtfi contacten",
+            ssid: "SURF Secure ID",
             privacy: "Privacy",
             consent: "Consent",
             back: "Terug",

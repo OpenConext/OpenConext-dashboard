@@ -51,7 +51,8 @@ public class JiraClientImplTest {
 
         JiraFilter jiraFilter = new JiraFilter();
         JiraResponse response = jiraClient.searchTasks("https://mock-idp", jiraFilter);
-        assertEquals(2, response.getIssues().size());
+        long count = response.getIssues().stream().filter(action -> action.isRejected()).count();
+        assertEquals(1l, count);
     }
 
     @Test

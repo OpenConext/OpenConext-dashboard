@@ -153,6 +153,14 @@ public class Action {
         return settings;
     }
 
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public Consent getConsent() {
+        return consent;
+    }
+
     /**
      * get a Comparator that sorts by date ascending: newest first
      */
