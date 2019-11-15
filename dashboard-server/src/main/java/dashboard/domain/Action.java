@@ -52,6 +52,8 @@ public class Action {
     private Settings settings;
     private Consent consent;
 
+    private boolean rejected;
+
     private Action(Builder builder) {
         this.jiraKey = builder.jiraKey;
         this.userName = builder.userName;
@@ -72,6 +74,7 @@ public class Action {
         this.service = builder.service;
         this.settings = builder.settings;
         this.consent = builder.consent;
+        this.rejected = builder.rejected;
     }
 
     public Optional<String> getJiraKey() {
@@ -178,6 +181,7 @@ public class Action {
                 ", service=" + service +
                 ", settings=" + settings +
                 ", consent=" + consent +
+                ", rejected=" + rejected +
                 '}';
     }
 
@@ -298,6 +302,7 @@ public class Action {
         private Service service;
         private Settings settings;
         private Consent consent;
+        private boolean rejected;
 
         private Builder() {
         }
@@ -322,6 +327,7 @@ public class Action {
             this.service = action.service;
             this.settings = action.settings;
             this.consent = action.consent;
+            this.rejected = action.rejected;
         }
 
         public Builder requestDate(ZonedDateTime requestDate) {
@@ -416,6 +422,11 @@ public class Action {
 
         public Builder consent(Consent consent) {
             this.consent = consent;
+            return this;
+        }
+
+        public Builder rejected(boolean rejected) {
+            this.rejected = rejected;
             return this;
         }
 

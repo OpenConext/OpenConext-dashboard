@@ -131,30 +131,32 @@ class AppDetail extends React.Component {
                         };
                         if (res.payload.total > 0) {
                             const action = res.payload.issues[0];
-                            if (params.jiraKey && action.status !== "Awaiting Input") {
-                                const i18nParam = action.status === "Closed" ? "denied" : "approved";
-                                setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
-                                    jiraKey: action.jiraKey,
-                                    action: I18n.t(`apps.detail.${i18nParam}`),
-                                }), "warning");
-                                newState.conflictingJiraIssue = action;
-                            } else if (!params.jiraKey) {
-                                let message = I18n.t("apps.detail.outstandingIssue", {
-                                    jiraKey: action.jiraKey,
-                                    type: I18n.t("history.action_types_name." + action.type),
-                                    status: I18n.t("history.statuses." + action.status)
-                                });
-                                if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
-                                    message += I18n.t("apps.detail.outstandingIssueLink", {
-                                        link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
-                                        linkName: I18n.t("apps.detail.how_to_connect")
-                                    });
-                                    newState.jiraKey = action.jiraKey;
-                                    newState.inviteAction = "accept";
-                                } else {
+                            if (!action.rejected) {
+                                if (params.jiraKey && action.status !== "Awaiting Input") {
+                                    const i18nParam = action.status === "Closed" ? "denied" : "approved";
+                                    setFlash(I18n.t("apps.detail.inviteAlreadyProcessed", {
+                                        jiraKey: action.jiraKey,
+                                        action: I18n.t(`apps.detail.${i18nParam}`),
+                                    }), "warning");
                                     newState.conflictingJiraIssue = action;
+                                } else if (!params.jiraKey) {
+                                    let message = I18n.t("apps.detail.outstandingIssue", {
+                                        jiraKey: action.jiraKey,
+                                        type: I18n.t("history.action_types_name." + action.type),
+                                        status: I18n.t("history.statuses." + action.status)
+                                    });
+                                    if (action.type === "LINKINVITE" && action.status === "Awaiting Input" && !app.connected) {
+                                        message += I18n.t("apps.detail.outstandingIssueLink", {
+                                            link: `/apps/${this.props.match.params.id}/${this.props.match.params.type}/how_to_connect/${action.jiraKey}/accept`,
+                                            linkName: I18n.t("apps.detail.how_to_connect")
+                                        });
+                                        newState.jiraKey = action.jiraKey;
+                                        newState.inviteAction = "accept";
+                                    } else {
+                                        newState.conflictingJiraIssue = action;
+                                    }
+                                    setFlash(message, "warning");
                                 }
-                                setFlash(message, "warning");
                             }
                         }
                         this.setState(newState);

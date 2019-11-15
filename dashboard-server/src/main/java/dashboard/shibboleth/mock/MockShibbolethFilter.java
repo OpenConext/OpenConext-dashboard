@@ -33,7 +33,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl"; //"https://idp.surf.nl"
 
-    public String role = "none";
+    public String role = "admin";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,

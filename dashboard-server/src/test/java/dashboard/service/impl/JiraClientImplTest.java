@@ -43,6 +43,18 @@ public class JiraClientImplTest {
     }
 
     @Test
+    public void getTasksRejected() throws IOException {
+        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/rejected_task.json").getInputStream());
+
+        stubFor(post(urlPathEqualTo("/search")).willReturn(aResponse().withStatus(200)
+                .withHeader("Content-Type", "application/json").withBody(jiraResponse)));
+
+        JiraFilter jiraFilter = new JiraFilter();
+        JiraResponse response = jiraClient.searchTasks("https://mock-idp", jiraFilter);
+        assertEquals(2, response.getIssues().size());
+    }
+
+    @Test
     public void actionToIssueIdentifier() {
         List<String> identifiers = Arrays.asList(Action.Type.values()).stream().map(type -> jiraClient.actionToIssueIdentifier(type)).collect(toList());
 

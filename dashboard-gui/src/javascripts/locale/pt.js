@@ -432,7 +432,7 @@ I18n.translations.pt = {
     },
 
     not_found: {
-        title: "OOPS, i currently can’t show you that page.",
+        title: "OOPS, I currently can’t show you that page.",
         subTitle: "This can be due to, and may be fixed by:",
         reasonLoginPre: "You’re trying to access a page where you need to login for. Please press ",
         reasonLoginPost: " and see if that takes you to the page you tried to access.",

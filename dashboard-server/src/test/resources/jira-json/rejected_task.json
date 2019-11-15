@@ -1,0 +1,920 @@
+{
+  "expand": "schema,names",
+  "startAt": 0,
+  "maxResults": 1000,
+  "total": 9,
+  "issues": [
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "135333",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/135333",
+      "key": "CXT-37922",
+      "fields": {
+        "summary": "Change settings for https://idp.surfnet.nl",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11106",
+          "id": "11106",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Change",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": null,
+        "created": "2019-10-23T13:04:12.000+0200",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Please update the following settings: \nChange the attribute 'coin:display_stats_in_dashboard' for 'https://idp.surfnet.nl' from old value 'true' to new value 'false'\n\nAdditional comments: Stats\n\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: null\nTime: 13:04 23-10-19\nRemark from user: null\n",
+        "resolution": null,
+        "customfield_14602": null,
+        "customfield_13018": null,
+        "comment": {
+          "comments": [],
+          "maxResults": 0,
+          "total": 0,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-10-23T13:04:12.000+0200",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "135354",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/135354",
+      "key": "CXT-37925",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP https://www.bcisiveonline.com/",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-10-23T13:30:45.000+0200",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://www.bcisiveonline.com/\nTime: 13:30 23-10-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\nPlease join - IGNORE\n",
+        "resolution": null,
+        "customfield_14602": null,
+        "customfield_13018": "https://www.bcisiveonline.com/",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/135354/comment/1358621",
+              "id": "1358621",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-10-23T13:30:46.511+0200",
+              "updated": "2019-10-23T13:30:46.511+0200"
+            }
+          ],
+          "maxResults": 1,
+          "total": 1,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-10-23T13:30:46.000+0200",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/11006",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/images/icons/status_generic.gif",
+          "name": "Awaiting Input",
+          "id": "11006",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "135355",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/135355",
+      "key": "CXT-37926",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP http://umcg.webex.com",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-10-23T13:31:29.000+0200",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: http://umcg.webex.com\nTime: 13:31 23-10-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\nIGNORE\n",
+        "resolution": null,
+        "customfield_14602": null,
+        "customfield_13018": "http://umcg.webex.com",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/135355/comment/1358622",
+              "id": "1358622",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-10-23T13:31:30.031+0200",
+              "updated": "2019-10-23T13:31:30.031+0200"
+            }
+          ],
+          "maxResults": 1,
+          "total": 1,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-10-23T13:31:30.000+0200",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/11006",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/images/icons/status_generic.gif",
+          "name": "Awaiting Input",
+          "id": "11006",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "136501",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136501",
+      "key": "CXT-37939",
+      "fields": {
+        "summary": "New connection for IdP https://idp.surfnet.nl to SP playground_client",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11104",
+          "id": "11104",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Request",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": null,
+        "created": "2019-11-05T12:52:43.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Request: Create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: playground_client\nLicense required: Unknown\nTime: 12:52 05-11-19\nRemark from user: Ignore\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13301",
+          "value": "oidc10_rp",
+          "id": "13301"
+        },
+        "customfield_13018": "playground_client",
+        "comment": {
+          "comments": [],
+          "maxResults": 0,
+          "total": 0,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-05T12:52:43.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "136507",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136507",
+      "key": "CXT-37940",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP google.com/Single-tenant-service_op-aanvraag",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-11-05T13:35:55.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: google.com/Single-tenant-service_op-aanvraag\nTime: 13:35 05-11-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\nSingle Tenant Example\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13302",
+          "value": "single_tenant_template",
+          "id": "13302"
+        },
+        "customfield_13018": "google.com/Single-tenant-service_op-aanvraag",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136507/comment/1360097",
+              "id": "1360097",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-05T13:35:56.951+0100",
+              "updated": "2019-11-05T13:35:56.951+0100"
+            },
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136507/comment/1360103",
+              "id": "1360103",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "admin / Jane Roe has accepted this Invite request. User comment: Ignore",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-05T13:47:28.735+0100",
+              "updated": "2019-11-05T13:47:28.735+0100"
+            }
+          ],
+          "maxResults": 2,
+          "total": 2,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-05T13:47:28.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "136510",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136510",
+      "key": "CXT-37941",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP playground-grant-test",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-11-05T13:42:32.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: playground-grant-test\nTime: 13:42 05-11-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\nIgnore\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13301",
+          "value": "oidc10_rp",
+          "id": "13301"
+        },
+        "customfield_13018": "playground-grant-test",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136510/comment/1360100",
+              "id": "1360100",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-05T13:42:33.063+0100",
+              "updated": "2019-11-05T13:42:33.063+0100"
+            },
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136510/comment/1360108",
+              "id": "1360108",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "admin / Jane Roe has accepted this Invite request. User comment: Ignore",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-05T13:58:06.371+0100",
+              "updated": "2019-11-05T13:58:06.371+0100"
+            }
+          ],
+          "maxResults": 2,
+          "total": 2,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-05T13:58:06.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "136565",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136565",
+      "key": "CXT-37945",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP https://data.3tu.nl/saml/metadata",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-11-06T09:35:06.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://data.3tu.nl/saml/metadata\nTime: 09:35 06-11-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\nNice\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13300",
+          "value": "saml20_sp",
+          "id": "13300"
+        },
+        "customfield_13018": "https://data.3tu.nl/saml/metadata",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/136565/comment/1360190",
+              "id": "1360190",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-06T09:35:07.226+0100",
+              "updated": "2019-11-06T09:35:07.226+0100"
+            }
+          ],
+          "maxResults": 1,
+          "total": 1,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-06T09:35:07.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/11006",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/images/icons/status_generic.gif",
+          "name": "Awaiting Input",
+          "id": "11006",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "137105",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/137105",
+      "key": "CXT-37953",
+      "fields": {
+        "summary": "Change settings for https://idp.surfnet.nl",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11106",
+          "id": "11106",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Change",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": null,
+        "created": "2019-11-12T10:06:25.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Please update the following settings: \nChange the attribute 'coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship' for 'https://idp.surfnet.nl' from old value 'true' to new value 'false'\nChange the attribute 'coin:allow_maintainers_to_manage_authz_rules' for 'https://idp.surfnet.nl' from old value 'true' to new value 'false'\n\nAdditional comments: Ignore\n\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: null\nTime: 10:06 12-11-19\nRemark from user: null\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13300",
+          "value": "saml20_sp",
+          "id": "13300"
+        },
+        "customfield_13018": null,
+        "comment": {
+          "comments": [],
+          "maxResults": 0,
+          "total": 0,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-12T10:06:25.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+      "id": "137568",
+      "self": "https://jira-test.surfnet.nl/rest/api/2/issue/137568",
+      "key": "CXT-37956",
+      "fields": {
+        "summary": "New invite connection for IdP https://idp.surfnet.nl to SP https://acadplan.datanose.nl/shibboleth",
+        "issuetype": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/issuetype/11401",
+          "id": "11401",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/secure/viewavatar?size=xsmall&avatarId=10300&avatarType=issuetype",
+          "name": "SSI Link Invitation",
+          "subtask": false,
+          "avatarId": 10300
+        },
+        "customfield_13010": "oharsta@zilverline.nl",
+        "created": "2019-11-15T08:33:32.000+0100",
+        "customfield_13012": "https://idp.surfnet.nl",
+        "description": "Invite request: If the SCV accepts this invitation then create a new connection\nApplicant name: Jane Roe\nApplicant email: jane.roe@example.org\nIdentity Provider: https://idp.surfnet.nl\nService Provider: https://acadplan.datanose.nl/shibboleth\nTime: 08:33 15-11-19\nRemark from user: Invite request initiated by dashboard super user. Mails sent to: Okke Harsta<oharsta@zilverline.nl>. The invitation message from the SURFconext super user:\ntest - ignore\n",
+        "resolution": null,
+        "customfield_14602": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/customFieldOption/13300",
+          "value": "saml20_sp",
+          "id": "13300"
+        },
+        "customfield_13018": "https://acadplan.datanose.nl/shibboleth",
+        "comment": {
+          "comments": [
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/137568/comment/1361636",
+              "id": "1361636",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "Waiting for approval of SCV.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-15T08:33:34.708+0100",
+              "updated": "2019-11-15T08:33:34.708+0100"
+            },
+            {
+              "self": "https://jira-test.surfnet.nl/rest/api/2/issue/137568/comment/1361637",
+              "id": "1361637",
+              "author": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "body": "admin / Jane Roe has rejected this Invite request.",
+              "updateAuthor": {
+                "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=test-beheer-rpc",
+                "name": "test-beheer-rpc",
+                "key": "test-beheer-rpc",
+                "emailAddress": "no-reply@surfconext.nl",
+                "avatarUrls": {
+                  "48x48": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=48",
+                  "24x24": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=24",
+                  "16x16": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=16",
+                  "32x32": "https://www.gravatar.com/avatar/772c025b2f996166f849cef2d626b590?d=mm&s=32"
+                },
+                "displayName": "Dashboard  SURFconext",
+                "active": true,
+                "timeZone": "Europe/Amsterdam"
+              },
+              "created": "2019-11-15T08:34:25.553+0100",
+              "updated": "2019-11-15T08:34:25.553+0100"
+            }
+          ],
+          "maxResults": 2,
+          "total": 2,
+          "startAt": 0
+        },
+        "assignee": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/user?username=conext-beheer",
+          "name": "conext-beheer",
+          "key": "conext-beheer",
+          "emailAddress": "conext-issues@list.surfnet.nl",
+          "avatarUrls": {
+            "48x48": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=48",
+            "24x24": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=24",
+            "16x16": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=16",
+            "32x32": "https://www.gravatar.com/avatar/62dda6300e03a228d3f8c4f63a0c5bf7?d=mm&s=32"
+          },
+          "displayName": "SURFConext Beheer",
+          "active": true,
+          "timeZone": "Europe/Amsterdam"
+        },
+        "updated": "2019-11-15T08:34:25.000+0100",
+        "status": {
+          "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
+          "description": "",
+          "iconUrl": "https://jira-test.surfnet.nl/",
+          "name": "To Do",
+          "id": "10800",
+          "statusCategory": {
+            "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    }
+  ]
+}

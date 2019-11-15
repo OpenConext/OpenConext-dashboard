@@ -70,7 +70,7 @@ class App extends React.Component {
                         {showStats &&
                         <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
                         {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
-                        {isViewerOrAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
+                        {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"
                                                  component={SearchUser}/>
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"

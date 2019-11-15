@@ -82,7 +82,8 @@ public class JiraClientImpl implements JiraClient {
         this.environment = baseUrl.contains("test") ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
 
-        this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype", "created", "description", "updated"));
+        this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype",
+                "created", "description", "updated", "comment"));
         standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
     }
 
@@ -145,6 +146,13 @@ public class JiraClientImpl implements JiraClient {
             result = restTemplate.postForObject(url, entity, Map.class);
             List<Action> issues = ((List<Map<String, Object>>) result.get("issues")).stream().map(issue -> {
                 Map<String, Object> fields = (Map<String, Object>) issue.get("fields");
+
+                boolean rejected = ((List) ((Map) fields.getOrDefault("comment", Collections.EMPTY_MAP)).getOrDefault(
+                        "comments", Collections.emptyList()))
+                        .stream()
+                        .filter(o -> ((String) ((Map) o).getOrDefault("body", "")).contains("rejected"))
+                        .findAny().isPresent();
+
                 String issueType = (String) ((Map<String, Object>) fields.get("issuetype")).get("id");
                 Map<String, String> resolution = (Map<String, String>) fields.get("resolution");
                 String typeMetaData = Optional.ofNullable((Map<String, String>) fields.get("customfield_" + typeMetaDataCustomField())).orElse(emptyMap()).getOrDefault("value", "");
@@ -160,7 +168,9 @@ public class JiraClientImpl implements JiraClient {
                         .type(findType(issueType))
                         .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
                         .updateDate(ZonedDateTime.parse((String) fields.get("updated"), DATE_FORMATTER))
-                        .body((String) fields.get("description")).build();
+                        .body((String) fields.get("description"))
+                        .rejected(rejected)
+                        .build();
             }).collect(toList());
             return new JiraResponse(issues, (Integer) result.get("total"), (Integer) result.get("startAt"), (Integer) result.get("maxResults"));
 
