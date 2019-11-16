@@ -195,12 +195,12 @@ class Stats extends React.Component {
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(1, scale);
         const to = moment(this.state.to).add(1, scale);
-        const tomorrowMidnight = moment().add(1, "day").startOf("day");
-        const maximumTo = tomorrowMidnight[scale]() >= to[scale]();
+        const tomorrowMidnight = moment().add(1, "day").startOf("day").add(-3, "minutes");
+        const maximumTo = tomorrowMidnight.isBefore(to);
         this.setState({
             data: [],
             from: from,
-            to: maximumTo ? tomorrowMidnight : to,
+            to: to,
             maximumTo: maximumTo
         }, this.refresh);
     };
