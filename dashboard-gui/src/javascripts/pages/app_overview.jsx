@@ -325,7 +325,7 @@ class AppOverview extends React.Component {
 
     addNumbers(filteredApps, facets) {
         const {currentUser} = this.context;
-        const stepupEntities = currentUser.getCurrentIdp().stepupEntities;
+        const stepupEntities = currentUser.getCurrentIdp().stepupEntities || [];
         const me = this;
         const filter = function (facet, filterFunction) {
             const activeFacets = this.state.activeFacets;
