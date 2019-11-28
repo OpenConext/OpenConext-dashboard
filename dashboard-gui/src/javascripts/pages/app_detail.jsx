@@ -21,7 +21,7 @@ import {privacyProperties} from "../utils/privacy";
 import {isEmpty} from "../utils/utils";
 
 const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
-    "idp_usage", "sirtfi_security", "application_usage"]; //"ssid"
+    "idp_usage", "sirtfi_security", "application_usage", "ssid"];
 
 class AppDetail extends React.Component {
 
@@ -107,6 +107,10 @@ class AppDetail extends React.Component {
                     delete this.panelMap["sirtfi_security"];
                     delete this.panelMap["consent"];
                     delete this.panelMap["license_data"];
+                    delete this.panelMap["ssid"];
+                }
+                if (!app.connected || currentUser.guest || currentUser.dashboardMember) {
+                    delete this.panelMap["ssid"];
                 }
                 if (currentUser.dashboardMember) {
                     delete this.panelMap["how_to_connect"];

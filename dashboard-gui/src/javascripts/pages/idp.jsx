@@ -443,7 +443,7 @@ class MyIdp extends React.Component {
                         </div>}
 
 
-                        {(showRoles && !isEmpty(roles)) && <h2 className="top">{I18n.t("my_idp.roles")}
+                        {!isEmpty(roles) && <h2 className="top">{I18n.t("my_idp.roles")}
                             <i className={`fa fa-caret-${showRoles ? "up" : "down"}`}
                                onClick={() => this.setState({showRoles: !this.state.showRoles})}/>
                         </h2>}

@@ -108,8 +108,8 @@ I18n.translations.nl = {
             },
             strong_authentication: {
                 name: "SURFsecureID ingeschakeld",
-                yes: "Ja",
-                no: "Nee"
+                tooltip: "SURFsecureID second factor authentication is vereist.<br>Zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
+                none: "Geen",
             },
             attribute_manipulation: {
                 name: "Attribuut manipulatie script",
@@ -238,8 +238,8 @@ I18n.translations.nl = {
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "SURFsecureID aangezet",
-        minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
-        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): {{minimalLoaLevel}}. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
         supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
@@ -345,6 +345,16 @@ I18n.translations.nl = {
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
         change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
+        loa_level: "SURFsecureID Level of Assurance (LoA)",
+        defaultLoa: "LoA 1: Wachtwoord authenticatie door SURFconext bij de instelling van de gebruiker",
+        loa2: "LoA 2: LoA 1 + SMS of Tiqr authenticatie",
+        loa3: "LoA 3: LoA 1 + YubiKey (hardware token) authenticatie"
+    },
+    ssid_panel: {
+        title: "SURFsecureID",
+        subtitle: "Met SURFsecureID kan je toegang tot online diensten beter beveiligen met tweede-factor authenticatie. ",
+        subtitle2: "Uw gebruikers authenticeren zichzelf met een gebruikersnaam en wachtwoord en een optionele tweede factor. Dit is een SMS of USB key. SURFsecureID is vooral geschikt voor diensten met privacy gevoelige data.",
+        subtitle3: "U kan een hogere Level of Assurance (LoA) aanvragen voor deze dienst door een extra authenticatie stap toe te voegen aan de login van uw gebruikers Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",

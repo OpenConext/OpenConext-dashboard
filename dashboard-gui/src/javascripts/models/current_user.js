@@ -21,6 +21,8 @@ class CurrentUser {
         this.supportedLanguages = rawUser.supportedLanguages;
         this.organization = rawUser.organization;
         this.guest = rawUser.guest;
+        this.loaLevels = rawUser.loaLevels;
+        this.defaultLoa = rawUser.defaultLoa;
     }
 
 

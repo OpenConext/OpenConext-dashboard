@@ -195,9 +195,14 @@ public class ServicesController extends BaseController {
     public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                         @RequestParam(value = "comments", required = false) String
                                                                 comments,
+                                                        @RequestParam(value = "loaLevel", required = false) String
+                                                                loaLevel,
                                                         @RequestParam(value = "spEntityId") String spEntityId,
                                                         @RequestParam(value = "type") String type,
                                                         Locale locale) throws IOException {
+        if (StringUtils.hasText(loaLevel)) {
+            comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a highet then default LoA level: " + loaLevel;
+        }
 
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale)
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))

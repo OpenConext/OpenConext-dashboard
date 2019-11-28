@@ -38,7 +38,7 @@ class AttributePolicyPanel extends React.Component {
                 </table>
                 <p>{I18n.t("attributes_policy_panel.warning")}</p>
                 <ul className="attributes-policy-warnings">
-                    <li>{I18n.t("attributes_policy_panel.hint")}</li>
+                    {!currentUser.guest && <li>{I18n.t("attributes_policy_panel.hint")}</li>}
                     <li>{I18n.t("attributes_policy_panel.motivationInfo")}</li>
                     {hasFilters && <li>{I18n.t("attributes_policy_panel.filterInfo")}</li>}
                     <li dangerouslySetInnerHTML={{__html: I18n.t("attributes_policy_panel.nameIdInfo", {type: nameIdValue})}}/>

@@ -66,8 +66,10 @@ class AppOverview extends React.Component {
                 let {facets, apps: unfilteredApps} = data[0].payload;
                 const {currentUser} = this.context;
                 const idpState = currentUser.getCurrentIdp().state;
-                const apps = unfilteredApps.filter(app => app.state === idpState);
 
+                const apps = unfilteredApps
+                    .filter(app => app.state === idpState)
+                    .filter(app => !(currentUser.guest && app.idpVisibleOnly));
                 // We need to sanitize the categories data for each app to ensure the facet totals are correct
                 const unknown = {value: I18n.t("facets.unknown")};
                 facets.forEach(facet => {
@@ -202,33 +204,6 @@ class AppOverview extends React.Component {
         );
     }
 
-    renderLicensePresent(app) {
-        let licensePresent = "unknown";
-
-        switch (app.licenseStatus) {
-            case "HAS_LICENSE_SURFMARKET":
-                if (!app.hasCrmLink) {
-                    licensePresent = "unknown";
-                } else {
-                    licensePresent = app.license ? "yes" : "no";
-                }
-                break;
-            case "HAS_LICENSE_SP":
-                licensePresent = "unknown";
-                break;
-            case "NOT_NEEDED":
-                licensePresent = "na";
-                break;
-            default:
-                licensePresent = "unknown";
-                break;
-        }
-
-        return (
-            <td className={licensePresent}>{I18n.t("apps.overview.license_present." + licensePresent)}</td>
-        );
-    }
-
     renderConnectButton(app) {
         if (!app.connected) {
             return <Link
@@ -350,7 +325,7 @@ class AppOverview extends React.Component {
 
     addNumbers(filteredApps, facets) {
         const {currentUser} = this.context;
-        const stepupEntitiesIds = (currentUser.getCurrentIdp().stepupEntities || []).map(s => s.name);
+        const stepupEntities = currentUser.getCurrentIdp().stepupEntities;
         const me = this;
         const filter = function (facet, filterFunction) {
             const activeFacets = this.state.activeFacets;
@@ -408,11 +383,13 @@ class AppOverview extends React.Component {
                     break;
                 case "strong_authentication":
                     filter(facet, (app, facetValue) => {
-                        let strongAuthentication = app.strongAuthentication || false;
-                        if (stepupEntitiesIds.indexOf(app.spEntityId) > -1) {
-                            strongAuthentication = true;
+                        const spMatches = facetValue.searchValue === "SP_" + app.minimalLoaLevel;
+                        const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
+                        const idppMatches = stepUpEntity != null && facetValue.searchValue === "IDP_" + stepUpEntity.level;
+                        if (facetValue.searchValue === "NONE") {
+                            return isEmpty(app.minimalLoaLevel) && isEmpty(stepUpEntity);
                         }
-                        return facetValue.searchValue === "yes" ? strongAuthentication : !strongAuthentication;
+                        return spMatches || idppMatches;
                     });
                     break;
                 case "manipulation_notes":
@@ -495,7 +472,7 @@ class AppOverview extends React.Component {
 
     staticFacets() {
         const {currentUser} = this.context;
-        const stepupEntitiesIds = (currentUser.getCurrentIdp().stepupEntities || []).map(s => s.name);
+        const stepupEntities = currentUser.getCurrentIdp().stepupEntities || [];
         const {arpAttributes} = this.state;
 
         let results = [{
@@ -564,17 +541,24 @@ class AppOverview extends React.Component {
             }.bind(this)
         }, {
             name: I18n.t("facets.static.strong_authentication.name"),
+            tooltip: I18n.t("facets.static.strong_authentication.tooltip"),
             searchValue: "strong_authentication",
-            values: [
-                {value: I18n.t("facets.static.strong_authentication.yes"), searchValue: "yes"},
-                {value: I18n.t("facets.static.strong_authentication.no"), searchValue: "no"}
-            ],
+            values: currentUser.loaLevels.reduce((acc, loa) => {
+                acc.push({value: "SP - " + loa.substring(loa.lastIndexOf("/") + 1), searchValue: "SP_" + loa});
+                acc.push({value: "IDP - " + loa.substring(loa.lastIndexOf("/") + 1), searchValue: "IDP_" + loa});
+                return acc;
+            }, [])
+                .sort((a, b) => a.value.localeCompare(b.value))
+                .concat([{value: I18n.t("facets.static.strong_authentication.none"), searchValue: "NONE"}]),
             filterApp: function (app) {
-                let strongAuthentication = app.strongAuthentication || false;
-                if (stepupEntitiesIds.indexOf(app.spEntityId) > -1) {
-                    strongAuthentication = true;
-                }
-                return this.filterYesNoFacet("strong_authentication", strongAuthentication);
+                const strongAuthenticationFacetValues = this.state.activeFacets["strong_authentication"] || [];
+                const minimalLoaLevel = "SP_" + app.minimalLoaLevel;
+                const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
+                const none = strongAuthenticationFacetValues.indexOf("NONE") > -1 && strongAuthenticationFacetValues.length === 1;
+                return strongAuthenticationFacetValues.length === 0 ||
+                    none ||
+                    strongAuthenticationFacetValues.indexOf(minimalLoaLevel) > -1 ||
+                    (stepUpEntity != null && strongAuthenticationFacetValues.indexOf("IDP_" + stepUpEntity.level) > -1);
             }.bind(this)
         }, {
             name: I18n.t("facets.static.arp.name"),
@@ -732,8 +716,8 @@ class AppOverview extends React.Component {
                         <table>
                             <thead>
                             <tr>
-                                {this.renderSortableHeader(currentUser.guest ? "percent_60" :"percent_50", "name")}
-                                {this.renderSortableHeader(currentUser.guest ? "percent_40" :"percent_30", "licenseStatus")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_60" : "percent_50", "name")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_30", "licenseStatus")}
                                 {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
                                 {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                                 {connect}

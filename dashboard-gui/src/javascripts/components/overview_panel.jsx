@@ -141,7 +141,7 @@ class OverviewPanel extends React.Component {
         const idpLoaLevelConfigured = (currentUser.getCurrentIdp().stepupEntities || []).some(e => e.name === app.spEntityId);
         const msg = idpLoaLevelConfigured ? "minimalLoaLevelIdp" : "minimalLoaLevel";
         const loa = idpLoaLevelConfigured ? currentUser.getCurrentIdp().stepupEntities.find(e => e.name === app.spEntityId).level : app.minimalLoaLevel;
-        const loaStripped = loa ? loa.substring(loa.lastIndexOf(".") + 1) : "";
+        const loaStripped = loa ? loa.substring(loa.lastIndexOf("/") + 1) : "";
         if (app.strongAuthentication || idpLoaLevelConfigured) {
             return (
                 <div className="mod-description">

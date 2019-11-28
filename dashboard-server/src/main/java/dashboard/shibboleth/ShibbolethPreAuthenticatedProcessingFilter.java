@@ -59,6 +59,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.springframework.util.CollectionUtils.contains;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -107,6 +108,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private boolean isOidcEnabled;
     private String hideTabs;
     private String supportedLanguages;
+    private String defaultLoa;
+    private List<String> loaLevels;
 
     ShibbolethPreAuthenticatedProcessingFilter() {
     }
@@ -123,7 +126,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       boolean isOidcEnabled,
                                                       String hideTabs,
                                                       String supportedLanguages,
-                                                      String organization) {
+                                                      String organization,
+                                                      String defaultLoa,
+                                                      List<String> loaLevels) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
@@ -137,6 +142,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.hideTabs = hideTabs;
         this.supportedLanguages = supportedLanguages;
         this.organization = organization;
+        this.defaultLoa = defaultLoa;
+        this.loaLevels = loaLevels;
     }
 
     @Override
@@ -239,6 +246,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setHideTabs(this.hideTabs);
         coinUser.setSupportedLanguages(this.supportedLanguages);
         coinUser.setOrganization(this.organization);
+        coinUser.setDefaultLoa(this.defaultLoa);
+        coinUser.setLoaLevels(this.loaLevels);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {

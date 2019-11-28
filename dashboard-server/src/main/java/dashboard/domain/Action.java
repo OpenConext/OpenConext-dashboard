@@ -51,6 +51,7 @@ public class Action {
     private Service service;
     private Settings settings;
     private Consent consent;
+    private String loaLevel;
 
     private boolean rejected;
 

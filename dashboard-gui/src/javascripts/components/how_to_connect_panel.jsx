@@ -12,11 +12,11 @@ import CheckBox from "./checkbox";
 import {isEmpty} from "../utils/utils";
 import {setFlash} from "../utils/flash";
 import ConfirmationDialog from "../components/confirmation_dialog";
+import SelectWrapper from "./select_wrapper";
 
 class HowToConnectPanel extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             currentStep: "connect",
             accepted: false,
@@ -24,6 +24,7 @@ class HowToConnectPanel extends React.Component {
             failed: false,
             action: undefined,
             acceptedAansluitOvereenkomstRefused: false,
+            loaLevel: "",
             confirmationDialogOpen: false,
             confirmationQuestion: I18n.t("how_to_connect_panel.denyConfirmation"),
             confirmationDialogAction: () => this,
@@ -52,6 +53,9 @@ class HowToConnectPanel extends React.Component {
             ++lastNumber;
         }
         if (this.props.app.aansluitovereenkomstRefused) {
+            ++lastNumber;
+        }
+        if (isEmpty(this.props.app.minimalLoaLevel)) {
             ++lastNumber;
         }
         const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
@@ -102,8 +106,9 @@ class HowToConnectPanel extends React.Component {
                             </ul>
                         </div>
                         <hr/>
+                        {isEmpty(this.props.app.minimalLoaLevel) && this.renderLoaLevel()}
                         <div className="content">
-                            <div className="number">2</div>
+                            <div className="number">{isEmpty(this.props.app.minimalLoaLevel) ? 3 : 2}</div>
                             <h2>{I18n.t("how_to_connect_panel.terms_title")}</h2>
                             <ul>
                                 <li>
@@ -178,13 +183,39 @@ class HowToConnectPanel extends React.Component {
         return null;
     }
 
+    renderLoaLevel = () => {
+        const {currentUser} = this.context;
+        const {loaLevel} = this.state;
+        const options = [{value: "", display: I18n.t("consent_panel.defaultLoa")}]
+            .concat(currentUser.loaLevels.map(t => (
+                {value: t, display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf("/") + 1).toLowerCase()}`)})
+            ));
+
+        return (
+            <div>
+                <div className="content">
+                    <div className="number">2</div>
+                    <h2>{I18n.t("consent_panel.loa_level")}</h2>
+                    <p
+                        dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle3")}}/>
+                    <SelectWrapper
+                        defaultValue={loaLevel}
+                        options={options}
+                        multiple={false}
+                        handleChange={val => this.setState({loaLevel: val})}/>
+                </div>
+                <hr/>
+            </div>)
+
+    };
+
     renderSingleTenantServiceWarning() {
         if (this.props.app.entityType === "single_tenant_template") {
             return (
                 <div>
                     <hr/>
                     <div className="content">
-                        <div className="number">3</div>
+                        <div className="number">4</div>
                         <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
                         <p
                             dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name})}}/>
@@ -354,7 +385,12 @@ class HowToConnectPanel extends React.Component {
                 <div className="box">
                     <div className="content">
                         <h2>{I18n.t("how_to_connect_panel.invite_action_collision_subtitle")}</h2>
-                        <p dangerouslySetInnerHTML={{__html: I18n.t("how_to_connect_panel.invite_action_collision", {app: app.name, jiraKey: jiraKey})}}/>
+                        <p dangerouslySetInnerHTML={{
+                            __html: I18n.t("how_to_connect_panel.invite_action_collision", {
+                                app: app.name,
+                                jiraKey: jiraKey
+                            })
+                        }}/>
                     </div>
                 </div>
             </div>
@@ -412,7 +448,7 @@ class HowToConnectPanel extends React.Component {
                     comment: this.state.comments,
                     jiraKey: this.props.jiraKey
                 }) :
-                makeConnection(this.props.app, this.state.comments);
+                makeConnection(this.props.app, this.state.comments, this.state.loaLevel);
             promise
                 .then(action => {
                     this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0));

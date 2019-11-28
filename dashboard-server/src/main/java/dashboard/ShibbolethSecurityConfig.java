@@ -37,6 +37,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -84,6 +87,13 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${organization}")
     private String organization;
 
+    @Value("${default_loa_level}")
+    private String defaultLoa;
+
+    @Value("${loa_values_supported}")
+    private String loaLevels;
+
+
     @Bean
     public FilterRegistrationBean mockShibbolethFilter() {
         FilterRegistrationBean shibFilter = new FilterRegistrationBean();
@@ -123,6 +133,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        List<String> loaLevels = Arrays.stream(this.loaLevels.split(",")).map(String::trim).collect(Collectors.toList());
         http
                 .logout()
                 .logoutUrl("/dashboard/api/logout")
@@ -134,7 +145,8 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization),
+                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization,
+                                defaultLoa, loaLevels),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)

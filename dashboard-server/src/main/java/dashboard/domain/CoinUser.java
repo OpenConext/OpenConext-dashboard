@@ -60,6 +60,8 @@ public class CoinUser implements UserDetails {
     private String organization;
     private boolean oidcEnabled;
     private boolean guest;
+    private String defaultLoa;
+    private List<String> loaLevels;
 
     @Override
     @JsonIgnore
@@ -308,6 +310,22 @@ public class CoinUser implements UserDetails {
 
     public String getOrganization() {
         return organization;
+    }
+
+    public String getDefaultLoa() {
+        return defaultLoa;
+    }
+
+    public void setDefaultLoa(String defaultLoa) {
+        this.defaultLoa = defaultLoa;
+    }
+
+    public List<String> getLoaLevels() {
+        return loaLevels;
+    }
+
+    public void setLoaLevels(List<String> loaLevels) {
+        this.loaLevels = loaLevels;
     }
 
     @Override

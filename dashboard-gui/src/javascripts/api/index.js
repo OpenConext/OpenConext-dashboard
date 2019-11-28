@@ -208,8 +208,8 @@ export function searchJira(filter) {
     }).then(parseJson);
 }
 
-export function makeConnection(app, comments) {
-    return fetchPost("/services/connect", {comments: comments, spEntityId: app.spEntityId, type: app.entityType})
+export function makeConnection(app, comments, loaLevel) {
+    return fetchPost("/services/connect", {comments: comments, loaLevel: loaLevel, spEntityId: app.spEntityId, type: app.entityType})
         .then(parseJson)
         .then(json => json.payload);
 }
@@ -289,6 +289,14 @@ export function exportApps(idp, ids) {
 
 export function consentChangeRequest(data) {
     return postJson("/users/me/consent", data, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+}
+
+export function surfSecureIdChangeRequest(data) {
+    return postJson("/users/me/surfsecureid", data, {
         headers: {
             "Content-Type": "application/json"
         }
