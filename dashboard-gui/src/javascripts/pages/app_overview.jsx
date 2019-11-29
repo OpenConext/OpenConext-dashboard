@@ -383,13 +383,13 @@ class AppOverview extends React.Component {
                     break;
                 case "strong_authentication":
                     filter(facet, (app, facetValue) => {
-                        const spMatches = facetValue.searchValue === "SP_" + app.minimalLoaLevel;
                         const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
-                        const idppMatches = stepUpEntity != null && facetValue.searchValue === "IDP_" + stepUpEntity.level;
                         if (facetValue.searchValue === "NONE") {
                             return isEmpty(app.minimalLoaLevel) && isEmpty(stepUpEntity);
                         }
-                        return spMatches || idppMatches;
+                        const idpMatches = stepUpEntity != null && facetValue.searchValue === "IDP_" + stepUpEntity.level;
+                        const spMatches = facetValue.searchValue === "SP_" + app.minimalLoaLevel;
+                        return spMatches || idpMatches;
                     });
                     break;
                 case "manipulation_notes":

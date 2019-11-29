@@ -46,14 +46,14 @@ class ConsentPanel extends React.Component {
             .then(res => {
                 res.json().then(action => {
                     if (action.payload["no-changes"]) {
-                        setFlash(I18n.t("consent_panel.no_change_request_created"), "warning");
+                        setFlash(I18n.t("my_idp.no_change_request_created"), "warning");
                     } else {
-                        setFlash(I18n.t("consent_panel.change_request_created"));
+                        setFlash(I18n.t("my_idp.change_request_created", {jiraKey: action.payload.jiraKey}));
                     }
                     window.scrollTo(0, 0);
                 });
             }).catch(() => {
-            setFlash(I18n.t("consent_panel.change_request_failed"), "error");
+            setFlash(I18n.t("my_idp.change_request_failed"), "error");
             window.scrollTo(0, 0);
         });
 

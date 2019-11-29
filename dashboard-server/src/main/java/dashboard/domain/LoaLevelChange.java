@@ -1,16 +1,26 @@
 package dashboard.domain;
 
+
 public class LoaLevelChange {
 
-    private String spEntityId;
+    private String entityId;
     private String loaLevel;
+    private String entityType;
 
-    public String getSpEntityId() {
-        return spEntityId;
+    public String getEntityId() {
+        return entityId;
     }
 
-    public void setSpEntityId(String spEntityId) {
-        this.spEntityId = spEntityId;
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
+    }
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 
     public String getLoaLevel() {

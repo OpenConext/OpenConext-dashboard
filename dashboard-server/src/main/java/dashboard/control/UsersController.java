@@ -10,12 +10,15 @@ import dashboard.domain.ContactPerson;
 import dashboard.domain.IdentityProvider;
 import dashboard.domain.InviteRequest;
 import dashboard.domain.JiraFilter;
+import dashboard.domain.LoaLevelChange;
 import dashboard.domain.Provider;
 import dashboard.domain.ResendInviteRequest;
 import dashboard.domain.Service;
+import dashboard.domain.ServiceProvider;
 import dashboard.domain.Settings;
 import dashboard.domain.UpdateInviteRequest;
 import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
@@ -251,12 +254,43 @@ public class UsersController extends BaseController {
                 .consent(consent)
                 .type(Action.Type.CHANGE).build();
 
-        actionsService.create(action, changes);
+        action = actionsService.create(action, changes);
+
+        return ResponseEntity.ok(createRestResponse(action));
+    }
+
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_SUPER_USER')")
+    @RequestMapping(value = "/me/surfsecureid", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse<Object>> updateSurfSecureId(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                                      @RequestBody LoaLevelChange loaLevelChange) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin() ) {
+            LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Optional<ServiceProvider> serviceProviderOptional = this.manage.getServiceProvider(loaLevelChange.getEntityId(), EntityType.valueOf(loaLevelChange.getEntityType()), false);
+        ServiceProvider serviceProvider = serviceProviderOptional.orElseThrow(IllegalArgumentException::new);
+        String minimalLoaLevel = serviceProvider.getMinimalLoaLevel();
+        IdentityProvider idp = currentUser.getIdp();
+
+        List<Change> changes = getChanges(idp.getId(), minimalLoaLevel, loaLevelChange.getLoaLevel());
+
+        if (changes.isEmpty()) {
+            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        }
+        Action action = Action.builder()
+                .userEmail(currentUser.getEmail())
+                .userName(currentUser.getFriendlyName())
+                .idpId(idpEntityId)
+                .spId(loaLevelChange.getEntityId())
+                .loaLevel(loaLevelChange.getLoaLevel())
+                .type(Action.Type.CHANGE).build();
+
+        action = actionsService.create(action, changes);
 
         return ResponseEntity.ok(createRestResponse(action));
 
     }
-
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
@@ -283,9 +317,9 @@ public class UsersController extends BaseController {
                 .settings(settings)
                 .type(Action.Type.CHANGE).build();
 
-        Action newAction = actionsService.create(action, changes);
+        action = actionsService.create(action, changes);
 
-        return ResponseEntity.ok(createRestResponse(newAction));
+        return ResponseEntity.ok(createRestResponse(action));
     }
 
     protected List<Change> getChanges(String idpId, Optional<Consent> previousConsentOptional, Consent consent) throws IOException {
@@ -304,6 +338,16 @@ public class UsersController extends BaseController {
         this.diff(changes, idpId, previousConsent.getExplanationNl(), consent.getExplanationNl(), "consent:explanation:nl");
         this.diff(changes, idpId, previousConsent.getType(), consent.getType(), "consent:type");
 
+        return changes;
+    }
+
+    protected List<Change> getChanges(String idpId, String previousMinimalLoaLevel, String newMinimalLoaLevel) throws IOException {
+        List<Change> changes = new ArrayList<>();
+
+        if (StringUtils.hasText(previousMinimalLoaLevel) && previousMinimalLoaLevel.equals(newMinimalLoaLevel)) {
+            return changes;
+        }
+        this.diff(changes, idpId, previousMinimalLoaLevel, newMinimalLoaLevel, "coin:stepup:requireloa");
         return changes;
     }
 

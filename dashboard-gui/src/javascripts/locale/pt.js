@@ -335,9 +335,6 @@ I18n.translations.pt = {
         explanationPt: "Mensagem em Português",
         explanationPt_tooltip: "Esta mensagem será adicionada ao interface de consentimento em Português para novos utilizadores.",
         save: "Guardar alterações",
-        change_request_created: "Pedido de Alteração enviado para SURFnet SURFconext-team.",
-        no_change_request_created: "Não foi criado o pedido de alteração, já que não foi alterada qualquer informação.",
-        change_request_failed: "Falha ao criar o pedido de alteração.",
         loa_level: "SURFsecureID Level of Assurance (LoA)",
         defaultLoa: "LoA 1: Password authentication through SURFconext at the users home IdP",
         loa2: "LoA 2: LoA 1 + SMS or Tiqr authentication",
@@ -347,7 +344,8 @@ I18n.translations.pt = {
         title: "SURFsecureID",
         subtitle: "With SURFsecureID, you can secure access to online services better through two-factor authentication. ",
         subtitle2: "Your users log in with a username, password and a optional second factor. This is an SMS or USB key. SURFsecureID is particularly important for services with sensitive data.",
-        subtitle3: "You can request a higher Level of Assurance (LoA) for this Service in order to add an extra security step to the login of the users of your institution. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
+        subtitle3: "You can request a higher Level of Assurance (LoA) for this Service in order to add an extra security step to the login of the users of your institution. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+        highestLoaReached: "You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to lower the LoA for this service."
     },
     how_to_connect_panel: {
         accept: "Confirmo que li os termos e condiçoes e que aceito os mesmos em nome da minha instituição.",

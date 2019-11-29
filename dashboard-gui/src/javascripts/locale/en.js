@@ -340,20 +340,17 @@ I18n.translations.en = {
         explanationPt: "Portuguese message",
         explanationPt_tooltip: "This custom message will be appended to the Portuguese consent screen for new users.",
         save: "Submit changes",
-        change_request_created: "Change request sent to the SURFnet SURFconext-team.",
-        no_change_request_created: "No change request is created as you did not change anything.",
-        change_request_failed: "Failed to create your change request.",
         loa_level: "SURFsecureID Level of Assurance (LoA)",
         defaultLoa: "LoA 1: Password authentication through SURFconext at the users home IdP",
         loa2: "LoA 2: LoA 1 + SMS or Tiqr authentication",
         loa3: "LoA 3: LoA 1 + YubiKey (hardware token) authentication"
-
     },
     ssid_panel: {
         title: "SURFsecureID",
         subtitle: "With SURFsecureID, you can secure access to online services better through two-factor authentication. ",
         subtitle2: "Your users log in with a username, password and a optional second factor. This is an SMS or USB key. SURFsecureID is particularly important for services with sensitive data.",
-        subtitle3: "You can request a higher Level of Assurance (LoA) for this Service in order to add an extra security step to the login of the users of your institution. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
+        subtitle3: "You can request a higher Level of Assurance (LoA) for this Service in order to add an extra security step to the login of the users of your institution. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+        highestLoaReached: "You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to lower the LoA for this service."
     },
     how_to_connect_panel: {
         accept: "I hereby certify that I have read these terms and that I accept them on behalf of my institution.",

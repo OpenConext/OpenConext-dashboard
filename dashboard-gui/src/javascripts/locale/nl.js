@@ -342,9 +342,6 @@ I18n.translations.nl = {
         explanationPt: "Portugees bericht",
         explanationPt_tooltip: "Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers",
         save: "Verstuur verzoek",
-        change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
-        no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
-        change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
         loa_level: "SURFsecureID Level of Assurance (LoA)",
         defaultLoa: "LoA 1: Wachtwoord authenticatie door SURFconext bij de instelling van de gebruiker",
         loa2: "LoA 2: LoA 1 + SMS of Tiqr authenticatie",
@@ -354,7 +351,8 @@ I18n.translations.nl = {
         title: "SURFsecureID",
         subtitle: "Met SURFsecureID kan je toegang tot online diensten beter beveiligen met tweede-factor authenticatie. ",
         subtitle2: "Uw gebruikers authenticeren zichzelf met een gebruikersnaam en wachtwoord en een optionele tweede factor. Dit is een SMS of USB key. SURFsecureID is vooral geschikt voor diensten met privacy gevoelige data.",
-        subtitle3: "U kan een hogere Level of Assurance (LoA) aanvragen voor deze dienst door een extra authenticatie stap toe te voegen aan de login van uw gebruikers Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>."
+        subtitle3: "U kan een hogere Level of Assurance (LoA) aanvragen voor deze dienst door een extra authenticatie stap toe te voegen aan de login van uw gebruikers Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+        highestLoaReached: "Deze diest heeft al het hoogste LoA level. U kan via dit formulier geen verzoek doen voor lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als u een lagere LoA wenst voor deze service."
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
@@ -628,7 +626,7 @@ I18n.translations.nl = {
         guest_enabled_tooltip: "Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href=\"https://edu.nl/48ftk\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",
-        change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team.",
+        change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}",
         no_change_request_created: "Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.",
         change_request_failed: "Er ging iets mis bij het aanmaken van het wijzigingsverzoek.",
         comments: "Opmerkingen",

@@ -162,6 +162,10 @@ public class Action {
         return consent;
     }
 
+    public String getLoaLevel() {
+        return loaLevel;
+    }
+
     /**
      * get a Comparator that sorts by date ascending: newest first
      */
@@ -312,6 +316,7 @@ public class Action {
         private Settings settings;
         private Consent consent;
         private boolean rejected;
+        private String loaLevel;
 
         private Builder() {
         }
@@ -337,6 +342,7 @@ public class Action {
             this.settings = action.settings;
             this.consent = action.consent;
             this.rejected = action.rejected;
+            this.loaLevel = action.loaLevel;
         }
 
         public Builder requestDate(ZonedDateTime requestDate) {
@@ -431,6 +437,11 @@ public class Action {
 
         public Builder consent(Consent consent) {
             this.consent = consent;
+            return this;
+        }
+
+        public Builder loaLevel(String loaLevel) {
+            this.loaLevel = loaLevel;
             return this;
         }
 
