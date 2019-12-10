@@ -108,7 +108,7 @@ I18n.translations.nl = {
             },
             strong_authentication: {
                 name: "SURFsecureID ingeschakeld",
-                tooltip: "SURFsecureID second factor authentication is vereist.<br>Zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
+                tooltip: "SURFsecureID second factor authentication is vereist.<br>Zie de <a href=\"https://edu.nl/p4um4\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
                 none: "Geen",
             },
             attribute_manipulation: {
