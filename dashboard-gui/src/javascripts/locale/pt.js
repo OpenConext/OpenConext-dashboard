@@ -337,14 +337,14 @@ I18n.translations.pt = {
         save: "Guardar alterações",
         loa_level: "SURFsecureID Level of Assurance (LoA)",
         defaultLoa: "LoA 1: Password authentication through SURFconext at the users home IdP",
-        loa2: "LoA 2: LoA 1 + SMS or Tiqr authentication",
-        loa3: "LoA 3: LoA 1 + YubiKey (hardware token) authentication"
+        loa2: "LoA 2 (see the wiki for more info)",
+        loa3: "LoA 3 (see the wiki for more info)"
     },
     ssid_panel: {
         title: "SURFsecureID",
-        subtitle: "With SURFsecureID, you can secure access to online services better through two-factor authentication. ",
-        subtitle2: "Your users log in with a username, password and a optional second factor. This is an SMS or USB key. SURFsecureID is particularly important for services with sensitive data.",
-        subtitle3: "You can request a higher Level of Assurance (LoA) for this Service in order to add an extra security step to the login of the users of your institution. For more information see the <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+        subtitle: "With <a href=\"https://wiki.surfnet.nl/display/SsID\" target=\"_blank\" rel=\"noopener noreferrer\">SURFsecureID</a> you can better secure access to services with strong authentication. ",
+        subtitle2: "A user logs in with username and password (the first factor) and SURFsecureID takes care of the second factor authentication like via a mobile app or USB key.",
+        subtitle3: "By chosing a higher <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user's login.",
         highestLoaReached: "You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to lower the LoA for this service."
     },
     how_to_connect_panel: {
