@@ -201,7 +201,7 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "type") String type,
                                                         Locale locale) throws IOException {
         if (StringUtils.hasText(loaLevel)) {
-            comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a highet then default LoA level: " + loaLevel;
+            comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a higher then default LoA level: " + loaLevel;
         }
 
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale)
