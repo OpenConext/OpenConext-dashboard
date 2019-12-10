@@ -344,15 +344,15 @@ I18n.translations.nl = {
         save: "Verstuur verzoek",
         loa_level: "SURFsecureID Level of Assurance (LoA)",
         defaultLoa: "LoA 1: Wachtwoord authenticatie door SURFconext bij de instelling van de gebruiker",
-        loa2: "LoA 2: LoA 1 + SMS of Tiqr authenticatie",
-        loa3: "LoA 3: LoA 1 + YubiKey (hardware token) authenticatie"
+        loa2: "LoA 2 (see the wiki for more info)",
+        loa3: "LoA 3 (see the wiki for more info)"
     },
     ssid_panel: {
         title: "SURFsecureID",
-        subtitle: "Met SURFsecureID kan je toegang tot online diensten beter beveiligen met tweede-factor authenticatie. ",
-        subtitle2: "Uw gebruikers authenticeren zichzelf met een gebruikersnaam en wachtwoord en een optionele tweede factor. Dit is een SMS of USB key. SURFsecureID is vooral geschikt voor diensten met privacy gevoelige data.",
-        subtitle3: "U kan een hogere Level of Assurance (LoA) aanvragen voor deze dienst door een extra authenticatie stap toe te voegen aan de login van uw gebruikers Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
-        highestLoaReached: "Deze diest heeft al het hoogste LoA level. U kan via dit formulier geen verzoek doen voor lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als u een lagere LoA wenst voor deze service."
+        subtitle: "Met <a href=\"https://wiki.surfnet.nl/display/SsID\" target=\"_blank\" rel=\"noopener noreferrer\">SURFsecureID</a> kun je de toegang tot diensten extra beveiligen met sterke authenticatie. ",
+        subtitle2: "Een gebruiker logt in met een gebruikersnaam en wachtwoord (de eerste factor) en SURFsecureID zorgt vervolgens voor de tweede factor authenticatie via bijvoorbeeld een mobiele app of USB sleutel. ",
+        subtitle3: "Door het kiezen van een hoger <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.",
+        highestLoaReached: "Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kunt u via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als u een lagere LoA wenst voor deze service."
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
