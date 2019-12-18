@@ -196,8 +196,7 @@ class HowToConnectPanel extends React.Component {
                 <div className="content">
                     <div className="number">2</div>
                     <h2>{I18n.t("consent_panel.loa_level")}</h2>
-                    <p
-                        dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle3")}}/>
+                    <p dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle3")}}/>
                     <SelectWrapper
                         defaultValue={loaLevel}
                         options={options}

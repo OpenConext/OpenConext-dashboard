@@ -83,8 +83,8 @@ class SSIDPanel extends React.Component {
         return (
             <div className="l-middle-app-detail">
                 <div className="mod-title">
-                    <h1>{I18n.t("ssid_panel.title")}</h1>
-                    <p>{I18n.t("ssid_panel.subtitle")}</p>
+                    <h1 dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.title")}}/>
+                    <p dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle")}}/>
                     <p className="info"
                        dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle2")}}/>
                     {isDashboardAdmin && <p className="info"
