@@ -175,9 +175,8 @@ class PolicyDetail extends React.Component {
     renderServiceProvider(policy) {
         const scopedSPs = isEmpty(policy.identityProviderIds);
         const classNameStatus = isEmpty(policy.serviceProviderId) ? "failure" : "success";
-        const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(sp => {
-            return {value: sp.spEntityId, display: sp.spName};
-        });
+        const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders)
+            .map(sp => ({value: sp.spEntityId, display: sp.spName}));
 
         return (
             <div className="form-element">
