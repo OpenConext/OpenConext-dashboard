@@ -164,7 +164,7 @@ class OverviewPanel extends React.Component {
                     </h3>
                 </div>);
         }
-        return null;
+        throw "ValueError";
     };
 
 
