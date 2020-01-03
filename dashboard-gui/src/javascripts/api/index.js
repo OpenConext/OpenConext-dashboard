@@ -208,6 +208,14 @@ export function searchJira(filter) {
     }).then(parseJson);
 }
 
+export function REMOVETHIS() {  // XXX REMOVE THIS
+    return putJson("/test", {param: "myParam"}, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+}
+
 export function makeConnection(app, comments, loaLevel) {
     return fetchPost("/services/connect", {comments: comments, loaLevel: loaLevel, spEntityId: app.spEntityId, type: app.entityType})
         .then(parseJson)
