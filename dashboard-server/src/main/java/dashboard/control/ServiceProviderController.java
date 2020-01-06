@@ -4,6 +4,9 @@ import dashboard.domain.Action;
 import dashboard.domain.InviteRequest;
 import dashboard.domain.Service;
 import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
+import dashboard.sab.Sab;
+import dashboard.sab.SabPerson;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import org.slf4j.Logger;
@@ -13,10 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RequestMapping(value = "/serviceProvider/api/")
@@ -33,37 +34,50 @@ public class ServiceProviderController extends BaseController {
     @Autowired
     private MailBox mailbox;
 
+    @Autowired
+    private Sab sabClient;
+
     // authenticate using shib headers before calling this function
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
     public void connectionRequest(
-            @RequestParam(name="IdPentityID") String idpEntityId,
-            @RequestParam(name="SPentityID") String entityId,
-            @RequestParam(name="contactName") String contactName,
-            @RequestParam(name="contactEmail") String contactEmail,
-            @RequestParam(name="ownEmail") String ownEmail,
-            @RequestParam(name="connectionRequest") InviteRequest inviteRequest,
-            Locale locale) throws IOException, MessagingException {
-        LOG.debug("Incoming connection request, params(IdPentityID: " + idpEntityId + " SPentityID: " + entityId + " contactName " + contactName + " contactEmail " + contactEmail + " ownEmail " + ownEmail + ")");
-        // create JIRA ticket and send email
-        List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
-        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(entityId)).findFirst();
+            @RequestBody InviteRequest inviteRequest,
+            @RequestParam Locale locale,
+            @RequestParam String contactName,
+            @RequestParam String contactEmail,
+            @RequestParam String ownEmail
+    ) throws IOException, MessagingException {
+        LOG.debug("Incoming connection request, params(" +
+                "IdPentityID: " + inviteRequest.getIdpEntityId() +
+                " SPentityID: " + inviteRequest.getSpEntityId() +
+                " contactName " + contactName +
+                " contactEmail " + contactEmail +
+                " ownEmail " + ownEmail + ")");
 
-        if (optional.isPresent()) {
-            Service service = optional.get();
+        String idpEntityId = inviteRequest.getIdpEntityId();
+        String spEntityId = inviteRequest.getSpEntityId();
 
-            Action action = Action.builder()
-                    .userEmail(ownEmail)
-                    .userName(contactName)
-                    .body("") // TODO XXX
-                    .idpId(idpEntityId)
-                    .spId(entityId)
-                    .typeMetaData("")
-                    .service(service)
-                    .type(Action.Type.LINKREQUEST).build();
-            actionsService.create(action, Collections.emptyList());
+        Optional<Service> service = services.getServiceByEntityId(idpEntityId, spEntityId, EntityType.saml20_sp, locale);
 
-            mailbox.sendInviteMail(inviteRequest, action);
+        if (service.isPresent()) { // check if service is already connected. If it is, ignore the request?
+            return;
         }
+
+        String emailTo = sabClient.getPersonsInRoleForOrganization(idpEntityId, "SURFconextverantwoordelijke")
+                .stream()
+                .map(SabPerson::getEmail)
+                .collect(Collectors.joining(", "));
+
+        // create JIRA ticket and send emails
+        Action action = Action.builder()
+                .userEmail(contactEmail)
+                .userName(contactName)
+                .emailTo(emailTo)
+                .typeMetaData(inviteRequest.getTypeMetaData())
+                .idpId(inviteRequest.getIdpEntityId())
+                .spId(inviteRequest.getSpEntityId())
+                .type(Action.Type.LINKINVITE).build();
+        actionsService.create(action, Collections.emptyList());
+        mailbox.sendInviteMail(inviteRequest, action);
 
     }
 }
