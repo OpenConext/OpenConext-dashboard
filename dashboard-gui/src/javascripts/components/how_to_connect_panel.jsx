@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 
 import {AppShape} from "../shapes";
-import {makeConnection, removeConnection, updateInviteRequest, REMOVETHIS} from "../api";
+import {makeConnection, removeConnection, updateInviteRequest} from "../api";
 import stopEvent from "../utils/stop";
 import {privacyProperties} from "../utils/privacy";
 import CheckBox from "./checkbox";
@@ -443,19 +443,17 @@ class HowToConnectPanel extends React.Component {
         stopEvent(e);
         if (allowed) {
 
-            REMOVETHIS().catch(error => console.log(error));
-
-            // const promise = isInvite ? updateInviteRequest({  // XXX UNCOMMENT
-            //         status: "ACCEPTED",
-            //         comment: this.state.comments,
-            //         jiraKey: this.props.jiraKey
-            //     }) :
-            //     makeConnection(this.props.app, this.state.comments, this.state.loaLevel);
-            // promise
-            //     .then(action => {
-            //         this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0));
-            //     })
-            //     .catch(() => this.setState({failed: true}));
+            const promise = isInvite ? updateInviteRequest({
+                    status: "ACCEPTED",
+                    comment: this.state.comments,
+                    jiraKey: this.props.jiraKey
+                }) :
+                makeConnection(this.props.app, this.state.comments, this.state.loaLevel);
+            promise
+                .then(action => {
+                    this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0));
+                })
+                .catch(() => this.setState({failed: true}));
 
         }
     };
