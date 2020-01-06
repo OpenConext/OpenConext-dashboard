@@ -442,7 +442,6 @@ class HowToConnectPanel extends React.Component {
             this.context.currentUser.dashboardAdmin;
         stopEvent(e);
         if (allowed) {
-
             const promise = isInvite ? updateInviteRequest({
                     status: "ACCEPTED",
                     comment: this.state.comments,

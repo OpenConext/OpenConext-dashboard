@@ -47,8 +47,8 @@ public class ServiceProviderController extends BaseController {
             @RequestParam String ownEmail
     ) throws IOException, MessagingException {
         LOG.debug("Incoming connection request, params(" +
-                "IdPentityID: " + inviteRequest.getIdpEntityId() +
-                " SPentityID: " + inviteRequest.getSpEntityId() +
+                "IdpEntityId: " + inviteRequest.getIdpEntityId() +
+                " SpEntityId: " + inviteRequest.getSpEntityId() +
                 " contactName " + contactName +
                 " contactEmail " + contactEmail +
                 " ownEmail " + ownEmail + ")");
@@ -66,6 +66,8 @@ public class ServiceProviderController extends BaseController {
                 .stream()
                 .map(SabPerson::getEmail)
                 .collect(Collectors.joining(", "));
+
+        LOG.debug("Send email to sabPeople: " + emailTo);
 
         // create JIRA ticket and send emails
         Action action = Action.builder()
