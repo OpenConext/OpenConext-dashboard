@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,15 +39,44 @@ public class ServiceProviderController extends BaseController {
     @Autowired
     private Sab sabClient;
 
-    // authenticate using shib headers before calling this function
+    // TODO: rewrite this
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
     public void connectionRequest(
-            @RequestBody InviteRequest inviteRequest,
-            @RequestParam Locale locale,
+            @RequestParam InviteRequest inviteRequest,
             @RequestParam String contactName,
             @RequestParam String contactEmail,
-            @RequestParam String ownEmail
+            @RequestParam String ownEmail,
+            HttpServletRequest request
     ) throws IOException, MessagingException {
+        LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
+
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Basic ")) {
+            return;
+        }
+
+        byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
+        byte[] decoded;
+        try {
+            decoded = Base64.getDecoder().decode(base64Token);
+        } catch (IllegalArgumentException e) {
+            return;
+        }
+
+
+        String token = new String(decoded, Charset.defaultCharset());
+        try {
+            String user = token.split(":")[0];
+            String password = token.split(":")[1];
+            if (user.equals("") || password.equals("")) {
+                return;
+            }
+        } catch (Exception e) {
+            LOG.debug(String.valueOf(e));
+        }
+
+        // authentication done
+
         LOG.debug("Incoming connection request, params(" +
                 "IdpEntityId: " + inviteRequest.getIdpEntityId() +
                 " SpEntityId: " + inviteRequest.getSpEntityId() +
@@ -56,6 +87,7 @@ public class ServiceProviderController extends BaseController {
         String idpEntityId = inviteRequest.getIdpEntityId();
         String spEntityId = inviteRequest.getSpEntityId();
 
+        Locale locale = this.getLocale(request);
         Optional<Service> service = services.getServiceByEntityId(idpEntityId, spEntityId, EntityType.saml20_sp, locale);
 
         if (service.isPresent()) { // check if service is already connected. If it is, ignore the request?
