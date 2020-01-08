@@ -553,7 +553,6 @@ I18n.translations.en = {
         contact: "Contact persons for {{name}}",
         contact_name: {
             title: "Contact name",
-            tooltip: ""
         },
         contact_email: {
             title: "Contact email",
@@ -561,11 +560,9 @@ I18n.translations.en = {
         },
         contact_type: {
             title: "Contact type",
-            tooltip: ""
         },
         contact_telephone: {
             title: "Contact telephone",
-            tooltip: ""
         },
         contact_types: {
             technical: {

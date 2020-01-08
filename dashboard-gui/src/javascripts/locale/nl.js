@@ -609,7 +609,6 @@ I18n.translations.nl = {
         contact: "Contactpersonen voor {{name}}",
         contact_name: {
             title: "Contact naam",
-            tooltip: ""
         },
         contact_email: {
             title: "Contact email",
@@ -617,11 +616,9 @@ I18n.translations.nl = {
         },
         contact_telephone: {
             title: "Contact telefoon",
-            tooltip: ""
         },
         contact_type: {
             title: "Contact type",
-            tooltip: ""
         },
         contact_types: {
             technical: {

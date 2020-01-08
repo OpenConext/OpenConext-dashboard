@@ -546,7 +546,6 @@ I18n.translations.pt = {
         contact: "Contacto para {{name}}",
         contact_name: {
             title: "Nome do contacto",
-            tooltip: ""  // TODO: translate
         },
         contact_email: {
             title: "Email do contacto",
@@ -554,11 +553,9 @@ I18n.translations.pt = {
         },
         contact_type: {
             title: "Tipo de contacto",
-            tooltip: ""  // TODO: translate
         },
         contact_telephone: {
             title: "Telefone do contacto",
-            tooltip: ""  // TODO: translate
         },
         contact_types: {
             technical: {
