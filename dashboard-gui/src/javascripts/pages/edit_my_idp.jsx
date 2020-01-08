@@ -361,7 +361,14 @@ class EditMyIdp extends React.Component {
                         <thead>
                         <tr>
                             <th className="percent_25">{I18n.t("my_idp.contact_name.title")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_email.title")}</th>
+                            <th
+                                className="percent_25">{I18n.t("my_idp.contact_email.title")}
+                                <i className="fa fa-info-circle" data-for="contact-person-email-tooltip" data-tip/>
+                                <ReactTooltip id="contact-person-email-tooltip" type="info" class="tool-tip" effect="solid"
+                                              multiline={true}>
+                                    <span dangerouslySetInnerHTML={{__html: I18n.t("my_idp.contact_email.tooltip")}}/>
+                                </ReactTooltip>
+                            </th>
                             <th className="percent_25">{I18n.t("my_idp.contact_telephone.title")}</th>
                             <th className="percent_25">{I18n.t("my_idp.contact_type.title")}</th>
                         </tr>
