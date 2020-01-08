@@ -607,15 +607,39 @@ I18n.translations.nl = {
         displayStatsInDashboard: "Leden kunnen statistieken zien",
         displayStatsInDashboardTooltip:"Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan uw instelling kunnen worden bekeken door reguliere gebruikers<br>van uw instelling.",
         contact: "Contactpersonen voor {{name}}",
-        contact_name: "Contact naam",
-        contact_email: "Contact email",
-        contact_telephone: "Contact telefoon",
-        contact_type: "Contact type",
+        contact_name: {
+            title: "Contact naam",
+            tooltip: ""
+        },
+        contact_email: {
+            title: "Contact email",
+            tooltip: "Let op: gebruik liefst een rol-adres (admin@.. tech@... helpdesk@... ) die niet verandert bij een personeelswisseling."
+        },
+        contact_telephone: {
+            title: "Contact telefoon",
+            tooltip: ""
+        },
+        contact_type: {
+            title: "Contact type",
+            tooltip: ""
+        },
         contact_types: {
-            technical: "Technisch",
-            support: "Ondersteuning",
-            help: "Ondersteuning",
-            administrative: "Administratief"
+            technical: {
+                title: "Technisch",
+                tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP."
+            },
+            support: {
+                title: "Ondersteuning",
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling."
+            },
+            help: {
+                title: "Ondersteuning",
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling."
+            },
+            administrative: {
+                title: "Administratief",
+                tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'."
+            }
         },
         description: {
             en: "Beschrijving (en)",

@@ -360,10 +360,10 @@ class EditMyIdp extends React.Component {
                     <table>
                         <thead>
                         <tr>
-                            <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_name.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_email.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_telephone.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_type.title")}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -424,7 +424,7 @@ class EditMyIdp extends React.Component {
                         {
                             contactPersonTypes.map(
                                 type => <option key={type}
-                                                value={type}>{I18n.t("my_idp.contact_types." + type)}</option>
+                                                value={type}>{I18n.t("my_idp.contact_types." + type + ".title")}</option>
                             )
                         }
                     </select>
