@@ -174,6 +174,15 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
+    public Action automaticallyConnect(Action action) {
+        Action savedAction = addNames(action);
+
+        // TODO
+
+        return savedAction;
+    }
+
+    @Override
     public void rejectInviteRequest(String jiraKey, String comment) {
         //By request of SURFnet we don't close the ticket as the feedback might be lost
         approveInviteRequest(jiraKey, comment);

@@ -32,6 +32,7 @@ public class Action {
     private String userName;
     private String userEmail;
     private String emailTo;
+    private boolean doSendEmail;
     private String body;
 
     private String idpId;
@@ -60,6 +61,7 @@ public class Action {
         this.userName = builder.userName;
         this.userEmail = builder.userEmail;
         this.emailTo = builder.emailTo;
+        this.doSendEmail = builder.doSendEmail;
         this.body = builder.body;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
@@ -136,6 +138,10 @@ public class Action {
 
     public String getEmailTo() {
         return emailTo;
+    }
+
+    public boolean doSendEmail() {
+        return doSendEmail;
     }
 
     public String getSubject() {
@@ -300,6 +306,7 @@ public class Action {
         private String userName;
         private String userEmail;
         private String emailTo;
+        private boolean doSendEmail;
         private Type type;
         private String status;
         private String resolution;
@@ -326,6 +333,7 @@ public class Action {
             this.userName = action.userName;
             this.userEmail = action.userEmail;
             this.emailTo = action.emailTo;
+            this.doSendEmail = action.doSendEmail;
             this.type = action.type;
             this.status = action.status;
             this.resolution = action.resolution;
@@ -362,6 +370,11 @@ public class Action {
 
         public Builder emailTo(String emailTo) {
             this.emailTo = emailTo;
+            return this;
+        }
+
+        public Builder doSendEmail(boolean doSendEmail) {
+            this.doSendEmail = doSendEmail;
             return this;
         }
 

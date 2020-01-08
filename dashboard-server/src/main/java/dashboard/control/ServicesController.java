@@ -247,10 +247,11 @@ public class ServicesController extends BaseController {
                     .spId(entityId)
                     .typeMetaData(typeMetaData)
                     .service(service)
+                    .doSendEmail(service.doSendEmailOnAutomaticConnection())
                     .type(jiraType).build();
 
             if (service.allowsAutomaticConnection()) {
-                // TODO: implement automatic creation
+                return Optional.of(actionsService.automaticallyConnect(action));
             } else {
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }

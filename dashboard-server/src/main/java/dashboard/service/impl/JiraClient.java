@@ -32,6 +32,8 @@ public interface JiraClient {
 
     String create(Action action, List<Change> changes) throws IllegalStateException;
 
+    String automaticallyConnect(Action action) throws IllegalStateException;
+
     JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
 
     Map<String, String> validTransitions(String key);
