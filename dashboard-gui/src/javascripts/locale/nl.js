@@ -157,6 +157,7 @@ I18n.translations.nl = {
             connect: "",
             connect_button: "Activeren",
             connected: "Dienst gekoppeld",
+            allowsAutomaticConnection: "Automatisch koppelen",
             license: "Licentie afgesloten",
             licenseStatus: "Licentie vereist",
             aansluitovereenkomstRefused: "Aansluitovereenkomst",

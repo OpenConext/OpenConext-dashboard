@@ -177,6 +177,7 @@ class AppOverview extends React.Component {
                 </td>
                 {this.renderLicenseNeeded(app)}
                 {/*<YesNo value={!app.aansluitovereenkomstRefused}/>*/}
+                {!currentUser.guest && <YesNo value={app.allowsAutomaticConnection}/>}
                 {!currentUser.guest && <YesNo value={app.connected}/>}
                 <td className="right">
                     {connect && this.renderConnectButton(app)}
@@ -719,6 +720,7 @@ class AppOverview extends React.Component {
                                 {this.renderSortableHeader(currentUser.guest ? "percent_60" : "percent_50", "name")}
                                 {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_30", "licenseStatus")}
                                 {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
+                                {!currentUser.guest && this.renderSortableHeader("percent_30 bool", "allowsAutomaticConnection")}
                                 {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                                 {connect}
                             </tr>
