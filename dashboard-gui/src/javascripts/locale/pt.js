@@ -563,19 +563,23 @@ I18n.translations.pt = {
         contact_types: {
             technical: {
                 title: "Técnico",
-                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs."  // TODO: translate
+                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",  // TODO: translate
+                alttooltip: "suggestion: technical person for down times and changes." // TODO: translate
             },
             support: {
                 title: "Suporte",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP."  // TODO: translate
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
+                alttooltip: "suggestion: service desk of the institution." // TODO: translate
             },
             help: {
                 title: "Suporte",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP."  // TODO: translate
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
+                alttooltip: "suggestion: service desk of the institution." // TODO: translate
             },
             administrative: {
                 title: "Administrativo",
-                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'"  // TODO: translate
+                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",  // TODO: translate
+                alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'" // TODO: translate
             }
         },
         description: {

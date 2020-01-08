@@ -570,19 +570,23 @@ I18n.translations.en = {
         contact_types: {
             technical: {
                 title: "Technical",
-                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs."
+                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",
+                alttooltip: "suggestion: technical person for down times and changes."
             },
             support: {
                 title: "Support",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP."
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                alttooltip: "suggestion: service desk of the institution."
             },
             help: {
                 title: "Support",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP."
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                alttooltip: "suggestion: service desk of the institution."
             },
             administrative: {
                 title: "Administrative",
-                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'"
+                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",
+                alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'"
             }
         },
         description: {

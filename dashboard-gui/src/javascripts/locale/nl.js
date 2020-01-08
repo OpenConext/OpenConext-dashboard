@@ -626,19 +626,23 @@ I18n.translations.nl = {
         contact_types: {
             technical: {
                 title: "Technisch",
-                tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP."
+                tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.",
+                alttooltip: "suggestie: technisch persoon voor storingen en changes."
             },
             support: {
                 title: "Ondersteuning",
-                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling."
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.",
+                alttooltip: "suggestie: servicedesk van de instelling."
             },
             help: {
                 title: "Ondersteuning",
-                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling."
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.",
+                alttooltip: "suggestie: servicedesk van de instelling."
             },
             administrative: {
                 title: "Administratief",
-                tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'."
+                tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'.",
+                alttooltip: "suggestie: persoon met rol 'SURFconext-verantwoordelijke'"
             }
         },
         description: {
