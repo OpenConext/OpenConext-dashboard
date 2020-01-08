@@ -72,6 +72,8 @@ public class Service implements Comparable<Service>, Serializable {
     private Map<String, String> displayNames = new HashMap<>();
 
     private boolean connected;
+    private boolean allowsAutomaticConnection = false;
+    private boolean doSendEmailOnAutomaticConnection = false;
     private boolean idpVisibleOnly;
     private boolean publishedInEdugain;
     private Boolean normenkaderPresent;
@@ -143,6 +145,21 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public boolean allowsAutomaticConnection() {
+        return allowsAutomaticConnection;
+    }
+
+    public void setAllowsAutomaticConnection(boolean allowsAutomaticConnection) {
+        this.allowsAutomaticConnection = allowsAutomaticConnection;
+    }
+    public boolean doSendEmailOnAutomaticConnection() {
+        return doSendEmailOnAutomaticConnection;
+    }
+
+    public void setDoSendEmailOnAutomaticConnection(boolean doSendEmailOnAutomaticConnection) {
+        this.doSendEmailOnAutomaticConnection = doSendEmailOnAutomaticConnection;
     }
 
     public long getId() {

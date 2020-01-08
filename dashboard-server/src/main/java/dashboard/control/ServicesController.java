@@ -249,7 +249,11 @@ public class ServicesController extends BaseController {
                     .service(service)
                     .type(jiraType).build();
 
-            return Optional.of(actionsService.create(action, Collections.emptyList()));
+            if (service.allowsAutomaticConnection()) {
+                // TODO: implement automatic creation
+            } else {
+                return Optional.of(actionsService.create(action, Collections.emptyList()));
+            }
         }
 
         return Optional.empty();
