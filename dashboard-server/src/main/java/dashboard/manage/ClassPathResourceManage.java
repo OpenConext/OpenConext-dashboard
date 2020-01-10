@@ -154,4 +154,8 @@ public class ClassPathResourceManage implements Manage {
         return new ClassPathResource("manage/single-tenants.json");
     }
 
+    @Override
+    public String connectWithoutInteraction(String idpId, String spId, String type) {
+        return "failure";  // TODO: what to do here?
+    }
 }

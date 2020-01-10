@@ -250,8 +250,8 @@ public class ServicesController extends BaseController {
                     .doSendEmail(service.doSendEmailOnAutomaticConnection())
                     .type(jiraType).build();
 
-            if (service.allowsAutomaticConnection()) {
-                return Optional.of(actionsService.automaticallyConnect(action));
+            if (service.allowsConnectionWithoutInteraction()) {
+                return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }

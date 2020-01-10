@@ -30,7 +30,7 @@ public interface ActionsService {
 
     Action create(Action action, List<Change> changes);
 
-    Action automaticallyConnect(Action action);
+    Action connectWithoutInteraction(Action action);
 
     void rejectInviteRequest(String jiraKey, String comment);
 

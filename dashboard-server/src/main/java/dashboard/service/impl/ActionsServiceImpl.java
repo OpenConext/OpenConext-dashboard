@@ -27,10 +27,7 @@ import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -174,10 +171,14 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
-    public Action automaticallyConnect(Action action) {
+    public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
-        // TODO
+        if (savedAction.doSendEmail()) {
+            sendAdministrationEmail(savedAction);
+        }
+
+        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
         return savedAction;
     }

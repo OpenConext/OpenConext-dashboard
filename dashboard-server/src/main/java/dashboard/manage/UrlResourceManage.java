@@ -18,11 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -261,4 +257,21 @@ public class UrlResourceManage implements Manage {
         return new BufferedInputStream(new ByteArrayInputStream(responseEntity.getBody()));
     }
 
+    @Override
+    public String connectWithoutInteraction(String idpId, String spId, String type) {
+        String url;
+        try {
+            url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction/";
+            Map<String, String> body = new HashMap<>();
+            body.put("idpId", idpId);
+            body.put("spId", spId);
+            body.put("type", type);
+            ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.POST,
+                    new HttpEntity<>(body, this.httpHeaders), byte[].class);
+            return "success";
+        } catch (Exception e) {
+            LOG.debug(String.valueOf(e));  // TODO: error handling
+        }
+        return "failure";
+    }
 }
