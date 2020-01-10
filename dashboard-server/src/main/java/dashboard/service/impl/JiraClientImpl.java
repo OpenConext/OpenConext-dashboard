@@ -131,48 +131,6 @@ public class JiraClientImpl implements JiraClient {
     }
 
     @Override
-    public String automaticallyConnect(final Action action) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("priority", ImmutableMap.of("id", "3"));
-        fields.put("project", ImmutableMap.of("key", projectKey));
-        fields.put("customfield_" + spCustomField(), action.getSpId());
-        String typeMetaData = action.getTypeMetaData();
-        if (StringUtils.hasText(typeMetaData)) {
-            fields.put("customfield_" + typeMetaDataCustomField(), ImmutableMap.of("value", action.getTypeMetaData()));
-        }
-        fields.put("customfield_" + idpCustomField(), action.getIdpId());
-        if (action.getType().equals(Type.LINKINVITE)) {
-            fields.put("customfield_" + emailToCustomField(), action.getEmailTo());
-        }
-        fields.put("issuetype", ImmutableMap.of("id", actionToIssueIdentifier(action.getType())));
-
-        SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, Collections.emptyList());
-        fields.put("summary", summaryAndDescription.summary);
-        fields.put("description", summaryAndDescription.description);
-
-        Map<String, Object> issue = new HashMap<>();
-        issue.put("fields", fields);
-
-        try {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Sending JSON {} to JIRA", objectMapper.writeValueAsString(issue));
-            }
-        } catch (JsonProcessingException e) {
-            //ignore
-        }
-
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(issue, defaultHeaders);
-        try {
-            Map<String, String> result = restTemplate.postForObject(baseUrl + "/automaticConnectionRequest", entity, Map.class);
-            return result.get("key");
-        } catch (HttpClientErrorException e) {
-            LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e
-                    .getResponseBodyAsString());
-            throw Throwables.propagate(e);
-        }
-    }
-
-    @Override
     public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
         String query = buildQueryForIdp(idp, jiraFilter);
         Map<String, Object> result = new HashMap<>();
