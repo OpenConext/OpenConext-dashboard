@@ -10,8 +10,10 @@ public class ServiceProviderSettings {
     private boolean publishedInEdugain;
     private String displayNameEn;
     private String displayNameNl;
+    private String displayNamePt;
     private String descriptionEn;
     private String descriptionNl;
+    private String descriptionPt;
     private List<ContactPerson> contactPersons;
     private StateType stateType;
 
@@ -66,6 +68,14 @@ public class ServiceProviderSettings {
         this.displayNameNl = displayNameNl;
     }
 
+    public String getDisplayNamePt() {
+        return displayNamePt;
+    }
+
+    public void setDisplayNamePt(String displayNamePt) {
+        this.displayNamePt = displayNamePt;
+    }
+
     public String getDescriptionEn() {
         return descriptionEn;
     }
@@ -80,6 +90,14 @@ public class ServiceProviderSettings {
 
     public void setDescriptionNl(String descriptionNl) {
         this.descriptionNl = descriptionNl;
+    }
+
+    public String getDescriptionPt() {
+        return descriptionPt;
+    }
+
+    public void setDescriptionPt(String descriptionPt) {
+        this.descriptionPt = descriptionPt;
     }
 
     public List<ContactPerson> getContactPersons() {
@@ -107,8 +125,10 @@ public class ServiceProviderSettings {
                 ", publishedInEdugain=" + publishedInEdugain +
                 ", displayNameEn='" + displayNameEn + '\'' +
                 ", displayNameNl='" + displayNameNl + '\'' +
+                ", displayNamePt='" + displayNamePt + '\'' +
                 ", descriptionEn='" + descriptionEn + '\'' +
                 ", descriptionNl='" + descriptionNl + '\'' +
+                ", descriptionPt='" + descriptionPt + '\'' +
                 ", contactPersons=" + contactPersons +
                 ", stateType=" + stateType +
                 '}';
