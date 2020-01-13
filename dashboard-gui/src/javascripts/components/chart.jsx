@@ -9,6 +9,7 @@ import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
+import "moment/locale/pt";
 
 Exporter(HighChart);
 Exporter(HighStock);
