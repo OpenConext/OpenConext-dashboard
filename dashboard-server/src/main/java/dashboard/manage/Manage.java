@@ -156,7 +156,8 @@ public interface Manage {
                             new Consent(m.get("name"),
                                     m.containsKey("type") ? ConsentType.valueOf(m.get("type").toUpperCase()) : ConsentType.DEFAULT_CONSENT,
                                     m.get("explanation:nl"),
-                                    m.get("explanation:en"))).collect(Collectors.toList()));
+                                    m.get("explanation:en"),
+                                    m.get("explanation:pt"))).collect(Collectors.toList()));
                     break;
 
                 }
