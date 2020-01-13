@@ -2,9 +2,7 @@ package dashboard.control;
 
 import dashboard.domain.Action;
 import dashboard.domain.InviteRequest;
-import dashboard.domain.Service;
 import dashboard.mail.MailBox;
-import dashboard.manage.EntityType;
 import dashboard.sab.Sab;
 import dashboard.sab.SabPerson;
 import dashboard.service.ActionsService;
@@ -23,10 +21,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-@RequestMapping(value = "/serviceProvider/api/")
+@RequestMapping(value = "/spDashboard/api/")
 @RestController
-public class ServiceProviderController extends BaseController {
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceProviderController.class);
+public class SpDashboardController extends BaseController {
+    private static final Logger LOG = LoggerFactory.getLogger(SpDashboardController.class);
 
     @Autowired
     private Services services;
