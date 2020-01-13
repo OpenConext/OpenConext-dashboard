@@ -155,7 +155,7 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public String connectWithoutInteraction(String idpId, String spId, String type) {
+    public String connectWithoutInteraction(String username, String idpId, String spId, String type) {
         return "failure";  // TODO: what to do here?
     }
 }
