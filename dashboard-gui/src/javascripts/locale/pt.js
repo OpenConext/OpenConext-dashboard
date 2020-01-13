@@ -75,11 +75,11 @@ I18n.translations.pt = {
                 no_connection: "Não",
             },
             license: {
-                has_license_sp: "Sim, com o fornecedor de serviço",
-                has_license_surfmarket: "Sim, com SURFmarket",
+                has_license_sp: "Sim, fornecida pelo SP",
+                has_license_surfmarket: "Sim, fornecida pela SURFmarket",
                 name: "Licença",
                 not_needed: "Não é necessário",
-                unknown: "Desconhecido",
+                unknown: "Não definida",
             },
             used_by_idp: {
                 all: "Todos",
@@ -171,6 +171,7 @@ I18n.translations.pt = {
             processing_results: "A disponibilizar todos os serviços...",
             search: "Pesquisar",
             search_hint: "Filtrar por nome",
+            add_services_hint: "Não foi encontrado o serviço que procura? Recorra ao endereço <a href=\"http://support.surfconext.nl/getconexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO using SURFconext</a> e indique-nos qual o serviço que pretende utilizar. Com isto, o acesso ao serviço será realizado com a sua conta institucional, sendo mais seguro e eficiente para todas as partes envolvidas. Desta forma torna o serviço ainda mais atraente para outras instituições, dentro e fora dos Países Baixos. É aconselhado que seja feita uma reflecção sobre o tema e que seja enviado um email para support@surfconext.nl a solicitar um contato para que seja discutida a ligação do serviço.",
         },
     },
 
@@ -509,23 +510,26 @@ I18n.translations.pt = {
             nl: "URL da Organização (nl)",
             pt: "URL da Organização (pt)"
         },
+        organizationURL_nl_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Dutch.",
+        organizationURL_en_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Inglês.",
+        organizationURL_pt_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Português.",
         organizationName: {
             en: "Nome da Organização (en)",
             nl: "Nome da Organização (nl)",
             pt: "Nome da Organização (pt)"
         },
-        organizationName_nl_tooltip: "O nome oficial em Dutch da organização.",
-        organizationName_en_tooltip: "O nome oficial em Inglês da organização.",
-        organizationName_pt_tooltip: "O nome oficial da organização em Português.",
+        organizationName_nl_tooltip: "Nome oficial da organização em Dutch.",
+        organizationName_en_tooltip: "Nome oficial da organização em Inglês.",
+        organizationName_pt_tooltip: "Nome oficial da organização em Português.",
         organizationDisplayName: {
             en: "Nome de Apresentação da Organização(en)",
             nl: "Nome de Apresentação da Organização(nl)",
             pt: "Nome de Apresentação da Organização(pt)"
 
         },
-        organizationURL_nl_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Holandês.",
-        organizationURL_en_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Inglês.",
-        organizationURL_pt_tooltip: "URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Português.",
+        organizationDisplayName_nl_tooltip: "Nome de visualização oficial da organização em Dutch.",
+        organizationDisplayName_en_tooltip: "Nome de visualização oficial da organização em Inglês.",
+        organizationDisplayName_pt_tooltip: "Nome de visualização oficial da organização em Português.",
         keywords: {
             en: "Keywords (en)",
             nl: "Keywords (nl)",
@@ -619,6 +623,7 @@ I18n.translations.pt = {
         deny_message: "Não Permitir - Mensagem em Inglês",
         deny_message_info: "Esta é a mensagem disponibilizada ao utilizador se o acesso não for autorizado com base nesta política.",
         deny_message_nl: "Não Permitir - Mensagem em Dutch",
+        deny_message_pt: "Não Permitir - Mensagem em Português",
         description: "Descrição",
         idps_placeholder: "Selecione os Fornecedores de Identidade - zero ou mais",
         institutions: "Instituições",
@@ -651,6 +656,7 @@ I18n.translations.pt = {
         changes_info_html: "Alterações realizadas entre <span class=\"prev\"> revisão número {{prevRevisionNbr}}</span> e <span class=\"curr\">revisão número {{currRevisionNbr}}</span> realizada por {{userDisplayName}} de {{authenticatingAuthorityName}} em {{createdDate}}.",
         denyAdvice: "Não Permitir - Mensagem em Inglês",
         denyAdviceNl: "Não Permitir - Mensagem em Dutch",
+        denyAdvicePt: "Não Permitir - Mensagem em Português",
         denyRule: "Regra para Permitir Acesso?",
         description: "Descrição",
         identityProviderNames: "Instituições",
