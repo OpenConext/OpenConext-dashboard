@@ -23,18 +23,24 @@ class EditMyIdp extends React.Component {
             serviceProviderSettings: [],
             keywordsEn: currentIdp.keywords.en || "",
             keywordsNl: currentIdp.keywords.nl || "",
+            keywordsPt: currentIdp.keywords.pt || "",
             logoUrl: currentIdp.logoUrl,
             stateType: currentIdp.state,
             displayNamesEn: currentIdp.displayNames.en || "",
             displayNamesNl: currentIdp.displayNames.nl || "",
+            displayNamesPt: currentIdp.displayNames.pt || "",
             descriptionsEn: currentIdp.descriptions.en || "",
             descriptionsNl: currentIdp.descriptions.nl || "",
+            descriptionsPt: currentIdp.descriptions.pt || "",
             organisationUrlEn: currentIdp.homeUrls.en || "",
             organisationUrlNl: currentIdp.homeUrls.nl || "",
+            organisationUrlPt: currentIdp.homeUrls.pt || "",
             organisationNameEn: currentIdp.organisationNames.en || "",
             organisationNameNl: currentIdp.organisationNames.nl || "",
+            organisationNamePt: currentIdp.organisationNames.pt || "",
             organisationDisplayNameEn: currentIdp.organisationDisplayNames.en || "",
             organisationDisplayNameNl: currentIdp.organisationDisplayNames.nl || "",
+            organisationDisplayNamePt: currentIdp.organisationDisplayNames.pt || "",
             publishedInEdugain: !!currentIdp.publishedInEdugain,
             connectToRSServicesAutomatically: !!currentIdp.connectToRSServicesAutomatically,
             allowMaintainersToManageAuthzRules: !!currentIdp.allowMaintainersToManageAuthzRules,
@@ -167,6 +173,12 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.keywords.pt")}</td>
+                        <td>
+                            {this.renderInput("keywordsPt")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td className="percent_40">{I18n.t("my_idp.description.en")}</td>
                         <td>
                             {this.renderInput("descriptionsEn")}
@@ -179,6 +191,12 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.description.pt")}</td>
+                        <td>
+                            {this.renderInput("descriptionsPt")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td className="percent_40">{I18n.t("my_idp.displayName.en")}</td>
                         <td>
                             {this.renderInput("displayNamesEn")}
@@ -188,6 +206,12 @@ class EditMyIdp extends React.Component {
                         <td>{I18n.t("my_idp.displayName.nl")}</td>
                         <td>
                             {this.renderInput("displayNamesNl")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.pt")}</td>
+                        <td>
+                            {this.renderInput("displayNamesPt")}
                         </td>
                     </tr>
                     <tr>
@@ -219,6 +243,20 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.organizationURL.pt")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationURLpt" data-tip></i>
+                                <ReactTooltip id="organizationURLpt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationUrlPt")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.organizationName.en")}<span>
                             <i className="fa fa-info-circle" data-for="organizationNameEn" data-tip></i>
                                 <ReactTooltip id="organizationNameEn" type="info" class="tool-tip"
@@ -247,6 +285,20 @@ class EditMyIdp extends React.Component {
                         </td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.organizationName.pt")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationNamePt" data-tip></i>
+                                <ReactTooltip id="organizationNamePt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationNamePt")}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.organizationDisplayName.en")}<span>
                             <i className="fa fa-info-circle" data-for="organizationDisplayNameEn" data-tip></i>
                                 <ReactTooltip id="organizationDisplayNameEn" type="info" class="tool-tip"
@@ -272,6 +324,20 @@ class EditMyIdp extends React.Component {
                         </span></td>
                         <td>
                             {this.renderInput("organisationDisplayNameNl")}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.pt")}<span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNamePt" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNamePt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span></td>
+                        <td>
+                            {this.renderInput("organisationDisplayNamePt")}
                         </td>
                     </tr>
                     <tr>
@@ -472,6 +538,10 @@ class EditMyIdp extends React.Component {
                         <td>{service.names.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.name.pt")}</td>
+                        <td>{service.names.pt}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.description.en")}</td>
                         <td>{this.renderServiceInput(service.id, "descriptions.en")}</td>
                     </tr>
@@ -480,12 +550,20 @@ class EditMyIdp extends React.Component {
                         <td>{this.renderServiceInput(service.id, "descriptions.nl")}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.description.pt")}</td>
+                        <td>{this.renderServiceInput(service.id, "descriptions.pt")}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.displayName.en")}</td>
                         <td>{this.renderServiceInput(service.id, "displayNames.en")}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.displayName.nl")}</td>
                         <td>{this.renderServiceInput(service.id, "displayNames.nl")}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.pt")}</td>
+                        <td>{this.renderServiceInput(service.id, "displayNames.pt")}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
@@ -536,8 +614,10 @@ class EditMyIdp extends React.Component {
                 spEntityId: s.spEntityId,
                 descriptionEn: s.descriptions.en,
                 descriptionNl: s.descriptions.nl,
+                descriptionPt: s.descriptions.pt,
                 displayNameEn: s.displayNames.en,
                 displayNameNl: s.displayNames.nl,
+                displayNamePt: s.displayNames.pt,
                 publishedInEdugain: s.publishedInEdugain,
                 hasGuestEnabled: s.guestEnabled,
                 noConsentRequired: s.noConsentRequired,
