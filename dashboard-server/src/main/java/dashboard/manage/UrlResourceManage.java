@@ -266,7 +266,7 @@ public class UrlResourceManage implements Manage {
             body.put("idpId", idpId);
             body.put("spId", spId);
             body.put("type", type);
-            ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.POST,
+            ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
             return "success";
         } catch (Exception e) {
