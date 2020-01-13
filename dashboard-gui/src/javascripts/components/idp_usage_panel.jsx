@@ -45,10 +45,11 @@ class IdpUsagePanel extends React.Component {
     renderInstitution(institution) {
         const nameEn = institution.name && institution.name.trim().length > 0 ? institution.name : institution.nameNl;
         const nameNl = institution.nameNl && institution.nameNl.trim().length > 0 ? institution.nameNl : institution.name;
+        const namePt = institution.namePt && institution.namePt.trim().length > 0 ? institution.namePt : institution.name;
 
         return (
             <tr key={institution.id}>
-                <td>{I18n.locale === "en" ? nameEn : nameNl}</td>
+                <td>{I18n.locale === "en" ? nameEn : I18n.locale === "pt" ? namePt : nameNl}</td>
             </tr>
         );
     }
@@ -60,6 +61,7 @@ IdpUsagePanel.propTypes = {
     institutions: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         nameNl: PropTypes.string,
+        namePt: PropTypes.string,
         displayName: PropTypes.string,
         id: PropTypes.string.isRequired,
         state: PropTypes.string,
