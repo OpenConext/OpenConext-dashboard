@@ -12,6 +12,7 @@ import {getPolicyRevisions} from "../api";
 
 import PolicyRevisionsHelpEn from "../help/policy_revisions_help_en";
 import PolicyRevisionsHelpNl from "../help/policy_revisions_help_nl";
+import PolicyRevisionsHelpPt from "../help/policy_revisions_help_pt";
 import stopEvent from "../utils/stop";
 
 class PolicyRevisions extends React.Component {
@@ -106,7 +107,7 @@ class PolicyRevisions extends React.Component {
         let prev = passedPrev;
         const properties = [
             "name", "description", "denyRule", "serviceProviderName", "identityProviderNames",
-            "allAttributesMustMatch", "attributes", "denyAdvice", "denyAdviceNl", "active"
+            "allAttributesMustMatch", "attributes", "denyAdvice", "denyAdvicePt", "denyAdviceNl", "active"
         ];
         //means someone if looking at the first initial revision
         if (!prev) {
@@ -287,7 +288,7 @@ class PolicyRevisions extends React.Component {
     renderAboutPage() {
         return (
             <div className="mod-policy-revisions-about">
-                {I18n.locale === "en" ? <PolicyRevisionsHelpEn/> : <PolicyRevisionsHelpNl/>}
+                {I18n.locale === "en" ? <PolicyRevisionsHelpEn/> : I18n.locale === "pt" ? <PolicyRevisionsHelpPt/> : <PolicyRevisionsHelpNl/>}
             </div>
         );
     }
