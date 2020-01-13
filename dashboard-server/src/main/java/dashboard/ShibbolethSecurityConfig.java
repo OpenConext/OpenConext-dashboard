@@ -128,7 +128,8 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/img/**",
                         "/js/**",
                         "/health",
-                        "/info");
+                        "/info",
+                        "/serviceProvider/api/**");
     }
 
     @Override
