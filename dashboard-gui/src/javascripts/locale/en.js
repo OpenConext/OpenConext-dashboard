@@ -552,15 +552,40 @@ I18n.translations.en = {
         displayStatsInDashboard: "Allow regular members to see statistics",
         displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the services connected<br>to this institution.",
         contact: "Contact persons for {{name}}",
-        contact_name: "Contact name",
-        contact_email: "Contact email",
-        contact_type: "Contact type",
-        contact_telephone: "Contact telephone",
+        contact_name: {
+            title: "Contact name",
+        },
+        contact_email: {
+            title: "Contact email",
+            tooltip: "Attention: you're advised to use a functional email address (admin@.. tech@... helpdesk@... ) which doesn't change when someone leaves your institution."
+        },
+        contact_type: {
+            title: "Contact type",
+        },
+        contact_telephone: {
+            title: "Contact telephone",
+        },
         contact_types: {
-            technical: "Technical",
-            support: "Support",
-            help: "Support",
-            administrative: "Administrative"
+            technical: {
+                title: "Technical",
+                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",
+                alttooltip: "suggestion: technical person for down times and changes."
+            },
+            support: {
+                title: "Support",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                alttooltip: "suggestion: service desk of the institution."
+            },
+            help: {
+                title: "Support",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                alttooltip: "suggestion: service desk of the institution."
+            },
+            administrative: {
+                title: "Administrative",
+                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",
+                alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'"
+            }
         },
         description: {
             en: "Description (en)",

@@ -545,15 +545,40 @@ I18n.translations.pt = {
         displayStatsInDashboard: "Allow regular members to see statistics",
         displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.",
         contact: "Contacto para {{name}}",
-        contact_name: "Nome do contacto",
-        contact_email: "Email do contacto",
-        contact_type: "Tipo de contacto",
-        contact_telephone: "Telefone do contacto",
+        contact_name: {
+            title: "Nome do contacto",
+        },
+        contact_email: {
+            title: "Email do contacto",
+            tooltip: "Attention: you're advised to use a functional email address (admin@.. tech@... helpdesk@... ) which doesn't change when someone leaves your institution."  // TODO: translate
+        },
+        contact_type: {
+            title: "Tipo de contacto",
+        },
+        contact_telephone: {
+            title: "Telefone do contacto",
+        },
         contact_types: {
-            technical: "Técnico",
-            support: "Suporte",
-            help: "Suporte",
-            administrative: "Administrativo"
+            technical: {
+                title: "Técnico",
+                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",  // TODO: translate
+                alttooltip: "suggestion: technical person for down times and changes." // TODO: translate
+            },
+            support: {
+                title: "Suporte",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
+                alttooltip: "suggestion: service desk of the institution." // TODO: translate
+            },
+            help: {
+                title: "Suporte",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
+                alttooltip: "suggestion: service desk of the institution." // TODO: translate
+            },
+            administrative: {
+                title: "Administrativo",
+                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",  // TODO: translate
+                alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'" // TODO: translate
+            }
         },
         description: {
             en: "Descrição (en)",

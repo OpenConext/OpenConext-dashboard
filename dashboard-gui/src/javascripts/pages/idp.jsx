@@ -393,10 +393,10 @@ class MyIdp extends React.Component {
                     <table>
                         <thead>
                         <tr>
-                            <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_name.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_email.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_telephone.title")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_type.title")}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -416,7 +416,7 @@ class MyIdp extends React.Component {
                 <td>{contactPerson.name}</td>
                 <td>{contactPerson.emailAddress}</td>
                 <td>{contactPerson.telephoneNumber}</td>
-                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType)}</td>
+                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".title")}</td>
             </tr>
         );
     }
