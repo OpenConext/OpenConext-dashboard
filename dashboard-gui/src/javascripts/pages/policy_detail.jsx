@@ -21,6 +21,7 @@ import SelectWrapper from "../components/select_wrapper";
 import PolicyAttributes from "../components/policy_attributes";
 import PolicyDetailHelpEn from "../help/policy_detail_help_en";
 import PolicyDetailHelpNl from "../help/policy_detail_help_nl";
+import PolicyDetailHelpPt from "../help/policy_detail_help_pt";
 
 import AutoFormat from "../utils/autoformat_policy";
 import stopEvent from "../utils/stop";
@@ -106,7 +107,7 @@ class PolicyDetail extends React.Component {
     renderHelp() {
         return (
             <div className="mod-policy-detail-help">
-                {I18n.locale === "en" ? <PolicyDetailHelpEn/> : <PolicyDetailHelpNl/>}
+                {I18n.locale === "en" ? <PolicyDetailHelpEn/> : I18n.locale === "pt" ? <PolicyDetailHelpPt/> : <PolicyDetailHelpNl/>}
             </div>
         );
     }
@@ -175,8 +176,9 @@ class PolicyDetail extends React.Component {
     renderServiceProvider(policy) {
         const scopedSPs = isEmpty(policy.identityProviderIds);
         const classNameStatus = isEmpty(policy.serviceProviderId) ? "failure" : "success";
-        const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders)
-            .map(sp => ({value: sp.spEntityId, display: sp.spName}));
+        const serviceProviders = (scopedSPs ? this.state.institutionServiceProviders : this.state.connectedServiceProviders).map(sp => {
+            return {value: sp.spEntityId, display: sp.spName};
+        });
 
         return (
             <div className="form-element">
@@ -317,7 +319,7 @@ class PolicyDetail extends React.Component {
     }
 
     renderDenyAdvice(policy) {
-        const classNameStatus = isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdviceNl) ? "failure" : "success";
+        const classNameStatus = isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdvicePt) || isEmpty(policy.denyAdviceNl) ? "failure" : "success";
         return (
             <div className="form-element">
                 <fieldset className={classNameStatus}>
@@ -329,12 +331,11 @@ class PolicyDetail extends React.Component {
                     <p className="label">{I18n.t("policy_detail.deny_message_nl")}</p>
                     <input type="text" name="denyMessageNl" className="form-input"
                            value={this.state.policy.denyAdviceNl || ""}
-                           onChange={e => this.setState({
-                               policy: {
-                                   ...this.state.policy,
-                                   denyAdviceNl: e.target.value
-                               }
-                           })}/>
+                           onChange={e => this.setState({policy: {...this.state.policy, denyAdviceNl: e.target.value}})}/>
+                    <p className="label">{I18n.t("policy_detail.deny_message_pt")}</p>
+                    <input type="text" name="denyMessagePt" className="form-input"
+                           value={this.state.policy.denyAdvicePt || ""}
+                           onChange={e => this.setState({policy: {...this.state.policy, denyAdvicePt: e.target.value}})}/>
                 </fieldset>
             </div>
         );
@@ -417,7 +418,7 @@ class PolicyDetail extends React.Component {
         });
         const description = this.renderAutoformatDescription(policy);
         const inValid = isEmpty(policy.name) || isEmpty(description) || isEmpty(policy.serviceProviderId)
-            || isEmpty(policy.attributes) || emptyAttributes.length > 0 || isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdviceNl);
+            || isEmpty(policy.attributes) || emptyAttributes.length > 0 || isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdvicePt) || isEmpty(policy.denyAdviceNl);
         return !inValid;
     }
 
