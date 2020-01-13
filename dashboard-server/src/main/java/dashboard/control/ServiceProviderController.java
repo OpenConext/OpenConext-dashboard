@@ -40,7 +40,6 @@ public class ServiceProviderController extends BaseController {
     @Autowired
     private Sab sabClient;
 
-    // TODO: rewrite this
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
     public void connectionRequest(
             @RequestParam InviteRequest inviteRequest,
@@ -88,14 +87,6 @@ public class ServiceProviderController extends BaseController {
                 " ownEmail " + ownEmail + ")");
 
         String idpEntityId = inviteRequest.getIdpEntityId();
-        String spEntityId = inviteRequest.getSpEntityId();
-
-        Locale locale = this.getLocale(request);
-        Optional<Service> service = services.getServiceByEntityId(idpEntityId, spEntityId, EntityType.saml20_sp, locale);
-
-        if (service.isPresent()) { // check if service is already connected. If it is, ignore the request?
-            return;
-        }
 
         String emailTo = sabClient.getPersonsInRoleForOrganization(idpEntityId, "SURFconextverantwoordelijke")
                 .stream()
