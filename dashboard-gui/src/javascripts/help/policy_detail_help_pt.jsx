@@ -1,15 +1,3 @@
-<p>O atributos e os seus valores na verdade é que definem se é parmitido ou não o acesso a um utilizador. Para mais informações sobre atributos aceda a <a target="_blank" href={I18n.t("policy_attributes.help_link")}>RCTSaai wiki</a>.</p>
-
-
-<p>Os atributos e os seus valores na verdade é que definem se é permitido ou não o acesso a um utilizador. Para mais
-              informações sobre atributos aceda a <a target="_blank" rel="noopener noreferrer" href={I18n.t("policy_attributes.help_link")}>SURFnet wiki</a>.</p>
-			  
-			  
-			  
-			  
-#######################
-
-
 import React from "react";
 import I18n from "i18n-js";
 
