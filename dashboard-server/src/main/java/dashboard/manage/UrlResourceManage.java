@@ -258,15 +258,14 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public String connectWithoutInteraction(String username, String idpId, String spId, String type) {
+    public String connectWithoutInteraction(String idpId, String spId, String type) {
         String url;
         try {
             url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction/";
             Map<String, String> body = new HashMap<>();
-            body.put("username", username);
             body.put("idpId", idpId);
             body.put("spId", spId);
-            body.put("type", type);
+            body.put("spType", type);
             ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
             return "success";

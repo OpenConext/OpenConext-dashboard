@@ -178,7 +178,7 @@ public class ActionsServiceImpl implements ActionsService {
             sendAdministrationEmail(savedAction);
         }
 
-        String resp = manage.connectWithoutInteraction(savedAction.getUserName(), savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
+        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData()); // TODO get correct type
 
         return savedAction;
     }
