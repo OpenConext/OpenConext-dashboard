@@ -156,7 +156,7 @@ I18n.translations.en = {
             connect: "",
             connect_button: "Connect",
             connected: "Connected",
-            allowsAutomaticConnection: "Automatic connection",
+            dashboardConnectOption: "Automatic connection",
             license: "License secured",
             licenseStatus: "License required",
             aansluitovereenkomstRefused: "Policy signed",

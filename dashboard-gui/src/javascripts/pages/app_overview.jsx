@@ -164,6 +164,8 @@ class AppOverview extends React.Component {
         const currentIdp = currentUser.getCurrentIdp();
         const connect = currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== "testaccepted";
         const focus = app.id === store.appId && this.props.match.params.back;
+        const automaticallyConnect = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ||
+            app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
         return (
             <tr key={index} ref={re => {
                 if (re && app.id === store.appId) {
@@ -177,7 +179,7 @@ class AppOverview extends React.Component {
                 </td>
                 {this.renderLicenseNeeded(app)}
                 {/*<YesNo value={!app.aansluitovereenkomstRefused}/>*/}
-                {!currentUser.guest && <YesNo value={app.allowsAutomaticConnection}/>}
+                {!currentUser.guest && <YesNo value={automaticallyConnect}/>}
                 {!currentUser.guest && <YesNo value={app.connected}/>}
                 <td className="right">
                     {connect && this.renderConnectButton(app)}
@@ -720,7 +722,7 @@ class AppOverview extends React.Component {
                                 {this.renderSortableHeader(currentUser.guest ? "percent_60" : "percent_50", "name")}
                                 {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_30", "licenseStatus")}
                                 {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
-                                {!currentUser.guest && this.renderSortableHeader("percent_30 bool", "allowsAutomaticConnection")}
+                                {!currentUser.guest && this.renderSortableHeader("percent_30 bool", "dashboardConnectOption")}
                                 {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                                 {connect}
                             </tr>

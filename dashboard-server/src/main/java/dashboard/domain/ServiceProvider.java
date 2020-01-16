@@ -15,6 +15,7 @@
  */
 package dashboard.domain;
 
+import dashboard.manage.DashboardConnectOption;
 import dashboard.manage.EntityType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -51,6 +52,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private boolean idpVisibleOnly;
     private boolean policyEnforcementDecisionRequired;
     private EntityType entityType;
+    private DashboardConnectOption dashboardConnectOption;
     private boolean aansluitovereenkomstRefused;
     private boolean hidden;
     private LicenseStatus licenseStatus;
@@ -76,6 +78,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     @SuppressWarnings("unchecked")
     public ServiceProvider(Map<String, Object> metaData) {
         super(metaData);
+        this.dashboardConnectOption = DashboardConnectOption.fromOption((String) metaData.getOrDefault("coin:dashboard_connect_option", "connect_with_interaction"));
         this.applicationUrl = (String) metaData.get("coin:application_url");
         this.institutionId = (String) metaData.get("coin:institution_id");
         this.eulaURL = (String) metaData.get("coin:eula");
@@ -321,6 +324,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public EntityType getEntityType() {
         return entityType;
+    }
+
+    public void setDashboardConnectOption(DashboardConnectOption dashboardConnectOption) {
+        this.dashboardConnectOption = dashboardConnectOption;
+    }
+
+    public DashboardConnectOption getDashboardConnectOption() {
+        return dashboardConnectOption;
     }
 
     public List<String> getResourceServers() {
