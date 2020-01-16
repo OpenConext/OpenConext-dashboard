@@ -232,6 +232,7 @@ public class ServicesController extends BaseController {
 
         if (optional.isPresent()) {
             Service service = optional.get();
+            boolean idpAndSpShareInstitution = service.getSpName().equals(currentUser.getIdp().getName());
             Action action = Action.builder()
                     .userEmail(currentUser.getEmail())
                     .userName(currentUser.getFriendlyName())
@@ -240,10 +241,12 @@ public class ServicesController extends BaseController {
                     .spId(entityId)
                     .typeMetaData(typeMetaData)
                     .service(service)
-                    .doSendEmail(service.sendsEmailWithoutInteraction())
+                    .doSendEmail(service.sendsEmailWithoutInteraction() && !idpAndSpShareInstitution)
                     .type(jiraType).build();
 
-            if (service.connectsWithoutInteraction()) {
+            boolean connectWithoutInteraction = service.connectsWithoutInteraction() || idpAndSpShareInstitution;
+
+            if (connectWithoutInteraction) {
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
