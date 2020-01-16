@@ -103,7 +103,7 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(Action action) throws IOException { // TODO: code needs to be done properly
+    public void sendDashboardConnectWithoutInteractionEmail(Action action) throws IOException {
         String emailSubject = "Nieuwe Surfconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe Surfconext koppeling");
