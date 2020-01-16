@@ -171,7 +171,7 @@ class InviteRequest extends React.Component {
         </tr>;
 
     renderContactPerson = (contactPerson, i, identifier) => {
-        const type = contactPerson.contactPersonType ? I18n.t("my_idp.contact_types." + contactPerson.contactPersonType) :
+        const type = contactPerson.contactPersonType ? I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".title") :
             contactPerson.roles.join(", ");
         return <tr key={i}>
             <td><CheckBox name={`${i}`}
@@ -190,9 +190,9 @@ class InviteRequest extends React.Component {
                 <thead>
                 <tr>
                     <th className="percent_25">{I18n.t("invite_request.selectContact")}</th>
-                    <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
-                    <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
-                    <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                    <th className="percent_25">{I18n.t("my_idp.contact_name.title")}</th>
+                    <th className="percent_25">{I18n.t("my_idp.contact_email.title")}</th>
+                    <th className="percent_25">{I18n.t("my_idp.contact_type.title")}</th>
                 </tr>
                 </thead>
                 <tbody>

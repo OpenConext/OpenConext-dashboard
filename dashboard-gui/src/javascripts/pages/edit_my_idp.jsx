@@ -360,10 +360,27 @@ class EditMyIdp extends React.Component {
                     <table>
                         <thead>
                         <tr>
-                            <th className="percent_25">{I18n.t("my_idp.contact_name")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_email")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_telephone")}</th>
-                            <th className="percent_25">{I18n.t("my_idp.contact_type")}</th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_name.title")}</th>
+                            <th
+                                className="percent_25">{I18n.t("my_idp.contact_email.title")}
+                                <i className="fa fa-info-circle" data-for="contact-email-tooltip" data-tip/>
+                                <ReactTooltip id="contact-email-tooltip" type="info" class="tool-tip" effect="solid"
+                                              multiline={true}>
+                                    <span dangerouslySetInnerHTML={{__html: I18n.t("my_idp.contact_email.tooltip")}}/>
+                                    <span>test</span>
+                                </ReactTooltip>
+                            </th>
+                            <th className="percent_25">{I18n.t("my_idp.contact_telephone.title")}</th>
+                            <th
+                                className="percent_25">{I18n.t("my_idp.contact_type.title")}
+                                <i className="fa fa-info-circle" data-for="contact-person-type-all" data-tip/>
+                                <ReactTooltip id="contact-person-type-all" type="info" class="tool-tip" effect="solid"
+                                              multiline={true}>
+                                    <ul>
+                                        {contactPersonTypes.map(this.renderContactTypeTooltip)}
+                                    </ul>
+                                </ReactTooltip>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -424,12 +441,22 @@ class EditMyIdp extends React.Component {
                         {
                             contactPersonTypes.map(
                                 type => <option key={type}
-                                                value={type}>{I18n.t("my_idp.contact_types." + type)}</option>
+                                                value={type}>{I18n.t("my_idp.contact_types." + type + ".title")}</option>
                             )
                         }
                     </select>
                 </td>
             </tr>
+        );
+    }
+
+    renderContactTypeTooltip(contactPersonType) {
+        const tooltipPerson = I18n.t("my_idp.contact_types." + contactPersonType + ".title");
+        const tooltipPersonDescription = I18n.t("my_idp.contact_types." + contactPersonType + ".alttooltip");
+        return (
+            <li key={contactPersonType}>
+                {tooltipPerson}, {tooltipPersonDescription}
+            </li>
         );
     }
 

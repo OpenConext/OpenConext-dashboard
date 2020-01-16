@@ -43,6 +43,7 @@
     "react-select": "^3.0.4",
     "react-tooltip": "^3.10.0",
     "spin.js": "^4.0.0",
+    "webpack-cli": "^3.3.10",
     "websocket-driver": "0.7.3"
   },
   "scripts": {
@@ -54,7 +55,6 @@
     "test": "CI=true react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "browserslist": {
     "production": [
       ">0.2%",

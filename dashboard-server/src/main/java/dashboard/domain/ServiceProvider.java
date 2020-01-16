@@ -128,7 +128,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
         this.manipulationNotes = (String) metaData.get("manipulationNotes");
         this.manipulation = StringUtils.hasText( (String) metaData.get("manipulation"));
-        this.contractualBase = (String) metaData.get("coin:contractual_base");
+        this.contractualBase = (String) metaData.getOrDefault("coin:contractual_base", "NA");
 
         this.nameIds = nameIdFormats.stream()
                 .filter(nameId -> metaData.containsKey(nameId))

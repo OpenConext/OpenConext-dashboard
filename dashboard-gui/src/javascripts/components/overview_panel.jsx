@@ -164,9 +164,8 @@ class OverviewPanel extends React.Component {
                     </h3>
                 </div>);
         }
-        return null;
+        throw new TypeError("invalid contractalBase"); // non-existent contractualBase should default to String NA
     };
-
 
     renderDescription() {
         const hasText = function (value) {
