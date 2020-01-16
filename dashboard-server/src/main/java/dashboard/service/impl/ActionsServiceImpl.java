@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -175,7 +176,7 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
-    public Action connectWithoutInteraction(Action action) {
+    public Action connectWithoutInteraction(Action action) throws IOException {
         Action savedAction = addNames(action);
 
         String emailTo = sabClient.getSabEmailsForIdp(action.getIdpId(), "SURFconextverantwoordelijke");
