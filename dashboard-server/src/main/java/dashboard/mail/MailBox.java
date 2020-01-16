@@ -116,5 +116,6 @@ public class MailBox {
             sendMail(emailText, emailSubject, emails, Collections.emptyList(), false);
         } catch (Exception e) {
             //anti-pattern but we don't want to crash because of mail problems
-        }    }
+        }
+    }
 }
