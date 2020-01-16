@@ -174,8 +174,8 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
-        if (savedAction.doSendEmail()) {
-            sendAdministrationEmail(savedAction);
+        if (action.doSendEmail()) {
+            mailBox.sendDashboardConnectWithoutInteractionEmail(action);
         }
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData()); // TODO get correct type

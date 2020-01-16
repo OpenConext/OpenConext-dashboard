@@ -240,7 +240,7 @@ public class ServicesController extends BaseController {
                     .spId(entityId)
                     .typeMetaData(typeMetaData)
                     .service(service)
-                    .doSendEmail(service.sendsEmail())
+                    .doSendEmail(service.sendsEmailWithoutInteraction())
                     .type(jiraType).build();
 
             if (service.connectsWithoutInteraction()) {

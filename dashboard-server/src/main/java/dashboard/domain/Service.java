@@ -584,7 +584,7 @@ public class Service implements Comparable<Service>, Serializable {
         return this.dashboardConnectOption.connectsWithoutInteraction();
     }
 
-    public boolean sendsEmail() {
+    public boolean sendsEmailWithoutInteraction() {
         return this.dashboardConnectOption.sendsEmail();
     }
 }

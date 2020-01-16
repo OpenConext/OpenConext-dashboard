@@ -106,4 +106,15 @@ public class MailBox {
             //anti-pattern but we don't want to crash because of mail problems
         }
     }
+
+    public void sendDashboardConnectWithoutInteractionEmail(Action action) { // TODO: code needs to be done properly
+        String emailText = "You allow identity providers to connect to your service without interaction.\n";
+        emailText = emailText + "Identity provider " + action.getIdpName() + " has connected to your service.";
+        String emailSubject = "New OpenConext connection.";
+        List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
+        try {
+            sendMail(emailText, emailSubject, emails, Collections.emptyList(), false);
+        } catch (Exception e) {
+            //anti-pattern but we don't want to crash because of mail problems
+        }    }
 }
