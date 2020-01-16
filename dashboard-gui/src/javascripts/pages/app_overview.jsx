@@ -719,11 +719,11 @@ class AppOverview extends React.Component {
                         <table>
                             <thead>
                             <tr>
-                                {this.renderSortableHeader(currentUser.guest ? "percent_60" : "percent_50", "name")}
-                                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_30", "licenseStatus")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_60" : "percent_45", "name")}
+                                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_25", "licenseStatus")}
                                 {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
-                                {!currentUser.guest && this.renderSortableHeader("percent_30 bool", "dashboardConnectOption")}
-                                {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
+                                {!currentUser.guest && this.renderSortableHeader("percent_15 bool", "dashboardConnectOption")}
+                                {!currentUser.guest && this.renderSortableHeader("percent_15 bool", "connected")}
                                 {connect}
                             </tr>
                             </thead>
