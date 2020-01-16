@@ -581,10 +581,16 @@ public class Service implements Comparable<Service>, Serializable {
     }
 
     public boolean connectsWithoutInteraction() {
-        return this.dashboardConnectOption.connectsWithoutInteraction();
+        if (dashboardConnectOption == null) {
+            return false;
+        }
+        return dashboardConnectOption.connectsWithoutInteraction();
     }
 
     public boolean sendsEmailWithoutInteraction() {
-        return this.dashboardConnectOption.sendsEmail();
+        if (dashboardConnectOption == null) {
+            return false;
+        }
+        return dashboardConnectOption.sendsEmail();
     }
 }
