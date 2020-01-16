@@ -180,6 +180,12 @@ public class ActionsServiceImpl implements ActionsService {
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData()); // TODO get correct type
 
+        if (resp.equals("success")) { // TODO: not sure how to handle success/failure
+            savedAction.unbuild().rejected(false).build();
+        } else {
+            savedAction.unbuild().rejected(true).build();
+        }
+
         return savedAction;
     }
 

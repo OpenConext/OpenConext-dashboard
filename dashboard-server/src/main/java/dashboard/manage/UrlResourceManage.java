@@ -269,7 +269,9 @@ public class UrlResourceManage implements Manage {
             body.put("spType", type);
             ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
-            return "success";
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                return "success";
+            }
         } catch (Exception e) {
             LOG.debug(String.valueOf(e));  // TODO: error handling
         }
