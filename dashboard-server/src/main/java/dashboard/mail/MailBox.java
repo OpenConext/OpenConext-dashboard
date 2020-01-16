@@ -14,11 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -107,13 +103,15 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(Action action) { // TODO: code needs to be done properly
-        String emailText = "You allow identity providers to connect to your service without further interaction.\n";
-        emailText = emailText + "Identity provider " + action.getIdpName() + " has connected to your service.";
-        String emailSubject = "New OpenConext Connection";
+    public void sendDashboardConnectWithoutInteractionEmail(Action action) throws IOException { // TODO: code needs to be done properly
+        String emailSubject = "Nieuwe Surfconext koppeling";
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("title", "Nieuwe Surfconext koppeling");
+        variables.put("action", action);
         List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
+        String html = this.mailTemplate("new_connection_without_interaction_nl.html", variables);
         try {
-            sendMail(emailText, emailSubject, emails, Collections.emptyList(), false);
+            sendMail(html, emailSubject, emails, Collections.emptyList(), true);
         } catch (Exception e) {
             //anti-pattern but we don't want to crash because of mail problems
         }
