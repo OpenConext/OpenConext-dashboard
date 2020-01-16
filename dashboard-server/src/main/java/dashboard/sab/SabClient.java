@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -103,6 +104,14 @@ public class SabClient implements Sab {
             LOG.warn("Could not retrieve SAB info", e);
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public String getSabEmailsForIdp(String idpEntityId, String role) {
+        return getPersonsInRoleForOrganization(idpEntityId, role)
+                .stream()
+                .map(SabPerson::getEmail)
+                .collect(Collectors.joining(", "));
     }
 
     /**

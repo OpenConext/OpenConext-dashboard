@@ -88,10 +88,7 @@ public class ServiceProviderController extends BaseController {
 
         String idpEntityId = inviteRequest.getIdpEntityId();
 
-        String emailTo = sabClient.getPersonsInRoleForOrganization(idpEntityId, "SURFconextverantwoordelijke")
-                .stream()
-                .map(SabPerson::getEmail)
-                .collect(Collectors.joining(", "));
+        String emailTo = sabClient.getSabEmailsForIdp(idpEntityId, "SURFconextverantwoordelijke");
 
         LOG.debug("Send email to sabPeople: " + emailTo);
 

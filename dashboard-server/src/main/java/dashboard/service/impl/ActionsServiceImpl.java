@@ -19,6 +19,7 @@ import dashboard.domain.*;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
+import dashboard.sab.Sab;
 import dashboard.service.ActionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,9 @@ public class ActionsServiceImpl implements ActionsService {
 
     @Autowired
     private MailBox mailBox;
+
+    @Autowired
+    private Sab sabClient;
 
     @Value("${administration.email.enabled}")
     private boolean sendAdministrationEmail;
@@ -174,11 +178,14 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
+        String emailTo = sabClient.getSabEmailsForIdp(action.getIdpId(), "SURFconextverantwoordelijke");
+        savedAction.unbuild().emailTo(emailTo).build();
+
         if (action.doSendEmail()) {
-            mailBox.sendDashboardConnectWithoutInteractionEmail(action);
+            mailBox.sendDashboardConnectWithoutInteractionEmail(savedAction);
         }
 
-        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData()); // TODO get correct type
+        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
         if (resp.equals("success")) { // TODO: not sure how to handle success/failure
             savedAction.unbuild().rejected(false).build();

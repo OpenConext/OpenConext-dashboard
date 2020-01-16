@@ -18,6 +18,7 @@ package dashboard.sab;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Interface for SAB, the SURFnet Authorisation Beheer interface
@@ -36,4 +37,9 @@ public interface Sab {
    * Get all persons within the given organisation that have the given role.
    */
   Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
+
+  /**
+   * Get the email addresses for all people from the given Idp that have the given role
+   */
+  String getSabEmailsForIdp(String idpEntityId, String role); // TODO: unclear name?
 }
