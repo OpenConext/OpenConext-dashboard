@@ -179,11 +179,12 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) throws IOException {
         Action savedAction = addNames(action);
 
-        String emailTo = sabClient.getSabEmailsForIdp(action.getIdpId(), "SURFconextverantwoordelijke");
-        savedAction.unbuild().emailTo(emailTo).build();
+        String idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
+        mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, action.getIdpName(), action.getSpName(), "idp");
 
-        if (action.doSendEmail()) {
-            mailBox.sendDashboardConnectWithoutInteractionEmail(savedAction);
+        String spEmail = sabClient.getSabEmailsForOrganization(action.getSpId(), "SURFconextbeheerder"); // TODO: correct role?
+        if (action.shouldSendEmail()) {
+            mailBox.sendDashboardConnectWithoutInteractionEmail(spEmail, action.getIdpName(), action.getSpName(), "sp");
         }
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());

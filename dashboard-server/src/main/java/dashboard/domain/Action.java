@@ -19,8 +19,6 @@ import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 
-import com.google.common.base.MoreObjects;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
@@ -32,7 +30,7 @@ public class Action {
     private String userName;
     private String userEmail;
     private String emailTo;
-    private boolean doSendEmail;
+    private boolean shouldSendEmail;
     private String body;
 
     private String idpId;
@@ -61,7 +59,7 @@ public class Action {
         this.userName = builder.userName;
         this.userEmail = builder.userEmail;
         this.emailTo = builder.emailTo;
-        this.doSendEmail = builder.doSendEmail;
+        this.shouldSendEmail = builder.shouldSendEmail;
         this.body = builder.body;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
@@ -140,8 +138,8 @@ public class Action {
         return emailTo;
     }
 
-    public boolean doSendEmail() {
-        return doSendEmail;
+    public boolean shouldSendEmail() {
+        return shouldSendEmail;
     }
 
     public String getSubject() {
@@ -306,7 +304,7 @@ public class Action {
         private String userName;
         private String userEmail;
         private String emailTo;
-        private boolean doSendEmail;
+        private boolean shouldSendEmail;
         private Type type;
         private String status;
         private String resolution;
@@ -333,7 +331,7 @@ public class Action {
             this.userName = action.userName;
             this.userEmail = action.userEmail;
             this.emailTo = action.emailTo;
-            this.doSendEmail = action.doSendEmail;
+            this.shouldSendEmail = action.shouldSendEmail;
             this.type = action.type;
             this.status = action.status;
             this.resolution = action.resolution;
@@ -373,8 +371,8 @@ public class Action {
             return this;
         }
 
-        public Builder doSendEmail(boolean doSendEmail) {
-            this.doSendEmail = doSendEmail;
+        public Builder shouldSendEmail(boolean shouldSendEmail) {
+            this.shouldSendEmail = shouldSendEmail;
             return this;
         }
 

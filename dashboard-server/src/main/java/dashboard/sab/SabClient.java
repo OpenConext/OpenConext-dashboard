@@ -107,8 +107,8 @@ public class SabClient implements Sab {
     }
 
     @Override
-    public String getSabEmailsForIdp(String idpEntityId, String role) {
-        return getPersonsInRoleForOrganization(idpEntityId, role)
+    public String getSabEmailsForOrganization(String entityId, String role) {
+        return getPersonsInRoleForOrganization(entityId, role)
                 .stream()
                 .map(SabPerson::getEmail)
                 .collect(Collectors.joining(", "));

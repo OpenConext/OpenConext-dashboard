@@ -39,7 +39,7 @@ public interface Sab {
   Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
 
   /**
-   * Get the email addresses for all people from the given Idp that have the given role
+   * Get the email addresses for all people from the given organization that have the given role
    */
-  String getSabEmailsForIdp(String idpEntityId, String role); // TODO: unclear name?
+  String getSabEmailsForOrganization(String entityId, String role); // TODO: unclear name?
 }

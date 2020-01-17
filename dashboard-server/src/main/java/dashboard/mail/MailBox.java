@@ -103,13 +103,14 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(Action action) throws IOException {
+    public void sendDashboardConnectWithoutInteractionEmail(String emailTo, String idpName, String spName, String type) throws IOException {
         String emailSubject = "Nieuwe Surfconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe Surfconext koppeling");
-        variables.put("action", action);
-        List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
-        String html = this.mailTemplate("new_connection_without_interaction_nl.html", variables);
+        variables.put("idpName", idpName);
+        variables.put("spName", spName);
+        List<String> emails = Stream.of(emailTo.split(",")).map(String::trim).collect(toList());
+        String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
         try {
             sendMail(html, emailSubject, emails, Collections.emptyList(), true);
         } catch (Exception e) {

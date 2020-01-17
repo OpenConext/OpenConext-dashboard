@@ -216,7 +216,7 @@ public class ServicesController extends BaseController {
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
-    private Optional<Action> createAction(String idpEntityId, String comments, String entityId, String typeMetaData, Action.Type
+    private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, String typeMetaData, Action.Type
             jiraType, Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
@@ -228,25 +228,27 @@ public class ServicesController extends BaseController {
         }
 
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
-        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(entityId)).findFirst();
+        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
         if (optional.isPresent()) {
             Service service = optional.get();
-            boolean idpAndSpShareInstitution = service.getSpName().equals(currentUser.getIdp().getName());
             Action action = Action.builder()
                     .userEmail(currentUser.getEmail())
                     .userName(currentUser.getFriendlyName())
                     .body(comments)
                     .idpId(idpEntityId)
-                    .spId(entityId)
+                    .spId(spEntityId)
                     .typeMetaData(typeMetaData)
                     .service(service)
-                    .doSendEmail(service.sendsEmailWithoutInteraction() && !idpAndSpShareInstitution)
                     .type(jiraType).build();
 
-            boolean connectWithoutInteraction = service.connectsWithoutInteraction() || idpAndSpShareInstitution;
+            boolean idpAndSpShareInstitution = service.getSpName().equals(currentUser.getIdp().getName());
 
-            if (connectWithoutInteraction) {
+            if (idpAndSpShareInstitution || service.connectsWithoutInteraction()) {
+                action.unbuild()
+                        .shouldSendEmail(service.sendsEmailWithoutInteraction())
+                        .build();
+
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
                 return Optional.of(actionsService.create(action, Collections.emptyList()));

@@ -59,7 +59,7 @@ public class SabClientMock implements Sab {
     }
 
     @Override
-    public String getSabEmailsForIdp(String idpEntityId, String role) {
+    public String getSabEmailsForOrganization(String entityId, String role) {
         return null; // TODO
     }
 }
