@@ -242,7 +242,7 @@ public class ServicesController extends BaseController {
                     .service(service)
                     .type(jiraType).build();
 
-            boolean idpAndSpShareInstitution = service.getSpName().equals(currentUser.getIdp().getName());
+            boolean idpAndSpShareInstitution = (service.getSpName() != null) && service.getSpName().equals(currentUser.getIdp().getName());
 
             if (idpAndSpShareInstitution || service.connectsWithoutInteraction()) {
                 action.unbuild()
