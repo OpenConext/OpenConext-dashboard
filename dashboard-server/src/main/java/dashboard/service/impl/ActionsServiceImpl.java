@@ -180,11 +180,15 @@ public class ActionsServiceImpl implements ActionsService {
         Action savedAction = addNames(action);
 
         String idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
-        mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, action.getIdpName(), action.getSpName(), "idp");
+        if (idpEmails != null) {
+            mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, action.getIdpName(), action.getSpName(), "idp");
+        }
 
         String spEmail = sabClient.getSabEmailsForOrganization(action.getSpId(), "SURFconextbeheerder"); // TODO: correct role?
-        if (action.shouldSendEmail()) {
-            mailBox.sendDashboardConnectWithoutInteractionEmail(spEmail, action.getIdpName(), action.getSpName(), "sp");
+        if (spEmail != null) {
+            if (action.shouldSendEmail()) {
+                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmail, action.getIdpName(), action.getSpName(), "sp");
+            }
         }
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
