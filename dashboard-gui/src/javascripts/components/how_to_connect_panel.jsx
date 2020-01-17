@@ -322,6 +322,22 @@ class HowToConnectPanel extends React.Component {
     };
 
     renderDoneStep() {
+        if (this.state.action.connectWithoutInteraction) {
+            const rejected = this.state.action.rejected ? "rejected" : "done";
+            return (
+                <div className="l-middle-app-detail">
+                    <div className="mod-title">
+                        <h1>{I18n.t("how_to_connect_panel." + rejected + "_without_interaction_title")}</h1>
+                        <p>{I18n.t("how_to_connect_panel." + rejected + "_without_interaction_subtitle")}</p>
+                        <br/>
+                        <p className="cta">
+                            <a href="/apps" onClick={this.backToServices.bind(this)}
+                               className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
+                        </p>
+                    </div>
+                </div>
+            );
+        }
         const jiraKey = this.props.jiraKey || this.state.action.jiraKey;
         const subtitle = jiraKey ?
             I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: jiraKey}) :

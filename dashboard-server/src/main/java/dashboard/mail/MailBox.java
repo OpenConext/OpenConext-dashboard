@@ -63,6 +63,9 @@ public class MailBox {
     }
 
     private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml) throws MessagingException, IOException {
+        if (to.size() == 1 && to.get(0).equals("")){  // TODO: this was added for local dev testing
+            return;
+        }
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         helper.setSubject(subject);

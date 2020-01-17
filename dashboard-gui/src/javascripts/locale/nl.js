@@ -381,6 +381,10 @@ I18n.translations.nl = {
         done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl?subject=Vraag over koppeling {{jiraKey}}\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).",
         done_title: "Verbinding aangevraagd!",
+        rejected_without_interaction_title: "Koppeling niet geslaagd!",
+        rejected_without_interaction_subtitle: "Er is iets fout gegaan bij de koppeling.", // TODO: change text
+        done_without_interaction_title: "Service gekoppeld!", // TODO: check text
+        done_without_interaction_subtitle: "Er kan meteen gebruik van worden gemaakt.", // TODO: check text
         forward_permission: {
             after: " door te sturen naar {{app}}.",
             before: "SURFnet heeft toestemming om de ",

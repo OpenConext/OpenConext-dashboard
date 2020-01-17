@@ -156,6 +156,6 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public String connectWithoutInteraction(String idpId, String spId, String type) {
-        return "failure";  // TODO: implement mock version
+        return "failure";
     }
 }

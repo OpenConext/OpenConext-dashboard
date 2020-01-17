@@ -379,6 +379,10 @@ I18n.translations.en = {
         done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.",
         done_title: "Connection requested!",
+        rejected_without_interaction_title: "Connection failed!",
+        rejected_without_interaction_subtitle: "Something went wrong while connecting.", // TODO: change text
+        done_without_interaction_title: "Connection established!", // TODO: check text
+        done_without_interaction_subtitle: "You can make use of it now.", // TODO: check text
         forward_permission: {
             after: " to {{app}}.",
             before: "SURFnet has permission to forward the ",
