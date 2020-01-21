@@ -156,6 +156,13 @@ public class ClassPathResourceManage implements Manage {
 
     @Override
     public String connectWithoutInteraction(String idpId, String spId, String type) {
-        return "failure";
+        try {
+            IdentityProvider identityProvider = getIdentityProvider(idpId, false).orElseThrow
+                    (RuntimeException::new);
+            identityProvider.addAllowedEntityId(spId);
+            return "success";
+        } catch (Exception e) {
+            return "failure";
+        }
     }
 }

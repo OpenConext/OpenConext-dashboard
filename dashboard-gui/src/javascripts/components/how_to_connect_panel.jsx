@@ -323,12 +323,12 @@ class HowToConnectPanel extends React.Component {
 
     renderDoneStep() {
         if (this.state.action.connectWithoutInteraction) {
-            const rejected = this.state.action.rejected ? "rejected" : "done";
+            const rejectedOrDone = this.state.action.rejected ? "rejected" : "done";
             return (
                 <div className="l-middle-app-detail">
                     <div className="mod-title">
-                        <h1>{I18n.t("how_to_connect_panel." + rejected + "_without_interaction_title")}</h1>
-                        <p>{I18n.t("how_to_connect_panel." + rejected + "_without_interaction_subtitle")}</p>
+                        <h1>{I18n.t("how_to_connect_panel." + rejectedOrDone + "_without_interaction_title")}</h1>
+                        <p>{I18n.t("how_to_connect_panel." + rejectedOrDone + "_without_interaction_subtitle")}</p>
                         <br/>
                         <p className="cta">
                             <a href="/apps" onClick={this.backToServices.bind(this)}
