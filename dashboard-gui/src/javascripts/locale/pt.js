@@ -363,6 +363,7 @@ I18n.translations.pt = {
         comments_description: "Comentários serão enviados à SURFconext.",
         comments_placeholder: "Adicione aqui os seus comentários...",
         comments_title: "Comentários adicionais?",
+        automatic_connect: "Activate connection immediately", // TODO: translate
         connect: "Ativar serviço",
         connect_title: "Ligar {{app}}",
         connect_invite_title: "Aceitar convite para ligar {{app}}",
@@ -382,6 +383,7 @@ I18n.translations.pt = {
             after: " para {{app}}.",
             before: "SURFnet tem permissões para encaminhar ",
         },
+        info_connection_without_interaction: "This service provider allows institutions to connect immediately. There is no need to wait for an invitation to be accepted.", // TODO: translate
         info_sub_title: "Pode ativar uma ligação neste Dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_sub_invite_title: "Pode aceitar o convite para ativar uma ligação. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_title: "Ativar ligação",
