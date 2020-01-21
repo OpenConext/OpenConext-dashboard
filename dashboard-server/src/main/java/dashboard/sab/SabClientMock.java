@@ -60,6 +60,9 @@ public class SabClientMock implements Sab {
 
     @Override
     public String getSabEmailsForOrganization(String entityId, String role) {
-        return null; // TODO
+        return sabPersons
+                .stream()
+                .map(SabPerson::getEmail)
+                .collect(Collectors.joining(", "));
     }
 }
