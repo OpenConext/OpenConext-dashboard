@@ -49,7 +49,6 @@ public class ServicesControllerTest {
 
     public static final String IDP_ENTITY_ID = "foo";
     public static final String SP_ENTITY_ID = "bar";
-    public static final String SP_NAME = "baz";
     private final CoinUser coinUser = coinUser("user");
     private final Service service = serviceWithSpEntityId(SP_ENTITY_ID);
     private final List<Service> services = asList(service);
