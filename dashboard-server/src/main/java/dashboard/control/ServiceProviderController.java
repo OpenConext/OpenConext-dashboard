@@ -8,73 +8,70 @@ import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collections;
 
 
 @RequestMapping(value = "/serviceProvider/api/")
 @RestController
 public class ServiceProviderController extends BaseController {
+
     private static final Logger LOG = LoggerFactory.getLogger(ServiceProviderController.class);
 
-    @Autowired
-    private Services services;
-
-    @Autowired
     private ActionsService actionsService;
-
-    @Autowired
     private MailBox mailbox;
-
-    @Autowired
     private Sab sabClient;
+    private String spUsername;
+    private String spPassword;
+
+    public ServiceProviderController(Services services, ActionsService actionsService, MailBox mailbox, Sab sabClient,
+                                     @Value("${spDashboard.username}") String spUsername,
+                                     @Value("${spDashboard.password}") String spPassword) {
+        this.actionsService = actionsService;
+        this.mailbox = mailbox;
+        this.sabClient = sabClient;
+        this.spUsername = spUsername;
+        this.spPassword = spPassword;
+    }
 
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
-    public void connectionRequest(
+    public ResponseEntity connectionRequest(
             @RequestParam InviteRequest inviteRequest,
             @RequestParam String contactName,
             @RequestParam String contactEmail,
             @RequestParam String ownEmail,
-            @Value("${spDashboard.username}") String spUsername,
-            @Value("${spDashboard.password}") String spPassword,
             HttpServletRequest request
     ) throws IOException, MessagingException {
         LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
 
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Basic ")) {
-            return;
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
-        byte[] decoded;
-        try {
-            decoded = Base64.getDecoder().decode(base64Token);
-        } catch (IllegalArgumentException e) {
-            return;
-        }
-
+        byte[] decoded = Base64.getDecoder().decode(base64Token);
 
         String token = new String(decoded, Charset.defaultCharset());
-        try {
-            String user = token.split(":")[0];
-            String password = token.split(":")[1];
-            if (!user.equals(spUsername) || !password.equals(spPassword)) {
-                return;
-            }
-        } catch (Exception e) {
-            LOG.debug(String.valueOf(e));
+        String user = token.split(":")[0];
+        String password = token.split(":")[1];
+        if (!user.equals(spUsername) || !password.equals(spPassword)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         // authentication done
-
         LOG.debug("Incoming connection request, params(" +
                 "IdpEntityId: " + inviteRequest.getIdpEntityId() +
                 " SpEntityId: " + inviteRequest.getSpEntityId() +

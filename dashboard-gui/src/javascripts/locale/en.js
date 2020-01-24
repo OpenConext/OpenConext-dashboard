@@ -252,7 +252,7 @@ I18n.translations.en = {
         privacyInformation: "Privacy information",
         privacyInformationInfo: "The service provider has not delivered any privacy information.",
         contractualBase: {
-            na: "No info on contractual basis available: for any questions, please contact support@surfconext.nl.",
+            na: "No info on contractual basis available: for any questions, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
             ao: "Service supplier has signed the SURFconext connection agreement.",
             ix: "Service offered by SURFconext member institution.",
             "r&s+coco" :"eduGAIN service that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.",

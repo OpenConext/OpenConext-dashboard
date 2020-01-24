@@ -155,16 +155,15 @@ class OverviewPanel extends React.Component {
 
     renderContractualBase = () => {
         if (this.props.app.contractualBase) {
-            // TODO - add  link
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("apps.overview.contractualBase")}</h2>
-                    <h3><span>{I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}</span>
+                    <h3><span dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}}/>
                         <span dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.contractualBaseWiki")}}/>
                     </h3>
                 </div>);
         }
-        throw new TypeError("invalid contractalBase"); // non-existent contractualBase should default to String NA
+        return null;
     };
 
     renderDescription() {
