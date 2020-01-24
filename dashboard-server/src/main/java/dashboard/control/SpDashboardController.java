@@ -36,7 +36,7 @@ public class SpDashboardController extends BaseController {
     private String spUsername;
     private String spPassword;
 
-    public SpDashboardController(Services services, ActionsService actionsService, MailBox mailbox, Sab sabClient,
+    public SpDashboardController(ActionsService actionsService, MailBox mailbox, Sab sabClient,
                                  @Value("${spDashboard.username}") String spUsername,
                                  @Value("${spDashboard.password}") String spPassword) {
         this.actionsService = actionsService;
