@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static dashboard.domain.Provider.Language.EN;
 import static dashboard.domain.Provider.Language.NL;
+import static dashboard.domain.Provider.Language.PT;
 import static java.util.stream.Collectors.toList;
 
 public class ServicesImpl implements Services {
@@ -113,13 +114,12 @@ public class ServicesImpl implements Services {
         return services.stream().map(service -> buildApiService(service, language)).collect(Collectors.toList());
     }
 
-    private Service buildApiService(ServiceProvider serviceProvider, String language) {
-        boolean isEn = language.equalsIgnoreCase("en");
+    private Service buildApiService(ServiceProvider serviceProvider, String locale) {
 
         Service service = new Service();
         plainProperties(serviceProvider, service);
-        languageSpecificProperties(serviceProvider, isEn, service);
-        categories(serviceProvider, service, language);
+        languageSpecificProperties(serviceProvider, locale, service);
+        categories(serviceProvider, service, locale);
         contactPersons(serviceProvider, service);
         return service;
     }
@@ -195,8 +195,8 @@ public class ServicesImpl implements Services {
         return contactPerson == null ? null : contactPerson.getEmailAddress();
     }
 
-    private void languageSpecificProperties(ServiceProvider sp, boolean en, Service service) {
-        Provider.Language lang = en ? EN : NL;
+    private void languageSpecificProperties(ServiceProvider sp, String locale, Service service) {
+        Provider.Language lang = (locale == "en" ? EN : locale == "pt" ? PT : NL);
         service.setDescription(sp.getDescription(lang));
         service.setEnduserDescription(sp.getDescription(lang));
         service.setName(sp.getName(lang));
@@ -207,9 +207,12 @@ public class ServicesImpl implements Services {
         service.setWikiUrl(sp.getWikiUrl(lang));
         service.setSpName(sp.getName(lang));
 
-        if (en) {
+        if (locale == "en") {
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlEn());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlEn());
+        } else if (locale == "pt") {
+            service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlPt());
+            service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlPt());
         } else {
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlNl());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlNl());
@@ -219,11 +222,11 @@ public class ServicesImpl implements Services {
     private void categories(ServiceProvider sp, Service service, String locale) {
         // Categories - the category values need to be either in nl or en (as the facet and facet_values are based on
         // the language setting)
-        List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : sp.getTypeOfServicesNl();
+        List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : locale.equals("pt") ? sp.getTypeOfServicesPt() : sp.getTypeOfServicesNl();
         if (CollectionUtils.isEmpty(typeOfServices)) {
-            typeOfServices.add(locale.equals("en") ? "Other" : "Overig");
+            typeOfServices.add(locale.equals("en") ? "Other": locale.equals("pt") ? "Outro" : "Overig");
         }
-        Category category = new Category(locale.equals("en") ? "Type of Service" : "Type Service", "type_of_service",
+        Category category = new Category(locale.equals("en") ? "Type of Service" : locale.equals("pt") ? "Tipo de Serviço" : "Type Service", "type_of_service",
                 typeOfServices.stream().map(CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));
     }

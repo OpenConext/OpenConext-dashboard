@@ -19,7 +19,8 @@ class ConsentPanel extends React.Component {
             spEntityId: app.spEntityId,
             type: "DEFAULT_CONSENT",
             explanationNl: "",
-            explanationEn: ""
+            explanationEn: "",
+            explanationPt: ""
         };
         this.state = {consent};
     }
@@ -107,6 +108,22 @@ class ConsentPanel extends React.Component {
                                               explanationEn: e.target.value
                                           }
                                       })}/>}
+
+                {msgAllowed && <label>{I18n.t("consent_panel.explanationPt")}
+                    <i className="fa fa-info-circle" data-for="explanationPt_tooltip" data-tip></i>
+                    <ReactTooltip id="explanationPt_tooltip" type="info" class="tool-tip" effect="solid"
+                                  multiline={true}>
+                        <span dangerouslySetInnerHTML={{__html: I18n.t("consent_panel.explanationPt_tooltip")}}/>
+                    </ReactTooltip>
+                </label>}
+                {msgAllowed && <input type="text" value={consent.explanationPt} disabled={!isDashboardAdmin}
+                                      onChange={e => this.setState({
+                                          consent: {
+                                              ...consent,
+                                              explanationPt: e.target.value
+                                          }
+                                      })}/>}
+
                 {isDashboardAdmin && <a href="/save" className="t-button save"
                                         onClick={e => this.saveRequest(e)}>{I18n.t("consent_panel.save")}</a>}
             </section>

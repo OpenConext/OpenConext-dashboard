@@ -359,7 +359,7 @@ class Stats extends React.Component {
         const results = loaded && data.length > 0 && !noResult;
         const idp = this.context.currentUser.currentIdp;
         const identityProvidersDict = {};
-        identityProvidersDict[idp.id] = I18n.locale === "en" ? idp.displayNames["en"] : idp.displayNames["nl"];
+        identityProvidersDict[idp.id] = I18n.locale === "en" ? idp.displayNames["en"] : I18n.locale === "pt" ? idp.displayNames["pt"] : idp.displayNames["nl"];
         const classNameView = fullView ? "l-right-small" : "minimal";
         return (
             <div className="l-main stats">

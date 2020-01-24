@@ -1,6 +1,7 @@
 import I18n from "i18n-js";
 import en from "../locale/en";
 import nl from "../locale/nl";
+import pt from "../locale/pt";
 import Adapter from "enzyme-adapter-react-16";
 import Enzyme from "enzyme"
 
@@ -9,6 +10,7 @@ const start = () => {
     expect(I18n).toBeDefined();
     expect(en).toBeDefined();
     expect(nl).toBeDefined();
+    expect(pt).toBeDefined();
     I18n.locale = "en";
 
     Enzyme.configure({ adapter: new Adapter() })

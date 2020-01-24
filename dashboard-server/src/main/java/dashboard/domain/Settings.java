@@ -7,17 +7,23 @@ public class Settings {
     private List<ServiceProviderSettings> serviceProviderSettings;
     private String keywordsNl;
     private String keywordsEn;
+    private String keywordsPt;
     private String logoUrl;
     private String displayNamesEn;
     private String displayNamesNl;
+    private String displayNamesPt;
     private String descriptionsEn;
     private String descriptionsNl;
+    private String descriptionsPt;
     private String organisationUrlEn;
     private String organisationUrlNl;
+    private String organisationUrlPt;
     private String organisationNameEn;
     private String organisationNameNl;
+    private String organisationNamePt;
     private String organisationDisplayNameEn;
     private String organisationDisplayNameNl;
+    private String organisationDisplayNamePt;
     private boolean publishedInEdugain;
     private boolean connectToRSServicesAutomatically;
     private boolean allowMaintainersToManageAuthzRules;
@@ -46,6 +52,14 @@ public class Settings {
 
     public void setKeywordsNl(String keywordsNl) {
         this.keywordsNl = keywordsNl;
+    }
+
+    public String getKeywordsPt() {
+        return keywordsPt;
+    }
+
+    public void setKeywordsPt(String keywordsPt) {
+        this.keywordsPt = keywordsPt;
     }
 
     public String getKeywordsEn() {
@@ -80,6 +94,14 @@ public class Settings {
         this.displayNamesNl = displayNamesNl;
     }
 
+    public String getDisplayNamesPt() {
+        return displayNamesPt;
+    }
+
+    public void setDisplayNamesPt(String displayNamesPt) {
+        this.displayNamesPt = displayNamesPt;
+    }
+
     public String getDescriptionsEn() {
         return descriptionsEn;
     }
@@ -94,6 +116,14 @@ public class Settings {
 
     public void setDescriptionsNl(String descriptionsNl) {
         this.descriptionsNl = descriptionsNl;
+    }
+
+    public String getDescriptionsPt() {
+        return descriptionsPt;
+    }
+
+    public void setDescriptionsPt(String descriptionsPt) {
+        this.descriptionsPt = descriptionsPt;
     }
 
     public boolean isPublishedInEdugain() {
@@ -184,6 +214,14 @@ public class Settings {
         this.organisationUrlNl = organisationUrlNl;
     }
 
+    public String getOrganisationUrlPt() {
+        return organisationUrlPt;
+    }
+
+    public void setOrganisationUrlPt(String organisationUrlPt) {
+        this.organisationUrlPt = organisationUrlPt;
+    }
+
     public String getOrganisationNameEn() {
         return organisationNameEn;
     }
@@ -198,6 +236,14 @@ public class Settings {
 
     public void setOrganisationNameNl(String organisationNameNl) {
         this.organisationNameNl = organisationNameNl;
+    }
+
+    public String getOrganisationNamePt() {
+        return organisationNamePt;
+    }
+
+    public void setOrganisationNamePt(String organisationNamePt) {
+        this.organisationNamePt = organisationNamePt;
     }
 
     public String getOrganisationDisplayNameEn() {
@@ -216,19 +262,31 @@ public class Settings {
         this.organisationDisplayNameNl = organisationDisplayNameNl;
     }
 
+    public String getOrganisationDisplayNamePt() {
+        return organisationDisplayNamePt;
+    }
+
+    public void setOrganisationDisplayNamePt(String organisationDisplayNamePt) {
+        this.organisationDisplayNamePt = organisationDisplayNamePt;
+    }
+
     @Override
     public String toString() {
         return "Settings{" +
                 "serviceProviderSettings=" + serviceProviderSettings +
                 ", keywordsNl='" + keywordsNl + '\'' +
                 ", keywordsEn='" + keywordsEn + '\'' +
+                ", keywordsPt='" + keywordsPt + '\'' +
                 ", logoUrl='" + logoUrl + '\'' +
                 ", displayNamesEn='" + displayNamesEn + '\'' +
                 ", displayNamesNl='" + displayNamesNl + '\'' +
+                ", displayNamesPt='" + displayNamesPt + '\'' +
                 ", descriptionsEn='" + descriptionsEn + '\'' +
                 ", descriptionsNl='" + descriptionsNl + '\'' +
+                ", descriptionsPt='" + descriptionsPt + '\'' +
                 ", organisationUrlEn='" + organisationUrlEn + '\'' +
                 ", organisationUrlNl='" + organisationUrlNl + '\'' +
+                ", organisationUrlPt='" + organisationUrlPt + '\'' +
                 ", publishedInEdugain=" + publishedInEdugain +
                 ", connectToRSServicesAutomatically=" + connectToRSServicesAutomatically +
                 ", allowMaintainersToManageAuthzRules=" + allowMaintainersToManageAuthzRules +

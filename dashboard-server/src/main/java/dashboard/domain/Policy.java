@@ -16,15 +16,18 @@ public class Policy {
   private String serviceProviderId;
   private String serviceProviderName;
   private String serviceProviderNameNl;
+  private String serviceProviderNamePt;
 
   private List<String> identityProviderIds = new ArrayList<>();
   private List<String> identityProviderNames = new ArrayList<>();
   private List<String> identityProviderNamesNl = new ArrayList<>();
+  private List<String> identityProviderNamesPt = new ArrayList<>();
 
   private List<Attribute> attributes = new ArrayList<>();
 
   private String denyAdvice;
   private String denyAdviceNl;
+  private String denyAdvicePt;
 
   private boolean denyRule;
   private boolean allAttributesMustMatch;
@@ -62,6 +65,7 @@ public class Policy {
     this.attributes  = builder.policy.attributes;
     this.denyAdvice = builder.policy.denyAdvice;
     this.denyAdviceNl = builder.policy.denyAdviceNl;
+    this.denyAdvicePt = builder.policy.denyAdvicePt;
     this.denyRule = builder.policy.denyRule;
     this.allAttributesMustMatch = builder.policy.allAttributesMustMatch;
     this.authenticatingAuthorityName = builder.policy.authenticatingAuthorityName;
@@ -95,6 +99,10 @@ public class Policy {
     return serviceProviderNameNl;
   }
 
+  public String getServiceProviderNamePt() {
+    return serviceProviderNamePt;
+  }
+
   public int getNumberOfRevisions() {
     return numberOfRevisions;
   }
@@ -109,6 +117,10 @@ public class Policy {
 
   public List<String> getIdentityProviderNamesNl() {
     return identityProviderNamesNl;
+  }
+
+  public List<String> getIdentityProviderNamesPt() {
+    return identityProviderNamesPt;
   }
 
   public boolean isActionsAllowed() {
@@ -129,6 +141,10 @@ public class Policy {
 
   public String getDenyAdviceNl() {
     return denyAdviceNl;
+  }
+
+  public String getDenyAdvicePt() {
+    return denyAdvicePt;
   }
 
   public boolean isDenyRule() {
@@ -175,6 +191,7 @@ public class Policy {
         .add("denyRule", denyRule)
         .add("denyAdvice", denyAdvice)
         .add("denyAdviceNl", denyAdviceNl)
+        .add("denyAdvicePt", denyAdvicePt)
         .add("attributes", attributes)
         .add("created", created)
         .add("description", description)

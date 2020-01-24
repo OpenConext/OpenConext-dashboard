@@ -6,15 +6,17 @@ public class Consent {
     private ConsentType type;
     private String explanationNl;
     private String explanationEn;
+    private String explanationPt;
 
     public Consent() {
     }
 
-    public Consent(String spEntityId, ConsentType type, String explanationNl, String explanationEn) {
+    public Consent(String spEntityId, ConsentType type, String explanationNl, String explanationEn, String explanationPt) {
         this.spEntityId = spEntityId;
         this.type = type;
         this.explanationNl = explanationNl;
         this.explanationEn = explanationEn;
+        this.explanationPt = explanationPt;
     }
 
     public String getSpEntityId() {
@@ -49,6 +51,14 @@ public class Consent {
         this.explanationEn = explanationEn;
     }
 
+    public String getExplanationPt() {
+        return explanationPt;
+    }
+
+    public void setExplanationPt(String explanationPt) {
+        this.explanationPt = explanationPt;
+    }
+
     @Override
     public String toString() {
         return "Consent{" +
@@ -56,6 +66,7 @@ public class Consent {
                 ", type=" + type +
                 ", explanationNl='" + explanationNl + '\'' +
                 ", explanationEn='" + explanationEn + '\'' +
+                ", explanationPt='" + explanationPt + '\'' +
                 '}';
     }
 }

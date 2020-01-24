@@ -99,6 +99,10 @@ class MyIdp extends React.Component {
                         <td>{service.names.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.name.pt")}</td>
+                        <td>{service.names.pt}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.description.en")}</td>
                         <td>{service.descriptions.en}</td>
                     </tr>
@@ -107,12 +111,20 @@ class MyIdp extends React.Component {
                         <td>{service.descriptions.nl}</td>
                     </tr>
                     <tr>
-                        <td>{I18n.t("my_idp.displayName.nl")}</td>
-                        <td>{service.displayNames.nl}</td>
+                        <td>{I18n.t("my_idp.description.pt")}</td>
+                        <td>{service.descriptions.pt}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.displayName.en")}</td>
                         <td>{service.displayNames.en}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.nl")}</td>
+                        <td>{service.displayNames.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.pt")}</td>
+                        <td>{service.displayNames.pt}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
@@ -165,6 +177,10 @@ class MyIdp extends React.Component {
                         <td>{currentIdp.names.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.name.pt")}</td>
+                        <td>{currentIdp.names.pt}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.state")}</td>
                         <td>{I18n.t("my_idp." + currentIdp.state)}</td>
                     </tr>
@@ -177,12 +193,20 @@ class MyIdp extends React.Component {
                         <td>{currentIdp.descriptions.nl}</td>
                     </tr>
                     <tr>
+                        <td>{I18n.t("my_idp.description.pt")}</td>
+                        <td>{currentIdp.descriptions.pt}</td>
+                    </tr>
+                    <tr>
                         <td>{I18n.t("my_idp.displayName.en")}</td>
                         <td>{currentIdp.displayNames.en}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.displayName.nl")}</td>
                         <td>{currentIdp.displayNames.nl}</td>
+                    </tr>
+                    <tr>
+                        <td>{I18n.t("my_idp.displayName.pt")}</td>
+                        <td>{currentIdp.displayNames.pt}</td>
                     </tr>
                     <tr>
                         <td>{I18n.t("my_idp.organizationURL.en")}</td>
@@ -211,6 +235,22 @@ class MyIdp extends React.Component {
                         </span>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationURL.pt")}</td>
+                        <td>{currentIdp.homeUrls.pt}
+                            <span>
+                            <i className="fa fa-info-circle" data-for="organizationURLpt" data-tip></i>
+                                <ReactTooltip id="organizationURLpt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationURL_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td>{I18n.t("my_idp.organizationName.en")}</td>
                         <td>{currentIdp.organisationNames.en} <span>
@@ -237,6 +277,23 @@ class MyIdp extends React.Component {
                         </span>
                         </td>
                     </tr>
+
+
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationName.pt")}</td>
+                        <td>{currentIdp.organisationNames.pt} <span>
+                            <i className="fa fa-info-circle" data-for="organizationNamePt" data-tip></i>
+                                <ReactTooltip id="organizationNamePt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationName_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+
+
                     <tr>
                         <td>{I18n.t("my_idp.organizationDisplayName.en")}</td>
                         <td>{currentIdp.organisationDisplayNames.en} <span>
@@ -263,6 +320,21 @@ class MyIdp extends React.Component {
                         </span>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>{I18n.t("my_idp.organizationDisplayName.pt")}</td>
+                        <td>{currentIdp.organisationDisplayNames.pt} <span>
+                            <i className="fa fa-info-circle" data-for="organizationDisplayNamePt" data-tip></i>
+                                <ReactTooltip id="organizationDisplayNamePt" type="info" class="tool-tip"
+                                              effect="solid"
+                                              multiline={true}>
+                                    <span
+                                        dangerouslySetInnerHTML={{__html: I18n.t("my_idp.organizationDisplayName_pt_tooltip")}}/>
+                                </ReactTooltip>
+                        </span>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td>{I18n.t("my_idp.keywords.en")}</td>
                         <td>{currentIdp.keywords.en}</td>
@@ -271,6 +343,12 @@ class MyIdp extends React.Component {
                         <td>{I18n.t("my_idp.keywords.nl")}</td>
                         <td>{currentIdp.keywords.nl}</td>
                     </tr>
+
+                    <tr>
+                        <td>{I18n.t("my_idp.keywords.pt")}</td>
+                        <td>{currentIdp.keywords.pt}</td>
+                    </tr>
+
                     <tr>
                         <td>{I18n.t("my_idp.published_in_edugain")}</td>
                         <td>{currentIdp.publishedInEdugain ? I18n.t("boolean.yes") : I18n.t("boolean.no")}</td>

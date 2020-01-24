@@ -43,9 +43,11 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private String interfedSource;
     private String privacyStatementUrlEn;
     private String privacyStatementUrlNl;
+    private String privacyStatementUrlPt;
     private String registrationInfo;
     private String registrationPolicyUrlEn;
     private String registrationPolicyUrlNl;
+    private String registrationPolicyUrlPt;
     private String entityCategories1;
     private String entityCategories2;
     private boolean idpVisibleOnly;
@@ -63,11 +65,13 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private Map<String, String> urls = new HashMap<>();
     private String wikiUrlNl;
     private String wikiUrlEn;
+    private String wikiUrlPt;
     private boolean strongAuthenticationEnabled;
     private String minimalLoaLevel;
 
     private List<String> typeOfServicesNl = new ArrayList<>();
     private List<String> typeOfServicesEn = new ArrayList<>();
+    private List<String> typeOfServicesPt = new ArrayList<>();
 
     private String manipulationNotes;
     private boolean manipulation;
@@ -82,9 +86,11 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.interfedSource = (String) metaData.getOrDefault("coin:interfed_source", "SURFconext");
         this.privacyStatementUrlEn = (String) metaData.get("mdui:PrivacyStatementURL:en");
         this.privacyStatementUrlNl = (String) metaData.get("mdui:PrivacyStatementURL:nl");
+        this.privacyStatementUrlPt = (String) metaData.get("mdui:PrivacyStatementURL:pt");
         this.registrationInfo = (String) metaData.get("mdrpi:RegistrationInfo");
         this.registrationPolicyUrlEn = (String) metaData.get("mdrpi:RegistrationPolicy:en");
         this.registrationPolicyUrlNl = (String) metaData.get("mdrpi:RegistrationPolicy:nl");
+        this.registrationPolicyUrlPt = (String) metaData.get("mdrpi:RegistrationPolicy:pt");
         this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
         this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
         this.licenseStatus = LicenseStatus.fromManage((String) metaData.get("coin:ss:license_status"));
@@ -97,6 +103,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.hidden = booleanValue(metaData.get("coin:ss:hidden"));
         this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
         this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
+        this.wikiUrlPt = (String) metaData.get("coin:ss:wiki_url:pt");
         Object attributes = metaData.get("attributes");
         if (attributes != null) {
             if (attributes instanceof List) {
@@ -117,9 +124,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         if (StringUtils.hasText(typeOfService)) {
             this.typeOfServicesNl = Arrays.asList(typeOfService.split(","));
         }
+        typeOfService = (String) metaData.get("coin:ss:type_of_service:pt");
+        if (StringUtils.hasText(typeOfService)) {
+            this.typeOfServicesPt = Arrays.asList(typeOfService.split(","));
+        }
 
         addUrl("en", (String) metaData.get("url:en"));
         addUrl("nl", (String) metaData.get("url:nl"));
+        addUrl("pt", (String) metaData.get("url:pt"));
 
         this.privacyInfo = this.buildPrivacyInfo(metaData);
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
@@ -185,6 +197,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return privacyStatementUrlNl;
     }
 
+    public String getPrivacyStatementUrlPt() {
+        return privacyStatementUrlPt;
+    }
+
     public String getRegistrationInfo() {
         return registrationInfo;
     }
@@ -197,6 +213,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return registrationPolicyUrlNl;
     }
 
+    public String getRegistrationPolicyUrlPt() {
+        return registrationPolicyUrlPt;
+    }
+
     public Map<String, String> getUrls() {
         return urls;
     }
@@ -206,7 +226,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     }
 
     public String getWikiUrl(Language language) {
-        return Language.EN.equals(language) ? this.wikiUrlEn : this.wikiUrlNl;
+        return Language.EN.equals(language) ? this.wikiUrlEn : Language.PT.equals(language) ? this.wikiUrlPt : this.wikiUrlNl;
     }
 
     public PrivacyInfo getPrivacyInfo() {
@@ -286,12 +306,20 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return wikiUrlEn;
     }
 
+    public String getWikiUrlPt() {
+        return wikiUrlPt;
+    }
+
     public List<String> getTypeOfServicesNl() {
         return typeOfServicesNl;
     }
 
     public List<String> getTypeOfServicesEn() {
         return typeOfServicesEn;
+    }
+
+    public List<String> getTypeOfServicesPt() {
+        return typeOfServicesPt;
     }
 
     public boolean isAansluitovereenkomstRefused() {
@@ -309,7 +337,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     public boolean isManipulation() {
         return manipulation;
     }
-
 
     public List<String> getNameIds() {
         return nameIds;

@@ -71,14 +71,18 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         this.state = (String) metaData.get("state");
         addName("en", (String) metaData.get("name:en"));
         addName("nl", (String) metaData.get("name:nl"));
+        addName("pt", (String) metaData.get("name:pt"));
         this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));
         this.logoUrl = (String) metaData.get("logo:0:url");
         addHomeUrl("en", (String) metaData.get("OrganizationURL:en"));
         addHomeUrl("nl", (String) metaData.get("OrganizationURL:nl"));
+        addHomeUrl("pt", (String) metaData.get("OrganizationURL:pt"));
         addDescription("en", (String) metaData.get("description:en"));
         addDescription("nl", (String) metaData.get("description:nl"));
+        addDescription("pt", (String) metaData.get("description:pt"));
         addDisplayName("en", (String) metaData.get("displayName:en"));
         addDisplayName("nl", (String) metaData.get("displayName:nl"));
+        addDisplayName("pt", (String) metaData.get("displayName:pt"));
         IntStream.rangeClosed(0, 2).forEach(i -> {
             String contactType = (String) metaData.get("contacts:" + i + ":contactType");
             if (contactType != null) {
@@ -315,6 +319,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
 
     public enum Language {
-        EN, NL;
+        EN, NL, PT;
     }
 }
