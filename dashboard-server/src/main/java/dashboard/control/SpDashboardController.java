@@ -27,7 +27,7 @@ import java.util.Collections;
 @RequestMapping(value = "/spDashboard/api/")
 @RestController
 public class SpDashboardController extends BaseController {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(SpDashboardController.class);
 
     private ActionsService actionsService;
@@ -54,6 +54,7 @@ public class SpDashboardController extends BaseController {
             @RequestParam String ownEmail,
             HttpServletRequest request
     ) throws IOException, MessagingException {
+
         LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
 
         String header = request.getHeader("Authorization");
