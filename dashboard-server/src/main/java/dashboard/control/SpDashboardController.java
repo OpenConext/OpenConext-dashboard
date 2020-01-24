@@ -24,11 +24,11 @@ import java.util.Base64;
 import java.util.Collections;
 
 
-@RequestMapping(value = "/serviceProvider/api/")
+@RequestMapping(value = "/spDashboard/api/")
 @RestController
-public class ServiceProviderController extends BaseController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceProviderController.class);
+public class SpDashboardController extends BaseController {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(SpDashboardController.class);
 
     private ActionsService actionsService;
     private MailBox mailbox;
@@ -36,9 +36,9 @@ public class ServiceProviderController extends BaseController {
     private String spUsername;
     private String spPassword;
 
-    public ServiceProviderController(Services services, ActionsService actionsService, MailBox mailbox, Sab sabClient,
-                                     @Value("${spDashboard.username}") String spUsername,
-                                     @Value("${spDashboard.password}") String spPassword) {
+    public SpDashboardController(Services services, ActionsService actionsService, MailBox mailbox, Sab sabClient,
+                                 @Value("${spDashboard.username}") String spUsername,
+                                 @Value("${spDashboard.password}") String spPassword) {
         this.actionsService = actionsService;
         this.mailbox = mailbox;
         this.sabClient = sabClient;
@@ -97,5 +97,6 @@ public class ServiceProviderController extends BaseController {
         actionsService.create(action, Collections.emptyList());
         mailbox.sendInviteMail(inviteRequest, action);
 
+        return ResponseEntity.ok().build();
     }
 }
