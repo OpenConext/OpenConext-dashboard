@@ -18,6 +18,7 @@ package dashboard.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
+import dashboard.manage.DashboardConnectOption;
 import dashboard.manage.EntityType;
 
 import java.io.Serializable;
@@ -93,6 +94,7 @@ public class Service implements Comparable<Service>, Serializable {
     private String minimalLoaLevel;
     private EntityType entityType;
     private List<String> resourceServers;
+    private DashboardConnectOption dashboardConnectOption;
 
     public Service() {
     }
@@ -143,6 +145,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public DashboardConnectOption getDashboardConnectOption() {
+        return dashboardConnectOption;
+    }
+
+    public void setDashboardConnectOption(DashboardConnectOption dashboardConnectOption) {
+        this.dashboardConnectOption = dashboardConnectOption;
     }
 
     public long getId() {
@@ -568,5 +578,19 @@ public class Service implements Comparable<Service>, Serializable {
 
     public List<String> getResourceServers() {
         return resourceServers;
+    }
+
+    public boolean connectsWithoutInteraction() {
+        if (dashboardConnectOption == null) {
+            return false;
+        }
+        return dashboardConnectOption.connectsWithoutInteraction();
+    }
+
+    public boolean sendsEmailWithoutInteraction() {
+        if (dashboardConnectOption == null) {
+            return false;
+        }
+        return dashboardConnectOption.sendsEmail();
     }
 }

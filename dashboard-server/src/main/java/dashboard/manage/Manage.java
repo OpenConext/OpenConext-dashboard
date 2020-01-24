@@ -177,4 +177,5 @@ public interface Manage {
         return result;
     }
 
+    String connectWithoutInteraction( String idpId, String spId, String type);
 }

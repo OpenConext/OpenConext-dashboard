@@ -62,7 +62,9 @@ class HowToConnectPanel extends React.Component {
         const hasPrivacyInfo = privacyProperties.some(prop => this.props.app.privacyInfo[prop]);
         const title = isInvite ? "connect_invite_title" : "connect_title";
         const subTitle = isInvite ? "info_sub_invite_title" : "info_sub_title";
-        const actionName = isInvite ? "approve" : "connect";
+        const automaticallyConnect = this.props.app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ||
+            this.props.app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
+        const actionName = isInvite ? "approve" : (automaticallyConnect ? "automatic_connect" : "connect");
         return (
             <div className="l-middle-app-detail">
                 <ConfirmationDialog isOpen={confirmationDialogOpen}
@@ -71,7 +73,7 @@ class HowToConnectPanel extends React.Component {
                                     question={confirmationQuestion}/>
                 <div className="mod-title">
                     <h1>{I18n.t(`how_to_connect_panel.${title}`, {app: this.props.app.name})}</h1>
-                    <p>{I18n.t(`how_to_connect_panel.${subTitle}`)}</p>
+                    <p>{I18n.t(`how_to_connect_panel.${subTitle}`)} {automaticallyConnect && I18n.t("how_to_connect_panel.info_connection_without_interaction")}</p>
                 </div>
 
                 <div className="mod-connect">
@@ -322,6 +324,22 @@ class HowToConnectPanel extends React.Component {
     };
 
     renderDoneStep() {
+        if (this.state.action.connectWithoutInteraction) {
+            const rejectedOrDone = this.state.action.rejected ? "rejected" : "done";
+            return (
+                <div className="l-middle-app-detail">
+                    <div className="mod-title">
+                        <h1>{I18n.t("how_to_connect_panel." + rejectedOrDone + "_without_interaction_title")}</h1>
+                        <p>{I18n.t("how_to_connect_panel." + rejectedOrDone + "_without_interaction_subtitle")}</p>
+                        <br/>
+                        <p className="cta">
+                            <a href="/apps" onClick={this.backToServices.bind(this)}
+                               className="c-button">{I18n.t("how_to_connect_panel.back_to_apps")}</a>
+                        </p>
+                    </div>
+                </div>
+            );
+        }
         const jiraKey = this.props.jiraKey || this.state.action.jiraKey;
         const subtitle = jiraKey ?
             I18n.t("how_to_connect_panel.done_subtitle_with_jira_html", {jiraKey: jiraKey}) :

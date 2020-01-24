@@ -156,6 +156,7 @@ I18n.translations.en = {
             connect: "",
             connect_button: "Connect",
             connected: "Connected",
+            dashboardConnectOption: "Automatic connection",
             license: "License secured",
             licenseStatus: "License required",
             aansluitovereenkomstRefused: "Policy signed",
@@ -367,6 +368,7 @@ I18n.translations.en = {
         comments_description: "Comments will be sent to SURFconext.",
         comments_placeholder: "Enter comments here...",
         comments_title: "Any additional comments?",
+        automatic_connect: "Activate connection immediately",
         connect: "Activate service",
         connect_title: "Connect {{app}}",
         connect_invite_title: "Accept invite to connect {{app}}",
@@ -378,10 +380,15 @@ I18n.translations.en = {
         done_subtitle_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href=\"mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}\">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.",
         done_title: "Connection requested!",
+        rejected_without_interaction_title: "Connection failed!",
+        rejected_without_interaction_subtitle: "Something went wrong while connecting.", // TODO: change text
+        done_without_interaction_title: "Connection established!", // TODO: check text
+        done_without_interaction_subtitle: "You can make use of it now.", // TODO: check text
         forward_permission: {
             after: " to {{app}}.",
             before: "SURFnet has permission to forward the ",
         },
+        info_connection_without_interaction: "This service provider allows institutions to connect immediately. There is no need to wait for an invitation to be accepted.",
         info_sub_title: "You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.",
         info_sub_invite_title: "You can accept the invite to connect. We advise you to follow the checklist and check the specific information for this app before you activate.",
         info_title: "Activate connection",

@@ -14,11 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,6 +63,9 @@ public class MailBox {
     }
 
     private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml) throws MessagingException, IOException {
+        if (to.size() == 1 && to.get(0).equals("")){  // TODO: this was added for local dev testing
+            return;
+        }
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         helper.setSubject(subject);
@@ -102,6 +101,21 @@ public class MailBox {
 
         try {
             sendMail(html, subject, emails, Collections.emptyList(), true);
+        } catch (Exception e) {
+            //anti-pattern but we don't want to crash because of mail problems
+        }
+    }
+
+    public void sendDashboardConnectWithoutInteractionEmail(String emailTo, String idpName, String spName, String type) throws IOException {
+        String emailSubject = "Nieuwe Surfconext koppeling";
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("title", "Nieuwe Surfconext koppeling");
+        variables.put("idpName", idpName);
+        variables.put("spName", spName);
+        List<String> emails = Stream.of(emailTo.split(",")).map(String::trim).collect(toList());
+        String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
+        try {
+            sendMail(html, emailSubject, emails, Collections.emptyList(), true);
         } catch (Exception e) {
             //anti-pattern but we don't want to crash because of mail problems
         }

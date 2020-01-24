@@ -20,15 +20,16 @@ import dashboard.domain.Change;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public interface ActionsService {
 
     JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
 
     Action create(Action action, List<Change> changes);
+
+    Action connectWithoutInteraction(Action action) throws IOException;
 
     void rejectInviteRequest(String jiraKey, String comment);
 

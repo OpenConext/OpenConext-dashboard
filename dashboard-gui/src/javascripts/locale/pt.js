@@ -155,6 +155,7 @@ I18n.translations.pt = {
             connect: "",
             connect_button: "Ativar",
             connected: "Ativado",
+            dashboardConnectOption: "Automatic connection", // TODO: translate
             license: "Licença protegida",
             licenseStatus: "Licença exigida",
             aansluitovereenkomstRefused: "Política assinada",
@@ -363,6 +364,7 @@ I18n.translations.pt = {
         comments_description: "Comentários serão enviados à SURFconext.",
         comments_placeholder: "Adicione aqui os seus comentários...",
         comments_title: "Comentários adicionais?",
+        automatic_connect: "Activate connection immediately", // TODO: translate
         connect: "Ativar serviço",
         connect_title: "Ligar {{app}}",
         connect_invite_title: "Aceitar convite para ligar {{app}}",
@@ -374,10 +376,15 @@ I18n.translations.pt = {
         done_subtitle_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href=\"mailto:support@surfconext.nl?subject=Questões sobre a ligação {{jiraKey}}\">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.",
         done_title: "Ligação é solicitada!",
+        rejected_without_interaction_title: "Connection failed!",
+        rejected_without_interaction_subtitle: "Something went wrong while connecting.", // TODO: change text
+        done_without_interaction_title: "Connection established!", // TODO: check text. translate if text is sufficient
+        done_without_interaction_subtitle: "You can make use of it now.", // TODO: check text. translate if text is sufficient
         forward_permission: {
             after: " para {{app}}.",
             before: "SURFnet tem permissões para encaminhar ",
         },
+        info_connection_without_interaction: "This service provider allows institutions to connect immediately. There is no need to wait for an invitation to be accepted.", // TODO: translate
         info_sub_title: "Pode ativar uma ligação neste Dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_sub_invite_title: "Pode aceitar o convite para ativar uma ligação. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_title: "Ativar ligação",

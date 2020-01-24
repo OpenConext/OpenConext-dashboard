@@ -19,8 +19,6 @@ import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 
-import com.google.common.base.MoreObjects;
-
 import org.apache.commons.lang.builder.CompareToBuilder;
 
 public class Action {
@@ -32,6 +30,8 @@ public class Action {
     private String userName;
     private String userEmail;
     private String emailTo;
+    private boolean shouldSendEmail;
+    private boolean connectWithoutInteraction;
     private String body;
 
     private String idpId;
@@ -60,6 +60,8 @@ public class Action {
         this.userName = builder.userName;
         this.userEmail = builder.userEmail;
         this.emailTo = builder.emailTo;
+        this.shouldSendEmail = builder.shouldSendEmail;
+        this.connectWithoutInteraction = builder.connectWithoutInteraction;
         this.body = builder.body;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
@@ -136,6 +138,14 @@ public class Action {
 
     public String getEmailTo() {
         return emailTo;
+    }
+
+    public boolean shouldSendEmail() {
+        return shouldSendEmail;
+    }
+
+    public boolean connectWithoutInteraction() {
+        return connectWithoutInteraction;
     }
 
     public String getSubject() {
@@ -300,6 +310,8 @@ public class Action {
         private String userName;
         private String userEmail;
         private String emailTo;
+        private boolean shouldSendEmail;
+        private boolean connectWithoutInteraction;
         private Type type;
         private String status;
         private String resolution;
@@ -326,6 +338,8 @@ public class Action {
             this.userName = action.userName;
             this.userEmail = action.userEmail;
             this.emailTo = action.emailTo;
+            this.shouldSendEmail = action.shouldSendEmail;
+            this.connectWithoutInteraction = action.connectWithoutInteraction;
             this.type = action.type;
             this.status = action.status;
             this.resolution = action.resolution;
@@ -362,6 +376,16 @@ public class Action {
 
         public Builder emailTo(String emailTo) {
             this.emailTo = emailTo;
+            return this;
+        }
+
+        public Builder shouldSendEmail(boolean shouldSendEmail) {
+            this.shouldSendEmail = shouldSendEmail;
+            return this;
+        }
+
+        public Builder connectWithoutInteraction(boolean connectWithoutInteraction) {
+            this.connectWithoutInteraction = connectWithoutInteraction;
             return this;
         }
 

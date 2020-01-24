@@ -157,6 +157,7 @@ I18n.translations.nl = {
             connect: "",
             connect_button: "Activeren",
             connected: "Dienst gekoppeld",
+            dashboardConnectOption: "Automatisch koppelen",
             license: "Licentie afgesloten",
             licenseStatus: "Licentie vereist",
             aansluitovereenkomstRefused: "Aansluitovereenkomst",
@@ -369,6 +370,7 @@ I18n.translations.nl = {
         comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
         comments_placeholder: "Voer hier je opmerkingen in...",
         comments_title: "Eventuele opmerkingen?",
+        automatic_connect: "Activeer connectie meteen",
         connect: "Activeer connectie",
         connect_title: "Activeer {{app}}",
         connect_invite_title: "Accepteer de uitnodiging om {{app}} te activeren",
@@ -380,10 +382,15 @@ I18n.translations.nl = {
         done_subtitle_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
         done_subtitle_with_jira_html: "Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href=\"mailto:support@surfconext.nl?subject=Vraag over koppeling {{jiraKey}}\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).",
         done_title: "Verbinding aangevraagd!",
+        rejected_without_interaction_title: "Koppeling niet geslaagd!",
+        rejected_without_interaction_subtitle: "Er is iets fout gegaan bij de koppeling.", // TODO: change text
+        done_without_interaction_title: "Service gekoppeld!", // TODO: check text
+        done_without_interaction_subtitle: "Er kan meteen gebruik van worden gemaakt.", // TODO: check text
         forward_permission: {
             after: " door te sturen naar {{app}}.",
             before: "SURFnet heeft toestemming om de ",
         },
+        info_connection_without_interaction: "Deze dienstverlener staat instellingen toe om meteen te koppelen. U hoeft dus niet te wachten tot een uitnodiging wordt geaccepteerd.",
         info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
         info_sub_invite_title: "Je kunt de uitnodiging accepteren. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
         info_title: "Verbinding activeren",

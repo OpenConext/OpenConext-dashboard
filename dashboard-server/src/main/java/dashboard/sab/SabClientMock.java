@@ -57,4 +57,12 @@ public class SabClientMock implements Sab {
                 .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String getSabEmailsForOrganization(String entityId, String role) {
+        return sabPersons
+                .stream()
+                .map(SabPerson::getEmail)
+                .collect(Collectors.joining(", "));
+    }
 }

@@ -19,18 +19,17 @@ import dashboard.domain.*;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
+import dashboard.sab.Sab;
 import dashboard.service.ActionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +51,9 @@ public class ActionsServiceImpl implements ActionsService {
 
     @Autowired
     private MailBox mailBox;
+
+    @Autowired
+    private Sab sabClient;
 
     @Value("${administration.email.enabled}")
     private boolean sendAdministrationEmail;
@@ -170,6 +172,29 @@ public class ActionsServiceImpl implements ActionsService {
             jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.of("Waiting for approval of SCV."));
 
         }
+        return savedAction;
+    }
+
+    @Override
+    public Action connectWithoutInteraction(Action action) throws IOException {
+        Action savedAction = addNames(action);
+
+        String idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
+        if (idpEmails != null) {
+            mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, action.getIdpName(), action.getSpName(), "idp");
+        }
+
+        String spEmail = sabClient.getSabEmailsForOrganization(action.getSpId(), "SURFconextbeheerder"); // TODO: correct role?
+        if (spEmail != null) {
+            if (action.shouldSendEmail()) {
+                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmail, action.getIdpName(), action.getSpName(), "sp");
+            }
+        }
+
+        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
+
+        savedAction = savedAction.unbuild().rejected(!resp.equals("success")).build();
+
         return savedAction;
     }
 

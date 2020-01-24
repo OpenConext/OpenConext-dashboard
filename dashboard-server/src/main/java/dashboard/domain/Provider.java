@@ -238,6 +238,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         return allowedEntityIds;
     }
 
+    public void addAllowedEntityId(String spId) {
+        allowedEntityIds.add(spId);
+    }
+
     public String getPublishInEdugainDate() {
         return publishInEdugainDate;
     }

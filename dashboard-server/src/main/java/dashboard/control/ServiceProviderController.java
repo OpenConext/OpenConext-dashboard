@@ -2,11 +2,8 @@ package dashboard.control;
 
 import dashboard.domain.Action;
 import dashboard.domain.InviteRequest;
-import dashboard.domain.Service;
 import dashboard.mail.MailBox;
-import dashboard.manage.EntityType;
 import dashboard.sab.Sab;
-import dashboard.sab.SabPerson;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import org.slf4j.Logger;
@@ -20,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @RequestMapping(value = "/serviceProvider/api/")
@@ -88,10 +84,7 @@ public class ServiceProviderController extends BaseController {
 
         String idpEntityId = inviteRequest.getIdpEntityId();
 
-        String emailTo = sabClient.getPersonsInRoleForOrganization(idpEntityId, "SURFconextverantwoordelijke")
-                .stream()
-                .map(SabPerson::getEmail)
-                .collect(Collectors.joining(", "));
+        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke");
 
         LOG.debug("Send email to sabPeople: " + emailTo);
 

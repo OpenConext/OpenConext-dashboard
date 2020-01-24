@@ -1,13 +1,6 @@
 package dashboard.control;
 
-import dashboard.domain.Action;
-import dashboard.domain.Category;
-import dashboard.domain.CategoryValue;
-import dashboard.domain.CoinUser;
-import dashboard.domain.InstitutionIdentityProvider;
-import dashboard.domain.Provider;
-import dashboard.domain.Service;
-import dashboard.domain.ServiceProvider;
+import dashboard.domain.*;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
@@ -223,7 +216,7 @@ public class ServicesController extends BaseController {
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
-    private Optional<Action> createAction(String idpEntityId, String comments, String entityId, String typeMetaData, Action.Type
+    private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, String typeMetaData, Action.Type
             jiraType, Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
@@ -235,21 +228,31 @@ public class ServicesController extends BaseController {
         }
 
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
-        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(entityId)).findFirst();
+        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
         if (optional.isPresent()) {
             Service service = optional.get();
+
+            boolean idpAndSpShareInstitution = (service.getSpName() != null) && service.getSpName().equals(currentUser.getIdp().getName());
+            boolean connectWithoutInteraction = idpAndSpShareInstitution || service.connectsWithoutInteraction();
+
             Action action = Action.builder()
                     .userEmail(currentUser.getEmail())
                     .userName(currentUser.getFriendlyName())
                     .body(comments)
                     .idpId(idpEntityId)
-                    .spId(entityId)
+                    .spId(spEntityId)
                     .typeMetaData(typeMetaData)
+                    .connectWithoutInteraction(connectWithoutInteraction)
+                    .shouldSendEmail(service.sendsEmailWithoutInteraction())
                     .service(service)
                     .type(jiraType).build();
 
-            return Optional.of(actionsService.create(action, Collections.emptyList()));
+            if (connectWithoutInteraction) {
+                return Optional.of(actionsService.connectWithoutInteraction(action));
+            } else {
+                return Optional.of(actionsService.create(action, Collections.emptyList()));
+            }
         }
 
         return Optional.empty();

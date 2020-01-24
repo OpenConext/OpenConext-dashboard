@@ -59,6 +59,7 @@ public class ServicesImpl implements Services {
                     .getAllowedEntityIds().contains(sp.getId());
             boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
             service.setConnected(connectedToIdentityProvider && allowedBySp);
+            service.setDashboardConnectOption(sp.getDashboardConnectOption());
             return service;
         }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
                 (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
@@ -161,6 +162,7 @@ public class ServicesImpl implements Services {
         service.setGuestEnabled(this.isGuestEnabled(sp));
         service.setManipulationNotes(sp.getManipulationNotes());
         service.setContractualBase(sp.getContractualBase());
+        service.setDashboardConnectOption(sp.getDashboardConnectOption());
         service.setManipulation(sp.isManipulation());
         service.setNameIds(sp.getNameIds());
         service.setResourceServers(sp.getResourceServers());

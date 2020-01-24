@@ -154,4 +154,15 @@ public class ClassPathResourceManage implements Manage {
         return new ClassPathResource("manage/single-tenants.json");
     }
 
+    @Override
+    public String connectWithoutInteraction(String idpId, String spId, String type) {
+        try {
+            IdentityProvider identityProvider = getIdentityProvider(idpId, false).orElseThrow
+                    (RuntimeException::new);
+            identityProvider.addAllowedEntityId(spId);
+            return "success";
+        } catch (Exception e) {
+            return "failure";
+        }
+    }
 }
