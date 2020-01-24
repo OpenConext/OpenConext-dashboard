@@ -107,11 +107,11 @@ public class SabClient implements Sab {
     }
 
     @Override
-    public String getSabEmailsForOrganization(String entityId, String role) {
+    public List<String> getSabEmailsForOrganization(String entityId, String role) {
         return getPersonsInRoleForOrganization(entityId, role)
                 .stream()
                 .map(SabPerson::getEmail)
-                .collect(Collectors.joining(", "));
+                .collect(toList());
     }
 
     /**

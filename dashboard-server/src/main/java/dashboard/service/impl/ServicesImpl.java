@@ -166,6 +166,7 @@ public class ServicesImpl implements Services {
         service.setManipulation(sp.isManipulation());
         service.setNameIds(sp.getNameIds());
         service.setResourceServers(sp.getResourceServers());
+        service.setResourceServer(sp.isResourceServer());
     }
 
     private void initialize() {

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 
 @RequestMapping(value = "/spDashboard/api/")
@@ -54,21 +55,9 @@ public class SpDashboardController extends BaseController {
             @RequestParam String ownEmail,
             HttpServletRequest request
     ) throws IOException, MessagingException {
-
         LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
 
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Basic ")) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
-        byte[] decoded = Base64.getDecoder().decode(base64Token);
-
-        String token = new String(decoded, Charset.defaultCharset());
-        String user = token.split(":")[0];
-        String password = token.split(":")[1];
-        if (!user.equals(spUsername) || !password.equals(spPassword)) {
+        if (invalidUser(request)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -82,7 +71,9 @@ public class SpDashboardController extends BaseController {
 
         String idpEntityId = inviteRequest.getIdpEntityId();
 
-        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke");
+        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke")
+                .stream()
+                .collect(Collectors.joining(", "));
 
         LOG.debug("Send email to sabPeople: " + emailTo);
 
@@ -95,9 +86,28 @@ public class SpDashboardController extends BaseController {
                 .idpId(inviteRequest.getIdpEntityId())
                 .spId(inviteRequest.getSpEntityId())
                 .type(Action.Type.LINKINVITE).build();
+
         actionsService.create(action, Collections.emptyList());
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok().build();
+    }
+
+    private boolean invalidUser(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Basic ")) {
+            return true;
+        }
+
+        byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
+        byte[] decoded = Base64.getDecoder().decode(base64Token);
+
+        String token = new String(decoded, Charset.defaultCharset());
+        String user = token.split(":")[0];
+        String password = token.split(":")[1];
+        if (!user.equals(spUsername) || !password.equals(spPassword)) {
+            return true;
+        }
+        return false;
     }
 }

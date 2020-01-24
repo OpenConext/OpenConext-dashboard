@@ -63,9 +63,6 @@ public class MailBox {
     }
 
     private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml) throws MessagingException, IOException {
-        if (to.size() == 1 && to.get(0).equals("")){  // TODO: this was added for local dev testing
-            return;
-        }
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         helper.setSubject(subject);
@@ -106,13 +103,12 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(String emailTo, String idpName, String spName, String type) throws IOException {
+    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type) throws IOException {
         String emailSubject = "Nieuwe Surfconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe Surfconext koppeling");
         variables.put("idpName", idpName);
         variables.put("spName", spName);
-        List<String> emails = Stream.of(emailTo.split(",")).map(String::trim).collect(toList());
         String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
         try {
             sendMail(html, emailSubject, emails, Collections.emptyList(), true);

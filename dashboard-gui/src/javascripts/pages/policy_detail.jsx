@@ -51,22 +51,13 @@ class PolicyDetail extends React.Component {
         Promise.all(promises).then(res => {
             this.setState({
                 institutionServiceProviders: res[0].payload,
-                connectedServiceProviders: res[1].payload,
+                connectedServiceProviders: res[1].payload
+                    .filter(sp => !sp.isResourceServer && sp.entityType !== "single_tenant_template"),
                 allowedAttributes: res[2].payload,
                 policy: res[3].payload,
                 loaded: true
             });
         });
-        // getInstitutionServiceProviders().then(data => this.setState({institutionServiceProviders: data.payload}));
-        // getConnectedServiceProviders(currentUser.getCurrentIdpId())
-        //     .then(data => this.setState({connectedServiceProviders: data.payload}));
-        // getAllowedAttributes().then(data => this.setState({allowedAttributes: data.payload}));
-        //
-        // if (this.props.match.params.id !== "new") {
-        //     getPolicy(this.props.match.params.id).then(data => this.setState({policy: data.payload}));
-        // } else {
-        //     getNewPolicy().then(data => this.setState({policy: data.payload}));
-        // }
     }
 
     render() {
@@ -107,7 +98,8 @@ class PolicyDetail extends React.Component {
     renderHelp() {
         return (
             <div className="mod-policy-detail-help">
-                {I18n.locale === "en" ? <PolicyDetailHelpEn/> : I18n.locale === "pt" ? <PolicyDetailHelpPt/> : <PolicyDetailHelpNl/>}
+                {I18n.locale === "en" ? <PolicyDetailHelpEn/> : I18n.locale === "pt" ? <PolicyDetailHelpPt/> :
+                    <PolicyDetailHelpNl/>}
             </div>
         );
     }
@@ -331,11 +323,21 @@ class PolicyDetail extends React.Component {
                     <p className="label">{I18n.t("policy_detail.deny_message_nl")}</p>
                     <input type="text" name="denyMessageNl" className="form-input"
                            value={this.state.policy.denyAdviceNl || ""}
-                           onChange={e => this.setState({policy: {...this.state.policy, denyAdviceNl: e.target.value}})}/>
+                           onChange={e => this.setState({
+                               policy: {
+                                   ...this.state.policy,
+                                   denyAdviceNl: e.target.value
+                               }
+                           })}/>
                     <p className="label">{I18n.t("policy_detail.deny_message_pt")}</p>
                     <input type="text" name="denyMessagePt" className="form-input"
                            value={this.state.policy.denyAdvicePt || ""}
-                           onChange={e => this.setState({policy: {...this.state.policy, denyAdvicePt: e.target.value}})}/>
+                           onChange={e => this.setState({
+                               policy: {
+                                   ...this.state.policy,
+                                   denyAdvicePt: e.target.value
+                               }
+                           })}/>
                 </fieldset>
             </div>
         );
@@ -374,7 +376,8 @@ class PolicyDetail extends React.Component {
                     <input type="checkbox" id="isActive" name="isActive" checked={policy.active}
                            onChange={this.handleOnChangeIsActive.bind(this)}/>
                     <label htmlFor="isActive">{I18n.t("policy_detail.isActiveDescription")}
-                        <a className="help-link" target="_blank" rel="noopener noreferrer" href={I18n.t("policies.pdp_active_link")}>
+                        <a className="help-link" target="_blank" rel="noopener noreferrer"
+                           href={I18n.t("policies.pdp_active_link")}>
                             <i className="fa fa-question-circle" data-for="pdp_active_info" data-tip/>
                             <ReactTooltip id="pdp_active_info" type="info" class="tool-tip" effect="solid">
                                 {I18n.t("policies.pdp_active_info")}

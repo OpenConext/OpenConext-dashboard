@@ -564,7 +564,7 @@ I18n.translations.en = {
         },
         contact_email: {
             title: "Contact email",
-            tooltip: "Attention: you're advised to use a functional email address (admin@.. tech@... helpdesk@... ) which doesn't change when someone leaves your institution."
+            tooltip: "Attention: you are advised to use<br>a functional email address:<br><br><ul><li>- admin@your-instution.nl</li><li>- tech@your-instution.nl</li><li>- helpdesk@your-instution.nl</li></ul><br>which doesn't change when<br>someone leaves your institution."
         },
         contact_type: {
             title: "Contact type",
@@ -574,23 +574,23 @@ I18n.translations.en = {
         },
         contact_types: {
             technical: {
-                title: "Technical",
-                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",
+                title: "Technical:<br>",
+                tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.<br><br>",
                 alttooltip: "suggestion: technical person for down times and changes."
             },
             support: {
-                title: "Support",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                title: "Support:<br>",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>",
                 alttooltip: "suggestion: service desk of the institution."
             },
             help: {
-                title: "Support",
-                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.",
+                title: "Support:<br>",
+                tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>",
                 alttooltip: "suggestion: service desk of the institution."
             },
             administrative: {
-                title: "Administrative",
-                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",
+                title: "Administrative:<br>",
+                tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'<br><br>",
                 alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'"
             }
         },

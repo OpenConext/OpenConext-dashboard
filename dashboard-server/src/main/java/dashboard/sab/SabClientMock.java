@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -55,14 +56,14 @@ public class SabClientMock implements Sab {
     public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
         return sabPersons.stream()
                 .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override
-    public String getSabEmailsForOrganization(String entityId, String role) {
+    public List<String> getSabEmailsForOrganization(String entityId, String role) {
         return sabPersons
                 .stream()
                 .map(SabPerson::getEmail)
-                .collect(Collectors.joining(", "));
+                .collect(toList());
     }
 }
