@@ -1,9 +1,8 @@
 package dashboard.control;
 
-import  dashboard.domain.Action;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.InviteRequest;
+import dashboard.domain.*;
 import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.service.ActionsService;
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -53,20 +53,29 @@ public class SpDashboardController extends BaseController {
             @RequestBody ServiceConnectionRequest serviceConnectionRequest,
             HttpServletRequest request
     ) throws IOException, MessagingException {
-        LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
+        LOG.debug("authenticating serviceProvider request from sp: " + serviceConnectionRequest.getSpEntityId());
         if (invalidUser(request)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        // authentication done
-
+        // get data
         String idpEntityId = serviceConnectionRequest.getIdpEntityId();
         String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke")
                 .stream()
                 .collect(Collectors.joining(", "));
-        String spEntityId = serviceConnectionRequest.getSpEntityId();
 
-        LOG.debug("Send email to sabPeople: " + emailTo);
+        Optional<IdentityProvider> optionalIdp = manage.getIdentityProvider(idpEntityId,false);
+        String spEntityId = serviceConnectionRequest.getSpEntityId();
+        Optional<ServiceProvider> optionalSp = manage.getServiceProvider(spEntityId, EntityType.valueOf(serviceConnectionRequest.getTypeMetaData()), false);
+        if (!optionalSp.isPresent() || !optionalIdp.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        IdentityProvider idp = optionalIdp.get();
+        ServiceProvider sp = optionalSp.get();
+
+        String idpName = idp.getName();
+        String spName = sp.getName();
+        List<ContactPerson> contactPersons = sp.getContactPersons();//
 
         // create JIRA ticket and send emails
         Action action = Action.builder()
@@ -80,10 +89,10 @@ public class SpDashboardController extends BaseController {
 
         actionsService.create(action, Collections.emptyList());
 
-        List<ContactPerson> contactPersons = null;//
-
-        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, contactPersons);
-
+        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest);
+        inviteRequest.setIdpName(idpName);
+        inviteRequest.setSpName(spName);
+        inviteRequest.setContactPersons(contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok().build();

@@ -21,11 +21,10 @@ public class InviteRequest {
     public InviteRequest() {
     }
 
-    public InviteRequest(ServiceConnectionRequest serviceConnectionRequest, List<ContactPerson> contactPersons) {
+    public InviteRequest(ServiceConnectionRequest serviceConnectionRequest) {
         this.idpEntityId = serviceConnectionRequest.getIdpEntityId();
         this.spEntityId = serviceConnectionRequest.getSpEntityId();
         this.typeMetaData = serviceConnectionRequest.getTypeMetaData();
-        this.contactPersons = contactPersons;
     }
 
     public String getIdpEntityId() {
