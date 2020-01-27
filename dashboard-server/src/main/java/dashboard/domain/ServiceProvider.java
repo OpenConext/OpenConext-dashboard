@@ -60,6 +60,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private LicenseStatus licenseStatus;
     private List<String> nameIds;
     private List<String> resourceServers;
+    private boolean isResourceServer;
 
     private ARP arp;
     private PrivacyInfo privacyInfo;
@@ -148,6 +149,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
                 .collect(Collectors.toList());
 
         this.resourceServers = (List<String>) metaData.get("allowedResourceServers");
+        this.isResourceServer = booleanValue(metaData.get("isResourceServer"));
     }
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
@@ -363,5 +365,9 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public List<String> getResourceServers() {
         return resourceServers;
+    }
+
+    public boolean isResourceServer() {
+        return isResourceServer;
     }
 }

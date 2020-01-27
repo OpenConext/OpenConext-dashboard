@@ -273,7 +273,7 @@ public class UrlResourceManage implements Manage {
                 return "success";
             }
         } catch (Exception e) {
-            LOG.debug(String.valueOf(e));  // TODO: error handling
+            LOG.error("Exception in Manage connectWithoutInteraction", e);
         }
         return "failure";
     }

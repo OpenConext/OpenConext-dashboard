@@ -620,7 +620,7 @@ I18n.translations.nl = {
         },
         contact_email: {
             title: "Contact email",
-            tooltip: "Let op: gebruik liefst een rol-adres (admin@.. tech@... helpdesk@... ) die niet verandert bij een personeelswisseling."
+            tooltip: "Let op: gebruik liefst<br>een roladres:<br><br><ul><li>- admin@your-instution.nl</li><li>- tech@your-instution.nl</li><li>- helpdesk@your-instution.nl</li></ul><br>die niet verandert bij een personeelswisseling."
         },
         contact_telephone: {
             title: "Contact telefoon",
@@ -630,23 +630,23 @@ I18n.translations.nl = {
         },
         contact_types: {
             technical: {
-                title: "Technisch",
-                tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.",
+                title: "Technisch Contact:<br>",
+                tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.<br><br>",
                 alttooltip: "suggestie: technisch persoon voor storingen en changes."
             },
             support: {
-                title: "Ondersteuning",
-                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.",
+                title: "Support Contact:<br>",
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>",
                 alttooltip: "suggestie: servicedesk van de instelling."
             },
             help: {
-                title: "Ondersteuning",
-                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.",
+                title: "Support Contact:<br>",
+                tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>",
                 alttooltip: "suggestie: servicedesk van de instelling."
             },
             administrative: {
-                title: "Administratief",
-                tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'.",
+                title: "Administratief Contact:<br>",
+                tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'.<br><br>",
                 alttooltip: "suggestie: persoon met rol 'SURFconext-verantwoordelijke'"
             }
         },

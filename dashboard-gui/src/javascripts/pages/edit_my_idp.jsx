@@ -433,7 +433,6 @@ class EditMyIdp extends React.Component {
                                 <ReactTooltip id="contact-email-tooltip" type="info" class="tool-tip" effect="solid"
                                               multiline={true}>
                                     <span dangerouslySetInnerHTML={{__html: I18n.t("my_idp.contact_email.tooltip")}}/>
-                                    <span>test</span>
                                 </ReactTooltip>
                             </th>
                             <th className="percent_25">{I18n.t("my_idp.contact_telephone.title")}</th>
@@ -518,11 +517,9 @@ class EditMyIdp extends React.Component {
 
     renderContactTypeTooltip(contactPersonType) {
         const tooltipPerson = I18n.t("my_idp.contact_types." + contactPersonType + ".title");
-        const tooltipPersonDescription = I18n.t("my_idp.contact_types." + contactPersonType + ".alttooltip");
+        const tooltipPersonDescription = I18n.t("my_idp.contact_types." + contactPersonType + ".tooltip");
         return (
-            <li key={contactPersonType}>
-                {tooltipPerson}, {tooltipPersonDescription}
-            </li>
+            <li key={contactPersonType} dangerouslySetInnerHTML={{__html: `${tooltipPerson}${tooltipPersonDescription}`}}/>
         );
     }
 

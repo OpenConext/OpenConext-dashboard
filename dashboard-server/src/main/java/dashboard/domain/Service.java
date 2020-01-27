@@ -94,6 +94,7 @@ public class Service implements Comparable<Service>, Serializable {
     private String minimalLoaLevel;
     private EntityType entityType;
     private List<String> resourceServers;
+    private boolean isResourceServer;
     private DashboardConnectOption dashboardConnectOption;
 
     public Service() {
@@ -578,6 +579,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public List<String> getResourceServers() {
         return resourceServers;
+    }
+
+    public boolean isResourceServer() {
+        return isResourceServer;
+    }
+
+    public void setResourceServer(boolean resourceServer) {
+        isResourceServer = resourceServer;
     }
 
     public boolean connectsWithoutInteraction() {

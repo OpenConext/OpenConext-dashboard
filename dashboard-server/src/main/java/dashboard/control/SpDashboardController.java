@@ -3,7 +3,6 @@ package dashboard.control;
 import  dashboard.domain.Action;
 import dashboard.domain.ContactPerson;
 import dashboard.domain.InviteRequest;
-import dashboard.domain.ServiceConnectionRequest;
 import dashboard.mail.MailBox;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
@@ -21,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.stream.Collectors;
 import java.util.List;
 
 
@@ -36,7 +36,6 @@ public class SpDashboardController extends BaseController {
     private String spApiUsername;
     private String spApiPassword;
     private Manage manage;
-
 
     public SpDashboardController(ActionsService actionsService, MailBox mailbox, Sab sabClient, Manage manage,
                                  @Value("${spDashboard.username}") String spApiUsername,
@@ -54,25 +53,20 @@ public class SpDashboardController extends BaseController {
             @RequestBody ServiceConnectionRequest serviceConnectionRequest,
             HttpServletRequest request
     ) throws IOException, MessagingException {
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Basic ")) {
+        LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
+        if (invalidUser(request)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
-        byte[] decoded = Base64.getDecoder().decode(base64Token);
-
-        String token = new String(decoded, Charset.defaultCharset());
-        String user = token.split(":")[0];
-        String password = token.split(":")[1];
-        if (!user.equals(spApiUsername) || !password.equals(spApiPassword)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
         // authentication done
 
         String idpEntityId = serviceConnectionRequest.getIdpEntityId();
-        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke");
+        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke")
+                .stream()
+                .collect(Collectors.joining(", "));
         String spEntityId = serviceConnectionRequest.getSpEntityId();
+
+        LOG.debug("Send email to sabPeople: " + emailTo);
 
         // create JIRA ticket and send emails
         Action action = Action.builder()
@@ -83,6 +77,7 @@ public class SpDashboardController extends BaseController {
                 .idpId(idpEntityId)
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
+
         actionsService.create(action, Collections.emptyList());
 
         List<ContactPerson> contactPersons = null;//
@@ -92,5 +87,23 @@ public class SpDashboardController extends BaseController {
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok().build();
+    }
+
+    private boolean invalidUser(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Basic ")) {
+            return true;
+        }
+
+        byte[] base64Token = header.substring(6).getBytes(Charset.defaultCharset());
+        byte[] decoded = Base64.getDecoder().decode(base64Token);
+
+        String token = new String(decoded, Charset.defaultCharset());
+        String user = token.split(":")[0];
+        String password = token.split(":")[1];
+        if (!user.equals(spApiUsername) || !password.equals(spApiPassword)) {
+            return true;
+        }
+        return false;
     }
 }

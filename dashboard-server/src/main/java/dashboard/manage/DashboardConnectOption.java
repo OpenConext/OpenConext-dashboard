@@ -23,11 +23,11 @@ public enum DashboardConnectOption {
     public boolean connectsWithoutInteraction() {
         return ArrayUtils.contains(
                 new String[]{CONNECT_WITHOUT_INTERACTION_WITH_EMAIL.getOption(),
-                CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL.getOption()}, this.option);
+                        CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL.getOption()}, this.option);
     }
 
     public boolean sendsEmail() {
-        return this.option.equals(CONNECT_WITHOUT_INTERACTION_WITH_EMAIL.toString());
+        return this.option.equals(CONNECT_WITHOUT_INTERACTION_WITH_EMAIL.getOption());
     }
 
     public static DashboardConnectOption fromOption(String option) {

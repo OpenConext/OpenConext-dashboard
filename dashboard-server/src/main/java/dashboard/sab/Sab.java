@@ -17,6 +17,7 @@
 package dashboard.sab;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,5 +42,5 @@ public interface Sab {
   /**
    * Get the email addresses for all people from the given organization that have the given role
    */
-  String getSabEmailsForOrganization(String entityId, String role);
+  List<String> getSabEmailsForOrganization(String entityId, String role);
 }

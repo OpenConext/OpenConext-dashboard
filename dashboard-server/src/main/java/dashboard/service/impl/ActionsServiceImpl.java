@@ -15,7 +15,14 @@
  */
 package dashboard.service.impl;
 
-import dashboard.domain.*;
+import dashboard.domain.Action;
+import dashboard.domain.Change;
+import dashboard.domain.ContactPerson;
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
+import dashboard.domain.Provider;
+import dashboard.domain.ServiceProvider;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
@@ -24,12 +31,17 @@ import dashboard.service.ActionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,12 +130,14 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     private Action addNames(Action action) {
-        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.saml20_sp, true);
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
         Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
 
-        return action.unbuild()
+        return action
+                .unbuild()
                 .idpName(identityProvider.map(IdentityProvider::getName).orElse("Information unavailable"))
-                .spName(serviceProvider.map(ServiceProvider::getName).orElse("Information unavailable")).build();
+                .spName(serviceProvider.map(ServiceProvider::getName).orElse("Information unavailable"))
+                .build();
     }
 
     private Action addUser(Action action) {
@@ -179,28 +193,27 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) throws IOException {
         Action savedAction = addNames(action);
 
-        String idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
-        if (idpEmails != null) {
-            mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, action.getIdpName(), action.getSpName(), "idp");
-        }
-
-        String spEmail = sabClient.getSabEmailsForOrganization(action.getSpId(), "SURFconextbeheerder"); // TODO: correct role?
-        if (spEmail != null) {
-            if (action.shouldSendEmail()) {
-                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmail, action.getIdpName(), action.getSpName(), "sp");
-            }
-        }
-
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
         savedAction = savedAction.unbuild().rejected(!resp.equals("success")).build();
+        if (!savedAction.isRejected()) {
+            List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
+            if (!CollectionUtils.isEmpty(idpEmails)) {
+                mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp");
+            }
+            Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
+            List<String> spEmails = serviceProvider.map(sp -> sp.getContactPersons().stream().map(ContactPerson::getEmailAddress).collect(toList())).orElse(new ArrayList<>());
+            if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
+                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp");
+            }
+        }
 
         return savedAction;
     }
 
     @Override
     public void rejectInviteRequest(String jiraKey, String comment) {
-        //By request of SURFnet we don't close the ticket as the feedback might be lost
+        //By request of SURF we don't close the ticket as the feedback might be lost
         approveInviteRequest(jiraKey, comment);
     }
 
