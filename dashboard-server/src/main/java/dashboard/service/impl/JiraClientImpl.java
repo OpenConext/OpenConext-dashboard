@@ -27,27 +27,34 @@ import dashboard.domain.JiraResponse;
 import dashboard.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -107,6 +114,7 @@ public class JiraClientImpl implements JiraClient {
         SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, changes);
         fields.put("summary", summaryAndDescription.summary);
         fields.put("description", summaryAndDescription.description);
+        fields.put("duedate", dueDate());
 
         Map<String, Object> issue = new HashMap<>();
         issue.put("fields", fields);
@@ -216,7 +224,7 @@ public class JiraClientImpl implements JiraClient {
         restTemplate.exchange(commentUrl, HttpMethod.POST, commentRequestEntity, Map.class);
     }
 
-//    @Override
+    //    @Override
 //    public void attachments(String key, String... attachments) {
 //        String url = baseUrl + "/issue/" + key + "/attachments";
 //
@@ -302,19 +310,28 @@ public class JiraClientImpl implements JiraClient {
     }
 
     private String idpCustomField() {
-        return this.mappings.get(this.environment).get("customFields").get("idpEntityId");
+        return this.customField("idpEntityId");
     }
 
     private String spCustomField() {
-        return this.mappings.get(this.environment).get("customFields").get("spEntityId");
+        return this.customField("spEntityId");
     }
 
     private String typeMetaDataCustomField() {
-        return this.mappings.get(this.environment).get("customFields").get("typeMetaData");
+        return this.customField("typeMetaData");
     }
 
     private String emailToCustomField() {
-        return this.mappings.get(this.environment).get("customFields").get("emailTo");
+        return this.customField("emailTo");
+    }
+
+    private String customField(String name) {
+        return this.mappings.get(this.environment).get("customFields").get(name);
+    }
+
+    private String dueDate() {
+        LocalDate localDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return localDate.plusWeeks(5).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
     }
 
 }
