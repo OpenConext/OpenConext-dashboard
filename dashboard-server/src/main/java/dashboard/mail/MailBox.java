@@ -14,7 +14,11 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -110,6 +114,7 @@ public class MailBox {
         variables.put("idpName", idpName);
         variables.put("spName", spName);
         variables.put("comments", comments);
+        variables.put("hasComments", StringUtils.hasText(comments));
         String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
         try {
             sendMail(html, emailSubject, emails, Collections.emptyList(), true);
