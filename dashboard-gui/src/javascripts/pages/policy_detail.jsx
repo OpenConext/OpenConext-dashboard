@@ -312,6 +312,7 @@ class PolicyDetail extends React.Component {
 
     renderDenyAdvice(policy) {
         const classNameStatus = isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdvicePt) || isEmpty(policy.denyAdviceNl) ? "failure" : "success";
+        const {currentUser} = this.context;
         return (
             <div className="form-element">
                 <fieldset className={classNameStatus}>
@@ -329,15 +330,18 @@ class PolicyDetail extends React.Component {
                                    denyAdviceNl: e.target.value
                                }
                            })}/>
-                    <p className="label">{I18n.t("policy_detail.deny_message_pt")}</p>
-                    <input type="text" name="denyMessagePt" className="form-input"
-                           value={this.state.policy.denyAdvicePt || ""}
-                           onChange={e => this.setState({
-                               policy: {
-                                   ...this.state.policy,
-                                   denyAdvicePt: e.target.value
-                               }
-                           })}/>
+                    {currentUser.supportedLanguages.indexOf("pt") > -1 &&
+                    <div>
+                        <p className="label">{I18n.t("policy_detail.deny_message_pt")}</p>
+                        < input type="text" name="denyMessagePt" className="form-input"
+                                value={this.state.policy.denyAdvicePt || ""}
+                                onChange={e => this.setState({
+                                    policy: {
+                                        ...this.state.policy,
+                                        denyAdvicePt: e.target.value
+                                    }
+                                })}/>
+                    </div>}
                 </fieldset>
             </div>
         );
