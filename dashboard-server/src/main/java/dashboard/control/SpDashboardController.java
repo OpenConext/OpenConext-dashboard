@@ -89,10 +89,7 @@ public class SpDashboardController extends BaseController {
 
         actionsService.create(action, Collections.emptyList());
 
-        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest);
-        inviteRequest.setIdpName(idpName);
-        inviteRequest.setSpName(spName);
-        inviteRequest.setContactPersons(contactPersons);
+        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, idpName, spName, contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok().build();
