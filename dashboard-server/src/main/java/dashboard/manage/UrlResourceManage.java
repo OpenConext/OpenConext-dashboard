@@ -1,7 +1,9 @@
 package dashboard.manage;
 
+import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.domain.ServiceProvider;
+import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -267,6 +269,7 @@ public class UrlResourceManage implements Manage {
             body.put("idpId", idpId);
             body.put("spId", spId);
             body.put("spType", type);
+            body.put("user", SpringSecurity.getCurrentUser().getDisplayName());
             ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {

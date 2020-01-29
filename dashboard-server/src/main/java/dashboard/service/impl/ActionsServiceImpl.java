@@ -199,12 +199,12 @@ public class ActionsServiceImpl implements ActionsService {
         if (!savedAction.isRejected()) {
             List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
             if (!CollectionUtils.isEmpty(idpEmails)) {
-                mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp");
+                mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp", action.getBody());
             }
             Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
             List<String> spEmails = serviceProvider.map(sp -> sp.getContactPersons().stream().map(ContactPerson::getEmailAddress).collect(toList())).orElse(new ArrayList<>());
             if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
-                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp");
+                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp", action.getBody());
             }
         }
 

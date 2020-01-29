@@ -36,7 +36,7 @@ public class MailBox {
         this.mailBaseUrl = mailBaseUrl;
     }
 
-    public void sendInviteMail(InviteRequest inviteRequest, Action action) throws MessagingException, IOException {
+    public void sendInviteMail(InviteRequest inviteRequest, Action action) {
         String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
         List<String> to = inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(ContactPerson::getEmailAddress).collect(toList());
         List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
@@ -81,7 +81,7 @@ public class MailBox {
         new Thread(() -> mailSender.send(message)).start();
     }
 
-    private String mailTemplate(String templateName, Map<String, Object> context) throws IOException {
+    private String mailTemplate(String templateName, Map<String, Object> context) {
         return mustacheFactory.compile("mail_templates/" + templateName).execute(new StringWriter(), context).toString();
     }
 
@@ -103,12 +103,13 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type) throws IOException {
+    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type, String comments) {
         String emailSubject = "Nieuwe Surfconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe Surfconext koppeling");
         variables.put("idpName", idpName);
         variables.put("spName", spName);
+        variables.put("comments", comments);
         String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
         try {
             sendMail(html, emailSubject, emails, Collections.emptyList(), true);
