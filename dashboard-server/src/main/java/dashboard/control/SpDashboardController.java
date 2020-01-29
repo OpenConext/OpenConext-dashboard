@@ -1,20 +1,17 @@
 package dashboard.control;
 
-import dashboard.domain.Action;
-import dashboard.domain.InviteRequest;
+import dashboard.domain.*;
 import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
+import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.service.ActionsService;
-import dashboard.service.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +19,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.List;
 
 
 @RequestMapping(value = "/spDashboard/api/")
@@ -34,60 +33,66 @@ public class SpDashboardController extends BaseController {
     private ActionsService actionsService;
     private MailBox mailbox;
     private Sab sabClient;
-    private String spUsername;
-    private String spPassword;
+    private String spApiUsername;
+    private String spApiPassword;
+    private Manage manage;
 
-    public SpDashboardController(ActionsService actionsService, MailBox mailbox, Sab sabClient,
-                                 @Value("${spDashboard.username}") String spUsername,
-                                 @Value("${spDashboard.password}") String spPassword) {
+    public SpDashboardController(ActionsService actionsService, MailBox mailbox, Sab sabClient, Manage manage,
+                                 @Value("${spDashboard.username}") String spApiUsername,
+                                 @Value("${spDashboard.password}") String spApiPassword) {
         this.actionsService = actionsService;
         this.mailbox = mailbox;
         this.sabClient = sabClient;
-        this.spUsername = spUsername;
-        this.spPassword = spPassword;
+        this.spApiUsername = spApiUsername;
+        this.spApiPassword = spApiPassword;
+        this.manage = manage;
     }
 
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
     public ResponseEntity connectionRequest(
-            @RequestParam InviteRequest inviteRequest,
-            @RequestParam String contactName,
-            @RequestParam String contactEmail,
-            @RequestParam String ownEmail,
+            @RequestBody ServiceConnectionRequest serviceConnectionRequest,
             HttpServletRequest request
     ) throws IOException, MessagingException {
-        LOG.debug("authenticating serviceProvider request from getSpEntityId: " + inviteRequest.getSpEntityId());
-
+        LOG.debug("authenticating serviceProvider request from sp: " + serviceConnectionRequest.getSpEntityId());
         if (invalidUser(request)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        // authentication done
-        LOG.debug("Incoming connection request, params(" +
-                "IdpEntityId: " + inviteRequest.getIdpEntityId() +
-                " SpEntityId: " + inviteRequest.getSpEntityId() +
-                " contactName " + contactName +
-                " contactEmail " + contactEmail +
-                " ownEmail " + ownEmail + ")");
-
-        String idpEntityId = inviteRequest.getIdpEntityId();
-
+        // get data
+        String idpEntityId = serviceConnectionRequest.getIdpEntityId();
         String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke")
                 .stream()
                 .collect(Collectors.joining(", "));
 
-        LOG.debug("Send email to sabPeople: " + emailTo);
+        Optional<IdentityProvider> optionalIdp = manage.getIdentityProvider(idpEntityId,false);
+        String spEntityId = serviceConnectionRequest.getSpEntityId();
+        Optional<ServiceProvider> optionalSp = manage.getServiceProvider(spEntityId, EntityType.valueOf(serviceConnectionRequest.getTypeMetaData()), false);
+        if (!optionalSp.isPresent() || !optionalIdp.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        IdentityProvider idp = optionalIdp.get();
+        ServiceProvider sp = optionalSp.get();
+
+        String idpName = idp.getName();
+        String spName = sp.getName();
+        List<ContactPerson> contactPersons = sp.getContactPersons();//
 
         // create JIRA ticket and send emails
         Action action = Action.builder()
-                .userEmail(contactEmail)
-                .userName(contactName)
+                .userEmail(serviceConnectionRequest.getOwnEmail())
+                .userName(serviceConnectionRequest.getOwnName())
                 .emailTo(emailTo)
-                .typeMetaData(inviteRequest.getTypeMetaData())
-                .idpId(inviteRequest.getIdpEntityId())
-                .spId(inviteRequest.getSpEntityId())
+                .typeMetaData(serviceConnectionRequest.getTypeMetaData())
+                .idpId(idpEntityId)
+                .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
 
         actionsService.create(action, Collections.emptyList());
+
+        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest);
+        inviteRequest.setIdpName(idpName);
+        inviteRequest.setSpName(spName);
+        inviteRequest.setContactPersons(contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok().build();
@@ -105,7 +110,7 @@ public class SpDashboardController extends BaseController {
         String token = new String(decoded, Charset.defaultCharset());
         String user = token.split(":")[0];
         String password = token.split(":")[1];
-        if (!user.equals(spUsername) || !password.equals(spPassword)) {
+        if (!user.equals(spApiUsername) || !password.equals(spApiPassword)) {
             return true;
         }
         return false;

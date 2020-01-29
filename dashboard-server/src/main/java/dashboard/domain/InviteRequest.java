@@ -18,6 +18,15 @@ public class InviteRequest {
 
     private List<ContactPerson> contactPersons;
 
+    public InviteRequest() {
+    }
+
+    public InviteRequest(ServiceConnectionRequest serviceConnectionRequest) {
+        this.idpEntityId = serviceConnectionRequest.getIdpEntityId();
+        this.spEntityId = serviceConnectionRequest.getSpEntityId();
+        this.typeMetaData = serviceConnectionRequest.getTypeMetaData();
+    }
+
     public String getIdpEntityId() {
         return idpEntityId;
     }
