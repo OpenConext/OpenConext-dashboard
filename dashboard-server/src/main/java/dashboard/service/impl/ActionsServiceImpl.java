@@ -28,6 +28,8 @@ import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.service.ActionsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class ActionsServiceImpl implements ActionsService {
+    private static final Logger LOG = LoggerFactory.getLogger(ActionsServiceImpl.class);
 
     private static final Pattern namePattern = Pattern.compile("^Applicant name: (.*)$", Pattern.MULTILINE);
     private static final Pattern emailPattern = Pattern.compile("^Applicant email: (.*)$", Pattern.MULTILINE);
@@ -198,11 +201,13 @@ public class ActionsServiceImpl implements ActionsService {
         savedAction = savedAction.unbuild().rejected(!resp.equals("success")).build();
         if (!savedAction.isRejected()) {
             List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
+            LOG.info("Sending emails 'automatic connection made' to IdP contact persons {}", idpEmails);
             if (!CollectionUtils.isEmpty(idpEmails)) {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp", action.getBody());
             }
             Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
             List<String> spEmails = serviceProvider.map(sp -> sp.getContactPersons().stream().map(ContactPerson::getEmailAddress).collect(toList())).orElse(new ArrayList<>());
+            LOG.info("{} emails 'automatic connection made' to SP contact persons {}", action.shouldSendEmail() ? "Sending " : "Not sending ", spEmails);
             if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp", action.getBody());
             }
