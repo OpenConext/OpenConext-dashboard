@@ -76,10 +76,12 @@ public class JiraClientImpl implements JiraClient {
     private ObjectMapper objectMapper = new ObjectMapper();
     private String environment;
     private ArrayList standardFields;
+    private int dueDateWeeks;
 
-    public JiraClientImpl(String baseUrl, String username, String password, String projectKey) throws IOException {
+    public JiraClientImpl(String baseUrl, String username, String password, String projectKey, int dueDateWeeks) throws IOException {
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
+        this.dueDateWeeks = dueDateWeeks;
 
         this.defaultHeaders = new HttpHeaders();
         this.defaultHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -331,7 +333,7 @@ public class JiraClientImpl implements JiraClient {
 
     private String dueDate() {
         LocalDate localDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return localDate.plusWeeks(5).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        return localDate.plusWeeks(this.dueDateWeeks).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
     }
 
 }

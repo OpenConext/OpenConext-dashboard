@@ -12,9 +12,6 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.util.stream.Collectors.toList;
@@ -22,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 public class JiraClientImplTest {
 
-    private JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX");
+    private JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5);
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8891);

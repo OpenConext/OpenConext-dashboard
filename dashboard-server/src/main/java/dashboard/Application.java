@@ -80,8 +80,9 @@ public class Application {
                                  @Value("${jiraBaseUrl}") String baseUrl,
                                  @Value("${jiraUsername}") String username,
                                  @Value("${jiraPassword}") String password,
-                                 @Value("${jiraProjectKey}") String projectKey) throws IOException {
-        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey) :
+                                 @Value("${jiraProjectKey}") String projectKey,
+                                 @Value("${jiraDueDateWeeks}") int dueDateWeeks) throws IOException {
+        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey, dueDateWeeks) :
                 new JiraClientMock(MockShibbolethFilter.idp);
     }
 
