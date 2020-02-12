@@ -564,7 +564,7 @@ I18n.translations.en = {
         },
         contact_email: {
             title: "Contact email",
-            tooltip: "Attention: you are advised to use<br>a functional email address:<br><br><ul><li>- admin@your-instution.nl</li><li>- tech@your-instution.nl</li><li>- helpdesk@your-instution.nl</li></ul><br>which doesn't change when<br>someone leaves your institution."
+            tooltip: "Attention: you are advised to use<br>a functional email address <br><br><ul><li>- admin@your-institution.nl</li><li>- tech@your-institution.nl</li><li>- helpdesk@your-institution.nl</li></ul><br>which doesn't change when<br>someone leaves your institution."
         },
         contact_type: {
             title: "Contact type",
