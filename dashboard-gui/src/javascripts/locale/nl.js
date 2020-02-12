@@ -578,7 +578,7 @@ I18n.translations.nl = {
             nl: "Organisatie URL (nl)",
             pt: "Organisatie URL (pt)"
         },
-        organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlands informatie kan lezen over de organisatie.",
+        organizationURL_nl_tooltip: "Een URL waar een eindgebruiker Nederlandse informatie kan lezen over de organisatie.",
         organizationURL_en_tooltip: "Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.",
         organizationURL_pt_tooltip: "Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.",
         organizationName: {
@@ -620,7 +620,7 @@ I18n.translations.nl = {
         },
         contact_email: {
             title: "Contact email",
-            tooltip: "Let op: gebruik liefst<br>een roladres:<br><br><ul><li>- admin@your-instution.nl</li><li>- tech@your-instution.nl</li><li>- helpdesk@your-instution.nl</li></ul><br>die niet verandert bij een personeelswisseling."
+            tooltip: "Let op: gebruik liefst<br>een roladres zoals<br><br><ul><li>- admin@your-institution.nl</li><li>- tech@your-institution.nl</li><li>- helpdesk@your-institution.nl</li></ul><br>welke niet verandert bij een personeelswisseling."
         },
         contact_telephone: {
             title: "Contact telefoon",
