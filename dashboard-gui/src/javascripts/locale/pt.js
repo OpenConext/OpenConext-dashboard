@@ -385,6 +385,7 @@ I18n.translations.pt = {
             before: "SURFnet tem permissões para encaminhar ",
         },
         info_connection_without_interaction: "This service provider allows institutions to connect immediately. There is no need to wait for an invitation to be accepted.", // TODO: translate
+        info_connection_share_institution: "This service provider is a service offered by your Institution and therefore the connection can be made directly.",
         info_sub_title: "Pode ativar uma ligação neste Dashboard. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_sub_invite_title: "Pode aceitar o convite para ativar uma ligação. Recomendamos que verifique a lista de verificações e analise a informação específica desta aplicação antes de a ativar.",
         info_title: "Ativar ligação",

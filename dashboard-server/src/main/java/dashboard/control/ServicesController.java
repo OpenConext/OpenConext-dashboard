@@ -233,7 +233,7 @@ public class ServicesController extends BaseController {
         if (optional.isPresent()) {
             Service service = optional.get();
 
-            boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getName());
+            boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getInstitutionId());
             boolean connectWithoutInteraction = idpAndSpShareInstitution || service.connectsWithoutInteraction();
 
             Action action = Action.builder()

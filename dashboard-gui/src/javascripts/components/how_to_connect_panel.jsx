@@ -49,22 +49,27 @@ class HowToConnectPanel extends React.Component {
     renderConnectStep(isInvite) {
         const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
         let lastNumber = 3;
-        if (this.props.app.entityType === "single_tenant_template") {
+        const {app} = this.props;
+        const {currentUser} = this.context;
+        if (app.entityType === "single_tenant_template") {
             ++lastNumber;
         }
-        if (this.props.app.aansluitovereenkomstRefused) {
+        if (app.aansluitovereenkomstRefused) {
             ++lastNumber;
         }
-        if (isEmpty(this.props.app.minimalLoaLevel)) {
+        if (isEmpty(app.minimalLoaLevel)) {
             ++lastNumber;
         }
-        const classNameConnect = this.state.accepted && (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
-        const hasPrivacyInfo = privacyProperties.some(prop => this.props.app.privacyInfo[prop]);
+        const classNameConnect = this.state.accepted && (!app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
+        const hasPrivacyInfo = privacyProperties.some(prop => app.privacyInfo[prop]);
         const title = isInvite ? "connect_invite_title" : "connect_title";
         const subTitle = isInvite ? "info_sub_invite_title" : "info_sub_title";
-        const automaticallyConnect = this.props.app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ||
-            this.props.app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
+        const automaticallyConnect = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ||
+            app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
+        const shareInstitutionId = app.institutionId === currentUser.getCurrentIdp().institutionId;
         const actionName = isInvite ? "approve" : (automaticallyConnect ? "automatic_connect" : "connect");
+        const subTitleAutomaticConnection = automaticallyConnect ? I18n.t("how_to_connect_panel.info_connection_without_interaction")
+            : (shareInstitutionId ? I18n.t("how_to_connect_panel.info_connection_share_institution") : "");
         return (
             <div className="l-middle-app-detail">
                 <ConfirmationDialog isOpen={confirmationDialogOpen}
@@ -72,8 +77,8 @@ class HowToConnectPanel extends React.Component {
                                     confirm={confirmationDialogAction}
                                     question={confirmationQuestion}/>
                 <div className="mod-title">
-                    <h1>{I18n.t(`how_to_connect_panel.${title}`, {app: this.props.app.name})}</h1>
-                    <p>{I18n.t(`how_to_connect_panel.${subTitle}`)} {automaticallyConnect && I18n.t("how_to_connect_panel.info_connection_without_interaction")}</p>
+                    <h1>{I18n.t(`how_to_connect_panel.${title}`, {app: app.name})}</h1>
+                    <p>{I18n.t(`how_to_connect_panel.${subTitle}`)} {subTitleAutomaticConnection}</p>
                 </div>
 
                 <div className="mod-connect">
@@ -108,9 +113,9 @@ class HowToConnectPanel extends React.Component {
                             </ul>
                         </div>
                         <hr/>
-                        {isEmpty(this.props.app.minimalLoaLevel) && this.renderLoaLevel()}
+                        {isEmpty(app.minimalLoaLevel) && this.renderLoaLevel()}
                         <div className="content">
-                            <div className="number">{isEmpty(this.props.app.minimalLoaLevel) ? 3 : 2}</div>
+                            <div className="number">{isEmpty(app.minimalLoaLevel) ? 3 : 2}</div>
                             <h2>{I18n.t("how_to_connect_panel.terms_title")}</h2>
                             <ul>
                                 <li>
@@ -126,7 +131,7 @@ class HowToConnectPanel extends React.Component {
                                     <Link to={this.getPanelRoute("attribute_policy")}>
                                         {I18n.t("how_to_connect_panel.attributes")}
                                     </Link>
-                                    {I18n.t("how_to_connect_panel.forward_permission.after", {app: this.props.app.name})}
+                                    {I18n.t("how_to_connect_panel.forward_permission.after", {app: app.name})}
                                 </li>
 
                                 <li>
@@ -134,7 +139,7 @@ class HowToConnectPanel extends React.Component {
                                     <Link to={this.getPanelRoute("license_data")}>
                                         {I18n.t("how_to_connect_panel.license")}
                                     </Link>
-                                    {I18n.t("how_to_connect_panel.obtain_license.after", {app: this.props.app.name})}
+                                    {I18n.t("how_to_connect_panel.obtain_license.after", {app: app.name})}
                                 </li>
                             </ul>
                             <br/>
@@ -148,7 +153,7 @@ class HowToConnectPanel extends React.Component {
                             </p>
                         </div>
                         {this.renderSingleTenantServiceWarning()}
-                        {this.renderAansluitovereenkomstRefusedWarning(this.props.app.entityType === "single_tenant_template" ? 4 : 3)}
+                        {this.renderAansluitovereenkomstRefusedWarning(app.entityType === "single_tenant_template" ? 4 : 3)}
                         <hr/>
                         <div className="content">
                             <div className="number">{lastNumber}</div>
