@@ -83,7 +83,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         addDisplayName("en", (String) metaData.get("displayName:en"));
         addDisplayName("nl", (String) metaData.get("displayName:nl"));
         addDisplayName("pt", (String) metaData.get("displayName:pt"));
-        IntStream.rangeClosed(0, 2).forEach(i -> {
+        IntStream.rangeClosed(0, 3).forEach(i -> {
             String contactType = (String) metaData.get("contacts:" + i + ":contactType");
             if (contactType != null) {
                 addContactPerson(new ContactPerson(
