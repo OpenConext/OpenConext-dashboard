@@ -270,6 +270,8 @@ public class UrlResourceManage implements Manage {
             body.put("spId", spId);
             body.put("spType", type);
             body.put("user", SpringSecurity.getCurrentUser().getDisplayName());
+            body.put("userUrn", SpringSecurity.getCurrentUser().getUid());
+
             ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {

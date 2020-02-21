@@ -18,6 +18,7 @@ package dashboard.service.impl;
 import dashboard.domain.Action;
 import dashboard.domain.Change;
 import dashboard.domain.ContactPerson;
+import dashboard.domain.ContactPersonType;
 import dashboard.domain.IdentityProvider;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
@@ -40,8 +41,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -206,7 +209,7 @@ public class ActionsServiceImpl implements ActionsService {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp", action.getBody());
             }
             Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
-            List<String> spEmails = serviceProvider.map(sp -> sp.getContactPersons().stream().map(ContactPerson::getEmailAddress).collect(toList())).orElse(new ArrayList<>());
+            List<String> spEmails = spEmails(serviceProvider);
             LOG.info("{} emails 'automatic connection made' to SP contact persons {}", action.shouldSendEmail() ? "Sending " : "Not sending ", spEmails);
             if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp", action.getBody());
@@ -214,6 +217,24 @@ public class ActionsServiceImpl implements ActionsService {
         }
 
         return savedAction;
+    }
+
+    protected List<String> spEmails(Optional<ServiceProvider> serviceProvider) {
+        return serviceProvider.map(sp -> {
+            List<ContactPerson> contactPersons = sp.getContactPersons();
+            List<ContactPersonType> contactTypes = Arrays.asList(
+                    ContactPersonType.administrative, ContactPersonType.support, ContactPersonType.technical);
+            // can't return from each
+            for (ContactPersonType contactPersonType : contactTypes) {
+                if (contactPersons.stream().anyMatch(contactPerson -> contactPersonType.equals(contactPerson.getContactPersonType()))) {
+                    return contactPersons.stream()
+                            .filter(cp -> contactPersonType.equals(cp.getContactPersonType()))
+                            .map(ContactPerson::getEmailAddress).
+                                    collect(toList());
+                }
+            }
+            return null;
+        }).filter(l -> l.stream().filter(Objects::nonNull).count() != 0).orElse(new ArrayList<>());
     }
 
     @Override

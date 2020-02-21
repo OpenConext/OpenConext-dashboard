@@ -71,4 +71,59 @@ public class ActionsServiceImplTest {
         assertEquals("Teun.Fransen@surfnet.nl", actions.get(0).getUserEmail());
     }
 
+    @Test
+    public void spEmailsNoContactTypes() {
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("eid", 1L);
+        metaData.put("contacts:1:emailAddress", "john.doe@example.com");
+        List<String> emails = service.spEmails(Optional.of(new ServiceProvider(metaData)));
+        assertEquals(0, emails.size());
+    }
+
+    @Test
+    public void spEmailsOneAdmin() {
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("eid", 1L);
+
+        metaData.put("contacts:1:contactType", "support");
+        metaData.put("contacts:1:emailAddress", "support@example.com");
+
+        metaData.put("contacts:2:contactType", "administrative");
+        metaData.put("contacts:2:emailAddress", "admin@example.com");
+
+        List<String> emails = service.spEmails(Optional.of(new ServiceProvider(metaData)));
+
+        assertEquals(1, emails.size());
+        assertEquals("admin@example.com", emails.get(0));
+    }
+
+    @Test
+    public void spEmailsNoneAdmins() {
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("eid", 1L);
+
+        metaData.put("contacts:2:contactType", "technical");
+        metaData.put("contacts:2:emailAddress", "technical@example.com");
+
+        List<String> emails = service.spEmails(Optional.of(new ServiceProvider(metaData)));
+
+        assertEquals(1, emails.size());
+        assertEquals("technical@example.com", emails.get(0));
+    }
+
+    @Test
+    public void spEmailsNoContactPersons() {
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("eid", 1L);
+        List<String> emails = service.spEmails(Optional.of(new ServiceProvider(metaData)));
+
+        assertEquals(0, emails.size());
+    }
+
+    @Test
+    public void spEmailsNoSP() {
+        List<String> emails = service.spEmails(Optional.empty());
+
+        assertEquals(0, emails.size());
+    }
 }

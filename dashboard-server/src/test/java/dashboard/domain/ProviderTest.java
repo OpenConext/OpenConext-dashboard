@@ -18,6 +18,12 @@ package dashboard.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -61,5 +67,30 @@ public class ProviderTest {
     a.setId("A");
     b.setId("B");
     assertEquals(0, a.compareTo(b));
+  }
+
+  @Test
+  public void testFromMap() {
+    Map<String, Object> metaData = new HashMap<>();
+    metaData.put("eid", 1L);
+
+    metaData.put("contacts:0:contactType", "support");
+    metaData.put("contacts:0:emailAddress", "support@example.com");
+
+    metaData.put("contacts:1:emailAddress", "technical@example.com");
+
+    metaData.put("contacts:2:contactType", "administrative");
+    metaData.put("contacts:2:emailAddress", "administrative@example.com");
+
+    metaData.put("contacts:3:contactType", "bogus");
+    metaData.put("contacts:3:emailAddress", "bogus@example.com");
+
+    Provider provider = new ServiceProvider(metaData);
+    List<ContactPerson> contactPersons = provider.getContactPersons();
+
+    assertEquals(3, contactPersons.size());
+    List<ContactPersonType> types = contactPersons.stream().map(cp -> cp.getContactPersonType()).collect(Collectors.toList());
+
+    assertEquals(Arrays.asList(ContactPersonType.support, ContactPersonType.administrative, ContactPersonType.other), types);
   }
 }

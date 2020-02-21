@@ -271,13 +271,10 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
 
     private ContactPersonType contactPersonType(String contactType) {
-        switch (contactType) {
-            case "technical":
-                return ContactPersonType.technical;
-            case "support":
-                return ContactPersonType.support;
-            default:
-                return ContactPersonType.administrative;
+        try {
+            return ContactPersonType.valueOf(ContactPersonType.class, contactType);
+        } catch (IllegalArgumentException e) {
+            return ContactPersonType.other;
         }
     }
 

@@ -17,5 +17,7 @@
 package dashboard.domain;
 
 public enum ContactPersonType {
-  technical, administrative, support
+
+    technical, administrative, support, billing, other
+
 }
