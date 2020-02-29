@@ -108,9 +108,9 @@ public class MailBox {
     }
 
     public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type, String comments) {
-        String emailSubject = "Nieuwe Surfconext koppeling";
+        String emailSubject = "Nieuwe SURFconext koppeling";
         Map<String, Object> variables = new HashMap<>();
-        variables.put("title", "Nieuwe Surfconext koppeling");
+        variables.put("title", "Nieuwe SURFconext koppeling");
         variables.put("idpName", idpName);
         variables.put("spName", spName);
         variables.put("comments", comments);
