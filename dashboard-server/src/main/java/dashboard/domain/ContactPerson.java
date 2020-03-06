@@ -21,6 +21,7 @@ import java.io.Serializable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import dashboard.sab.SabPerson;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -60,7 +61,15 @@ public class ContactPerson implements Serializable {
     this.sirtfiSecurityContact = isSirtfiSecurityContact;
     this.sabContact = sabContact;
   }
-  
+
+  public ContactPerson(SabPerson sabPerson) {
+    this.name = sabPerson.fullname();
+    this.emailAddress = sabPerson.getEmail();
+    this.contactPersonType = ContactPersonType.administrative;
+    this.sirtfiSecurityContact = false;
+    this.sabContact = true;
+  }
+
   public ContactPerson() {
   }
 

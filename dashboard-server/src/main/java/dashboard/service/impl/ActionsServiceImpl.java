@@ -28,6 +28,7 @@ import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
+import dashboard.sab.SabPerson;
 import dashboard.service.ActionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -196,14 +197,15 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
-    public Action connectWithoutInteraction(Action action) throws IOException {
+    public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
         savedAction = savedAction.unbuild().rejected(!resp.equals("success")).build();
         if (!savedAction.isRejected()) {
-            List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke");
+            List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke")
+                    .stream().map(SabPerson::getEmail).collect(toList());
             LOG.info("Sending emails 'automatic connection made' to IdP contact persons {}", idpEmails);
             if (!CollectionUtils.isEmpty(idpEmails)) {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp", action.getBody());

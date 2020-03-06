@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
@@ -60,10 +59,7 @@ public class SabClientMock implements Sab {
     }
 
     @Override
-    public List<String> getSabEmailsForOrganization(String entityId, String role) {
-        return sabPersons
-                .stream()
-                .map(SabPerson::getEmail)
-                .collect(toList());
+    public Collection<SabPerson> getSabEmailsForOrganization(String entityId, String role) {
+        return sabPersons;
     }
 }

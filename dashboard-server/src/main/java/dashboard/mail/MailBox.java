@@ -89,7 +89,7 @@ public class MailBox {
         return mustacheFactory.compile("mail_templates/" + templateName).execute(new StringWriter(), context).toString();
     }
 
-    public void sendInviteMailReminder(Action action) throws IOException {
+    public void sendInviteMailReminder(Action action) {
         String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext koppeling");

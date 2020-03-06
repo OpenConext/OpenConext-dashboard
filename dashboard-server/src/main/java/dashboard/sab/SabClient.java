@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -38,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -107,11 +107,8 @@ public class SabClient implements Sab {
     }
 
     @Override
-    public List<String> getSabEmailsForOrganization(String entityId, String role) {
-        return getPersonsInRoleForOrganization(entityId, role)
-                .stream()
-                .map(SabPerson::getEmail)
-                .collect(toList());
+    public List<SabPerson> getSabEmailsForOrganization(String entityId, String role) {
+        return new ArrayList<>(getPersonsInRoleForOrganization(entityId, role));
     }
 
     /**

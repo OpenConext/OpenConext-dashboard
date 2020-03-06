@@ -1,27 +1,37 @@
 package dashboard.control;
 
-import dashboard.domain.*;
+import dashboard.domain.Action;
+import dashboard.domain.ContactPerson;
+import dashboard.domain.ContactPersonType;
+import dashboard.domain.IdentityProvider;
+import dashboard.domain.InviteRequest;
+import dashboard.domain.ServiceConnectionRequest;
+import dashboard.domain.ServiceProvider;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
+import dashboard.sab.SabPerson;
 import dashboard.service.ActionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.List;
 
 
 @RequestMapping(value = "/spDashboard/api/")
@@ -49,22 +59,19 @@ public class SpDashboardController extends BaseController {
     }
 
     @RequestMapping(value = "serviceConnectionRequest", method = RequestMethod.PUT)
-    public ResponseEntity connectionRequest(
-            @RequestBody ServiceConnectionRequest serviceConnectionRequest,
-            HttpServletRequest request
-    ) throws IOException, MessagingException {
+    public ResponseEntity connectionRequest(@RequestBody ServiceConnectionRequest serviceConnectionRequest,
+                                            HttpServletRequest request) {
         LOG.debug("authenticating serviceProvider request from sp: " + serviceConnectionRequest.getSpEntityId());
+
         if (invalidUser(request)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         // get data
         String idpEntityId = serviceConnectionRequest.getIdpEntityId();
-        String emailTo = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke")
-                .stream()
-                .collect(Collectors.joining(", "));
+        Collection<SabPerson> sabPersons = sabClient.getSabEmailsForOrganization(idpEntityId, "SURFconextverantwoordelijke");
 
-        Optional<IdentityProvider> optionalIdp = manage.getIdentityProvider(idpEntityId,false);
+        Optional<IdentityProvider> optionalIdp = manage.getIdentityProvider(idpEntityId, false);
         String spEntityId = serviceConnectionRequest.getSpEntityId();
         Optional<ServiceProvider> optionalSp = manage.getServiceProvider(spEntityId, EntityType.valueOf(serviceConnectionRequest.getTypeMetaData()), false);
         if (!optionalSp.isPresent() || !optionalIdp.isPresent()) {
@@ -75,24 +82,31 @@ public class SpDashboardController extends BaseController {
 
         String idpName = idp.getName();
         String spName = sp.getName();
-        List<ContactPerson> contactPersons = sp.getContactPersons();//
+
+        List<ContactPerson> contactPersons = sabPersons.stream().map(ContactPerson::new).collect(Collectors.toList());
+        List<ContactPerson> contactPersonsFromIdp = idp.getContactPersons();
+        if (!CollectionUtils.isEmpty(contactPersonsFromIdp)) {
+            contactPersons.addAll(contactPersonsFromIdp.stream()
+                    .filter(cp -> cp.getContactPersonType().equals(ContactPersonType.administrative))
+                    .collect(Collectors.toList()));
+        }
 
         // create JIRA ticket and send emails
         Action action = Action.builder()
                 .userEmail(serviceConnectionRequest.getOwnEmail())
                 .userName(serviceConnectionRequest.getOwnName())
-                .emailTo(emailTo)
+                .emailTo(contactPersons.stream().map(ContactPerson::getEmailAddress).collect(Collectors.joining(", ")))
                 .typeMetaData(serviceConnectionRequest.getTypeMetaData())
                 .idpId(idpEntityId)
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
 
-        actionsService.create(action, Collections.emptyList());
+        action = actionsService.create(action, Collections.emptyList());
 
-        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, idpName, spName, contactPersons);
+        InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, String.valueOf(sp.getEid()), idpName, spName, contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Collections.singletonMap("jiraKey", action.getJiraKey().get()));
     }
 
     private boolean invalidUser(HttpServletRequest request) {
