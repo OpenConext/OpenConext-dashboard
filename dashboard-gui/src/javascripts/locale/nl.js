@@ -17,8 +17,8 @@ I18n.translations.nl = {
     },
 
     browser_not_supported: {
-        title: "Uw browser wordt niet ondersteund.",
-        description_html: "Uw versie van Internet Explorer wordt niet ondersteund. Update uw browser naar een modernere versie."
+        title: "Je browser wordt niet ondersteund.",
+        description_html: "Je versie van Internet Explorer wordt niet ondersteund. Update je browser naar een modernere versie."
     },
 
     header: {
@@ -38,8 +38,8 @@ I18n.translations.nl = {
         title: "Bevestig",
         confirm: "Bevestig",
         cancel: "Annuleer",
-        leavePage: "Weet u zeker dat u deze pagina wilt verlaten?",
-        leavePageSub: "Veranderingen die u heeft gemaakt zullen niet worden opgeslagen.",
+        leavePage: "Weet je zeker dat je deze pagina wilt verlaten?",
+        leavePageSub: "Veranderingen die je hebt gemaakt zullen niet worden opgeslagen.",
         stay: "Blijf",
         leave: "Annulleer"
     },
@@ -94,7 +94,7 @@ I18n.translations.nl = {
                 yes: "Ja",
             },
             interfed_source: {
-                tooltip: "Sommige via SURFconext beschikbare diensten zijn primair aangesloten op een met SURFconext gekoppelde federatie. Hier kunt u evt selecteren per federatie.",
+                tooltip: "Sommige via SURFconext beschikbare diensten zijn primair aangesloten op een met SURFconext gekoppelde federatie. Hier kun je evt selecteren per federatie.",
                 name: "Federatie bron",
                 surfconext: "SURFconext",
                 edugain: "eduGAIN",
@@ -102,7 +102,7 @@ I18n.translations.nl = {
             },
             entity_category: {
                 name: "eduGAIN Entity Categorie",
-                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie. Hier kunt u evt diensten filteren die voldoen aan een bepaalde entity category.",
+                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie. Hier kunt je evt diensten filteren die voldoen aan een bepaalde entity category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -118,7 +118,7 @@ I18n.translations.nl = {
             },
             arp: {
                 name: "Vrijgegeven attributen",
-                tooltip: "Meer info over deze attributen vindt u in de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext \" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
+                tooltip: "Meer info over deze attributen vind je in de <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext \" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
                 info_html: "Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie."
             },
             type_consent: {
@@ -232,15 +232,15 @@ I18n.translations.nl = {
         how_to_connect: "Lees hoe je een dienst koppelt",
         disconnect: "Lees hoe je een dienst ontkoppelt",
         normen_kader: "Informatie inzake AVG/GDPR",
-        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vindt u op de <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
-        no_normen_kader_html: "Voor deze dienst heeft de leverancier nog geen AVG/GDPR informatie aangeleverd; informatie over welke data ze verwerken, waar ze dat doen etc. kunt u opvragen bij de leverancier.",
+        normen_kader_html: "Voor deze dienst heeft de leverancier informatie verstrekt over welke data ze verwerkt, waar ze dat doet etc. De informatie vind je op de <a href=\"https://support.surfconext.nl/dashboard-info-avg\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>. In de loop van 2018 gaan we die informatie ook verwerken in een nieuwe versie van dit dashboard.",
+        no_normen_kader_html: "Voor deze dienst heeft de leverancier nog geen AVG/GDPR informatie aangeleverd; informatie over welke data ze verwerken, waar ze dat doen etc. kun je opvragen bij de leverancier.",
         single_tenant_service: "Single tenant dienst",
         single_tenant_service_html: "{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href=\"https://support.surfconext.nl/dashboard-info-singletenant\" target=\"_blank\" rel=\"noopener noreferrer\">SURFnet wiki</a> voor meer informatie over single tenant diensten.",
         interfed_source: "Federatie bron:",
         publish_in_edugain_date: "Gepubliceerd in eduGAIN op:",
         supports_ssa: "SURFsecureID aangezet",
         minimalLoaLevel: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
-        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van uw instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
+        minimalLoaLevelIdp: "Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van je instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>",
         supportsSsaTooltip: "Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.",
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
@@ -252,7 +252,7 @@ I18n.translations.nl = {
         privacyInformation: "Privacy-informatie",
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd.",
         contractualBase: {
-            na: "Voor deze SP is geen informatie beschikbaar over de contractuele basis : mail naar <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als u daarover vragen heeft.",
+            na: "Voor deze SP is geen informatie beschikbaar over de contractuele basis : mail naar <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je daarover vragen heeft.",
             ao: "Aanbieder heeft de SURFconext aansluitovereenkomst getekend.",
             ix: "Dienst aangeboden door op SURFconext aangesloten instelling.",
             "r&s+coco" :"eduGAIN-dienst die zich akkoord heeft verklaard met de Data Protection Code of Conduct en valt in de Research & Scholarship entity category.",
@@ -266,7 +266,7 @@ I18n.translations.nl = {
         arp: {
             noarp: "Er is geen 'Attribute Release Policy' bekend. Alle bekende attributen worden uitgewisseld.",
             noattr: "Er zullen geen attributen worden uitgewisseld met {{name}}.",
-            manipulation: "Voor deze Service Provider is er een aangepast 'attribuut manipulatie script' actief. SURFconext voert het script uit bij elke authenticatie van een gebruiker, voordat attributen aan die service worden vrijgegeven. Om u te helpen begrijpen welke informatie zal worden vrijgegeven, vindt u hieronder een beschrijving van wat het script doet:",
+            manipulation: "Voor deze Service Provider is er een aangepast 'attribuut manipulatie script' actief. SURFconext voert het script uit bij elke authenticatie van een gebruiker, voordat attributen aan die service worden vrijgegeven. Om je te helpen begrijpen welke informatie zal worden vrijgegeven, vind je hieronder een beschrijving van wat het script doet:",
             resourceServers: "Deze Service Provider is gekoppeld aan Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:"
         },
         attribute: "Attribuut",
@@ -288,7 +288,7 @@ I18n.translations.nl = {
         title: "Gebruikt door",
         subtitle: "De volgende instellingen zijn gekoppeld aan {{name}}.",
         subtitle_none: "Er zijn geen instellingen gekoppeld aan {{name}}.",
-        subtitle_single_tenant: "Als u wil weten door welke andere instellingen {{name}} via SURFconext wordt gebruikt, kunt u dat opvragen via support@surfconext.nl.",
+        subtitle_single_tenant: "Als je wil weten door welke andere instellingen {{name}} via SURFconext wordt gebruikt, kun je dat opvragen via support@surfconext.nl.",
         institution: "Instelling"
     },
 
@@ -354,7 +354,7 @@ I18n.translations.nl = {
         subtitle: "Met <a href=\"https://wiki.surfnet.nl/display/SsID\" target=\"_blank\" rel=\"noopener noreferrer\">SURFsecureID</a> kun je de toegang tot diensten extra beveiligen met sterke authenticatie. ",
         subtitle2: "Een gebruiker logt in met een gebruikersnaam en wachtwoord (de eerste factor) en SURFsecureID zorgt vervolgens voor de tweede factor authenticatie via bijvoorbeeld een mobiele app of USB sleutel. ",
         subtitle3: "Door het kiezen van een hoger <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.",
-        highestLoaReached: "Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kunt u via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als u een lagere LoA wenst voor deze service."
+        highestLoaReached: "Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service."
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
@@ -366,7 +366,7 @@ I18n.translations.nl = {
         cancel: "Annuleren",
         check: "Controleer",
         checklist: "Loop deze checklist na voordat je een connectie activeert:",
-        processing_agreements: "Controleer of uw instelling voor deze dienst een <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\" rel=\"noopener noreferrer\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
+        processing_agreements: "Controleer of je instelling voor deze dienst een <a href=\"https://support.surfconext.nl/dashboard-help-vwo\" target=\"_blank\" rel=\"noopener noreferrer\">verwerkersovereenkomst</a> nodig heeft, en zo ja, of die geregeld is.",
         comments_description: "Opmerkingen worden verstuurd naar SURFconext.",
         comments_placeholder: "Voer hier je opmerkingen in...",
         comments_title: "Eventuele opmerkingen?",
@@ -390,8 +390,8 @@ I18n.translations.nl = {
             after: " door te sturen naar {{app}}.",
             before: "SURFnet heeft toestemming om de ",
         },
-        info_connection_without_interaction: "Deze dienstverlener staat instellingen toe om meteen te koppelen. U hoeft dus niet te wachten tot een verzoek tot kopppeling is verwerkt: u kunt de dienst gelijk gebruiken!",
-        info_connection_share_institution: "Deze dienst wordt aangeboden vanuit uw instelling en daarom kan de koppeling direct worden gemaakt: u kunt de dienst gelijk gebruiken!",
+        info_connection_without_interaction: "Deze dienstverlener staat instellingen toe om meteen te koppelen. Je hoeft dus niet te wachten tot een verzoek tot kopppeling is verwerkt: je kunt de dienst gelijk gebruiken!",
+        info_connection_share_institution: "Deze dienst wordt aangeboden vanuit je instelling en daarom kan de koppeling direct worden gemaakt: je kunt de dienst gelijk gebruiken!",
         info_sub_title: "Je kunt een verbinding activeren vanuit dit dashboard. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
         info_sub_invite_title: "Je kunt de uitnodiging accepteren. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.",
         info_title: "Verbinding activeren",
@@ -413,15 +413,15 @@ I18n.translations.nl = {
         wiki: "wiki voor deze service",
         aansluitovereenkomst_accept: "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de 'SURFconext aansluitovereenkomst' te ondertekenen.",
         not_published_in_edugain_idp: "eduGAIN dienst",
-        not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat uw instelling niet is gepubliceerd is in eduGAIN. Om uw instelling te publiceren in eduGAIN kunt u een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
+        not_published_in_edugain_idp_info: "De dienst {{name}} kan niet worden gekoppeld omdat je instelling niet is gepubliceerd is in eduGAIN. Om je instelling te publiceren in eduGAIN kun je een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
         edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'",
-        disconnect_jira_info: "Voor meer informatie over dit ticket kunt u contact opnemen met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}})",
-        invite_denied: "Ticket {{jiraKey}} is succesvol bijgewerkt met uw afwijzing.",
-        invite_accepted: "Ticket {{jiraKey}} is succesvol bijgewerkt met uw goedkeuring.",
+        disconnect_jira_info: "Voor meer informatie over dit ticket kun je contact opnemen met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}})",
+        invite_denied: "Ticket {{jiraKey}} is succesvol bijgewerkt met je afwijzing.",
+        invite_accepted: "Ticket {{jiraKey}} is succesvol bijgewerkt met je goedkeuring.",
         deny: "Uitnodiging afwijzen",
         approve: "Uitnodiging Goedkeuren",
-        deny_invitation: "Weet u zeker dat u de uitnodiging om the koppelen met {{app}} wilt afwijzen?",
-        deny_invitation_info: "Nadat u de uitnodiging heeft afgewezen kunt u altijd nog de koppeling activeren in dit dashboard.",
+        deny_invitation: "Weet je zeker dat je de uitnodiging om te koppelen met {{app}} wilt afwijzen?",
+        deny_invitation_info: "Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.",
         invite_action_collision_title: "Dienst {{app}} is al gekoppeld.",
         invite_action_collision_subtitle: "Mid-air botsing gedetecteerd.",
         invite_action_collision: "De uitnodiging om een koppeling te maken met {{app}} is al geaccepteerd. Misschien heeft een collega de uitnodiging al geaccepteerd? Neem bij vragen contact op met <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> en voeg het ticketnummer toe aan het onderwerp: {{jiraKey}}.",
@@ -608,13 +608,13 @@ I18n.translations.nl = {
         logo_url: "Logo",
         new_logo_url: "Nieuwe logo URL",
         research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
-        research_and_scholarship_tooltip: "Dit betekent dat uw IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> vooor meer informatie.",
+        research_and_scholarship_tooltip: "Dit betekent dat je IdP automatisch aan alle huidige en toekomstige SP's<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-rns\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> vooor meer informatie.",
         allow_maintainers_to_manage_authz_rules: "SURFconextbeheerders mogen autorisatie regels beheren",
-        allow_maintainers_to_manage_authz_rules_tooltip: "Dit betekent dat de SURFconextbeheerders van uw instelling autorisatie regels mogen aanmaken, bewerken en verwijderen.",
+        allow_maintainers_to_manage_authz_rules_tooltip: "Dit betekent dat de SURFconextbeheerders van je instelling autorisatie regels mogen aanmaken, bewerken en verwijderen.",
         displayAdminEmailsInDashboard: "Leden kunnen admin email-adres zien",
-        displayAdminEmailsInDashboardTooltip:"Dit betekent dat de email adressen van de<br>SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van uw instelling.",
+        displayAdminEmailsInDashboardTooltip:"Dit betekent dat de email adressen van de<br>SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van je instelling.",
         displayStatsInDashboard: "Leden kunnen statistieken zien",
-        displayStatsInDashboardTooltip:"Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan uw instelling kunnen worden bekeken door reguliere gebruikers<br>van uw instelling.",
+        displayStatsInDashboardTooltip:"Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan je instelling kunnen worden bekeken door reguliere gebruikers<br>van je instelling.",
         contact: "Contactpersonen voor {{name}}",
         contact_name: {
             title: "Contact naam",
@@ -671,7 +671,7 @@ I18n.translations.nl = {
         flash: "Autorisatieregel '{{policyName}}' is succesvol {{action}}",
         flash_created: "aangemaakt",
         flash_deleted: "verwijderd",
-        flash_first: "Autorisatieregel worden nog niet toegepast voor deze dienst. Voordat autorisatieregels wel worden toegepast voor deze dienst moet het SURFconext Team een configuratie verandering maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met u opgenomen.",
+        flash_first: "Autorisatieregel worden nog niet toegepast voor deze dienst. Voordat autorisatieregels wel worden toegepast voor deze dienst moet het SURFconext Team een configuratie verandering maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met je opgenomen.",
         flash_updated: "bijgewerkt",
         new_policy: "Nieuwe autorisatieregel",
         how_to: "Uitleg",
@@ -844,7 +844,7 @@ I18n.translations.nl = {
     },
     profile: {
         title: "Profiel",
-        sub_title: "Van uw instelling hebben wij de volgende gegevens ontvangen. Deze gegevens, alsmede uw groepsrelaties, worden opgeslagen in (en gebruikt door) SURFconext. Tevens is het mogelijk dat deze gegevens worden verstrekt aan diensten die u via SURFconext benadert.",
+        sub_title: "Van je instelling hebben wij de volgende gegevens ontvangen. Deze gegevens, alsmede je groepsrelaties, worden opgeslagen in (en gebruikt door) SURFconext. Tevens is het mogelijk dat deze gegevens worden verstrekt aan diensten die je via SURFconext benadert.",
         my_attributes: "Mijn attributen",
         attribute: "Attribuut",
         value: "Waarde",
@@ -855,19 +855,19 @@ I18n.translations.nl = {
         roles: {
             ROLE_DASHBOARD_ADMIN: {
                 name: "SURFconextverantwoordelijke",
-                description: "U bent gemachtigd om voor uw instelling de connecties met Service Providers te beheren"
+                description: "Je bent gemachtigd om voor je instelling de connecties met Service Providers te beheren"
             },
             ROLE_DASHBOARD_VIEWER: {
                 name: "SURFconextbeheerder",
-                description: "U bent gemachtigd om voor uw instelling de connecties met Service Providers in te zien"
+                description: "Je bent gemachtigd om voor je instelling de connecties met Service Providers in te zien"
             },
             ROLE_DASHBOARD_MEMBER: {
                 name: "Instellings gebruiker",
-                description: "U bent een reguliere gebruiker binnen het dashboard"
+                description: "Je bent een reguliere gebruiker binnen het dashboard"
             },
             ROLE_DASHBOARD_SUPER_USER: {
                 name: "Dashboard supergebruiker",
-                description: "U bent een super gebruiker binnen het dashboard"
+                description: "Je bent een super gebruiker binnen het dashboard"
             }
         },
         attribute_map: {
