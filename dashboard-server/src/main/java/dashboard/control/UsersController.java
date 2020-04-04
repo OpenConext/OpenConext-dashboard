@@ -414,7 +414,7 @@ public class UsersController extends BaseController {
 
                 diff(changes, id, service.getDescriptions().get("en"), sp.getDescriptionEn(), "description:en");
                 diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionNl(), "description:nl");
-                diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionPt(), "description:pt");
+                diff(changes, id, service.getDescriptions().get("pt"), sp.getDescriptionPt(), "description:pt");
 
                 diff(changes, id, service.getDisplayNames().get("en"), sp.getDisplayNameEn(), "displayName:en");
                 diff(changes, id, service.getDisplayNames().get("nl"), sp.getDisplayNameNl(), "displayName:nl");
