@@ -35,6 +35,8 @@ public class Settings {
     private boolean displayAdminEmailsInDashboard;
     private boolean displayStatsInDashboard;
 
+    private String typeMetaData;
+
     public Settings() {
     }
 
@@ -268,6 +270,14 @@ public class Settings {
 
     public void setOrganisationDisplayNamePt(String organisationDisplayNamePt) {
         this.organisationDisplayNamePt = organisationDisplayNamePt;
+    }
+
+    public String getTypeMetaData() {
+        return typeMetaData;
+    }
+
+    public void setTypeMetaData(String typeMetaData) {
+        this.typeMetaData = typeMetaData;
     }
 
     @Override

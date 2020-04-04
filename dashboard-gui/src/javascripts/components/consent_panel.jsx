@@ -20,7 +20,8 @@ class ConsentPanel extends React.Component {
             type: "DEFAULT_CONSENT",
             explanationNl: "",
             explanationEn: "",
-            explanationPt: ""
+            explanationPt: "",
+            typeMetaData: app.entityType
         };
         this.state = {consent};
     }

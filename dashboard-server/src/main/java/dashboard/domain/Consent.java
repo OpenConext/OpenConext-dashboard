@@ -7,16 +7,18 @@ public class Consent {
     private String explanationNl;
     private String explanationEn;
     private String explanationPt;
+    private String typeMetaData;
 
     public Consent() {
     }
 
-    public Consent(String spEntityId, ConsentType type, String explanationNl, String explanationEn, String explanationPt) {
+    public Consent(String spEntityId, ConsentType type, String explanationNl, String explanationEn, String explanationPt, String typeMetaData) {
         this.spEntityId = spEntityId;
         this.type = type;
         this.explanationNl = explanationNl;
         this.explanationEn = explanationEn;
         this.explanationPt = explanationPt;
+        this.typeMetaData = typeMetaData;
     }
 
     public String getSpEntityId() {
@@ -57,6 +59,14 @@ public class Consent {
 
     public void setExplanationPt(String explanationPt) {
         this.explanationPt = explanationPt;
+    }
+
+    public String getTypeMetaData() {
+        return typeMetaData;
+    }
+
+    public void setTypeMetaData(String typeMetaData) {
+        this.typeMetaData = typeMetaData;
     }
 
     @Override
