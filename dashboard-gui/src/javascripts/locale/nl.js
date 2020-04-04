@@ -632,23 +632,39 @@ I18n.translations.nl = {
         contact_types: {
             technical: {
                 title: "Technisch Contact:<br>",
+                display: "Technisch Contact",
                 tooltip: "De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.<br><br>",
                 alttooltip: "suggestie: technisch persoon voor storingen en changes."
             },
             support: {
                 title: "Support Contact:<br>",
+                display: "Support Contact:<br>",
                 tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>",
                 alttooltip: "suggestie: servicedesk van de instelling."
             },
             help: {
                 title: "Support Contact:<br>",
+                display: "Support Contact",
                 tooltip: "Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>",
                 alttooltip: "suggestie: servicedesk van de instelling."
             },
             administrative: {
-                title: "Administratief Contact:<br>",
+                title: "Administratief Contact",
+                display: "Administratief Contact",
                 tooltip: "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'.<br><br>",
                 alttooltip: "suggestie: persoon met rol 'SURFconext-verantwoordelijke'"
+            },
+            other: {
+                title: "Other:<br>",
+                display: "Other",
+                tooltip: "Unclassified other contact person<br><br>",
+                alttooltip: "suggestion: None"
+            },
+            billing: {
+                title: "Billing:<br>",
+                display: "Billing",
+                tooltip: "The billing contact person of the IdP. This tends to be the person of the financial department<br><br>",
+                alttooltip: "suggestion: financial department of the institution"
             }
         },
         description: {

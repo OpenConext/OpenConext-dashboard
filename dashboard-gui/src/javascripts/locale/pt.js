@@ -573,23 +573,39 @@ I18n.translations.pt = {
         contact_types: {
             technical: {
                 title: "Técnico",
+                display: "Técnico",
                 tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.",  // TODO: translate
                 alttooltip: "suggestion: technical person for down times and changes." // TODO: translate
             },
             support: {
                 title: "Suporte",
+                display: "Suporte",
                 tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
                 alttooltip: "suggestion: service desk of the institution." // TODO: translate
             },
             help: {
                 title: "Suporte",
+                display: "Suporte",
                 tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the IdP.",  // TODO: translate
                 alttooltip: "suggestion: service desk of the institution." // TODO: translate
             },
             administrative: {
                 title: "Administrativo",
+                display: "Administrativo",
                 tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'",  // TODO: translate
                 alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'" // TODO: translate
+            },
+            other: {
+                title: "Other:<br>",
+                display: "Other",
+                tooltip: "Unclassified other contact person<br><br>",
+                alttooltip: "suggestion: None"
+            },
+            billing: {
+                title: "Billing:<br>",
+                display: "Billing",
+                tooltip: "The billing contact person of the IdP. This tends to be the person of the financial department<br><br>",
+                alttooltip: "suggestion: financial department of the institution"
             }
         },
         description: {

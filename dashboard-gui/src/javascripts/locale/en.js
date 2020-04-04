@@ -255,7 +255,7 @@ I18n.translations.en = {
             na: "No info on contractual basis available: for any questions, please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
             ao: "Service supplier has signed the SURFconext connection agreement.",
             ix: "Service offered by SURFconext member institution.",
-            "r&s+coco" :"eduGAIN service that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.",
+            "r&s+coco": "eduGAIN service that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.",
             entree: "Member of the Kennisnet Entree-federation.",
             clarin: "Member of the Clarin research federation."
         },
@@ -556,9 +556,9 @@ I18n.translations.en = {
         allow_maintainers_to_manage_authz_rules: "Allow SURFconext maintainers to manage Authorization rules",
         allow_maintainers_to_manage_authz_rules_tooltip: "This means the SURFconext maintainers of your<br>IdP are allowed to create, edit and delete<br>Authorization rules.",
         displayAdminEmailsInDashboard: "Allow regular members to see admin contacts",
-        displayAdminEmailsInDashboardTooltip:"This means that regular members of your institution can<br>see the email address of the SURFconext owners <br>and owners of services of this institution.",
+        displayAdminEmailsInDashboardTooltip: "This means that regular members of your institution can<br>see the email address of the SURFconext owners <br>and owners of services of this institution.",
         displayStatsInDashboard: "Allow regular members to see statistics",
-        displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the services connected<br>to this institution.",
+        displayStatsInDashboardTooltip: "This means that regular members of your institution<br>can see the usage / statistics of the services connected<br>to this institution.",
         contact: "Contact persons for {{name}}",
         contact_name: {
             title: "Contact name",
@@ -576,23 +576,39 @@ I18n.translations.en = {
         contact_types: {
             technical: {
                 title: "Technical:<br>",
+                display: "Technical",
                 tooltip: "The technical contact person of the IdP. First contact for down times, changes, and other technical affairs.<br><br>",
                 alttooltip: "suggestion: technical person for down times and changes."
             },
             support: {
                 title: "Support:<br>",
+                display: "Support",
                 tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>",
                 alttooltip: "suggestion: service desk of the institution."
             },
             help: {
                 title: "Support:<br>",
+                display: "Support",
                 tooltip: "This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>",
                 alttooltip: "suggestion: service desk of the institution."
             },
             administrative: {
                 title: "Administrative:<br>",
+                display: "Administrative",
                 tooltip: "The administrative contact person of the IdP. This tends to be the person filling the role of 'SURFconext-verantwoordelijke'<br><br>",
                 alttooltip: "suggestion: person with the role 'SURFconext-verantwoordelijke'"
+            },
+            other: {
+                title: "Other:<br>",
+                display: "Other",
+                tooltip: "Unclassified other contact person<br><br>",
+                alttooltip: "suggestion: None"
+            },
+            billing: {
+                title: "Billing:<br>",
+                display: "Billing",
+                tooltip: "The billing contact person of the IdP. This tends to be the person of the financial department<br><br>",
+                alttooltip: "suggestion: financial department of the institution"
             }
         },
         description: {
