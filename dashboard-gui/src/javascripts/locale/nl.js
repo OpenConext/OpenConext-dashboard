@@ -39,7 +39,7 @@ I18n.translations.nl = {
         confirm: "Bevestig",
         cancel: "Annuleer",
         leavePage: "Weet je zeker dat je deze pagina wilt verlaten?",
-        leavePageSub: "Veranderingen die je heeft gemaakt zullen niet worden opgeslagen.",
+        leavePageSub: "Veranderingen die je hebt gemaakt zullen niet worden opgeslagen.",
         stay: "Blijf",
         leave: "Annulleer"
     },
@@ -102,7 +102,7 @@ I18n.translations.nl = {
             },
             entity_category: {
                 name: "eduGAIN Entity Categorie",
-                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie. Hier kun je evt diensten filteren die voldoen aan een bepaalde entity category.",
+                tooltip: "Diensten kunnen voldoen aan 'entity categories'.<br>Zie de <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie. Hier kunt je evt diensten filteren die voldoen aan een bepaalde entity category.",
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship"
             },
@@ -174,7 +174,7 @@ I18n.translations.nl = {
             processing_results: "Alle services worden opgehaald...",
             search: "Zoek",
             search_hint: "Zoeken",
-            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"http://support.surfconext.nl/getconexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount, en dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. Met het verzoek of de dienst contact op kan nemen via support@surfconext.nl om de koppeling met SURFconext te realiseren."
+            add_services_hint: "Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href=\"http://support.surfconext.nl/getconexted\" target=\"_blank\" rel=\"noopener noreferrer\">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount. Dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. De dienst kan voor meer informatie contact opnemen met support@surfconext.nl."
         },
     },
 
@@ -420,8 +420,8 @@ I18n.translations.nl = {
         invite_accepted: "Ticket {{jiraKey}} is succesvol bijgewerkt met je goedkeuring.",
         deny: "Uitnodiging afwijzen",
         approve: "Uitnodiging Goedkeuren",
-        deny_invitation: "Weet je zeker dat je de uitnodiging om the koppelen met {{app}} wilt afwijzen?",
-        deny_invitation_info: "Nadat je de uitnodiging heeft afgewezen kun je altijd nog de koppeling activeren in dit dashboard.",
+        deny_invitation: "Weet je zeker dat je de uitnodiging om te koppelen met {{app}} wilt afwijzen?",
+        deny_invitation_info: "Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.",
         invite_action_collision_title: "Dienst {{app}} is al gekoppeld.",
         invite_action_collision_subtitle: "Mid-air botsing gedetecteerd.",
         invite_action_collision: "De uitnodiging om een koppeling te maken met {{app}} is al geaccepteerd. Misschien heeft een collega de uitnodiging al geaccepteerd? Neem bij vragen contact op met <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> en voeg het ticketnummer toe aan het onderwerp: {{jiraKey}}.",
