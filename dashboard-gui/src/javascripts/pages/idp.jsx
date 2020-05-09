@@ -494,7 +494,7 @@ class MyIdp extends React.Component {
                 <td>{contactPerson.name}</td>
                 <td>{contactPerson.emailAddress}</td>
                 <td>{contactPerson.telephoneNumber}</td>
-                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".title")}</td>
+                <td>{I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".display")}</td>
             </tr>
         );
     }

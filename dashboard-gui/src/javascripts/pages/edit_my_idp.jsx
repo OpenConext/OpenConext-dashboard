@@ -506,7 +506,7 @@ class EditMyIdp extends React.Component {
                         {
                             contactPersonTypes.map(
                                 type => <option key={type}
-                                                value={type}>{I18n.t("my_idp.contact_types." + type + ".title")}</option>
+                                                value={type}>{I18n.t("my_idp.contact_types." + type + ".display")}</option>
                             )
                         }
                     </select>

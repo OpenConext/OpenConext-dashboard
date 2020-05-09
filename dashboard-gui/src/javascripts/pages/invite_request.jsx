@@ -171,7 +171,7 @@ class InviteRequest extends React.Component {
         </tr>;
 
     renderContactPerson = (contactPerson, i, identifier) => {
-        const type = contactPerson.contactPersonType ? I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".title") :
+        const type = contactPerson.contactPersonType ? I18n.t("my_idp.contact_types." + contactPerson.contactPersonType + ".display") :
             contactPerson.roles.join(", ");
         return <tr key={i}>
             <td><CheckBox name={`${i}`}

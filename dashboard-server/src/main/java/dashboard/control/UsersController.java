@@ -251,6 +251,7 @@ public class UsersController extends BaseController {
                 .userName(currentUser.getFriendlyName())
                 .idpId(idpEntityId)
                 .spId(consent.getSpEntityId())
+                .typeMetaData(consent.getTypeMetaData())
                 .consent(consent)
                 .type(Action.Type.CHANGE).build();
 
@@ -315,6 +316,7 @@ public class UsersController extends BaseController {
                 .userName(currentUser.getFriendlyName())
                 .idpId(idpEntityId)
                 .settings(settings)
+                .typeMetaData(settings.getTypeMetaData())
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action, changes);
@@ -358,21 +360,27 @@ public class UsersController extends BaseController {
 
         this.diff(changes, idpId, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
         this.diff(changes, idpId, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
+        this.diff(changes, idpId, idp.getKeywords().get("pt"), settings.getKeywordsPt(), "keywords:pt");
 
         this.diff(changes, idpId, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "organisationURL:en");
         this.diff(changes, idpId, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "organisationURL:nl");
+        this.diff(changes, idpId, idp.getHomeUrls().get("pt"), settings.getOrganisationUrlPt(), "organisationURL:pt");
 
         this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("en"), settings.getOrganisationDisplayNameEn(), "organisationDisplayName:en");
         this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("nl"), settings.getOrganisationDisplayNameNl(), "organisationDisplayName:nl");
+        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("pt"), settings.getOrganisationDisplayNamePt(), "organisationDisplayName:pt");
 
         this.diff(changes, idpId, idp.getOrganisationNames().get("en"), settings.getOrganisationNameEn(), "organisationName:en");
         this.diff(changes, idpId, idp.getOrganisationNames().get("nl"), settings.getOrganisationNameNl(), "organisationName:nl");
+        this.diff(changes, idpId, idp.getOrganisationNames().get("pt"), settings.getOrganisationNamePt(), "organisationName:pt");
 
         this.diff(changes, idpId, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
         this.diff(changes, idpId, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");
+        this.diff(changes, idpId, idp.getDescriptions().get("pt"), settings.getDescriptionsPt(), "description:pt");
 
         this.diff(changes, idpId, idp.getDisplayNames().get("en"), settings.getDisplayNamesEn(), "displayName:en");
         this.diff(changes, idpId, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
+        this.diff(changes, idpId, idp.getDisplayNames().get("pt"), settings.getDisplayNamesPt(), "displayName:pt");
 
         this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
                 "coin:publish_in_edugain");
@@ -406,9 +414,11 @@ public class UsersController extends BaseController {
 
                 diff(changes, id, service.getDescriptions().get("en"), sp.getDescriptionEn(), "description:en");
                 diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionNl(), "description:nl");
+                diff(changes, id, service.getDescriptions().get("pt"), sp.getDescriptionPt(), "description:pt");
 
                 diff(changes, id, service.getDisplayNames().get("en"), sp.getDisplayNameEn(), "displayName:en");
                 diff(changes, id, service.getDisplayNames().get("nl"), sp.getDisplayNameNl(), "displayName:nl");
+                diff(changes, id, service.getDisplayNames().get("pt"), sp.getDisplayNamePt(), "displayName:pt");
 
                 diff(changes, id, service.isPublishedInEdugain(), sp.isPublishedInEdugain(), "coin:publish_in_edugain");
                 diff(changes, id, service.isGuestEnabled(), sp.isHasGuestEnabled(), "Guest Login Enabled");

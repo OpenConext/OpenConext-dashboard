@@ -137,7 +137,9 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     private Action addNames(Action action) {
-        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
+        String typeMetaData = action.getTypeMetaData();
+        EntityType entityType = StringUtils.hasText(typeMetaData) ? EntityType.valueOf(typeMetaData) : EntityType.saml20_sp;
+        Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), entityType, true);
         Optional<IdentityProvider> identityProvider = manage.getIdentityProvider(action.getIdpId(), true);
 
         return action

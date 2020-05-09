@@ -157,7 +157,8 @@ public interface Manage {
                                     m.containsKey("type") ? ConsentType.valueOf(m.get("type").toUpperCase()) : ConsentType.DEFAULT_CONSENT,
                                     m.get("explanation:nl"),
                                     m.get("explanation:en"),
-                                    m.get("explanation:pt"))).collect(Collectors.toList()));
+                                    m.get("explanation:pt"),
+                                    EntityType.saml20_sp.name())).collect(Collectors.toList()));
                     break;
 
                 }

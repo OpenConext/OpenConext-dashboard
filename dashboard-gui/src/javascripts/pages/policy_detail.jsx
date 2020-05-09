@@ -311,7 +311,7 @@ class PolicyDetail extends React.Component {
     }
 
     renderDenyAdvice(policy) {
-        const classNameStatus = isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdvicePt) || isEmpty(policy.denyAdviceNl) ? "failure" : "success";
+        const classNameStatus = isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdviceNl) ? "failure" : "success";
         const {currentUser} = this.context;
         return (
             <div className="form-element">
@@ -425,7 +425,7 @@ class PolicyDetail extends React.Component {
         });
         const description = this.renderAutoformatDescription(policy);
         const inValid = isEmpty(policy.name) || isEmpty(description) || isEmpty(policy.serviceProviderId)
-            || isEmpty(policy.attributes) || emptyAttributes.length > 0 || isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdvicePt) || isEmpty(policy.denyAdviceNl);
+            || isEmpty(policy.attributes) || emptyAttributes.length > 0 || isEmpty(policy.denyAdvice) || isEmpty(policy.denyAdviceNl);
         return !inValid;
     }
 
