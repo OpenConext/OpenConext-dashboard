@@ -12,7 +12,6 @@ import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -32,14 +31,14 @@ import static java.util.stream.Collectors.toList;
 public class ServicesImpl implements Services {
 
     private Manage manage;
-    private String guestIdp;
+    private List<String> guestIdps;
     private Set<String> allowedGuestEntityIds = new HashSet<>();
     private boolean allowedAllForGuestIdp = false;
     private boolean manageFetched = false;
 
-    public ServicesImpl(Manage manage, String guestIdp) {
+    public ServicesImpl(Manage manage, List<String> guestIdps) {
         this.manage = manage;
-        this.guestIdp = guestIdp;
+        this.guestIdps = guestIdps;
     }
 
     @Override
@@ -170,12 +169,19 @@ public class ServicesImpl implements Services {
     }
 
     private void initialize() {
-            Optional<IdentityProvider> identityProviderOptional = manage.getIdentityProvider(this.guestIdp, false);
-            identityProviderOptional.ifPresent(identityProvider -> {
-                this.allowedAllForGuestIdp = identityProvider.isAllowedAll();
-                this.allowedGuestEntityIds = identityProvider.getAllowedEntityIds() != null ? identityProvider.getAllowedEntityIds() : new HashSet<>();
-            });
-            this.manageFetched = true;
+        this.guestIdps.stream().map(guestIdp -> manage.getIdentityProvider(guestIdp, false))
+                .forEach(identityProviderOptional -> {
+                    identityProviderOptional.ifPresent(identityProvider -> {
+                        if (!this.allowedAllForGuestIdp) {
+                            this.allowedAllForGuestIdp = identityProvider.isAllowedAll();
+                        }
+                        if (identityProvider.getAllowedEntityIds() != null) {
+                            this.allowedGuestEntityIds.addAll(identityProvider.getAllowedEntityIds());
+                        }
+                    });
+
+                });
+        this.manageFetched = true;
     }
 
     private boolean isGuestEnabled(ServiceProvider sp) {
@@ -190,7 +196,7 @@ public class ServicesImpl implements Services {
         if (sp.isAllowedAll() && (this.allowedAllForGuestIdp || this.allowedGuestEntityIds.contains(sp.getId()))) {
             return true;
         }
-        return sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().contains(this.guestIdp) &&
+        return sp.getAllowedEntityIds() != null && sp.getAllowedEntityIds().stream().anyMatch(entityId -> this.guestIdps.contains(entityId)) &&
                 (this.allowedGuestEntityIds.contains(sp.getId()) || this.allowedAllForGuestIdp);
     }
 
@@ -227,7 +233,7 @@ public class ServicesImpl implements Services {
         // the language setting)
         List<String> typeOfServices = locale.equals("en") ? sp.getTypeOfServicesEn() : locale.equals("pt") ? sp.getTypeOfServicesPt() : sp.getTypeOfServicesNl();
         if (CollectionUtils.isEmpty(typeOfServices)) {
-            typeOfServices.add(locale.equals("en") ? "Other": locale.equals("pt") ? "Outro" : "Overig");
+            typeOfServices.add(locale.equals("en") ? "Other" : locale.equals("pt") ? "Outro" : "Overig");
         }
         Category category = new Category(locale.equals("en") ? "Type of Service" : locale.equals("pt") ? "Tipo de Serviço" : "Type Service", "type_of_service",
                 typeOfServices.stream().map(CategoryValue::new).collect(toList()));

@@ -33,7 +33,9 @@ import dashboard.stats.StatsMock;
 import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class,
@@ -47,8 +49,8 @@ public class Application {
     }
 
     @Bean
-    public Services services(Manage manage, @Value("${guestidp.entityid}") String guestIdp) {
-        return new ServicesImpl(manage, guestIdp);
+    public Services services(Manage manage, @Value("${guestidp.entityids}") String guestIdps) {
+        return new ServicesImpl(manage, Arrays.stream(guestIdps.split(",")).map(String::trim).collect(Collectors.toList()) );
     }
 
     @Bean

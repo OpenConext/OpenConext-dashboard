@@ -673,7 +673,7 @@ I18n.translations.nl = {
             pt: "Beschrijving (pt)"
         },
         guest_enabled: "Gast-toegang ingeschakeld",
-        guest_enabled_tooltip: "Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href=\"https://edu.nl/48ftk\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
+        guest_enabled_tooltip: "Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href=\"https://wiki.surfnet.nl/display/conextsupport/eduID+gasttoegang\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> voor meer informatie.",
         edit_message: "De volgende velden kunnen worden aangepast.",
         save: "Maak wijzigingsverzoek aan",
         change_request_created: "Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}",
