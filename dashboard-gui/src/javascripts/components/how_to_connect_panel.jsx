@@ -464,16 +464,20 @@ class HowToConnectPanel extends React.Component {
             (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) &&
             this.context.currentUser.dashboardAdmin;
         stopEvent(e);
+        const {app} = this.props;
         if (allowed) {
             const promise = isInvite ? updateInviteRequest({
                     status: "ACCEPTED",
                     comment: this.state.comments,
-                    jiraKey: this.props.jiraKey
+                    jiraKey: this.props.jiraKey,
+                    spEntityId: app.spEntityId,
+                    typeMetaData: app.entityType
                 }) :
-                makeConnection(this.props.app, this.state.comments, this.state.loaLevel);
+                makeConnection(app, this.state.comments, this.state.loaLevel);
             promise
                 .then(action => {
-                    this.setState({currentStep: "done", action: action}, () => window.scrollTo(0, 0));
+                    const actionReturned = isInvite ? action.payload : action;
+                    this.setState({currentStep: "done", action: actionReturned}, () => window.scrollTo(0, 0));
                 })
                 .catch(() => this.setState({failed: true}));
 

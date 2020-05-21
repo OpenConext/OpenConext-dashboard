@@ -117,7 +117,8 @@ public class UsersController extends BaseController {
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_SUPER_USER')")
     @PutMapping("/inviteRequest")
-    public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest) throws IOException, MessagingException {
+    public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest,
+                                                                    Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         String commentWithUser = String.format("%s / %s has %s this Invite request.", currentUser.getUid(), currentUser.getFriendlyName(),
                 updateInviteRequest.getStatus().name().toLowerCase());
@@ -126,11 +127,55 @@ public class UsersController extends BaseController {
             commentWithUser = commentWithUser.concat(" User comment: ").concat(comment);
         }
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
+            boolean connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
+            updateInviteRequest.setConnectWithoutInteraction(true);
+            if (connected) {
+                commentWithUser = commentWithUser.concat("\n" +
+                        "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
+            }
             actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
+
         } else {
             actionsService.rejectInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
         }
         return ResponseEntity.ok(createRestResponse(updateInviteRequest));
+    }
+
+    private boolean automaticallyCreateConnection(Locale locale, UpdateInviteRequest updateInviteRequest) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        String idpEntityId = currentUser.getIdp().getId();
+        if (isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
+            return false;
+        }
+        String spEntityId = updateInviteRequest.getSpEntityId();
+
+        List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
+        Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
+
+        if (optional.isPresent()) {
+            Service service = optional.get();
+
+            boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getInstitutionId());
+            boolean connectWithoutInteraction = idpAndSpShareInstitution || service.connectsWithoutInteraction();
+
+            if (connectWithoutInteraction) {
+                Action action = Action.builder()
+                        .userEmail(currentUser.getEmail())
+                        .userName(currentUser.getFriendlyName())
+                        .body(updateInviteRequest.getComment())
+                        .idpId(idpEntityId)
+                        .spId(spEntityId)
+                        .typeMetaData(updateInviteRequest.getTypeMetaData())
+                        .connectWithoutInteraction(true)
+                        .shouldSendEmail(service.sendsEmailWithoutInteraction())
+                        .service(service)
+                        .type(Action.Type.LINKREQUEST).build();
+
+                actionsService.connectWithoutInteraction(action);
+                return true;
+            }
+        }
+        return false;
     }
 
     @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
