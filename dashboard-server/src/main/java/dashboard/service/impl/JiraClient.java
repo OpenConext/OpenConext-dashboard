@@ -29,6 +29,7 @@ public interface JiraClient {
     String START_PROGRESS = "Start Progress";
     String INPUT_NEEDED = "Input Needed";
     String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
+    String RESOLVED = "To Resolved";
 
     String create(Action action, List<Change> changes) throws IllegalStateException;
 

@@ -133,7 +133,7 @@ public class UsersController extends BaseController {
                 commentWithUser = commentWithUser.concat("\n" +
                         "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
             }
-            actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
+            actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser, connected);
 
         } else {
             actionsService.rejectInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
