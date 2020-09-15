@@ -369,7 +369,9 @@ class AppOverview extends React.Component {
                     break;
                 case "entity_category":
                     filter(facet, (app, facetValue) => {
-                        return app.entityCategories1 === facetValue.searchValue || app.entityCategories2 === facetValue.searchValue;
+                        return app.entityCategories1 === facetValue.searchValue ||
+                          app.entityCategories2 === facetValue.searchValue ||
+                          app.entityCategories3 === facetValue.searchValue;
                     });
                     break;
                 case "used_by_idp":
@@ -527,7 +529,9 @@ class AppOverview extends React.Component {
             ],
             filterApp: function (app) {
                 const sourceFacetValues = this.state.activeFacets["entity_category"] || [];
-                return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.entityCategories1) > -1 || sourceFacetValues.indexOf(app.entityCategories2) > -1;
+                return sourceFacetValues.length === 0 ||
+                  sourceFacetValues.indexOf(app.entityCategories1) > -1 || sourceFacetValues.indexOf(app.entityCategories2) > -1
+                  || sourceFacetValues.indexOf(app.entityCategories3) > -1;
             }.bind(this)
         }, {
             name: I18n.t("facets.static.license.name"),

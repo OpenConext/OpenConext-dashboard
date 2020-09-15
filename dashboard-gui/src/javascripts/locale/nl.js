@@ -141,6 +141,7 @@ I18n.translations.nl = {
             idp_usage: "Gebruikt door",
             license_data: "Licentie",
             overview: "Overzicht",
+            connected_resource_servers: "Resource servers",
             sirtfi_security: "Sirtfi contacten",
             ssid: "SURFsecureID",
             privacy: "Privacy",
@@ -224,6 +225,8 @@ I18n.translations.nl = {
     },
 
     overview_panel: {
+        entityID: "Entity ID",
+        rpClientID: "Client ID",
         wiki_info_html: "Voor deze service is extra informatie beschikbaar in de SURFconext <a href=\"{{link}}\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a>.",
         no_description: "Er is geen beschijving voor deze service.",
         description: "Beschrijving",
@@ -283,7 +286,13 @@ I18n.translations.nl = {
         warning: "Let op:",
         nameIdInfo: "De identiteit van de gebruikers is doorgegeven als een NameID element van het type '%{type}' - <a href='https://support.surfconext.nl/uids' target='_blank'>gegenereerd door SURFconext</a>"
     },
-
+    connected_resource_servers_panel: {
+        title: "Aangesloten Resource Servers",
+        subtitle: "{{name}} is een OIDC Relying Party en kan gebruik maken van de API's van de volgende Resource Servers",
+        clientId: "Client ID",
+        name: "Naam",
+        description: "Omschrijving"
+    },
     idp_usage_panel: {
         title: "Gebruikt door",
         subtitle: "De volgende instellingen zijn gekoppeld aan {{name}}.",

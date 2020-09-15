@@ -147,6 +147,7 @@ public class ServicesImpl implements Services {
         service.setRegistrationInfoUrl(sp.getRegistrationInfo());
         service.setEntityCategories1(sp.getEntityCategories1());
         service.setEntityCategories2(sp.getEntityCategories2());
+        service.setEntityCategories3(sp.getEntityCategories3());
         service.setPublishInEdugainDate(sp.getPublishInEdugainDate());
         service.setStrongAuthentication(sp.isStrongAuthenticationEnabled());
         service.setMinimalLoaLevel(sp.getMinimalLoaLevel());

@@ -87,7 +87,8 @@ public class ServicesController extends BaseController {
 
     @PostMapping(value = "/by-entity-ids")
     public RestResponse<List<Service>> byEnntityIds(@RequestBody List<String> entityIds, Locale locale) throws IOException {
-        return createRestResponse(services.getServicesByEntityIds(entityIds, locale));
+        List<Service> servicesByEntityIds = services.getServicesByEntityIds(entityIds, locale);
+        return createRestResponse(servicesByEntityIds);
     }
 
     @RequestMapping(value = "/idps")

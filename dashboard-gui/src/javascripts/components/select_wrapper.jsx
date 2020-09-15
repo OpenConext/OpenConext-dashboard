@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 
 const colourStyles = {
-    control: (base, state) => ({...base, backgroundColor: state.isDisabled ? 'light-grey': 'white'})
+    control: (base, state) => ({...base, backgroundColor: state.isDisabled ? 'white': 'white'})
 };
 
 class SelectWrapper extends React.Component {

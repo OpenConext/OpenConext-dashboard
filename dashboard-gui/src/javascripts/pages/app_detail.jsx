@@ -10,6 +10,7 @@ import OverviewPanel from "../components/overview_panel";
 import LicenseInfoPanel from "../components/license_info_panel";
 import ApplicationUsagePanel from "../components/application_usage_panel";
 import AttributePolicyPanel from "../components/attribute_policy_panel";
+import ConnectedResourceServersPanel from "../components/connected_resource_servers";
 import IdpUsagePanel from "../components/idp_usage_panel";
 import HowToConnectPanel from "../components/how_to_connect_panel";
 import SSIDPanel from "../components/ssid_panel";
@@ -20,8 +21,8 @@ import Flash from "../components/flash";
 import {privacyProperties} from "../utils/privacy";
 import {isEmpty} from "../utils/utils";
 
-const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "license_data", "privacy",
-    "idp_usage", "sirtfi_security", "application_usage", "ssid"];
+const componentsOrdering = ["overview", "how_to_connect", "consent", "attribute_policy", "connected_resource_servers",
+    "license_data", "privacy", "idp_usage", "sirtfi_security", "application_usage", "ssid"];
 
 class AppDetail extends React.Component {
 
@@ -101,6 +102,14 @@ class AppDetail extends React.Component {
                             icon: "fa-clipboard"
                         }
                     }
+                }
+                if (!isEmpty(app.resourceServers)) {
+                    this.panelMap = {
+                        ...this.panelMap, "connected_resource_servers": {
+                            component: ConnectedResourceServersPanel,
+                            icon: "fa-cloud"
+                        }
+                    };
                 }
                 if (currentUser.guest) {
                     delete this.panelMap["how_to_connect"];

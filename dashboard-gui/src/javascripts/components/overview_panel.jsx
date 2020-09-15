@@ -72,13 +72,14 @@ class OverviewPanel extends React.Component {
     renderEntityCategories() {
         const {app} = this.props;
 
-        if (app.entityCategories1 || app.entityCategories2) {
+        if (app.entityCategories1 || app.entityCategories2 || app.entityCategories3) {
             return (
                 <div className="mod-description">
                     <h2 key="title">{I18n.t("overview_panel.entity_categories")}</h2>
                     <ul key="list">
                         {this.renderEntityCategory("entityCategories1")}
                         {this.renderEntityCategory("entityCategories2")}
+                        {this.renderEntityCategory("entityCategories3")}
                     </ul>
                 </div>
             );
@@ -229,20 +230,22 @@ class OverviewPanel extends React.Component {
 
     render() {
         let connectionClass = "mod-connection";
-        if (this.props.app.strongAuthentication) {
+        const {app} = this.props;
+        if (app.strongAuthentication) {
             connectionClass += " ssa";
         }
         const {currentUser} = this.context;
+        const entityID = app.entityType === "oidc10_rp" ? I18n.t("overview_panel.rpClientID") : I18n.t("overview_panel.entityID")
         return (
             <div className="l-middle-app-detail">
                 <div className="mod-title">
-                    <h1>{this.props.app.name}</h1>
-                    <p className="sub-title">Entity ID: {this.props.app.spEntityId}</p>
+                    <h1>{app.name}</h1>
+                    <p className="sub-title">{entityID}: {app.spEntityId}</p>
                 </div>
 
                 <div className={connectionClass}>
                     {!currentUser.guest && this.renderConnection()}
-                    <LicenseInfo app={this.props.app} showLinks/>
+                    <LicenseInfo app={app} showLinks/>
                     {this.renderStrongAuthentication()}
                 </div>
 
@@ -267,7 +270,7 @@ class OverviewPanel extends React.Component {
 
                 {this.renderPrivacyInformation()}
 
-                <Screenshots screenshotUrls={this.props.app.screenshotUrls}/>
+                <Screenshots screenshotUrls={app.screenshotUrls}/>
             </div>
         );
     }

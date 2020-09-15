@@ -60,6 +60,7 @@ public class Service implements Comparable<Service>, Serializable {
     private String registrationPolicyUrl;
     private String entityCategories1;
     private String entityCategories2;
+    private String entityCategories3;
     private String publishInEdugainDate;
     private String manipulationNotes;
     private boolean manipulation;
@@ -414,6 +415,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setEntityCategories2(String entityCategories2) {
         this.entityCategories2 = entityCategories2;
+    }
+
+    public String getEntityCategories3() {
+        return entityCategories3;
+    }
+
+    public void setEntityCategories3(String entityCategories3) {
+        this.entityCategories3 = entityCategories3;
     }
 
     public boolean isStrongAuthentication() {

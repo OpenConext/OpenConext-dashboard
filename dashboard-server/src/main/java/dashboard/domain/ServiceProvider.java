@@ -51,6 +51,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private String registrationPolicyUrlPt;
     private String entityCategories1;
     private String entityCategories2;
+    private String entityCategories3;
     private boolean idpVisibleOnly;
     private boolean policyEnforcementDecisionRequired;
     private EntityType entityType;
@@ -97,6 +98,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.registrationPolicyUrlPt = (String) metaData.get("mdrpi:RegistrationPolicy:pt");
         this.entityCategories1 = (String) metaData.get("coin:entity_categories:1");
         this.entityCategories2 = (String) metaData.get("coin:entity_categories:2");
+        this.entityCategories3 = (String) metaData.get("coin:entity_categories:3");
         this.licenseStatus = LicenseStatus.fromManage((String) metaData.get("coin:ss:license_status"));
         this.idpVisibleOnly = booleanValue(metaData.get("coin:ss:idp_visible_only"));
         this.policyEnforcementDecisionRequired = booleanValue(metaData.get
@@ -266,6 +268,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public String getEntityCategories2() {
         return entityCategories2;
+    }
+
+    public String getEntityCategories3() {
+        return entityCategories3;
     }
 
     @Override
