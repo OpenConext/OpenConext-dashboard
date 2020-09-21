@@ -104,7 +104,9 @@ I18n.translations.pt = {
                 name: "eduGAIN Categorias de Entidade",
                 tooltip: "Os serviços podem obedecer a 'categorias de entidade'.<br>Consulte a <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Entity+categories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.",
                 code_of_conduct: "Código de Conduta",
-                research_and_scholarship: "Pesquisa e Bolsas de Estudo"
+                research_and_scholarship: "Pesquisa e Bolsas de Estudo",
+                selectAll: "Filter on all",
+                tooltipAll: "Check this to filter on services that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the services on one or more<br>checked entity categories."
             },
             strong_authentication: {
                 name: "Suporta SURFsecureID",

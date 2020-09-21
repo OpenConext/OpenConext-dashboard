@@ -66,6 +66,7 @@ class Facets extends React.Component {
                                 </ReactTooltip>
                         </span>}</span>
                 {this.renderFacetOptions(facet)}
+                {facet.extraContentRenderer && facet.extraContentRenderer()}
             </fieldset>
         );
     }

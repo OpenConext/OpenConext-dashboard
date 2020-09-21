@@ -104,7 +104,9 @@ I18n.translations.en = {
                 name: "eduGAIN Entity Category",
                 tooltip: "Services can comply to an 'entity categories'.<br>See the <a href=\"https://support.surfconext.nl/dashboard-help-entitycategories\" target=\"_blank\" rel=\"noopener noreferrer\">wiki</a> for more information. Here you can filter on services adhering to a certain category.",
                 code_of_conduct: "Code of Conduct",
-                research_and_scholarship: "Research and Scholarship"
+                research_and_scholarship: "Research and Scholarship",
+                selectAll: "Filter on all",
+                tooltipAll: "Check this to filter on services that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the services on of the <br>checked entity categories."
             },
             strong_authentication: {
                 name: "SURFsecureID enabled",
