@@ -106,7 +106,7 @@ I18n.translations.nl = {
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship",
                 selectAll: "Filter allemaal",
-                tooltipAll: "Vink dit aan om te filteren op services die <br> alle aangevinkte entity categories hebben.<br><br>De standaard filter laat services zien die tenminste één van de <br>aangevinkte entity categories hebben."
+                tooltipAll: "Vink dit aan om te filteren op services die <br> alle geselecteerde entity categories hebben.<br><br>Het default filter laat services zien die tenminste één van de <br>aangevinkte entity categories hebben."
             },
             strong_authentication: {
                 name: "SURFsecureID ingeschakeld",

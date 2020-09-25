@@ -106,7 +106,7 @@ I18n.translations.en = {
                 code_of_conduct: "Code of Conduct",
                 research_and_scholarship: "Research and Scholarship",
                 selectAll: "Filter on all",
-                tooltipAll: "Check this to filter on services that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the services on of the <br>checked entity categories."
+                tooltipAll: "Check this to filter on services that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the services that have one of the <br>checked entity categories."
             },
             strong_authentication: {
                 name: "SURFsecureID enabled",
