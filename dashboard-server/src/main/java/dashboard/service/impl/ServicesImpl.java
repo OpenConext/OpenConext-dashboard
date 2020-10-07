@@ -65,7 +65,7 @@ public class ServicesImpl implements Services {
             return service;
         }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
                 (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())) ||
-                invitationRequestEntities.contains(service.getSpEntityId()))
+                (invitationRequestEntities != null && invitationRequestEntities.contains(service.getSpEntityId())))
                 .collect(toList());
         return services;
     }
