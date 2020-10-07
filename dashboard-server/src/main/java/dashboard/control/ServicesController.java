@@ -249,7 +249,7 @@ public class ServicesController extends BaseController {
                     .service(service)
                     .type(jiraType).build();
 
-            if (connectWithoutInteraction) {
+            if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
