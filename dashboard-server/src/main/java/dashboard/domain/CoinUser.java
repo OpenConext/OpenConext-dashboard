@@ -62,7 +62,7 @@ public class CoinUser implements UserDetails {
     private boolean guest;
     private String defaultLoa;
     private List<String> loaLevels;
-    private Set<String> invitationRequestEntities;
+    private Set<String> invitationRequestEntities = new HashSet<>();
 
     @Override
     @JsonIgnore
