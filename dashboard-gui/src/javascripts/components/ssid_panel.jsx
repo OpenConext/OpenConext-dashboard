@@ -17,22 +17,29 @@ class SSIDPanel extends React.Component {
         this.state = {
             loaLevel: "",
             options: [],
-            highestLoaLevel: false
+            highestLoaLevel: false,
+            appHasLoaLevel: false
         };
     }
 
     componentDidMount() {
         const {app} = this.props;
         const {currentUser} = this.context;
-        const loaLevel = app.minimalLoaLevel || "";
+        const stepEntity = (currentUser.currentIdp.stepupEntities || []).find(e => e.name === app.spEntityId);
         let options = [];
+        const loaLevel = app.minimalLoaLevel || (stepEntity && stepEntity.level) || "";
         if (isEmpty(loaLevel)) {
             options.push({value: "", display: I18n.t("consent_panel.defaultLoa")});
         }
-        options = options.concat(currentUser.loaLevels.map(t => (
-            {value: t, display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf("/") + 1).toLowerCase()}`)})
-        ));
-        this.setState({loaLevel: loaLevel, options: options, highestLoaLevel: loaLevel.endsWith("loa3")});
+        options = options.concat(currentUser.loaLevels
+          .map(t => ({value: t, display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf("/") + 1).toLowerCase()}`)}))
+        );
+        this.setState({
+            loaLevel: loaLevel ,
+            options: options,
+            highestLoaLevel: stepEntity && stepEntity.level.endsWith("loa3"),
+            appHasLoaLevel: !isEmpty(app.minimalLoaLevel)
+        });
     }
 
     saveRequest = e => {
@@ -57,20 +64,28 @@ class SSIDPanel extends React.Component {
     };
 
     renderSSID(isDashboardAdmin) {
-        const {loaLevel, options, highestLoaLevel} = this.state;
+        const {loaLevel, options, highestLoaLevel, appHasLoaLevel} = this.state;
+        const {currentUser} = this.context;
+        const {app} = this.props;
+
+        const stepEntity = (currentUser.currentIdp.stepupEntities || []).find(e => e.name === app.spEntityId);
+        const loaLevelEquals = stepEntity && stepEntity.level === loaLevel;
 
         return (
             <div className="mod-ssid-panel">
+                {appHasLoaLevel && <p className="error">{I18n.t("ssid_panel.appHasLoaLevel")}</p>}
+                {(highestLoaLevel && !appHasLoaLevel) &&
+                <p className="error" dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.highestLoaReached")}}/>}
                 <section className="change-form">
                     <h2>{I18n.t("consent_panel.loa_level")}</h2>
-                    {highestLoaLevel && <p class="error" dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.highestLoaReached")}}/>}
                     <SelectWrapper
                         defaultValue={loaLevel}
                         options={options}
                         multiple={false}
-                        isDisabled={highestLoaLevel || !isDashboardAdmin}
+                        isDisabled={highestLoaLevel || !isDashboardAdmin || appHasLoaLevel}
                         handleChange={val => this.setState({loaLevel: val})}/>
-                    {(isDashboardAdmin && !highestLoaLevel) && <a href="/save" className="t-button save"
+                    {(isDashboardAdmin && !highestLoaLevel && !appHasLoaLevel) &&
+                    <a href="/save" className={`t-button save ${loaLevelEquals ? "disabled" : ""}`}
                                             onClick={e => this.saveRequest(e)}>{I18n.t("consent_panel.save")}</a>}
 
                 </section>

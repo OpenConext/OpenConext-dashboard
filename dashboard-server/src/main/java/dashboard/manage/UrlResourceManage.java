@@ -78,8 +78,8 @@ public class UrlResourceManage implements Manage {
                 .filter(rp -> !rp.isHidden())
                 .collect(Collectors.toList());
 
-        List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata).map
-                (sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
+        List<ServiceProvider> singleTenantsProviders = singleTenants.stream().map(this::transformManageMetadata)
+                .map(sp -> this.serviceProvider(sp, EntityType.single_tenant_template))
                 .collect(Collectors.toList());
 
         serviceProviders.addAll(singleTenantsProviders);

@@ -103,6 +103,9 @@ public class JiraClientImpl implements JiraClient {
         fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));
         fields.put("customfield_" + spCustomField(), action.getSpId());
+        if (StringUtils.hasText(action.getPersonalMessage())) {
+            fields.put("customfield_" + this.optionalMessageCustomField(), action.getPersonalMessage());
+        }
         String typeMetaData = action.getTypeMetaData();
         if (StringUtils.hasText(typeMetaData)) {
             fields.put("customfield_" + typeMetaDataCustomField(), ImmutableMap.of("value", action.getTypeMetaData()));
@@ -176,6 +179,7 @@ public class JiraClientImpl implements JiraClient {
                         .status((String) ((Map<String, Object>) fields.get("status")).get("name"))
                         .resolution(resolution != null ? resolution.get("name") : null)
                         .type(findType(issueType))
+                        .personalMessage(Optional.ofNullable((String) fields.get("customfield_" + optionalMessageCustomField())).orElse(""))
                         .requestDate(ZonedDateTime.parse((String) fields.get("created"), DATE_FORMATTER))
                         .updateDate(ZonedDateTime.parse((String) fields.get("updated"), DATE_FORMATTER))
                         .body((String) fields.get("description"))
@@ -325,6 +329,10 @@ public class JiraClientImpl implements JiraClient {
 
     private String emailToCustomField() {
         return this.customField("emailTo");
+    }
+
+    private String optionalMessageCustomField() {
+        return this.customField("optionalMessage");
     }
 
     private String customField(String name) {

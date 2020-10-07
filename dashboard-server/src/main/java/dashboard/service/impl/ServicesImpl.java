@@ -2,6 +2,7 @@ package dashboard.service.impl;
 
 import dashboard.domain.Category;
 import dashboard.domain.CategoryValue;
+import dashboard.domain.CoinUser;
 import dashboard.domain.ContactPerson;
 import dashboard.domain.ContactPersonType;
 import dashboard.domain.IdentityProvider;
@@ -44,7 +45,8 @@ public class ServicesImpl implements Services {
     @Override
     public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
         IdentityProvider identityProvider;
-        if (SpringSecurity.getCurrentUser().isGuest()) {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isGuest()) {
             identityProvider = new IdentityProvider(Collections.singletonMap("eid", 1));
         } else {
             identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(() -> new
@@ -52,6 +54,7 @@ public class ServicesImpl implements Services {
         }
 
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
+        Set<String> invitationRequestEntities = currentUser.getInvitationRequestEntities();
         List<Service> services = allServiceProviders.stream().map(sp -> {
             Service service = this.buildApiService(sp, locale.getLanguage());
             boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
@@ -61,7 +64,8 @@ public class ServicesImpl implements Services {
             service.setDashboardConnectOption(sp.getDashboardConnectOption());
             return service;
         }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
-                (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())))
+                (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())) ||
+                invitationRequestEntities.contains(service.getSpEntityId()))
                 .collect(toList());
         return services;
     }
@@ -143,6 +147,7 @@ public class ServicesImpl implements Services {
         service.setPublishedInEdugain(sp.isPublishedInEdugain());
         service.setLicenseStatus(sp.getLicenseStatus());
         service.setEntityType(sp.getEntityType());
+        service.setExampleSingleTenant(sp.getEntityType().equals(EntityType.single_tenant_template));
         service.setInterfedSource(sp.getInterfedSource());
         service.setRegistrationInfoUrl(sp.getRegistrationInfo());
         service.setEntityCategories1(sp.getEntityCategories1());

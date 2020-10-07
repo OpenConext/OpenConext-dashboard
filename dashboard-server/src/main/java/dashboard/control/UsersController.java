@@ -103,6 +103,7 @@ public class UsersController extends BaseController {
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
                 .body(body)
+                .personalMessage(inviteRequest.getMessage())
                 .emailTo(emailTo)
                 .typeMetaData(inviteRequest.getTypeMetaData())
                 .idpId(inviteRequest.getIdpEntityId())
@@ -189,7 +190,7 @@ public class UsersController extends BaseController {
         if (StringUtils.isEmpty(emailTo)) {
             throw new IllegalArgumentException(String.format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
         }
-        mailbox.sendInviteMailReminder(action);
+        mailbox.sendInviteMailReminder(action, resendInviteRequest.getComments());
         return ResponseEntity.ok(createRestResponse(resendInviteRequest));
     }
 

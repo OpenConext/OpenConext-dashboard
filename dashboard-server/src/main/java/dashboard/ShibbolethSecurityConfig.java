@@ -3,6 +3,7 @@ package dashboard;
 import dashboard.filter.EnsureAccessToIdpFilter;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
+import dashboard.service.impl.JiraClient;
 import dashboard.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import dashboard.shibboleth.ShibbolethUserDetailService;
 import dashboard.shibboleth.mock.MockShibbolethFilter;
@@ -53,6 +54,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Sab sab;
+
+    @Autowired
+    private JiraClient jiraClient;
 
     @Value("${dashboard.admin}")
     private String dashboardAdmin;
@@ -144,7 +148,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(new DashboardLogoutHandler()).and()
                 .csrf().disable()
                 .addFilterBefore(
-                        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab,
+                        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization,
                                 defaultLoa, loaLevels),

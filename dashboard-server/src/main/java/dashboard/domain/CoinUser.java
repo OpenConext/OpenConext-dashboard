@@ -62,6 +62,7 @@ public class CoinUser implements UserDetails {
     private boolean guest;
     private String defaultLoa;
     private List<String> loaLevels;
+    private Set<String> invitationRequestEntities;
 
     @Override
     @JsonIgnore
@@ -326,6 +327,14 @@ public class CoinUser implements UserDetails {
 
     public void setLoaLevels(List<String> loaLevels) {
         this.loaLevels = loaLevels;
+    }
+
+    public Set<String> getInvitationRequestEntities() {
+        return invitationRequestEntities;
+    }
+
+    public void setInvitationRequestEntities(Set<String> invitationRequestEntities) {
+        this.invitationRequestEntities = invitationRequestEntities;
     }
 
     @Override

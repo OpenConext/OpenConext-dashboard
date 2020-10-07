@@ -12,8 +12,7 @@ class ConnectedResourceServersPanel extends React.Component {
       return "";
     }
     const alternative = I18n.locale === "en" ? "nl" : "en";
-    const description = descriptions[I18n.locale] || descriptions[alternative]
-    return description;
+    return descriptions[I18n.locale] || descriptions[alternative]
   }
 
   renderResourceServers = app => {
@@ -33,7 +32,7 @@ class ConnectedResourceServersPanel extends React.Component {
           </tr>
           </thead>
           <tbody>
-          {resourceServers.map(rs => <tr>
+          {resourceServers.map((rs, index) => <tr key={index}>
             <td>{rs.spEntityId}</td>
             <td>{rs.names[I18n.locale]}</td>
             <td>{this.description(rs)}</td>

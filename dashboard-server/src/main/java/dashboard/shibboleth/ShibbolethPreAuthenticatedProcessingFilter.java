@@ -2,14 +2,18 @@ package dashboard.shibboleth;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
+import dashboard.domain.Action;
 import dashboard.domain.CoinAuthority;
 import dashboard.domain.CoinUser;
 import dashboard.domain.GuestUser;
 import dashboard.domain.IdentityProvider;
+import dashboard.domain.JiraFilter;
+import dashboard.domain.JiraResponse;
 import dashboard.domain.Provider;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.sab.SabRoleHolder;
+import dashboard.service.impl.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,12 +24,14 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -59,6 +65,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 import static org.springframework.util.CollectionUtils.contains;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
@@ -99,6 +106,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     private Manage manage;
     private Sab sab;
+    private JiraClient jiraClient;
     private String dashboardAdmin;
     private String dashboardViewer;
     private List<String> dashboardSuperUser;
@@ -117,6 +125,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,
                                                       Manage manage,
                                                       Sab sab,
+                                                      JiraClient jiraClient,
                                                       String dashboardAdmin,
                                                       String dashboardViewer,
                                                       String dashboardSuperUser,
@@ -132,6 +141,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
+        this.jiraClient = jiraClient;
         this.dashboardAdmin = dashboardAdmin;
         this.dashboardSuperUser = Stream.of(dashboardSuperUser.split(",")).map(String::trim).collect(toList());
         this.dashboardViewer = dashboardViewer;
@@ -237,6 +247,16 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             });
         }
 
+        String idpEntityId = coinUser.getIdp().getId();
+        JiraFilter jiraFilter = new JiraFilter();
+        jiraFilter.setTypes(Arrays.asList(Action.Type.LINKINVITE, Action.Type.LINKREQUEST));
+        jiraFilter.setStatuses(Arrays.asList("To Do", "Awaiting Input"));
+
+        JiraResponse jiraResponse = jiraClient.searchTasks(idpEntityId, jiraFilter);
+        List<Action> issues = jiraResponse.getIssues();
+        Set<String> invitationRequestEntities = issues.stream().map(action -> action.getSpId()).collect(toSet());
+
+        coinUser.setInvitationRequestEntities(invitationRequestEntities);
         return coinUser;
     }
 

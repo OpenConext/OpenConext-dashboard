@@ -359,7 +359,8 @@ I18n.translations.pt = {
         subtitle: "With <a href=\"https://wiki.surfnet.nl/display/SsID\" target=\"_blank\" rel=\"noopener noreferrer\">SURFsecureID</a> you can better secure access to services with strong authentication. ",
         subtitle2: "A user logs in with username and password (the first factor) and SURFsecureID takes care of the second factor authentication like via a mobile app or USB key.",
         subtitle3: "By chosing a higher <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user's login.",
-        highestLoaReached: "You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to lower the LoA for this service."
+        highestLoaReached: "You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to lower the LoA for this service.",
+        appHasLoaLevel: "You can not request a Loa setting for this service. This service already has a Loa setting configured to be applied for all institutions. "
     },
     how_to_connect_panel: {
         accept: "Confirmo que li os termos e condiçoes e que aceito os mesmos em nome da minha instituição.",
@@ -735,6 +736,7 @@ I18n.translations.pt = {
         type: "Tipo",
         jiraKey: "Id",
         status: "Estado",
+        message: "Message",
         userName: "Por",
         spName: "Serviço",
         action_types_name: {
@@ -858,7 +860,8 @@ I18n.translations.pt = {
         sendRequest: "Submeter",
         reset: "Reset",
         message: "Uma mensagem - opcional - para os destinatários do convite.",
-        jiraFlash: "Foi criado um pedido de serviço com a chave {{jiraKey}}.Quando um dos destinatários aceitar o convite, o mesmo será registado nos comentários de  {{jiraKey}}."
+        jiraFlash: "Foi criado um pedido de serviço com a chave {{jiraKey}}.Quando um dos destinatários aceitar o convite, o mesmo será registado nos comentários de  {{jiraKey}}.",
+        resend: "Ticket was created at {{date}} and emails were send to {{emailTo}}. Status is {{status}}"
     },
     profile: {
         title: "Perfil",

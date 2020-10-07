@@ -9,11 +9,13 @@ const colourStyles = {
 
 class SelectWrapper extends React.Component {
     onChange(val) {
-        if (Array.isArray(val)) {
-            return this.props.handleChange(val.map(v => v.value));
+        const handleChange = this.props.handleChange;
+        if (handleChange) {
+            if (Array.isArray(val)) {
+                return handleChange(val.map(v => v.value));
+            }
+            return handleChange(val ? val.value : null, val ? val.label : null);
         }
-
-        return this.props.handleChange(val ? val.value : null, val ? val.label : null);
     }
 
     render() {
@@ -38,7 +40,7 @@ class SelectWrapper extends React.Component {
 }
 
 SelectWrapper.propTypes = {
-    handleChange: PropTypes.func.isRequired,
+    handleChange: PropTypes.func,
     defaultValue: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string)

@@ -28,6 +28,7 @@ import "./locale/en";
 import "./locale/nl";
 import "./locale/pt";
 import InviteRequest from "./pages/invite_request";
+import ResendInvite from "./pages/resend_invite";
 
 
 class App extends React.Component {
@@ -75,6 +76,8 @@ class App extends React.Component {
                                                  component={SearchUser}/>
                         <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"
                                                  component={InviteRequest}/>
+                        <SuperUserProtectedRoute currentUser={currentUser} path="/users/resend_invite/:jiraKey"
+                                                 component={ResendInvite}/>
                         {isAllowedToMaintainPolicies &&
                         <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
                         {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail}/>}

@@ -3,7 +3,8 @@ package dashboard.domain;
 public class ResendInviteRequest {
 
     private String jiraKey;
-    private String idpId ;
+    private String idpId;
+    private String comments;
 
     public String getJiraKey() {
         return jiraKey;
@@ -19,5 +20,13 @@ public class ResendInviteRequest {
 
     public void setIdpId(String idpId) {
         this.idpId = idpId;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

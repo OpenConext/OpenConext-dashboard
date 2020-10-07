@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {withRouter} from 'react-router';
 import DatePicker from "react-datepicker";
 import I18n from "i18n-js";
 import ReactTooltip from "react-tooltip";
-import {resendInviteRequest, searchJira} from "../api";
+import {searchJira} from "../api";
 import sort from "../utils/sort";
 import moment from "moment";
 
@@ -13,7 +14,6 @@ import SelectWrapper from "../components/select_wrapper";
 import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
 import ConfirmationDialog from "../components/confirmation_dialog";
-import {setFlash} from "../utils/flash";
 import Flash from "../components/flash";
 
 const pageCount = 10;
@@ -239,20 +239,9 @@ class History extends React.Component {
 
     resendInvitation = action => e => {
         stopEvent(e);
-        this.setState({
-            confirmationDialogOpen: true,
-            confirmationDialogAction: this.doResendInvitation(action)
-        });
+        this.props.history.replace(`/users/resend_invite/${action.jiraKey}`);
     };
 
-    doResendInvitation = action => e => {
-        stopEvent(e);
-        this.setState({confirmationDialogOpen: false});
-        resendInviteRequest({idpId: action.idpId, jiraKey: action.jiraKey}).then(() => {
-            setFlash(I18n.t("history.resendInvitationFlash", {jiraKey: action.jiraKey}));
-            window.scrollTo(0, 0);
-        })
-    };
     renderResolution = action => {
         if (action.resolution) {
             const transKey = action.resolution.replace(/'/g, "").replace(/ /g, "_").toLowerCase();
@@ -266,7 +255,18 @@ class History extends React.Component {
         return null;
     };
 
-    renderAction = action => {
+    renderPersonalMessage = (action, i) => {
+        if (action.personalMessage) {
+            const key = `${action.jiraKey}-${i}`;
+            return <span><i className="fa fa-info-circle" data-for={key} data-tip></i>
+                                <ReactTooltip id={key} type="info" class="tool-tip" effect="solid">
+                                    <span dangerouslySetInnerHTML={{ __html: action.personalMessage.replace(/\n/g, "<br>") }} />
+                                </ReactTooltip></span>
+        }
+        return null;
+    };
+
+    renderAction = (action, index) => {
         const currentUser = this.context.currentUser;
         const linkInviteAwaitingInput = action.type === "LINKINVITE" && action.status === "Awaiting Input" && action.spId;
         const renderAction = linkInviteAwaitingInput && currentUser.dashboardAdmin;
@@ -279,10 +279,12 @@ class History extends React.Component {
             <td>{I18n.t("history.action_types_name." + action.type)}</td>
             <td>{action.jiraKey}</td>
             <td>{I18n.t("history.statuses." + action.status)}</td>
+            <td className="personal-message">{this.renderPersonalMessage(action, index)}</td>
             <td>{renderAction ? <a href="/send" className={`t-button save`}
                                    onClick={this.viewInvitation(action)}>{I18n.t("history.viewInvitation")}</a>
                 : renderResend ? <a href="/resend" className={`t-button save`}
-                                    onClick={this.resendInvitation(action)}>{I18n.t("history.resendInvitation")}</a> : this.renderResolution(action)}</td>
+                                    onClick={this.resendInvitation(action)}>{I18n.t("history.resendInvitation")}</a> :
+                    this.renderResolution(action)}</td>
         </tr>
     };
 
@@ -316,16 +318,17 @@ class History extends React.Component {
                             <tr>
                                 {this.renderSortableHeader("percent_10", "requestDate")}
                                 {this.renderSortableHeader("percent_10", "updateDate")}
-                                {this.renderSortableHeader("percent_15", "spName")}
+                                {this.renderSortableHeader("percent_20", "spName")}
                                 <th className={"percent_10"}>{I18n.t("history.userName")}</th>
-                                {this.renderSortableHeader("percent_15", "type")}
+                                {this.renderSortableHeader("percent_10", "type")}
                                 {this.renderSortableHeader("percent_10", "jiraKey")}
-                                {this.renderSortableHeader("percent_15", "status")}
+                                {this.renderSortableHeader("percent_10", "status")}
+                                <th className={"percent_5 "}>{I18n.t("history.message")}</th>
                                 <th className={"percent_15"}></th>
                             </tr>
                             </thead>
                             <tbody>
-                            {sortedActions.map(action => this.renderAction(action))}
+                            {sortedActions.map((action, index) => this.renderAction(action, index))}
                             </tbody>
                         </table>}
                         {(loaded && sortedActions.length === 0) && <div>
@@ -344,4 +347,4 @@ History.contextTypes = {
     router: PropTypes.object
 };
 
-export default History;
+export default withRouter(History);

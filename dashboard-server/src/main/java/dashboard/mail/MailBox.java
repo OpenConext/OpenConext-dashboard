@@ -9,6 +9,7 @@ import dashboard.manage.EntityType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -89,11 +90,15 @@ public class MailBox {
         return mustacheFactory.compile("mail_templates/" + templateName).execute(new StringWriter(), context).toString();
     }
 
-    public void sendInviteMailReminder(Action action) {
+    public void sendInviteMailReminder(Action action, String comments) {
         String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext koppeling");
         variables.put("action", action);
+        if (StringUtils.hasText(comments)) {
+            variables.put("comments", HtmlUtils.htmlEscape(comments).replaceAll("\n", "<br/>"));
+        }
+        variables.put("hasComments", StringUtils.hasText(comments));
         variables.put("mailBaseUrl", mailBaseUrl);
         variables.put("metaDataType", StringUtils.isEmpty(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());

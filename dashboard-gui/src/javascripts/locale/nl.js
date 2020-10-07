@@ -365,7 +365,8 @@ I18n.translations.nl = {
         subtitle: "Met <a href=\"https://wiki.surfnet.nl/display/SsID\" target=\"_blank\" rel=\"noopener noreferrer\">SURFsecureID</a> kun je de toegang tot diensten extra beveiligen met sterke authenticatie. ",
         subtitle2: "Een gebruiker logt in met een gebruikersnaam en wachtwoord (de eerste factor) en SURFsecureID zorgt vervolgens voor de tweede factor authenticatie via bijvoorbeeld een mobiele app of USB sleutel. ",
         subtitle3: "Door het kiezen van een hoger <a href=\"https://edu.nl/8nm6h\" target=\"_blank\" rel=\"noopener noreferrer\">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.",
-        highestLoaReached: "Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service."
+        highestLoaReached: "Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service.",
+        appHasLoaLevel: "Er kan geen verzoek worden ingediend om het Loa level te wijzigen voor deze dient. Deze dienst heeft al een Loa level geconfigureerd dat wordt toegepast op alle instellingen."
     },
     how_to_connect_panel: {
         accept: "Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.",
@@ -794,6 +795,7 @@ I18n.translations.nl = {
         type: "Type",
         jiraKey: "Id",
         status: "Status",
+        message: "Bericht",
         userName: "Door",
         spName: "Dienst",
         action_types_name: {
@@ -867,7 +869,8 @@ I18n.translations.nl = {
         sendRequest: "Verstuur",
         reset: "Reset",
         message: "Een - optioneel - bericht voor de uitgenodigden.",
-        jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}."
+        jiraFlash: "Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}.",
+        resend: "Ticket is aangemaakt op {{date}} en emails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'."
     },
     profile: {
         title: "Profiel",

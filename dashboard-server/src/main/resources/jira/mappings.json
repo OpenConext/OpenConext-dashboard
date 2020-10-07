@@ -4,7 +4,8 @@
       "spEntityId": "13018",
       "idpEntityId": "13012",
       "emailTo": "13010",
-      "typeMetaData": "14602"
+      "typeMetaData": "14602",
+      "optionalMessage": "15100"
     },
     "issueTypes": {
       "question": "11103",

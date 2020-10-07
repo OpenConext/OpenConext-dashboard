@@ -1,6 +1,8 @@
 package dashboard.shibboleth;
 
 import com.google.common.collect.ImmutableList;
+import dashboard.domain.JiraResponse;
+import dashboard.service.impl.JiraClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,7 @@ import dashboard.sab.Sab;
 import dashboard.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -25,6 +28,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,6 +50,9 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     private Manage manageMock;
 
     @Mock
+    private JiraClient jiraClient;
+
+    @Mock
     private Sab sab;
 
     @Before
@@ -59,6 +66,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setManageConsentEnabled(true);
 
         when(sab.getRoles(anyString())).thenReturn(Optional.empty());
+        when(jiraClient.searchTasks(anyString(), anyObject())).thenReturn(new JiraResponse(new ArrayList<>(), 0, 0, 1));
     }
 
     @Test
