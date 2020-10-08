@@ -438,7 +438,14 @@ I18n.translations.en = {
         invite_action_collision: "The invitation to connect to {{app}} was already accepted. Perhaps a colleague has already accepted the invite? If you have any question please contact <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}.",
         test_connected_no_connection_title: "Service {{app}} can not be connected.",
         test_connected_no_connection_subtitle: "The status of your institution is staging and therefore no services can connect.",
-        test_connected_no_connection: "If you want to change the status of your institution please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+        test_connected_no_connection: "If you want to change the status of your institution please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
+        activate_with_email: {
+            title: "Contact at institution for this service",
+            subTitle: "In case the service provider wants to contact someone at your institution about this connection, who can they contact?",
+            emailPlaceholder: "Contact person at your institution",
+            invalidEmail: "Invalid email",
+            disclaimer: "I opt not to share any name with the service provider"
+        }
     },
 
     application_usage_panel: {

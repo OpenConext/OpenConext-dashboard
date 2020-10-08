@@ -34,6 +34,7 @@ public class Action {
     private boolean connectWithoutInteraction;
     private String body;
     private String personalMessage;
+    private String emailContactPerson;
 
     private String idpId;
     private String spId;
@@ -65,6 +66,7 @@ public class Action {
         this.connectWithoutInteraction = builder.connectWithoutInteraction;
         this.body = builder.body;
         this.personalMessage = builder.personalMessage;
+        this.emailContactPerson = builder.emailContactPerson;
         this.idpId = builder.idpId;
         this.spId = builder.spId;
         this.spEid = builder.spEid;
@@ -96,6 +98,10 @@ public class Action {
 
     public String getPersonalMessage() {
         return personalMessage;
+    }
+
+    public String getEmailContactPerson() {
+        return emailContactPerson;
     }
 
     public String getIdpId() {
@@ -323,6 +329,7 @@ public class Action {
         private String resolution;
         private String body;
         private String personalMessage;
+        private String emailContactPerson;
         private String idpId;
         private String spId;
         private Long spEid;
@@ -352,6 +359,7 @@ public class Action {
             this.resolution = action.resolution;
             this.body = action.body;
             this.personalMessage = action.personalMessage;
+            this.emailContactPerson = action.emailContactPerson;
             this.idpId = action.idpId;
             this.spId = action.spId;
             this.spEid = action.spEid;
@@ -419,6 +427,11 @@ public class Action {
 
         public Builder personalMessage(String personalMessage) {
             this.personalMessage = personalMessage;
+            return this;
+        }
+
+        public Builder emailContactPerson(String emailContactPerson) {
+            this.emailContactPerson = emailContactPerson;
             return this;
         }
 

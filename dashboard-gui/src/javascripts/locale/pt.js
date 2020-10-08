@@ -256,7 +256,7 @@ I18n.translations.pt = {
             na: "No info on contractual basis available: for any questions, please contact support@surfconext.nl.",
             ao: "Service supplier has signed the SURFconext connection agreement.",
             ix: "Service offered by SURFconext member institution.",
-            "r&s+coco" :"eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category.",
+            "r&s+coco": "eduGAIN service agreed to de Data Protection Code of Conduct and belongs to the Research & Scholarship category.",
             entree: "Member of the Kennisnet Entree-federation.",
             clarin: "Member of the Clarin research federation."
         },
@@ -433,9 +433,15 @@ I18n.translations.pt = {
         invite_action_collision: "O convite {{app}} já foi aceite. Talvez alguem já tenha aceite o convite? Se tem alguma questão contacte <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> e adicione o número do pedido no assunto do email: {{jiraKey}}.",
         test_connected_no_connection_title: "Service {{app}} can not be connected.",
         test_connected_no_connection_subtitle: "The status of your institution is staging and therefore no services can connect.",
-        test_connected_no_connection: "If you want to change the status of your institution please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
+        test_connected_no_connection: "If you want to change the status of your institution please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
+        activate_with_email: {
+            title: "Contact at institution for this service",
+            subTitle: "In case the service provider wants to contact someone at your institution about this connection, who can they contact?",
+            emailPlaceholder: "Contact person at your institution",
+            invalidEmail: "Invalid email",
+            disclaimer: "I opt not to share any name with the service provider"
+        }
     },
-
     application_usage_panel: {
         title: "Utilização do serviço",
         download: "Exportar",
@@ -565,9 +571,9 @@ I18n.translations.pt = {
         allow_maintainers_to_manage_authz_rules: "Allow maintainers to manage Authorization rules",
         allow_maintainers_to_manage_authz_rules_tooltip: "This means the maintainers of your<br>IdP are allow to create / edit and delete<br>Authorization rules.",
         displayAdminEmailsInDashboard: "Allow members to see admin emails",
-        displayAdminEmailsInDashboardTooltip:"This means that regular members of your institution<br>can see the emails of the SURFconext maintainers<br>and owners of this institution.",
+        displayAdminEmailsInDashboardTooltip: "This means that regular members of your institution<br>can see the emails of the SURFconext maintainers<br>and owners of this institution.",
         displayStatsInDashboard: "Allow regular members to see statistics",
-        displayStatsInDashboardTooltip:"This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.",
+        displayStatsInDashboardTooltip: "This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.",
         contact: "Contacto para {{name}}",
         contact_name: {
             title: "Nome do contacto",

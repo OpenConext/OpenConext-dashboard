@@ -193,12 +193,13 @@ public class ServicesController extends BaseController {
                                                                 loaLevel,
                                                         @RequestParam(value = "spEntityId") String spEntityId,
                                                         @RequestParam(value = "type") String type,
+                                                        @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
                                                         Locale locale) throws IOException {
         if (StringUtils.hasText(loaLevel)) {
             comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a higher then default LoA level: " + loaLevel;
         }
 
-        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale)
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale, StringUtils.hasText(emailContactPerson) ? Optional.of(emailContactPerson) : Optional.empty())
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
@@ -212,13 +213,13 @@ public class ServicesController extends BaseController {
                                                            @RequestParam(value = "type") String type,
                                                            Locale locale) throws IOException {
 
-        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale)
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale, Optional.empty())
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
     private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, String typeMetaData, Action.Type
-            jiraType, Locale locale) throws IOException {
+            jiraType, Locale locale, Optional<String> emailContactPersonOptional) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             return Optional.empty();
@@ -244,6 +245,7 @@ public class ServicesController extends BaseController {
                     .idpId(idpEntityId)
                     .spId(spEntityId)
                     .typeMetaData(typeMetaData)
+                    .emailContactPerson(emailContactPersonOptional.orElse(""))
                     .connectWithoutInteraction(connectWithoutInteraction)
                     .shouldSendEmail(service.sendsEmailWithoutInteraction())
                     .service(service)

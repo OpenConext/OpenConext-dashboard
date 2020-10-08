@@ -13,6 +13,7 @@ import {isEmpty} from "../utils/utils";
 import {setFlash} from "../utils/flash";
 import ConfirmationDialog from "../components/confirmation_dialog";
 import SelectWrapper from "./select_wrapper";
+import {validEmailRegExp} from "../utils/validations";
 
 class HowToConnectPanel extends React.Component {
     constructor(props) {
@@ -24,6 +25,8 @@ class HowToConnectPanel extends React.Component {
             failed: false,
             action: undefined,
             acceptedAansluitOvereenkomstRefused: false,
+            refusedShareContactPersonEmail: false,
+            emailContactPerson: "",
             loaLevel: "",
             confirmationDialogOpen: false,
             confirmationQuestion: I18n.t("how_to_connect_panel.denyConfirmation"),
@@ -38,7 +41,9 @@ class HowToConnectPanel extends React.Component {
         if (app.connected && !isEmpty(jiraKey) && !isEmpty(inviteAction)) {
             step = "inviteActionCollision";
         }
-        this.setState({currentStep: step});
+        const {currentUser} = this.context;
+        const email = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ? currentUser.email : "";
+        this.setState({currentStep: step, emailContactPerson: email});
     }
 
     getPanelRoute(panel) {
@@ -47,25 +52,24 @@ class HowToConnectPanel extends React.Component {
     }
 
     renderConnectStep(isInvite) {
-        const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction} = this.state;
-        let lastNumber = 3;
+        const {confirmationDialogOpen, confirmationQuestion, confirmationDialogAction, cancelDialogAction,
+            refusedShareContactPersonEmail, emailContactPerson} = this.state;
         const {app} = this.props;
         const {currentUser} = this.context;
-        if (app.entityType === "single_tenant_template") {
-            ++lastNumber;
+
+        let stepNumber = 1;
+
+        const connectAutomaticallyWithEmail = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL";
+        const automaticallyConnect = connectAutomaticallyWithEmail || app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
+        const inValidContactPersonEmail = !refusedShareContactPersonEmail && !validEmailRegExp.test(emailContactPerson);
+        let classNameConnect = this.state.accepted && (!app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused)
+            ? "" : "disabled";
+        if (connectAutomaticallyWithEmail && inValidContactPersonEmail) {
+            classNameConnect = "disabled";
         }
-        if (app.aansluitovereenkomstRefused) {
-            ++lastNumber;
-        }
-        if (isEmpty(app.minimalLoaLevel)) {
-            ++lastNumber;
-        }
-        const classNameConnect = this.state.accepted && (!app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) ? "" : "disabled";
         const hasPrivacyInfo = privacyProperties.some(prop => app.privacyInfo[prop]);
         const title = isInvite ? "connect_invite_title" : "connect_title";
         const subTitle = isInvite ? "info_sub_invite_title" : "info_sub_title";
-        const automaticallyConnect = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL" ||
-            app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL";
         const shareInstitutionId = app.institutionId === currentUser.getCurrentIdp().institutionId;
         const actionName = isInvite ? "approve" : (automaticallyConnect ? "automatic_connect" : "connect");
         const subTitleAutomaticConnection = automaticallyConnect ? I18n.t("how_to_connect_panel.info_connection_without_interaction")
@@ -84,7 +88,7 @@ class HowToConnectPanel extends React.Component {
                 <div className="mod-connect">
                     <div className="box">
                         <div className="content">
-                            <div className="number">1</div>
+                            <div className="number">{stepNumber++}</div>
                             <h2>{I18n.t("how_to_connect_panel.checklist")}</h2>
                             <ul>
                                 <li>
@@ -113,9 +117,9 @@ class HowToConnectPanel extends React.Component {
                             </ul>
                         </div>
                         <hr/>
-                        {isEmpty(app.minimalLoaLevel) && this.renderLoaLevel()}
+                        {isEmpty(app.minimalLoaLevel) && this.renderLoaLevel(stepNumber++)}
                         <div className="content">
-                            <div className="number">{isEmpty(app.minimalLoaLevel) ? 3 : 2}</div>
+                            <div className="number">{stepNumber++}</div>
                             <h2>{I18n.t("how_to_connect_panel.terms_title")}</h2>
                             <ul>
                                 <li>
@@ -152,11 +156,12 @@ class HowToConnectPanel extends React.Component {
                                 </label>
                             </p>
                         </div>
-                        {this.renderSingleTenantServiceWarning()}
-                        {this.renderAansluitovereenkomstRefusedWarning(app.entityType === "single_tenant_template" ? 4 : 3)}
+                        {this.props.app.entityType === "single_tenant_template" && this.renderSingleTenantServiceWarning(stepNumber++)}
+                        {connectAutomaticallyWithEmail && this.renderAutomaticConnectionWithEmail(stepNumber++, inValidContactPersonEmail)}
+                        {this.props.app.aansluitovereenkomstRefused && this.renderAansluitovereenkomstRefusedWarning(stepNumber++)}
                         <hr/>
                         <div className="content">
-                            <div className="number">{lastNumber}</div>
+                            <div className="number">{stepNumber++}</div>
                             <h2>{I18n.t("how_to_connect_panel.comments_title")}</h2>
                             <p>{I18n.t("how_to_connect_panel.comments_description")}</p>
                             <textarea rows="5" value={this.state.comments}
@@ -190,7 +195,7 @@ class HowToConnectPanel extends React.Component {
         return null;
     }
 
-    renderLoaLevel = () => {
+    renderLoaLevel = number => {
         const {currentUser} = this.context;
         const {loaLevel} = this.state;
         const options = [{value: "", display: I18n.t("consent_panel.defaultLoa")}]
@@ -201,7 +206,7 @@ class HowToConnectPanel extends React.Component {
         return (
             <div>
                 <div className="content">
-                    <div className="number">2</div>
+                    <div className="number">{number}</div>
                     <h2>{I18n.t("consent_panel.loa_level")}</h2>
                     <p dangerouslySetInnerHTML={{__html: I18n.t("ssid_panel.subtitle3")}}/>
                     <SelectWrapper
@@ -215,48 +220,66 @@ class HowToConnectPanel extends React.Component {
 
     };
 
-    renderSingleTenantServiceWarning() {
-        if (this.props.app.entityType === "single_tenant_template") {
-            return (
-                <div>
-                    <hr/>
-                    <div className="content">
-                        <div className="number">4</div>
-                        <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
-                        <p
-                            dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name})}}/>
-                        <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
-                    </div>
+    renderSingleTenantServiceWarning(number) {
+        return (
+            <div>
+                <hr/>
+                <div className="content">
+                    <div className="number">{number}</div>
+                    <h2>{I18n.t("overview_panel.single_tenant_service")}</h2>
+                    <p
+                        dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.single_tenant_service_html", {name: this.props.app.name})}}/>
+                    <p>{I18n.t("how_to_connect_panel.single_tenant_service_warning")}</p>
                 </div>
-            );
-        }
-        return null;
+            </div>
+        );
     }
 
 
     renderAansluitovereenkomstRefusedWarning(number) {
-        if (this.props.app.aansluitovereenkomstRefused) {
-            return (
-                <div>
-                    <hr/>
-                    <div className="content">
-                        <div className="number">{number}</div>
-                        <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
-                        <p
-                            dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused", {name: this.props.app.name})}}/>
-                        <label>
-                            <input type="checkbox" checked={this.state.acceptedAansluitOvereenkomstRefused}
-                                   onChange={e => this.setState({acceptedAansluitOvereenkomstRefused: e.target.checked})}/>
-                            &nbsp;
-                            {I18n.t("how_to_connect_panel.aansluitovereenkomst_accept")}
-                        </label>
-                    </div>
+        return (
+            <div>
+                <hr/>
+                <div className="content">
+                    <div className="number">{number}</div>
+                    <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
+                    <p
+                        dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused", {name: this.props.app.name})}}/>
+                    <label>
+                        <input type="checkbox" checked={this.state.acceptedAansluitOvereenkomstRefused}
+                               onChange={e => this.setState({acceptedAansluitOvereenkomstRefused: e.target.checked})}/>
+                        &nbsp;
+                        {I18n.t("how_to_connect_panel.aansluitovereenkomst_accept")}
+                    </label>
                 </div>
-            );
-        }
-
-        return null;
+            </div>
+        );
     }
+
+    renderAutomaticConnectionWithEmail = (number, inValidContactPersonEmail) => {
+        const {refusedShareContactPersonEmail, emailContactPerson} = this.state;
+        return (
+            <div>
+                <hr/>
+                <div className="content">
+                    <div className="number">{number}</div>
+                    <h2>{I18n.t("how_to_connect_panel.activate_with_email.title")}</h2>
+                    <p>{I18n.t("how_to_connect_panel.activate_with_email.subTitle")}</p>
+                    <div className="automatic-connection-with-email">
+                        <input type="text" value={emailContactPerson} onChange={e => this.setState({emailContactPerson: e.target.value})}
+                               placeholder={I18n.t("how_to_connect_panel.activate_with_email.emailPlaceholder")}/>
+                        {inValidContactPersonEmail && <div className="error"><span>{I18n.t("how_to_connect_panel.activate_with_email.invalidEmail")}</span></div>}
+                    </div>
+                    <label>
+                        <input type="checkbox" checked={refusedShareContactPersonEmail}
+                               onChange={e => this.setState({refusedShareContactPersonEmail: e.target.checked})}/>
+                        &nbsp;
+                        {I18n.t("how_to_connect_panel.activate_with_email.disclaimer")}
+                    </label>
+                </div>
+            </div>
+        );
+    };
 
     renderDoneDisconnectStep() {
         const subtitle = this.state.action.jiraKey ?
@@ -460,20 +483,28 @@ class HowToConnectPanel extends React.Component {
     };
 
     handleMakeConnection = isInvite => e => {
+        const {acceptedAansluitOvereenkomstRefused, comments, refusedShareContactPersonEmail, emailContactPerson,
+            loaLevel} = this.state;
+        const {app, jiraKey} = this.props;
+
+        const connectAutomaticallyWithEmail = app.dashboardConnectOption === "CONNECT_WITHOUT_INTERACTION_WITH_EMAIL";
+        const validContactPersonEmail = !connectAutomaticallyWithEmail || refusedShareContactPersonEmail || validEmailRegExp.test(emailContactPerson);
+
         const allowed = this.state.accepted &&
-            (!this.props.app.aansluitovereenkomstRefused || this.state.acceptedAansluitOvereenkomstRefused) &&
-            this.context.currentUser.dashboardAdmin;
+            (!app.aansluitovereenkomstRefused || acceptedAansluitOvereenkomstRefused) &&
+            this.context.currentUser.dashboardAdmin && validContactPersonEmail;
+
         stopEvent(e);
-        const {app} = this.props;
+
         if (allowed) {
             const promise = isInvite ? updateInviteRequest({
                     status: "ACCEPTED",
-                    comment: this.state.comments,
-                    jiraKey: this.props.jiraKey,
+                    comment: comments,
+                    jiraKey: jiraKey,
                     spEntityId: app.spEntityId,
                     typeMetaData: app.entityType
                 }) :
-                makeConnection(app, this.state.comments, this.state.loaLevel);
+                makeConnection(app, comments, loaLevel, refusedShareContactPersonEmail ? "" : emailContactPerson);
             promise
                 .then(action => {
                     const actionReturned = isInvite ? action.payload : action;

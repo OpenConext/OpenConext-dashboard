@@ -208,8 +208,9 @@ export function searchJira(filter) {
     }).then(parseJson);
 }
 
-export function makeConnection(app, comments, loaLevel) {
-    return fetchPost("/services/connect", {comments: comments, loaLevel: loaLevel, spEntityId: app.spEntityId, type: app.entityType})
+export function makeConnection(app, comments, loaLevel, emailContactPerson) {
+    return fetchPost("/services/connect", {comments: comments, loaLevel: loaLevel,
+        spEntityId: app.spEntityId, type: app.entityType, emailContactPerson: emailContactPerson})
         .then(parseJson)
         .then(json => json.payload);
 }

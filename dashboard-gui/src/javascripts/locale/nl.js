@@ -439,10 +439,15 @@ I18n.translations.nl = {
         invite_action_collision: "De uitnodiging om een koppeling te maken met {{app}} is al geaccepteerd. Misschien heeft een collega de uitnodiging al geaccepteerd? Neem bij vragen contact op met <a href=\"mailto:support@surfconext.nl?subject={{jiraKey}}\">support@surfconext.nl</a> en voeg het ticketnummer toe aan het onderwerp: {{jiraKey}}.",
         test_connected_no_connection_title: "Dienst {{app}} kan niet worden gekoppeld.",
         test_connected_no_connection_subtitle: "De status van je instelling is staging en daarom kunnen er geen diensten aan worden gekoppeld.",
-        test_connected_no_connection: "Als je de status van je instelling wilt veranderen neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>."
-
+        test_connected_no_connection: "Als je de status van je instelling wilt veranderen neem dan contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a>.",
+        activate_with_email: {
+            title: "Contactpersoon bij de instelling voor deze dienst",
+            subTitle: "Als de aanbieder van de dienst vragen heeft, met wie kan hij/zij dan contact opnemen?",
+            emailPlaceholder: "Contactpersoon bij je instelling",
+            invalidEmail: "Foutief e-mailadres",
+            disclaimer: "Ik wens dat de dienstaanbieder geen contactpersoon krijgt van mijn instelling."
+        }
     },
-
     application_usage_panel: {
         title: "Service gebruik",
         download: "Export",

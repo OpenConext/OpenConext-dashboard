@@ -9,9 +9,8 @@ import CheckBox from "../components/checkbox";
 import stopEvent from "../utils/stop";
 import Flash from "../components/flash";
 import {setFlash} from "../utils/flash";
+import {validEmailRegExp, validNameRegExp} from "../utils/validations";
 
-const validEmailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-const validNameRegExp = /^[\w \-']{1,255}$/;
 
 class InviteRequest extends React.Component {
     constructor(props) {

@@ -11,9 +11,13 @@
     <strong>Instelling {{idpName}} heeft uw dienst {{spName}} gekoppeld.</strong>
 </p>
 
+{{#hasEmailContactPerson}}
+<p>{{emailContactPerson}} van {{idpName}} heeft de koppeling geinitieerd tussen deze IdP en uw service {{spName}}.</p>
+{{/hasEmailContactPerson}}
+
 {{#hasComments}}
 <p>Opmerking van de {{idpName}} verantwoordelijke:</p>
-<p>{{comments}}</p>
+<p style="font-style: italic">{{comments}}</p>
 {{/hasComments}}
 
 <p>

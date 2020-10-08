@@ -112,7 +112,7 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type, String comments) {
+    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type, String comments, String emailContactPerson) {
         String emailSubject = "Nieuwe SURFconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe SURFconext koppeling");
@@ -120,6 +120,8 @@ public class MailBox {
         variables.put("spName", spName);
         variables.put("comments", comments);
         variables.put("hasComments", StringUtils.hasText(comments));
+        variables.put("emailContactPerson", emailContactPerson);
+        variables.put("hasEmailContactPerson", StringUtils.hasText(emailContactPerson));
         String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
         try {
             sendMail(html, emailSubject, emails, Collections.emptyList(), true, emailFrom);

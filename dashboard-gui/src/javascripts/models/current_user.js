@@ -23,6 +23,7 @@ class CurrentUser {
         this.guest = rawUser.guest;
         this.loaLevels = rawUser.loaLevels;
         this.defaultLoa = rawUser.defaultLoa;
+        this.email = rawUser.email;
     }
 
 
