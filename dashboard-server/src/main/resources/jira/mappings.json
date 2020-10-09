@@ -20,7 +20,8 @@
       "spEntityId": "13018",
       "idpEntityId": "13012",
       "emailTo": "13010",
-      "typeMetaData": "14800"
+      "typeMetaData": "14800",
+      "optionalMessage": "15300"
     },
     "issueTypes": {
       "question": "11103",
