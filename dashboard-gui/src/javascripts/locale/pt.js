@@ -246,7 +246,8 @@ I18n.translations.pt = {
         entity_categories: "Suporta Categorias de Identidade",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
-            "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
+            "http://refedsorg/category/research-and-scholarship": "Research and Scholarship",
+            "http://clarineu/category/clarin-member": "Clarin member"
         },
         aansluitovereenkomst: "Protocolo de Adesão",
         aansluitovereenkomstRefused: "Este serviço recusou-se a assinar 'Protocolo de adesão à SURFconext' com a SURF. Leia mais sobre esta política em <a href=\"https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",

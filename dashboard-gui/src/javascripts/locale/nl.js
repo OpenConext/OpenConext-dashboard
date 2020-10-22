@@ -250,7 +250,8 @@ I18n.translations.nl = {
         entity_categories: "Ondersteunde Entity Categories",
         entity_category: {
             "http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1": "GÉANT Data Protection Code of Conduct",
-            "http://refedsorg/category/research-and-scholarship": "Research and Scholarship"
+            "http://refedsorg/category/research-and-scholarship": "Research and Scholarship",
+            "http://clarineu/category/clarin-member": "Clarin member"
         },
         aansluitovereenkomst: "Aansluitovereenkomst",
         aansluitovereenkomstRefused: "Deze dienst heeft geweigerd om de 'SURFconext aansluitovereenkomst' te tekenen. Lees meer over deze overeenkomst op de <a href=\"https://support.surfconext.nl/dashboard-info-trust\" target=\"_blank\" rel=\"noopener noreferrer\">SURF wiki</a>.",
