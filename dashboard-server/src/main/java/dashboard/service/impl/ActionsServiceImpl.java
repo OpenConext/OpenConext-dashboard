@@ -261,6 +261,11 @@ public class ActionsServiceImpl implements ActionsService {
         }
     }
 
+    @Override
+    public void updateOptionalMessage(String jiraKey, String optionalMessage) {
+        jiraClient.updateOptionalMessage(jiraKey, optionalMessage);
+    }
+
     private void sendAdministrationEmail(Action action) {
         if (!sendAdministrationEmail) {
             return;

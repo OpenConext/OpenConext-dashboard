@@ -41,4 +41,5 @@ public interface JiraClient {
 
     void comment(String key, String comment);
 
+    void updateOptionalMessage(String jiraKey, String optionalMessage);
 }

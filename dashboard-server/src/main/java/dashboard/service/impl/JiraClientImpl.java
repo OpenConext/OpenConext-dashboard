@@ -28,11 +28,7 @@ import dashboard.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -258,6 +254,16 @@ public class JiraClientImpl implements JiraClient {
         });
         HttpEntity<Object> requestEntity = new HttpEntity<>(body, defaultHeaders);
         restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+    }
+
+    @Override
+    public void updateOptionalMessage(String jiraKey, String optionalMessage) {
+        String url = baseUrl + "/issue/" + jiraKey;
+        final Map<String, Map<String, Object>> body = new HashMap<>();
+        body.put("fields", singletonMap("customfield_" + this.optionalMessageCustomField(), optionalMessage));
+        HttpEntity<Object> requestEntity = new HttpEntity<>(body, defaultHeaders);
+        ResponseEntity<Map> exchange = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Map.class);
+        System.out.println(exchange);
     }
 
     String buildQueryForIdp(String idp, JiraFilter jiraFilter) {

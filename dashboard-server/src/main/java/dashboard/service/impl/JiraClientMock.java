@@ -102,4 +102,8 @@ public class JiraClientMock implements JiraClient {
         }
     }
 
+    @Override
+    public void updateOptionalMessage(String jiraKey, String optionalMessage) {
+        //nope
+    }
 }

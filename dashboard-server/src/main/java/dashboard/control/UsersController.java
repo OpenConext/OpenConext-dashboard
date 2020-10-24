@@ -191,6 +191,7 @@ public class UsersController extends BaseController {
             throw new IllegalArgumentException(String.format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
         }
         mailbox.sendInviteMailReminder(action, resendInviteRequest.getComments());
+        actionsService.updateOptionalMessage(resendInviteRequest.getJiraKey(), resendInviteRequest.getComments());
         return ResponseEntity.ok(createRestResponse(resendInviteRequest));
     }
 
