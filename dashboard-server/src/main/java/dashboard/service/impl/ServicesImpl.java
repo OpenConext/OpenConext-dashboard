@@ -46,7 +46,8 @@ public class ServicesImpl implements Services {
                     boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
                             .getAllowedEntityIds().contains(sp.getId());
                     boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
-                    service.setConnected(connectedToIdentityProvider && allowedBySp);
+                    boolean isSingleTenantTemplate = sp.getEntityType().equals(EntityType.single_tenant_template);
+                    service.setConnected(connectedToIdentityProvider && allowedBySp && !isSingleTenantTemplate);
                     service.setDashboardConnectOption(sp.getDashboardConnectOption());
                     return service;
                 })
