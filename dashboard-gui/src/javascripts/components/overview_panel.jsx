@@ -9,6 +9,7 @@ import Screenshots from "./screenshots";
 
 import {AppShape} from "../shapes";
 import {privacyProperties} from "../utils/privacy";
+import stopEvent from "../utils/stop";
 
 class OverviewPanel extends React.Component {
 
@@ -228,6 +229,11 @@ class OverviewPanel extends React.Component {
         );
     }
 
+    login = e => {
+        stopEvent(e);
+        window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`;
+    };
+
     render() {
         let connectionClass = "mod-connection";
         const {app} = this.props;
@@ -238,6 +244,9 @@ class OverviewPanel extends React.Component {
         const entityID = app.entityType === "oidc10_rp" ? I18n.t("overview_panel.rpClientID") : I18n.t("overview_panel.entityID")
         return (
             <div className="l-middle-app-detail">
+                {currentUser.guest && <div className="requires-login" onClick={this.login}>
+                    {I18n.t("header.loginRequired")}
+                </div>}
                 <div className="mod-title">
                     <h1>{app.name}</h1>
                     <p className="sub-title">{entityID}: {app.spEntityId}</p>

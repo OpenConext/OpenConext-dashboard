@@ -31,6 +31,7 @@ I18n.translations.pt = {
         you: "Você",
         profile: "Perfil",
         switch_idp: "Escolher outro IDP",
+        loginRequired: "Please login for more information",
         super_user_switch: "Trocar Identidade",
         welcome_txt: "Bem-vindo ao painel SURFconext. Nesta página, você vê quais serviços estão conectados ao SURFconext: se sua instituição permitir, você poderá acessar esses serviços usando sua conta institucional. Se você fizer login neste painel (canto superior direito), mostraremos os dados personalizados para sua instituição. Mais informações sobre este painel? Clique em 'Ajuda' no canto superior direito da tela."
     },

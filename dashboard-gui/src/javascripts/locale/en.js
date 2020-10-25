@@ -31,6 +31,7 @@ I18n.translations.en = {
         you: "You",
         profile: "Profile",
         switch_idp: "Switch IDP",
+        loginRequired: "Please login for more information",
         super_user_switch: "Switch identity",
         welcome_txt: "Welcome to the SURFconext dashboard. On this page you see what services are connected to SURFconext: if your institution allows so, you can access those services using your institutional account. If you sign in to this dashboard (top right), we'll show you data tailored to your institution. More info about this dashboard? Click 'Help' in the top right of the screen."
     },
