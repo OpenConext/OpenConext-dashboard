@@ -1,32 +1,16 @@
 package dashboard.service.impl;
 
-import dashboard.domain.Category;
-import dashboard.domain.CategoryValue;
-import dashboard.domain.CoinUser;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.ContactPersonType;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.Provider;
-import dashboard.domain.Service;
-import dashboard.domain.ServiceProvider;
+import dashboard.domain.*;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static dashboard.domain.Provider.Language.EN;
-import static dashboard.domain.Provider.Language.NL;
-import static dashboard.domain.Provider.Language.PT;
+import static dashboard.domain.Provider.Language.*;
 import static java.util.stream.Collectors.toList;
 
 public class ServicesImpl implements Services {
@@ -55,17 +39,20 @@ public class ServicesImpl implements Services {
 
         List<ServiceProvider> allServiceProviders = manage.getAllServiceProviders();
         Set<String> invitationRequestEntities = currentUser.getInvitationRequestEntities();
-        List<Service> services = allServiceProviders.stream().map(sp -> {
-            Service service = this.buildApiService(sp, locale.getLanguage());
-            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
-                    .getAllowedEntityIds().contains(sp.getId());
-            boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
-            service.setConnected(connectedToIdentityProvider && allowedBySp);
-            service.setDashboardConnectOption(sp.getDashboardConnectOption());
-            return service;
-        }).filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
-                (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())) ||
-                (invitationRequestEntities != null && invitationRequestEntities.contains(service.getSpEntityId())))
+        List<Service> services = allServiceProviders.stream()
+                .filter(sp -> !sp.isResourceServer() && !sp.isClientCredentials())
+                .map(sp -> {
+                    Service service = this.buildApiService(sp, locale.getLanguage());
+                    boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
+                            .getAllowedEntityIds().contains(sp.getId());
+                    boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
+                    service.setConnected(connectedToIdentityProvider && allowedBySp);
+                    service.setDashboardConnectOption(sp.getDashboardConnectOption());
+                    return service;
+                })
+                .filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
+                        (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())) ||
+                        (invitationRequestEntities != null && invitationRequestEntities.contains(service.getSpEntityId())))
                 .collect(toList());
         return services;
     }
