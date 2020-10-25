@@ -43,11 +43,7 @@ public class ServicesImpl implements Services {
                 .filter(sp -> !sp.isResourceServer() && !sp.isClientCredentials())
                 .map(sp -> {
                     Service service = this.buildApiService(sp, locale.getLanguage());
-                    boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
-                            .getAllowedEntityIds().contains(sp.getId());
-                    boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
-                    boolean isSingleTenantTemplate = sp.getEntityType().equals(EntityType.single_tenant_template);
-                    service.setConnected(connectedToIdentityProvider && allowedBySp && !isSingleTenantTemplate);
+                    markServiceAsConnected(idpEntityId, identityProvider, sp, service);
                     service.setDashboardConnectOption(sp.getDashboardConnectOption());
                     return service;
                 })
@@ -76,6 +72,14 @@ public class ServicesImpl implements Services {
         return enrichService(idpEntityId, locale, serviceProvider);
     }
 
+    private void markServiceAsConnected(String idpEntityId, IdentityProvider identityProvider, ServiceProvider sp, Service service) {
+        boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
+                .getAllowedEntityIds().contains(sp.getId());
+        boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
+        boolean isSingleTenantTemplate = sp.getEntityType().equals(EntityType.single_tenant_template);
+        service.setConnected(connectedToIdentityProvider && allowedBySp && !isSingleTenantTemplate);
+    }
+
     private Optional<Service> enrichService(String idpEntityId, Locale locale, Optional<ServiceProvider>
             serviceProvider) {
         IdentityProvider identityProvider;
@@ -87,11 +91,8 @@ public class ServicesImpl implements Services {
         }
 
         return serviceProvider.map(sp -> {
-            boolean connectedToIdentityProvider = identityProvider.isAllowedAll() || identityProvider
-                    .getAllowedEntityIds().contains(sp.getId());
-            boolean allowedBySp = sp.isAllowedAll() || sp.getAllowedEntityIds().contains(idpEntityId);
             Service service = this.buildApiService(sp, locale.getLanguage());
-            service.setConnected(connectedToIdentityProvider && allowedBySp);
+            markServiceAsConnected(idpEntityId, identityProvider, sp, service);
             return service;
         });
     }
