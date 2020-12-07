@@ -4486,6 +4486,11 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+downloadjs-next@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/downloadjs-next/-/downloadjs-next-1.5.7.tgz#d869be5cb73c6fcb86b30997a3009890e0e6ed7e"
+  integrity sha512-bZduBE8PjPVf8WZfhr3yC4/7qQ8yA1qR9+VxOo0qkBtzgG/gvYtxQKdqxkN4H06HntIqoLQNTFRXQLklqWau+g==
+
 duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"

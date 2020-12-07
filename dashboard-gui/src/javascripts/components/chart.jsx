@@ -10,6 +10,7 @@ import ExportData from 'highcharts/modules/export-data';
 import {getDateTimeFormat} from "../utils/time";
 import "moment/locale/nl";
 import "moment/locale/pt";
+import download from "downloadjs-next";
 
 Exporter(HighChart);
 Exporter(HighStock);
@@ -36,7 +37,10 @@ const exporting = () => ({
                     onclick: function () {
                         const csv = this.getCSV();
                         const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
-                        this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
+                        download("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "stats", "text/csv")
+                        // var a = this;
+                        // debugger;
+                        // this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
                     }
                 },
                 'separator',

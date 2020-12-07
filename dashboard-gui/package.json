@@ -3,7 +3,9 @@
   "homepage": "",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "downloadjs-next": "^1.5.7"
+  },
   "devDependencies": {
     "core-js": "^3.1.3",
     "enzyme": "^3.10.0",
