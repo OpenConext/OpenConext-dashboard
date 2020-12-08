@@ -112,12 +112,13 @@ public class MailBox {
         }
     }
 
-    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String type, String comments, String emailContactPerson) {
+    public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String spEntityID, String type, String comments, String emailContactPerson) {
         String emailSubject = "Nieuwe SURFconext koppeling";
         Map<String, Object> variables = new HashMap<>();
         variables.put("title", "Nieuwe SURFconext koppeling");
         variables.put("idpName", idpName);
         variables.put("spName", spName);
+        variables.put("spEntityID", spEntityID);
         variables.put("comments", comments);
         variables.put("hasComments", StringUtils.hasText(comments));
         variables.put("emailContactPerson", emailContactPerson);

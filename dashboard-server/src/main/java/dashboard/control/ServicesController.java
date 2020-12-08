@@ -119,29 +119,32 @@ public class ServicesController extends BaseController {
 
     @PostMapping(value = "/download")
     public List<String[]> download(@RequestBody Map<String, Object> body,
-                                   Locale locale,
-                                   HttpServletResponse response) throws IOException {
+                                   Locale locale) throws IOException {
         String idpEntityId = (String) body.get("idp");
         List<Integer> ids = (List<Integer>) body.get("ids");
         List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
         Stream<String[]> values = ids.stream()
                 .map(id -> getServiceById(services, id.longValue()))
                 .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
-                .map(service -> new String[]{
-                        String.valueOf(service.getId()),
-                        stripBreakingWhitespace(service.getName()),
-                        service.getSpEntityId(),
-                        stripBreakingWhitespace(service.getDescription()),
-                        service.getAppUrl(),
-                        service.getWikiUrl(),
-                        service.getSupportMail(),
-                        String.valueOf(service.isConnected()),
-                        service.getLicenseStatus().name(),
-                        String.valueOf(service.isPublishedInEdugain()),
-                        String.valueOf(service.isExampleSingleTenant()),
-                        String.valueOf(service.isStrongAuthentication()),
-                        String.valueOf(!service.getArp().isNoArp()),
-                        service.getArp().getAttributes().keySet().stream().collect(joining(" - "))});
+                .map(service -> {
+                    LicenseStatus licenseStatus = service.getLicenseStatus();
+                    ARP arp = service.getArp();
+                    return new String[]{
+                            String.valueOf(service.getId()),
+                            stripBreakingWhitespace(service.getName()),
+                            service.getSpEntityId(),
+                            stripBreakingWhitespace(service.getDescription()),
+                            service.getAppUrl(),
+                            service.getWikiUrl(),
+                            service.getSupportMail(),
+                            String.valueOf(service.isConnected()),
+                            licenseStatus != null ? licenseStatus.name() : LicenseStatus.UNKNOWN.name(),
+                            String.valueOf(service.isPublishedInEdugain()),
+                            String.valueOf(service.isExampleSingleTenant()),
+                            String.valueOf(service.isStrongAuthentication()),
+                            String.valueOf(arp != null ? !arp.isNoArp() : false),
+                            arp != null ? arp.getAttributes().keySet().stream().collect(joining(" - ")): ""};
+                });
 
         Stream<String[]> headers = Stream.<String[]>of(new String[]{
                 "id", "name", "entityID", "description", "app-url", "wiki-url", "support-mail",
@@ -154,7 +157,7 @@ public class ServicesController extends BaseController {
     }
 
     private String stripBreakingWhitespace(String input) {
-        return StringUtils.hasText(input) ? input.trim().replaceAll("[\n,]", "") : "";
+        return StringUtils.hasText(input) ? input.trim().replaceAll("[\\t\\n\\r]+","") : "";
     }
 
     private Optional<Service> getServiceById(List<Service> services, Long id) {

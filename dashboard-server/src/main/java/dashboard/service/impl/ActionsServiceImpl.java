@@ -210,13 +210,25 @@ public class ActionsServiceImpl implements ActionsService {
                     .stream().map(SabPerson::getEmail).collect(toList());
             LOG.info("Sending emails 'automatic connection made' to IdP contact persons {}", idpEmails);
             if (!CollectionUtils.isEmpty(idpEmails)) {
-                mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails, savedAction.getIdpName(), savedAction.getSpName(), "idp", action.getBody(), action.getEmailContactPerson());
+                mailBox.sendDashboardConnectWithoutInteractionEmail(idpEmails,
+                        savedAction.getIdpName(),
+                        savedAction.getSpName(),
+                        savedAction.getSpId(),
+                        "idp",
+                        action.getBody(),
+                        action.getEmailContactPerson());
             }
             Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
             List<String> spEmails = spEmails(serviceProvider);
             LOG.info("{} emails 'automatic connection made' to SP contact persons {}", action.shouldSendEmail() ? "Sending " : "Not sending ", spEmails);
             if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
-                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails, savedAction.getIdpName(), savedAction.getSpName(), "sp", action.getBody(), action.getEmailContactPerson());
+                mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails,
+                        savedAction.getIdpName(),
+                        savedAction.getSpName(),
+                        savedAction.getSpId(),
+                        "sp",
+                        action.getBody(),
+                        action.getEmailContactPerson());
             }
         }
 

@@ -22,18 +22,17 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 import static dashboard.control.RestDataFixture.coinUser;
 import static dashboard.control.RestDataFixture.serviceWithSpEntityId;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -216,5 +215,15 @@ public class ServicesControllerTest {
                         .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
         )
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void download() throws IOException {
+        Map<String, Object> body = new HashMap<>();
+        body.put("idp", IDP_ENTITY_ID);
+        body.put("ids", asList(1, 2, 3));
+        List<String[]> download = controller.download(body, Locale.ENGLISH);
+        String[] row = download.get(1);
+        assertEquals("samenstellen.Of u", row[3]);
     }
 }
