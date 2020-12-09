@@ -109,8 +109,8 @@ export function getApps() {
     return fetchJson("/services");
 }
 
-export function getAppsForIdentiyProvider(idpEntityId) {
-    return validFetch("/services", {}, null, idpEntityId)
+export function getAppsForInvitationRequest(idpEntityId) {
+    return validFetch("/services/invitation-request-services", {}, null, idpEntityId)
         .then(parseJson);
 }
 

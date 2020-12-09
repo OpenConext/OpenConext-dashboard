@@ -27,7 +27,7 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public List<Service> getServicesForIdp(String idpEntityId, Locale locale) {
+    public List<Service> getServicesForIdp(String idpEntityId, boolean includeAll, Locale locale) {
         IdentityProvider identityProvider;
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isGuest()) {
@@ -47,7 +47,7 @@ public class ServicesImpl implements Services {
                     service.setDashboardConnectOption(sp.getDashboardConnectOption());
                     return service;
                 })
-                .filter(service -> !service.isIdpVisibleOnly() || service.isConnected() ||
+                .filter(service -> !service.isIdpVisibleOnly() || service.isConnected() || includeAll ||
                         (service.getInstitutionId() != null && service.getInstitutionId().equals(identityProvider.getInstitutionId())) ||
                         (invitationRequestEntities != null && invitationRequestEntities.contains(service.getSpEntityId())))
                 .collect(toList());

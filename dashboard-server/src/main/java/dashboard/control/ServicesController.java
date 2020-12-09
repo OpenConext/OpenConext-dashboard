@@ -55,11 +55,20 @@ public class ServicesController extends BaseController {
     @RequestMapping
     public RestResponse<Map<String, Object>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
             throws IOException {
-        List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId, locale);
+        List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId, false, locale);
         List<Category> categories = getCategories(servicesForIdp);
         Map<String, Object> result = new HashMap<>();
         result.put("apps", servicesForIdp);
         result.put("facets", categories);
+        return createRestResponse(result);
+    }
+
+    @RequestMapping(value = "/invitation-request-services")
+    public RestResponse<Map<String, Object>> invitationRequestServices(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
+            throws IOException {
+        List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId,true, locale);
+        Map<String, Object> result = new HashMap<>();
+        result.put("apps", servicesForIdp);
         return createRestResponse(result);
     }
 
@@ -80,7 +89,7 @@ public class ServicesController extends BaseController {
     @RequestMapping(value = "/connected")
     public RestResponse<List<Service>> connected(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale
             locale) throws IOException {
-        return createRestResponse(services.getServicesForIdp(idpEntityId, locale).stream()
+        return createRestResponse(services.getServicesForIdp(idpEntityId, false, locale).stream()
                 .filter(Service::isConnected)
                 .collect(toList()));
     }
@@ -122,7 +131,7 @@ public class ServicesController extends BaseController {
                                    Locale locale) throws IOException {
         String idpEntityId = (String) body.get("idp");
         List<Integer> ids = (List<Integer>) body.get("ids");
-        List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
+        List<Service> services = this.services.getServicesForIdp(idpEntityId,false, locale);
         Stream<String[]> values = ids.stream()
                 .map(id -> getServiceById(services, id.longValue()))
                 .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
@@ -232,7 +241,7 @@ public class ServicesController extends BaseController {
             return Optional.empty();
         }
 
-        List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
+        List<Service> services = this.services.getServicesForIdp(idpEntityId, false, locale);
         Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
         if (optional.isPresent()) {

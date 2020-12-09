@@ -150,7 +150,7 @@ public class UsersController extends BaseController {
         }
         String spEntityId = updateInviteRequest.getSpEntityId();
 
-        List<Service> services = this.services.getServicesForIdp(idpEntityId, locale);
+        List<Service> services = this.services.getServicesForIdp(idpEntityId, true, locale);
         Optional<Service> optional = services.stream().filter(s -> s.getSpEntityId().equals(spEntityId)).findFirst();
 
         if (optional.isPresent()) {

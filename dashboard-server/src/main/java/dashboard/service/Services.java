@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface Services {
 
-    List<Service> getServicesForIdp(String idpEntityId, Locale locale) throws IOException;
+    List<Service> getServicesForIdp(String idpEntityId, boolean includeAll, Locale locale) throws IOException;
 
     List<Service> getServicesByEntityIds(List<String> entityIds, Locale locale) throws IOException;
 

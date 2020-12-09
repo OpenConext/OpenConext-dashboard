@@ -2,7 +2,7 @@ import React from "react";
 import I18n from "i18n-js";
 import {withRouter} from 'react-router';
 import PropTypes from "prop-types";
-import {getAppsForIdentiyProvider, getIdpsForSuper, inviteRequest, sabRoles} from "../api";
+import {getAppsForInvitationRequest, getIdpsForSuper, inviteRequest, sabRoles} from "../api";
 import SelectWrapper from "../components/select_wrapper";
 import {isEmpty} from "../utils/utils";
 import CheckBox from "../components/checkbox";
@@ -55,7 +55,7 @@ class InviteRequest extends React.Component {
                     return acc;
                 }, {}) : []
             },
-            () => idp && Promise.all([getAppsForIdentiyProvider(value), sabRoles(idp.institutionId)])
+            () => idp && Promise.all([getAppsForInvitationRequest(value), sabRoles(idp.institutionId)])
                 .then(res => {
                     const sabPayload = res[1].payload;
                     const roles = Object.keys(sabPayload);
