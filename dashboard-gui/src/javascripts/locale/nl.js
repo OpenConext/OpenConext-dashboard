@@ -259,7 +259,7 @@ I18n.translations.nl = {
         privacyInformation: "Privacy-informatie",
         privacyInformationInfo: "De leverancier heeft geen privacy-informatie aangeleverd.",
         contractualBase: {
-            na: "Voor deze SP is geen informatie beschikbaar over de contractuele basis : mail naar <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je daarover vragen heeft.",
+            na: "Voor deze SP is geen informatie beschikbaar over de contractuele basis: mail naar <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je daarover vragen hebt.",
             ao: "Aanbieder heeft de SURFconext aansluitovereenkomst getekend.",
             ix: "Dienst aangeboden door op SURFconext aangesloten instelling.",
             "r&s+coco" :"eduGAIN-dienst die zich akkoord heeft verklaard met de Data Protection Code of Conduct en valt in de Research & Scholarship entity category.",
