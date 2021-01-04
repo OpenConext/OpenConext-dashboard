@@ -166,7 +166,7 @@ public class ServicesController extends BaseController {
     }
 
     private String stripBreakingWhitespace(String input) {
-        return StringUtils.hasText(input) ? input.trim().replaceAll("[\\t\\n\\r]+","") : "";
+        return StringUtils.hasText(input) ? input.trim().replaceAll("[\\t\\n\\r;,]+","") : "";
     }
 
     private Optional<Service> getServiceById(List<Service> services, Long id) {
