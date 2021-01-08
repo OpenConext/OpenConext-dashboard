@@ -53,7 +53,8 @@ export default class AppMeta extends React.Component {
             <div className="l-left-app-meta">
                 <div className="mod-app-meta">
                     <div className="name">
-                        {app.name}
+                        <span>{app.name}</span>
+                        <span>{app.organisation}</span>
                     </div>
                     {this.renderLogo()}
                     {showContactInfo && <Contact email={app.supportMail}/>}
