@@ -146,6 +146,7 @@ public class ServicesImpl implements Services {
         service.setStrongAuthentication(sp.isStrongAuthenticationEnabled());
         service.setMinimalLoaLevel(sp.getMinimalLoaLevel());
         service.setNames(sp.getNames());
+        service.setOrganisations(sp.getOrganisations());
         service.setDescriptions(sp.getDescriptions());
         service.setDisplayNames(sp.getDisplayNames());
         service.setNoConsentRequired(sp.isNoConsentRequired());
@@ -200,10 +201,11 @@ public class ServicesImpl implements Services {
     }
 
     private void languageSpecificProperties(ServiceProvider sp, String locale, Service service) {
-        Provider.Language lang = (locale == "en" ? EN : locale == "pt" ? PT : NL);
+        Provider.Language lang = ("en".equals(locale) ? EN : "pt".equals(locale) ? PT : NL);
         service.setDescription(sp.getDescription(lang));
         service.setEnduserDescription(sp.getDescription(lang));
         service.setName(sp.getName(lang));
+        service.setOrganisation(sp.getOrganisation(lang));
 
         service.setSupportUrl(sp.getUrl(lang));
         service.setInstitutionDescription(sp.getDescription(lang));
@@ -211,10 +213,10 @@ public class ServicesImpl implements Services {
         service.setWikiUrl(sp.getWikiUrl(lang));
         service.setSpName(sp.getName(lang));
 
-        if (locale == "en") {
+        if ("en".equals(locale)) {
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlEn());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlEn());
-        } else if (locale == "pt") {
+        } else if ("pt".equalsIgnoreCase(locale)) {
             service.setRegistrationPolicyUrl(sp.getRegistrationPolicyUrlPt());
             service.setPrivacyStatementUrl(sp.getPrivacyStatementUrlPt());
         } else {

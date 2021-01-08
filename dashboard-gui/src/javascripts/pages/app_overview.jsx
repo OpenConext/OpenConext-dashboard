@@ -179,6 +179,7 @@ class AppOverview extends React.Component {
           to={`/apps/${app.id}/${app.entityType}/overview`}
           onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
         </td>
+        <td>{app.organisation}</td>
         {this.renderLicenseNeeded(app)}
         {/*<YesNo value={!app.aansluitovereenkomstRefused}/>*/}
         {/*{!currentUser.guest && <YesNo value={automaticallyConnect}/>}*/}
@@ -749,11 +750,12 @@ class AppOverview extends React.Component {
             <table>
               <thead>
               <tr>
-                {this.renderSortableHeader("percent_60", "name")}
-                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_25", "licenseStatus")}
+                {this.renderSortableHeader("percent_30", "name")}
+                {this.renderSortableHeader("percent_30", "organisation")}
+                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_20", "licenseStatus")}
                 {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
                 {/*{!currentUser.guest && this.renderSortableHeader("percent_15 bool", "dashboardConnectOption")}*/}
-                {!currentUser.guest && this.renderSortableHeader("percent_15 bool", "connected")}
+                {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
                 {connect}
               </tr>
               </thead>

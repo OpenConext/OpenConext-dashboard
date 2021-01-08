@@ -39,6 +39,7 @@ public class Service implements Comparable<Service>, Serializable {
 
     private String state;
     private String name;
+    private String organisation;
     private String description;
     private String logoUrl;
     private String websiteUrl;
@@ -69,6 +70,7 @@ public class Service implements Comparable<Service>, Serializable {
     private List<String> screenshotUrls = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
     private Map<String, String> names = new HashMap<>();
+    private Map<String, String> organisations = new HashMap<>();
     private Map<String, String> motivations = new HashMap<>();
     private Map<String, String> descriptions = new HashMap<>();
     private Map<String, String> displayNames = new HashMap<>();
@@ -610,5 +612,22 @@ public class Service implements Comparable<Service>, Serializable {
             return false;
         }
         return dashboardConnectOption.sendsEmail();
+    }
+
+
+    public Map<String, String> getOrganisations() {
+        return organisations;
+    }
+
+    public void setOrganisations(Map<String, String> organisations) {
+        this.organisations = organisations;
+    }
+
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
     }
 }

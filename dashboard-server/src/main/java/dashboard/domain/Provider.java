@@ -21,14 +21,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -49,6 +42,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     private String publishInEdugainDate;
 
     private Map<String, String> names = new HashMap<>();
+    private Map<String, String> organisations = new HashMap<>();
     private Map<String, String> homeUrls = new HashMap<>();
     private Map<String, String> descriptions = new HashMap<>();
     private Map<String, String> displayNames = new HashMap<>();
@@ -74,6 +68,9 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         addName("pt", (String) metaData.get("name:pt"));
         this.name = names.isEmpty() ? (String) metaData.get("entityid") : names.getOrDefault("en", names.get("nl"));
         this.logoUrl = (String) metaData.get("logo:0:url");
+        addOrganisation("en", (String) metaData.get("OrganizationDisplayName:en"), (String) metaData.get("OrganizationName:en"));
+        addOrganisation("nl", (String) metaData.get("OrganizationDisplayName:nl"), (String) metaData.get("OrganizationName:nl"));
+        addOrganisation("pt", (String) metaData.get("OrganizationDisplayName:pt"), (String) metaData.get("OrganizationName:pt"));
         addHomeUrl("en", (String) metaData.get("OrganizationURL:en"));
         addHomeUrl("nl", (String) metaData.get("OrganizationURL:nl"));
         addHomeUrl("pt", (String) metaData.get("OrganizationURL:pt"));
@@ -87,14 +84,14 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
             String contactType = (String) metaData.get("contacts:" + i + ":contactType");
             if (contactType != null) {
                 addContactPerson(new ContactPerson(
-                    safeString(metaData.get("contacts:" + i + ":givenName") + " " + safeString(metaData.get("contacts" +
-                        ":" + i +
-                        ":surName"))).trim(),
-                    (String) metaData.get("contacts:" + i + ":emailAddress"),
-                    (String) metaData.get("contacts:" + i + ":telephoneNumber"),
-                    contactPersonType(contactType),
-                    booleanValue(metaData.get("contacts:" + i + ":isSirtfiSecurityContact")),
-                            false)
+                        safeString(metaData.get("contacts:" + i + ":givenName") + " " + safeString(metaData.get("contacts" +
+                                ":" + i +
+                                ":surName"))).trim(),
+                        (String) metaData.get("contacts:" + i + ":emailAddress"),
+                        (String) metaData.get("contacts:" + i + ":telephoneNumber"),
+                        contactPersonType(contactType),
+                        booleanValue(metaData.get("contacts:" + i + ":isSirtfiSecurityContact")),
+                        false)
                 );
             }
         });
@@ -103,6 +100,14 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         this.noConsentRequired = booleanValue(metaData.get("coin:no_consent_required"));
         this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
         this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
+    }
+
+    private void addOrganisation(String language, String organisationName, String organisationNameFallback) {
+        if (organisationName != null) {
+            this.organisations.put(language, organisationName);
+        } else if (organisationNameFallback != null) {
+            this.organisations.put(language, organisationNameFallback);
+        }
     }
 
     public String getId() {
@@ -152,8 +157,8 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
             return null;
         }
         return contactPersons.stream()
-            .filter(cp -> cp.getContactPersonType().equals(type))
-            .findFirst().orElse(null);
+                .filter(cp -> cp.getContactPersonType().equals(type))
+                .findFirst().orElse(null);
     }
 
     public void addContactPerson(ContactPerson contactPerson) {
@@ -174,6 +179,21 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
                 return names.get(language.name().toLowerCase());
             }
         }
+    }
+
+    public Map<String, String> getOrganisations() {
+        return organisations;
+    }
+
+    public String getOrganisation(Language language) {
+        if (organisations == null) {
+            return getName();
+        }
+        String organisation = organisations.get(language.name().toLowerCase());
+        if (organisation != null) {
+            return organisation;
+        }
+        return organisations.isEmpty() ? "" : organisations.values().iterator().next();
     }
 
     protected void addName(String language, String name) {
@@ -292,8 +312,8 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     @Override
     public int compareTo(Provider that) {
         return new CompareToBuilder()
-            .append(StringUtils.lowerCase(this.name), StringUtils.lowerCase(that.name))
-            .toComparison();
+                .append(StringUtils.lowerCase(this.name), StringUtils.lowerCase(that.name))
+                .toComparison();
     }
 
     @Override
@@ -311,12 +331,12 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
     public String toString() {
         return MoreObjects.toStringHelper(this)
-            .add("name", name)
-            .add("names", names)
-            .add("id", getId())
-            .add("contactPersons", contactPersons)
-            .add("descriptions", descriptions)
-            .toString();
+                .add("name", name)
+                .add("names", names)
+                .add("id", getId())
+                .add("contactPersons", contactPersons)
+                .add("descriptions", descriptions)
+                .toString();
     }
 
     public enum Language {

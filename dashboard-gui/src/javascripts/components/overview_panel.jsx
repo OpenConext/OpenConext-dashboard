@@ -110,7 +110,7 @@ class OverviewPanel extends React.Component {
         return (
             <div className="mod-description">
                 <h2>{I18n.t("overview_panel.aansluitovereenkomst")}</h2>
-                <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused")}}/>
+                <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.aansluitovereenkomstRefused", {organisation: this.props.app.organisation})}}/>
             </div>);
     }
 
@@ -121,7 +121,7 @@ class OverviewPanel extends React.Component {
         }
         return <div className="mod-description">
             <h2>{I18n.t("overview_panel.privacyInformation")}</h2>
-            <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.privacyInformationInfo")}}/>
+            <p dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.privacyInformationInfo", {organisation: this.props.app.organisation})}}/>
         </div>;
     }
 
@@ -160,7 +160,9 @@ class OverviewPanel extends React.Component {
             return (
                 <div className="mod-description">
                     <h2>{I18n.t("apps.overview.contractualBase")}</h2>
-                    <h3><span dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`)}}/>
+                    <h3>
+                        <span>{I18n.t("overview_panel.vendorInfo", {organisation: this.props.app.organisation})}</span>
+                        <span dangerouslySetInnerHTML={{__html: I18n.t(`overview_panel.contractualBase.${this.props.app.contractualBase.toLowerCase()}`, {organisation: this.props.app.organisation})}}/>
                         <span dangerouslySetInnerHTML={{__html: I18n.t("overview_panel.contractualBaseWiki")}}/>
                     </h3>
                 </div>);
