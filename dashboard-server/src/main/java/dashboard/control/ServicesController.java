@@ -11,32 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -66,7 +50,7 @@ public class ServicesController extends BaseController {
     @RequestMapping(value = "/invitation-request-services")
     public RestResponse<Map<String, Object>> invitationRequestServices(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
             throws IOException {
-        List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId,true, locale);
+        List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId, true, locale);
         Map<String, Object> result = new HashMap<>();
         result.put("apps", servicesForIdp);
         return createRestResponse(result);
@@ -131,7 +115,7 @@ public class ServicesController extends BaseController {
                                    Locale locale) throws IOException {
         String idpEntityId = (String) body.get("idp");
         List<Integer> ids = (List<Integer>) body.get("ids");
-        List<Service> services = this.services.getServicesForIdp(idpEntityId,false, locale);
+        List<Service> services = this.services.getServicesForIdp(idpEntityId, false, locale);
         Stream<String[]> values = ids.stream()
                 .map(id -> getServiceById(services, id.longValue()))
                 .flatMap(opt -> opt.map(Stream::of).orElse(Stream.empty()))
@@ -152,7 +136,7 @@ public class ServicesController extends BaseController {
                             String.valueOf(service.isExampleSingleTenant()),
                             String.valueOf(service.isStrongAuthentication()),
                             String.valueOf(arp != null ? !arp.isNoArp() : false),
-                            arp != null ? arp.getAttributes().keySet().stream().collect(joining(" - ")): ""};
+                            arp != null ? arp.getAttributes().keySet().stream().collect(joining(" - ")) : ""};
                 });
 
         Stream<String[]> headers = Stream.<String[]>of(new String[]{
@@ -166,7 +150,7 @@ public class ServicesController extends BaseController {
     }
 
     private String stripBreakingWhitespace(String input) {
-        return StringUtils.hasText(input) ? input.trim().replaceAll("[\\t\\n\\r;,]+","") : "";
+        return StringUtils.hasText(input) ? input.trim().replaceAll("[\t\n\r;,]+", "") : "";
     }
 
     private Optional<Service> getServiceById(List<Service> services, Long id) {
