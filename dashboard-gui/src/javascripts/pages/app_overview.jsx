@@ -588,9 +588,9 @@ class AppOverview extends React.Component {
         const strongAuthenticationFacetValues = this.state.activeFacets["strong_authentication"] || [];
         const minimalLoaLevel = "SP_" + app.minimalLoaLevel;
         const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
-        const none = strongAuthenticationFacetValues.indexOf("NONE") > -1 && strongAuthenticationFacetValues.length === 1;
+        const none = strongAuthenticationFacetValues.indexOf("NONE") > -1;
         return strongAuthenticationFacetValues.length === 0 ||
-          none ||
+            (none && isEmpty(app.minimalLoaLevel) && (isEmpty(stepUpEntity) || stepUpEntity.level === "loa1")) ||
           strongAuthenticationFacetValues.indexOf(minimalLoaLevel) > -1 ||
           (stepUpEntity != null && strongAuthenticationFacetValues.indexOf("IDP_" + stepUpEntity.level) > -1);
       }.bind(this)
