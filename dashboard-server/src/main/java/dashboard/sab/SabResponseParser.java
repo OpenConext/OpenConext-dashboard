@@ -16,7 +16,6 @@
 package dashboard.sab;
 
 import com.google.common.base.Throwables;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -197,7 +196,7 @@ public class SabResponseParser {
         }
 
         @Override
-        public Iterator<?> getPrefixes(String namespaceURI) {
+        public Iterator<String> getPrefixes(String namespaceURI) {
             return null;
         }
     }
