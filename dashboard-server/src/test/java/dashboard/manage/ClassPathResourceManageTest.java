@@ -26,7 +26,7 @@ public class ClassPathResourceManageTest {
 
     ServiceProvider surfcloud = serviceProviders.stream().filter(sp -> sp.getId()
       .equals("https://teams.surfconext.nl/shibboleth")).findFirst().get();
-    assertEquals(5, surfcloud.getArp().getAttributes().size());
+    assertEquals(0, surfcloud.getArp().getAttributes().size());
 
   }
 }

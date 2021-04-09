@@ -129,18 +129,24 @@ public interface Manage {
                     Map<String, Object> arp = (Map<String, Object>) value;
                     Boolean enabled = (Boolean) arp.get("enabled");
                     if (enabled) {
-                        Map<String, List<Map<String, String>>> attributes =
-                                (Map<String, List<Map<String, String>>>) arp.get("attributes");
-                        Map<String, List<String>> attributesMap = attributes.entrySet().stream()
-                                .collect(toMap(
-                                        e -> e.getKey(),
-                                        e -> e.getValue().stream().map(m -> m.get("value")).collect(toList())));
-                        Map<String, String> motivationsMap = attributes.entrySet().stream()
-                                .collect(toMap(
-                                        e -> e.getKey(),
-                                        e -> e.getValue().get(0).getOrDefault("motivation", "")));
-                        result.put("attributes", attributesMap);
-                        result.put("motivations", motivationsMap);
+                        Object attributesValue = arp.get("attributes");
+                        if (attributesValue instanceof Map) {
+                            Map<String, List<Map<String, String>>> attributes =
+                                    (Map<String, List<Map<String, String>>>) attributesValue;
+                            Map<String, List<String>> attributesMap = attributes.entrySet().stream()
+                                    .collect(toMap(
+                                            e -> e.getKey(),
+                                            e -> e.getValue().stream().map(m -> m.get("value")).collect(toList())));
+                            Map<String, String> motivationsMap = attributes.entrySet().stream()
+                                    .collect(toMap(
+                                            e -> e.getKey(),
+                                            e -> e.getValue().get(0).getOrDefault("motivation", "")));
+                            result.put("attributes", attributesMap);
+                            result.put("motivations", motivationsMap);
+                        } else {
+                            result.put("attributes", new HashMap<>());
+                            result.put("motivations", new HashMap<>());
+                        }
                     }
                     break;
                 }
