@@ -5,14 +5,11 @@
 
 ### [About OpenConext](#about_openConext)
 
-OpenConext is an OpenSource technology stack for creating and running Collaboration platforms. It uses technologies from Federated Identity Management, as is available in Research and Educational Access Federations, Group management and OpenSocial Social Networking Technology. The aim of the software is to provide a middleware platform that can combine generic and specialized collaboration tools and services, within Research and Education, and beyond, and make these available for collaboration over institutional and national borders. The features section describes the current and planned features for the platform.
+OpenConext is an OpenSource technology stack offering a proxy (hub) for federated identity management (SAML, OIDC) and related features. OpenConext was developed by SURF, the Dutch National Research and Education Network (NREN), as part of the SURFworks programme, and has since than seen continuous development. SURF runs an instance of the platform for research and education in The Netherlands as SURFconext. More information: OpenConext: [https://www.openconext.org](https://www.openconext.org). SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl).
 
-OpenConext was developed by SURFnet as part of the SURFworks programme. SURFnet runs an instance of the platform for research and education in The Netherlands as SURFconext
+### [About OpenConext](#about_openConext)
 
-OpenConext: [https://www.openconext.org](https://www.openconext.org)
-
-SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
-
+The OpenConext dashboard is the module that can be used by people managing an Identity Provider (IdP) connected to the (OpenConext) identity hub/proxy. It offers an option for an IdP to check out what SPs (Service Provider) are connected to the proxy, request connection to an SP, look up information about SPs connected to the hub etc. This (IdP) dashboard offers the IdPs a high level of 'DIY', offloading work from the federation operator (less error prone emails to deal with concerning connecting/disconnecting an IdP to an SP, thereby offering scalability (SURF runs SURFconext with hundreds of IdPs) 
 
 ## [Getting started](#getting_started)
 
