@@ -1,18 +1,18 @@
 {{> header.html}}
 <p>
-    Dear,
+    To Whom It May Concern,
 </p>
 <p>
-    As a service provider, you allow institutions on SURFconext to link your service without your permission.
-    You receive this email because you have chosen to receive emails for new links.
+    As a service provider, you allow institutions on SURFconext to connect your service automatically.
+    You receive this email because you have chosen to receive notifications for new connections.
 </p>
 
 <p>
-    <strong>Institution {{idpName}} has linked your service {{spName}} (with entityID="{{spEntityID}}").</strong>
+<strong>Institution <u>{{idpName}}</u> has connected your service <u>{{spName}}</u> (with entityID="<tt>{{spEntityID}}</tt>").</strong>
 </p>
 
 {{#hasEmailContactPerson}}
-<p>{{emailContactPerson}} of {{idpName}} has initiated the linking between his / hers institution and your service {{spName}}.</p>
+<p>{{emailContactPerson}} of {{idpName}} has initiated the connection between their institution and your service {{spName}}.</p>
 {{/hasEmailContactPerson}}
 
 {{#hasComments}}
@@ -22,7 +22,7 @@
 
 <p>
     <strong>Need help?</strong><br>
-    If you have any questions about this link, please contact <a href="mailto:support@surfconext.nl?subject=SP {{spName}} vraag over automatische koppeling met {{idpName}})">support@surfconext.nl</a>.
+    If you have any questions about this connection, please contact <a href="mailto:support@surfconext.nl?subject=SP {{spName}} vraag over automatische koppeling met {{idpName}})">support@surfconext.nl</a>.
 </p>
 
 {{> closer.html}}
