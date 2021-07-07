@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import CurrentUser from './models/current_user'
 import Header from './components/header'
 import Footer from './components/footer'
-import Navigation from './components/navigation'
 import { ProtectedRoute, SuperUserProtectedRoute } from './components/protected_route'
 
 import AppDetail from './pages/app_detail'
@@ -49,6 +48,7 @@ class App extends React.Component {
         <div>
           <div className="l-header">
             <Header />
+            <Welcome />
           </div>
           <Switch>
             <Route
