@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
 export const AppShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
@@ -10,5 +10,5 @@ export const AppShape = PropTypes.shape({
   detailLogoUrl: PropTypes.string,
   spEntityId: PropTypes.string,
   exampleSingleTenant: PropTypes.bool,
-  connected: PropTypes.bool
-});
+  connected: PropTypes.bool,
+})

@@ -1,6 +1,6 @@
 export default function stopEvent(e) {
   if (e) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
   }
 }
