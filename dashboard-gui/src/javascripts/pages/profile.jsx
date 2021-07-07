@@ -43,7 +43,7 @@ class Profile extends React.Component {
 
         </div>
       </div>
-      );
+    );
   }
 
   renderAttribute(attributeKey) {
@@ -51,7 +51,7 @@ class Profile extends React.Component {
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
     const attributeTranslation = I18n.t("profile.attribute_map")[attributeKey];
     if (isEmpty(attributeTranslation)) {
-      console.log(`Missing profile.attribute_map${attributeKey}`)
+      console.log(`Missing profile.attribute_map${attributeKey}`);
     }
     const attributeName = attributeTranslation["name"];
     const attributeDescription = attributeTranslation["description"];
@@ -68,7 +68,7 @@ class Profile extends React.Component {
           </ul>
         </td>
       </tr>
-      );
+    );
   }
 
   renderRole(role) {
@@ -77,7 +77,7 @@ class Profile extends React.Component {
         <td>{I18n.t("profile.roles." + role.authority + ".name")}</td>
         <td>{I18n.t("profile.roles." + role.authority + ".description")}</td>
       </tr>
-      );
+    );
   }
 }
 

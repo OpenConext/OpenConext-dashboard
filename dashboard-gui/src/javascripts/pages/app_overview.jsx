@@ -65,7 +65,7 @@ class AppOverview extends React.Component {
     }
     Promise.all([getApps(), disableConsent()])
       .then(data => {
-        let {facets, apps: unfilteredApps} = data[0].payload;
+        const {facets, apps: unfilteredApps} = data[0].payload;
         const {currentUser} = this.context;
         const idpState = currentUser.getCurrentIdp().state;
 
@@ -92,7 +92,7 @@ class AppOverview extends React.Component {
         const attributes = apps.reduce((acc, app) => {
           Object.keys(app.arp.attributes).forEach(attr => {
             if (acc.indexOf(attr) < 0) {
-              acc.push(attr)
+              acc.push(attr);
             }
           });
           return acc;
@@ -174,7 +174,7 @@ class AppOverview extends React.Component {
           this.appRef.current = re;
         }
       }} onClick={e => this.handleShowAppDetail(e, app)}
-          className={focus ? "focus" : ""}>
+      className={focus ? "focus" : ""}>
         <td><Link
           to={`/apps/${app.id}/${app.entityType}/overview`}
           onClick={e => this.handleShowAppDetail(e, app)}>{app.name}</Link>
@@ -193,13 +193,13 @@ class AppOverview extends React.Component {
 
   licenseStatusClassName(app) {
     switch (app.licenseStatus) {
-      case "HAS_LICENSE_SURFMARKET":
-      case "HAS_LICENSE_SP":
-        return "yes";
-      case "NO_LICENSE":
-        return "no";
-      default:
-        return "";
+    case "HAS_LICENSE_SURFMARKET":
+    case "HAS_LICENSE_SP":
+      return "yes";
+    case "NO_LICENSE":
+      return "no";
+    default:
+      return "";
     }
   }
 
@@ -355,82 +355,82 @@ class AppOverview extends React.Component {
 
     facets.forEach(facet => {
       switch (facet.searchValue) {
-        case "connection":
-          filter(facet, (app, facetValue) => {
-            return facetValue.searchValue === "yes" ? app.connected : !app.connected;
-          });
-          break;
-        case "license":
-          filter(facet, (app, facetValue) => {
-            return app.licenseStatus === facetValue.searchValue;
-          });
-          break;
-        case "interfed_source":
-          filter(facet, (app, facetValue) => {
-            return app.interfedSource === facetValue.searchValue;
-          });
-          break;
-        case "entity_category":
-          filter(facet, (app, facetValue) => {
-            return app.entityCategories1 === facetValue.searchValue ||
+      case "connection":
+        filter(facet, (app, facetValue) => {
+          return facetValue.searchValue === "yes" ? app.connected : !app.connected;
+        });
+        break;
+      case "license":
+        filter(facet, (app, facetValue) => {
+          return app.licenseStatus === facetValue.searchValue;
+        });
+        break;
+      case "interfed_source":
+        filter(facet, (app, facetValue) => {
+          return app.interfedSource === facetValue.searchValue;
+        });
+        break;
+      case "entity_category":
+        filter(facet, (app, facetValue) => {
+          return app.entityCategories1 === facetValue.searchValue ||
               app.entityCategories2 === facetValue.searchValue ||
               app.entityCategories3 === facetValue.searchValue;
-          });
-          break;
-        case "used_by_idp":
-          filter(facet, (app, facetValue) => {
-            const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
-            return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
-          });
-          break;
-        case "published_edugain":
-          filter(facet, (app, facetValue) => {
-            const published = app.publishedInEdugain || false;
-            return facetValue.searchValue === "yes" ? published : !published;
-          });
-          break;
-        case "strong_authentication":
-          filter(facet, (app, facetValue) => {
-            const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
-            if (facetValue.searchValue === "NONE") {
-              return isEmpty(app.minimalLoaLevel) && isEmpty(stepUpEntity);
-            }
-            const idpMatches = stepUpEntity != null && facetValue.searchValue === "IDP_" + stepUpEntity.level;
-            const spMatches = facetValue.searchValue === "SP_" + app.minimalLoaLevel;
-            return spMatches || idpMatches;
-          });
-          break;
-        case "manipulation_notes":
-          filter(facet, (app, facetValue) => {
-            const hasManipulationNotes = isEmpty(app.manipulationNotes);
-            return facetValue.searchValue === "yes" ? !hasManipulationNotes : hasManipulationNotes;
-          });
-          break;
-        case "attributes":
-          filter(facet, (app, facetValue) => {
-            if (app.arp.noArp && !app.manipulation) {
-              return true;
-            }
-            if (app.arp.noArp || app.arp.noAttrArp) {
-              return false;
-            }
-            const requiredAttributes = Object.keys(app.arp.attributes);
-            return requiredAttributes.indexOf(facetValue.searchValue) > -1;
-          });
-          break;
-        case "type_consent":
-          filter(facet, (app, facetValue) => {
-            const idpDisableConsent = this.state.idpDisableConsent || [];
-            const consent = idpDisableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
-            return facetValue.searchValue === consent.type;
-          });
-          break;
-        default:
-          filter(facet, (app, facetValue) => {
-            const categories = me.normalizeCategories(app);
-            const appTags = categories[facet.searchValue] || [];
-            return appTags.indexOf(facetValue.value) > -1;
-          });
+        });
+        break;
+      case "used_by_idp":
+        filter(facet, (app, facetValue) => {
+          const usedByIdp = currentUser.getCurrentIdp().institutionId === app.institutionId;
+          return facetValue.searchValue === "yes" ? usedByIdp : !usedByIdp;
+        });
+        break;
+      case "published_edugain":
+        filter(facet, (app, facetValue) => {
+          const published = app.publishedInEdugain || false;
+          return facetValue.searchValue === "yes" ? published : !published;
+        });
+        break;
+      case "strong_authentication":
+        filter(facet, (app, facetValue) => {
+          const stepUpEntity = stepupEntities.find(e => e.name === app.spEntityId);
+          if (facetValue.searchValue === "NONE") {
+            return isEmpty(app.minimalLoaLevel) && isEmpty(stepUpEntity);
+          }
+          const idpMatches = stepUpEntity != null && facetValue.searchValue === "IDP_" + stepUpEntity.level;
+          const spMatches = facetValue.searchValue === "SP_" + app.minimalLoaLevel;
+          return spMatches || idpMatches;
+        });
+        break;
+      case "manipulation_notes":
+        filter(facet, (app, facetValue) => {
+          const hasManipulationNotes = isEmpty(app.manipulationNotes);
+          return facetValue.searchValue === "yes" ? !hasManipulationNotes : hasManipulationNotes;
+        });
+        break;
+      case "attributes":
+        filter(facet, (app, facetValue) => {
+          if (app.arp.noArp && !app.manipulation) {
+            return true;
+          }
+          if (app.arp.noArp || app.arp.noAttrArp) {
+            return false;
+          }
+          const requiredAttributes = Object.keys(app.arp.attributes);
+          return requiredAttributes.indexOf(facetValue.searchValue) > -1;
+        });
+        break;
+      case "type_consent":
+        filter(facet, (app, facetValue) => {
+          const idpDisableConsent = this.state.idpDisableConsent || [];
+          const consent = idpDisableConsent.find(dc => dc.spEntityId === app.spEntityId) || {type: "DEFAULT_CONSENT"};
+          return facetValue.searchValue === consent.type;
+        });
+        break;
+      default:
+        filter(facet, (app, facetValue) => {
+          const categories = me.normalizeCategories(app);
+          const appTags = categories[facet.searchValue] || [];
+          return appTags.indexOf(facetValue.value) > -1;
+        });
       }
     });
   }
@@ -547,18 +547,18 @@ class AppOverview extends React.Component {
         return <div className="entity-categories-facet-selector">
           <label>{I18n.t("facets.static.entity_category.selectAll")}</label>
           <input className={entityCategoriesFacetSelector ? "checked" : "unchecked"}
-                 checked={entityCategoriesFacetSelector}
-                 type="checkbox"
-                 onChange={() => {
-                   const newState = {entityCategoriesFacetSelector: !entityCategoriesFacetSelector};
-                   this.setState(newState);
-                 }}/>
+            checked={entityCategoriesFacetSelector}
+            type="checkbox"
+            onChange={() => {
+              const newState = {entityCategoriesFacetSelector: !entityCategoriesFacetSelector};
+              this.setState(newState);
+            }}/>
           <i className="fa fa-info-circle absolute" data-for="entity-categories-facet-selector-tooltip" data-tip></i>
           <ReactTooltip id="entity-categories-facet-selector-tooltip" type="info" class="tool-tip" effect="solid"
-                        multiline={true}>
+            multiline={true}>
             <span dangerouslySetInnerHTML={{__html: I18n.t("facets.static.entity_category.tooltipAll")}}/>
           </ReactTooltip>
-        </div>
+        </div>;
       }
     }, {
       name: I18n.t("facets.static.license.name"),
@@ -749,19 +749,19 @@ class AppOverview extends React.Component {
           <div className="mod-app-list">
             <table>
               <thead>
-              <tr>
-                {this.renderSortableHeader("percent_30", "name")}
-                {this.renderSortableHeader("percent_30", "organisation")}
-                {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_20", "licenseStatus")}
-                {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
-                {/*{!currentUser.guest && this.renderSortableHeader("percent_15 bool", "dashboardConnectOption")}*/}
-                {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
-                {connect}
-              </tr>
+                <tr>
+                  {this.renderSortableHeader("percent_30", "name")}
+                  {this.renderSortableHeader("percent_30", "organisation")}
+                  {this.renderSortableHeader(currentUser.guest ? "percent_40" : "percent_20", "licenseStatus")}
+                  {/*{this.renderSortableHeader(currentUser.guest ? "percent_30 bool" :"percent_20 bool", "aansluitovereenkomstRefused")}*/}
+                  {/*{!currentUser.guest && this.renderSortableHeader("percent_15 bool", "dashboardConnectOption")}*/}
+                  {!currentUser.guest && this.renderSortableHeader("percent_20 bool", "connected")}
+                  {connect}
+                </tr>
               </thead>
               <tbody>
-              {sortedApps.length > 0 ? sortedApps.map((app, index) => this.renderApp(app, index)) :
-                (sortedApps.length === this.state.apps) || loading ? this.renderProcessing() : this.renderEmpty()}
+                {sortedApps.length > 0 ? sortedApps.map((app, index) => this.renderApp(app, index)) :
+                  (sortedApps.length === this.state.apps) || loading ? this.renderProcessing() : this.renderEmpty()}
               </tbody>
             </table>
             {this.renderPagination(filteredApps.length, page)}
@@ -770,9 +770,9 @@ class AppOverview extends React.Component {
           <div className="mod-app-list">
             <table>
               <tbody>
-              <tr>
-                <td dangerouslySetInnerHTML={{__html: I18n.t("apps.overview.add_services_hint")}}/>
-              </tr>
+                <tr>
+                  <td dangerouslySetInnerHTML={{__html: I18n.t("apps.overview.add_services_hint")}}/>
+                </tr>
               </tbody>
             </table>
           </div>

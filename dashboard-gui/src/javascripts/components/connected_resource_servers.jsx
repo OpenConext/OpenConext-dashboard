@@ -12,7 +12,7 @@ class ConnectedResourceServersPanel extends React.Component {
       return "";
     }
     const alternative = I18n.locale === "en" ? "nl" : "en";
-    return descriptions[I18n.locale] || descriptions[alternative]
+    return descriptions[I18n.locale] || descriptions[alternative];
   }
 
   renderResourceServers = app => {
@@ -25,18 +25,18 @@ class ConnectedResourceServersPanel extends React.Component {
       <div className="mod-attributes">
         <table>
           <thead>
-          <tr>
-            <th className="clientId">{I18n.t("connected_resource_servers_panel.clientId")}</th>
-            <th className="name">{I18n.t("connected_resource_servers_panel.name")}</th>
-            <th className="description">{I18n.t("connected_resource_servers_panel.description")}</th>
-          </tr>
+            <tr>
+              <th className="clientId">{I18n.t("connected_resource_servers_panel.clientId")}</th>
+              <th className="name">{I18n.t("connected_resource_servers_panel.name")}</th>
+              <th className="description">{I18n.t("connected_resource_servers_panel.description")}</th>
+            </tr>
           </thead>
           <tbody>
-          {resourceServers.map((rs, index) => <tr key={index}>
-            <td>{rs.spEntityId}</td>
-            <td>{rs.names[I18n.locale]}</td>
-            <td>{this.description(rs)}</td>
-          </tr>)}
+            {resourceServers.map((rs, index) => <tr key={index}>
+              <td>{rs.spEntityId}</td>
+              <td>{rs.names[I18n.locale]}</td>
+              <td>{this.description(rs)}</td>
+            </tr>)}
           </tbody>
         </table>
       </div>

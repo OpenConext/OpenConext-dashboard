@@ -44,7 +44,7 @@ class CurrentUser {
   }
 
   getHideTabs() {
-    return this.hideTabs.split(",").map((s) => s.trim());
+    return this.hideTabs.split(",").map(s => s.trim());
   }
 
   showStats() {
@@ -59,7 +59,7 @@ class CurrentUser {
   }
 }
 
-export const createCurrentUser = (payload) => {
+export const createCurrentUser = payload => {
   currentUser = new CurrentUser(payload);
   return currentUser;
 };

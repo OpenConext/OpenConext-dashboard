@@ -11,9 +11,9 @@ import Navigation from "../components/navigation";
 import isUndefined from "lodash.isundefined";
 import stopEvent from "../utils/stop";
 import {isEmpty} from "../utils/utils";
-import surfLogo from "../../images/SURF.svg"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import surfLogo from "../../images/SURF.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 
 const UserIndicator = ({ user }) => {
@@ -97,13 +97,13 @@ class Header extends React.Component {
           {I18n.t("header.super_user_switch")}
         </Link></span> :
 
-          <span>
-            {I18n.t("header.welcome")}&nbsp;
-            <a href="/welcome" onClick={this.handleToggle.bind(this)}>
-              {currentUser.displayName}
-              {this.renderDropDownIndicator()}
-            </a>
-          </span>;
+      <span>
+        {I18n.t("header.welcome")}&nbsp;
+        <a href="/welcome" onClick={this.handleToggle.bind(this)}>
+          {currentUser.displayName}
+          {this.renderDropDownIndicator()}
+        </a>
+      </span>;
   }
 
   renderDropDownIndicator() {
