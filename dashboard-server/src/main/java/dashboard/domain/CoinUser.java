@@ -46,6 +46,8 @@ public class CoinUser implements UserDetails {
 
     private String uid;
     private String displayName;
+    private String givenName;
+    private String surName;
     private String schacHomeOrganization;
     private IdentityProvider currentIdp;
     private IdentityProvider switchedToIdp;
@@ -143,6 +145,19 @@ public class CoinUser implements UserDetails {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    public String getSurname() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
+
+    public String getGivenName() { return givenName; }
+
+    public void setGivenName(String givenName) { this.givenName = givenName; }
 
     /**
      * @return schac home organization of the user

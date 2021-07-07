@@ -1,36 +1,47 @@
-@import "../utilities/placeholders.sass"
-@import "../utilities/vars.sass"
-@import "../utilities/mixins.sass"
-
 .mod-header
-  padding: 25px 30px 10px
-  background: #fff
-  border-bottom: 2px solid $blue
+  background: $blue
+  height: 60px
+  width: 100%
   display: flex
   align-items: center
+  color: #fff
 
-  // Main app title
-  .title
-    white-space: nowrap
-    &.openconext
-      background: url("../images/open-conext-logo.png") no-repeat left center
-      background-size: 161px 50px
-    &.surfconext
-      background: url("../images/logo@2x.png") no-repeat left center
-      background-size: 161px 50px
-    &.rctsaai
-      background: url("../images/rctsaai_blue.svg") no-repeat left center
-      background-size: 161px 50px
-    height: 50px
-    font-size: 20px
-    line-height: 30px
+  .header-content
+    display: flex
+    padding: 11px 16px
+    justify-content: space-between;
+    align-items: center;
 
-    a
-      color: $blue
-      padding-left: 170px
+  .logo-container
+    position: relative
+    width: 180px
+    flex-shrink: 0
+
+    .idp-dashboard
+      font-weight: bold
+      font-size: 14px
+      color: #fff
+      position: absolute
+      top: 22px
+      left: 80px
 
       &:hover
-        color: $blue
+        color: #fff
+
+  .navigation-items
+    font-size: 17px
+
+  .user-indicator
+    background-color: #fedb00
+    border-radius: 50%
+    padding: 7px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    color: #000
+    font-size: 16px
+    line-height: 16px
+    font-weight: bold
 
   div.institute
     p
@@ -40,10 +51,18 @@
       &.testaccepted
         color: $red
 
+  .dropdown-toggle
+    display: flex
+    align-items: center
+    font-size: 20px
+    cursor: pointer
+
+    .svg-inline--fa
+      margin-left: 10px
+
   // Meta = right aligned stuff
   .meta
     display: flex
-    margin-left: auto
 
     a.super-user
       display: inline-block
@@ -111,8 +130,9 @@
         a
           color: white
 
-  .name
+  .dropdown-container
     line-height: 30px
+    position: relative
 
     .fa-caret-down,
     .fa-caret-up
@@ -120,12 +140,14 @@
 
     > ul
       @extend %box
+      color: #000;
       position: absolute
       z-index: 100
-      padding: 20px 20px 0
+      padding: 10px 20px
       max-width: 400px
       min-width: 200px
-      top: 60px
+      top: 45px
+      right: 0
       box-shadow: 1px 1px 5px*2 rgba(black, .4)
       li
         list-style: none

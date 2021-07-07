@@ -185,6 +185,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         CoinUser coinUser = new CoinUser();
         coinUser.setUid(uid);
         coinUser.setDisplayName(getFirstShibHeaderValue(Shib_DisplayName, request).orElse(null));
+        coinUser.setGivenName(getFirstShibHeaderValue(Shib_GivenName, request).orElse(null));
+        coinUser.setSurName(getFirstShibHeaderValue(Shib_SurName, request).orElse(null));
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
         setUserConfigurationData(coinUser);

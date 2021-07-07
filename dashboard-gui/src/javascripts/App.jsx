@@ -33,72 +33,68 @@ import ResendInvite from "./pages/resend_invite";
 
 class App extends React.Component {
 
-    getChildContext() {
-        return {
-            currentUser: this.props.currentUser
-        };
-    }
+  getChildContext() {
+    return {
+      currentUser: this.props.currentUser
+    };
+  }
 
-    render() {
-        const {currentUser} = this.props;
-        const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser;
-        const isAllowedToMaintainPolicies = currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules;
-        const nonGuest = !currentUser.guest;
-        const hideTabs = currentUser.hideTabs.split(",").map(s => s.trim());
-        const currentIdp = currentUser.getCurrentIdp();
-        const showStats = hideTabs.indexOf("statistics") === -1 && !currentUser.guest && (!currentUser.dashboardMember || currentIdp.displayStatsInDashboard);
-        return (
-            <Router>
-                <div>
-                    <div className="l-header">
-                        <Header/>
-                        <Navigation/>
-                        {!nonGuest && <Welcome/>}
-                    </div>
-                    <Switch>
-                        <Route exact path="/"
-                               render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
-                        <ProtectedRoute currentUser={currentUser}
-                                        path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                                        component={AppDetail}/>
-                        <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
-                        <Route exact path="/apps/:id/:type"
-                               render={({params: {id, type}}) => <Redirect to={`/apps/${id}/${type}/overview`}/>}/>
-                        <Route exact path="/apps/:back?" component={AppOverview}/>
-                        {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview}/>}
-                        {isViewerOrAdmin && <Route exact path="/tickets" component={History}/>}
-                        {nonGuest && <Route exact path="/profile" component={Profile}/>}
-                        {showStats &&
-                        <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
-                        {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
-                        {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
-                        <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"
-                                                 component={SearchUser}/>
-                        <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"
-                                                 component={InviteRequest}/>
-                        <SuperUserProtectedRoute currentUser={currentUser} path="/users/resend_invite/:jiraKey"
-                                                 component={ResendInvite}/>
-                        {isAllowedToMaintainPolicies &&
-                        <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
-                        {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail}/>}
-                        <Route exact path="/dummy" component={Dummy}/>
-                        <Route component={NotFound}/>
-                    </Switch>
-                    <Footer/>
-                </div>
-            </Router>
-        );
-    }
+  render() {
+    const {currentUser} = this.props;
+    const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser;
+    const isAllowedToMaintainPolicies = currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules;
+    const nonGuest = !currentUser.guest;
+    const showStats = currentUser.showStats();
+    return (
+      <Router>
+        <div>
+          <div className="l-header">
+            <Header/>
+          </div>
+          <Switch>
+            <Route exact path="/"
+              render={() => showStats ? <Redirect to="/statistics"/> : <Redirect to="/apps"/>}/>
+            <ProtectedRoute currentUser={currentUser}
+              path="/apps/:id/:type/:activePanel/:jiraKey/:action"
+              component={AppDetail}/>
+            <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail}/>
+            <Route exact path="/apps/:id/:type"
+              render={({params: {id, type}}) => <Redirect to={`/apps/${id}/${type}/overview`}/>}/>
+            <Route exact path="/apps/:back?" component={AppOverview}/>
+            {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview}/>}
+            {isViewerOrAdmin && <Route exact path="/tickets" component={History}/>}
+            {nonGuest && <Route exact path="/profile" component={Profile}/>}
+            {showStats &&
+              <Route exact path="/statistics" render={props => <Stats view="full" {...props}/>}/>}
+            {nonGuest && <Route exact path="/my-idp" component={MyIdp}/>}
+            {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp}/>}
+            <SuperUserProtectedRoute currentUser={currentUser} path="/users/search"
+              component={SearchUser}/>
+            <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite"
+              component={InviteRequest}/>
+            <SuperUserProtectedRoute currentUser={currentUser} path="/users/resend_invite/:jiraKey"
+              component={ResendInvite}/>
+            {isAllowedToMaintainPolicies &&
+            <Route exact path="/policies/:id/revisions" component={PolicyRevisions}/>}
+            {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail}/>}
+            <Route exact path="/dummy" component={Dummy}/>
+            <Route component={NotFound}/>
+          </Switch>
+          <Footer/>
+        </div>
+      </Router>
+    );
+  }
 
 }
 
 App.childContextTypes = {
-    currentUser: PropTypes.object,
-    router: PropTypes.object
+  currentUser: PropTypes.object,
+  router: PropTypes.object
 };
 
 App.propTypes = {
-    currentUser: PropTypes.instanceOf(CurrentUser).isRequired
+  currentUser: PropTypes.instanceOf(CurrentUser).isRequired
 };
 
 export default App;
