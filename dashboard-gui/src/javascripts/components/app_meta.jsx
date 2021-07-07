@@ -6,75 +6,75 @@ import Contact from "./contact";
 
 export default class AppMeta extends React.Component {
 
-    renderRegistrationInfo(url) {
-        if (!url) {
-            return null;
-        }
-
-        return (
-            <div className="contact">
-                <address>
-                    <span dangerouslySetInnerHTML={{__html: I18n.t("app_meta.registration_info_html", {url})}}/>
-                </address>
-            </div>
-        );
+  renderRegistrationInfo(url) {
+    if (!url) {
+      return null;
     }
 
-    renderUrl(key, link, target) {
-        if (link) {
-            const linkTarget = target ? target : "_blank";
-            return (
-                <div className="contact">
-                    <address>
-                        <a href={link} target={linkTarget}>{I18n.t("app_meta." + key)}</a>
-                    </address>
-                </div>
-            );
-        }
-        return null;
-    }
+    return (
+      <div className="contact">
+        <address>
+          <span dangerouslySetInnerHTML={{__html: I18n.t("app_meta.registration_info_html", {url})}}/>
+        </address>
+      </div>
+    );
+  }
 
-    renderLogo() {
-        if (this.props.app.detailLogoUrl) {
-            return (
-                <div className='logo'>
-                    <img src={this.props.app.detailLogoUrl} alt={this.props.app.name}/>
-                </div>
-            );
-        }
-        return null;
+  renderUrl(key, link, target) {
+    if (link) {
+      const linkTarget = target ? target : "_blank";
+      return (
+        <div className="contact">
+          <address>
+            <a href={link} target={linkTarget}>{I18n.t("app_meta." + key)}</a>
+          </address>
+        </div>
+      );
     }
+    return null;
+  }
 
-    render() {
-        const app = this.props.app;
-        const {currentUser} = this.context;
-        const showContactInfo = !currentUser.dashboardMember && !currentUser.guest;
-        return (
-            <div className="l-left-app-meta">
-                <div className="mod-app-meta">
-                    <div className="name">
-                        <span>{app.name}</span>
-                        <span>{app.organisation}</span>
-                    </div>
-                    {this.renderLogo()}
-                    {showContactInfo && <Contact email={app.supportMail}/>}
-                    {this.renderUrl("support", app.supportUrl)}
-                    {this.renderUrl("login", app.appUrl)}
-                    {this.renderUrl("website", app.websiteUrl)}
-                    {this.renderUrl("eula", app.eulaUrl)}
-                    {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
-                    {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
-                    {this.renderRegistrationInfo(app.registrationInfoUrl)}
-                </div>
-            </div>
-        );
+  renderLogo() {
+    if (this.props.app.detailLogoUrl) {
+      return (
+        <div className='logo'>
+          <img src={this.props.app.detailLogoUrl} alt={this.props.app.name}/>
+        </div>
+      );
     }
+    return null;
+  }
+
+  render() {
+    const app = this.props.app;
+    const {currentUser} = this.context;
+    const showContactInfo = !currentUser.dashboardMember && !currentUser.guest;
+    return (
+      <div className="l-left-app-meta">
+        <div className="mod-app-meta">
+          <div className="name">
+            <span>{app.name}</span>
+            <span>{app.organisation}</span>
+          </div>
+          {this.renderLogo()}
+          {showContactInfo && <Contact email={app.supportMail}/>}
+          {this.renderUrl("support", app.supportUrl)}
+          {this.renderUrl("login", app.appUrl)}
+          {this.renderUrl("website", app.websiteUrl)}
+          {this.renderUrl("eula", app.eulaUrl)}
+          {this.renderUrl("registration_policy", app.registrationPolicyUrl)}
+          {this.renderUrl("privacy_statement", app.privacyStatementUrl)}
+          {this.renderRegistrationInfo(app.registrationInfoUrl)}
+        </div>
+      </div>
+    );
+  }
 
 
 }
 AppMeta.contextTypes = {
-    currentUser: PropTypes.object
+  currentUser: PropTypes.object
 };
 AppMeta.propTypes = {
-    app: AppShape.isRequired
+  app: AppShape.isRequired
 };

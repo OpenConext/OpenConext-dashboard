@@ -6,38 +6,38 @@ import {AppShape} from "../shapes";
 import Stats from "../pages/stats";
 
 class ApplicationUsagePanel extends React.Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.state = {
-            chart: {
-                type: "idpsp",
-                periodFrom: moment().subtract(1, "months"),
-                periodTo: moment(),
-                periodType: "m",
-                periodDate: moment(),
-                error: false
-            }
-        };
-    }
+    this.state = {
+      chart: {
+        type: "idpsp",
+        periodFrom: moment().subtract(1, "months"),
+        periodTo: moment(),
+        periodType: "m",
+        periodDate: moment(),
+        error: false
+      }
+    };
+  }
 
-    render() {
-        return (
-            <div className="l-middle-app-detail">
-                <div className="mod-usage">
-                    <Stats view="minimal" sp={this.props.app.spEntityId}/>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="l-middle-app-detail">
+        <div className="mod-usage">
+          <Stats view="minimal" sp={this.props.app.spEntityId}/>
+        </div>
+      </div>
+    );
+  }
 }
 
 ApplicationUsagePanel.contextTypes = {
-    currentUser: PropTypes.object
+  currentUser: PropTypes.object
 };
 
 ApplicationUsagePanel.propTypes = {
-    app: AppShape.isRequired
+  app: AppShape.isRequired
 };
 
 export default ApplicationUsagePanel;
