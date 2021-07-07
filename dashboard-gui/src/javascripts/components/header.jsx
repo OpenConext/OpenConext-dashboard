@@ -10,7 +10,6 @@ import IDPSelector from "../components/idp_selector";
 import Navigation from "../components/navigation";
 import isUndefined from "lodash.isundefined";
 import stopEvent from "../utils/stop";
-import {isEmpty} from "../utils/utils";
 import surfLogo from "../../images/SURF.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
@@ -44,8 +43,6 @@ class Header extends React.Component {
   render() {
     const {currentUser} = this.context;
     const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : [];
-    const idp = (currentUser.switchedToIdp || currentUser.getCurrentIdp());
-    const state = isEmpty(idp) ? "" : I18n.t(`my_idp.${idp.state}`);
     return (
       <div className="mod-header">
         <div className="container">
@@ -71,12 +68,18 @@ class Header extends React.Component {
     );
   }
 
+  handleDropdownKeyDown(e) {
+    if (e.key !== "Tab") {
+      this.handleToggle();
+    }
+  }
+
   renderDropDownToggle() {
     const { currentUser } = this.context;
 
     return (
       <div className='dropdown-container'>
-        <div className='dropdown-toggle' onClick={this.handleToggle.bind(this)}>
+        <div className='dropdown-toggle' role='button' tabIndex={0} onKeyDown={this.handleDropdownKeyDown.bind(this)} onClick={this.handleToggle.bind(this)}>
           <UserIndicator user={currentUser} />
           {this.renderDropDownIndicator()}
         </div>

@@ -16,8 +16,12 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["react"],
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  plugins: ["react", "jsx-a11y"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+  ],
   settings: {
     react: {
       version: "detect",
