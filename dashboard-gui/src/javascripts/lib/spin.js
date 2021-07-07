@@ -6,7 +6,7 @@ const spinner = {
   ignore: false,
 
   start: () => spinner.onStart && !spinner.ignore && spinner.onStart(),
-  stop: () => spinner.onStop && !spinner.ignore && spinner.onStop()
-};
+  stop: () => spinner.onStop && !spinner.ignore && spinner.onStop(),
+}
 
-export default spinner;
+export default spinner

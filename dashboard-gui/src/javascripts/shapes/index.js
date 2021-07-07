@@ -1,2 +1,2 @@
-export * from "./app";
-export * from "./facet";
+export * from './app'
+export * from './facet'

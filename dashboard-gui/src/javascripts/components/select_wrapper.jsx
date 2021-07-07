@@ -1,59 +1,60 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Select from "react-select";
+import Select from 'react-select'
 
 const colourStyles = {
-  control: (base, state) => ({...base, backgroundColor: state.isDisabled ? "white": "white"})
-};
+  control: (base, state) => ({ ...base, backgroundColor: state.isDisabled ? 'white' : 'white' }),
+}
 
 class SelectWrapper extends React.Component {
   onChange(val) {
-    const handleChange = this.props.handleChange;
+    const handleChange = this.props.handleChange
     if (handleChange) {
       if (Array.isArray(val)) {
-        return handleChange(val.map(v => v.value));
+        return handleChange(val.map((v) => v.value))
       }
-      return handleChange(val ? val.value : null, val ? val.label : null);
+      return handleChange(val ? val.value : null, val ? val.label : null)
     }
   }
 
   render() {
-    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : "");
-    const data = (this.props.options || []).map(option => ({label: option.display, value: option.value}));
-    const minimumResultsForSearch = this.props.minimumResultsForSearch || 7;
-    const valueFromId = (opts, id) => Array.isArray(id) ? opts.filter(o => id.includes(o.value)) : opts.find(o => o.value === id);
+    const defaultValue = this.props.defaultValue || (this.props.multiple ? [] : '')
+    const data = (this.props.options || []).map((option) => ({ label: option.display, value: option.value }))
+    const minimumResultsForSearch = this.props.minimumResultsForSearch || 7
+    const valueFromId = (opts, id) =>
+      Array.isArray(id) ? opts.filter((o) => id.includes(o.value)) : opts.find((o) => o.value === id)
     return (
-      <Select className="react-select"
+      <Select
+        className="react-select"
         value={valueFromId(data, defaultValue)}
         options={data}
         isDisabled={this.props.isDisabled}
         isMulti={this.props.multiple}
-        onChange={val => this.onChange(val)}
+        onChange={(val) => this.onChange(val)}
         styles={colourStyles}
         placeholder={this.props.placeholder}
         isSearchable={data.length >= minimumResultsForSearch}
         isClearable={this.props.isClearable || false}
       />
-    );
+    )
   }
 }
 
 SelectWrapper.propTypes = {
   handleChange: PropTypes.func,
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string)
-  ]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   multiple: PropTypes.bool,
   isClearable: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    display: PropTypes.string,
-    value: PropTypes.string
-  })),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      display: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   placeholder: PropTypes.string,
-  minimumResultsForSearch: PropTypes.number
-};
+  minimumResultsForSearch: PropTypes.number,
+}
 
-export default SelectWrapper;
+export default SelectWrapper

@@ -1,43 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
-import moment from "moment";
+import React from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
 
-import {AppShape} from "../shapes";
-import Stats from "../pages/stats";
+import { AppShape } from '../shapes'
+import Stats from '../pages/stats'
 
 class ApplicationUsagePanel extends React.Component {
   constructor() {
-    super();
+    super()
 
     this.state = {
       chart: {
-        type: "idpsp",
-        periodFrom: moment().subtract(1, "months"),
+        type: 'idpsp',
+        periodFrom: moment().subtract(1, 'months'),
         periodTo: moment(),
-        periodType: "m",
+        periodType: 'm',
         periodDate: moment(),
-        error: false
-      }
-    };
+        error: false,
+      },
+    }
   }
 
   render() {
     return (
       <div className="l-middle-app-detail">
         <div className="mod-usage">
-          <Stats view="minimal" sp={this.props.app.spEntityId}/>
+          <Stats view="minimal" sp={this.props.app.spEntityId} />
         </div>
       </div>
-    );
+    )
   }
 }
 
 ApplicationUsagePanel.contextTypes = {
-  currentUser: PropTypes.object
-};
+  currentUser: PropTypes.object,
+}
 
 ApplicationUsagePanel.propTypes = {
-  app: AppShape.isRequired
-};
+  app: AppShape.isRequired,
+}
 
-export default ApplicationUsagePanel;
+export default ApplicationUsagePanel
