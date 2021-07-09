@@ -25,7 +25,6 @@ I18n.translations.en = {
   header: {
     welcome: 'Welcome,',
     links: {
-      help_html: '<a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help</a>',
       logout: 'Logout',
       exit: 'Exit',
     },

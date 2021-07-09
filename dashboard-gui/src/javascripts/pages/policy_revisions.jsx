@@ -210,7 +210,7 @@ class PolicyRevisions extends React.Component {
     const attrResult = reduce(
       attrCurrGrouped,
       (result, attributes, attrName) => {
-        if (attrPrevGrouped.hasOwnProperty(attrName)) {
+        if (Object.prototype.hasOwnProperty.call(attrPrevGrouped, attrName)) {
           //find out the diff in values
           const prevValues = map(attrPrevGrouped[attrName], 'value')
           const currValues = map(attributes, 'value')
@@ -257,7 +257,7 @@ class PolicyRevisions extends React.Component {
 
     // add the deleted attributes that are in prev and not in curr
     prevNames.forEach((name) => {
-      if (!attrResult.hasOwnProperty(name)) {
+      if (!Object.prototype.hasOwnProperty.call(attrResult, name)) {
         attrResult[name] = {
           values: attrPrevGrouped[name].map((attribute) => {
             return { value: attribute.value, status: 'prev' }

@@ -8,7 +8,7 @@ export default class HighChartContainer extends React.Component {
     this.chart = highcharts[constructorType](this.container, options)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate() {
     return this.props.update || true
   }
 

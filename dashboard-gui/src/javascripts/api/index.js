@@ -56,7 +56,7 @@ function fetchPost(path, body, options = {}) {
   const data = new FormData()
 
   for (const key in body) {
-    if (body.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(body, key)) {
       data.append(key, body[key])
     }
   }

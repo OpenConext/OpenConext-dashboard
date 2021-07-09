@@ -9,6 +9,8 @@ module.exports = {
     fetch: false,
     _: false,
     SurfCharts: false,
+    expect: false,
+    test: false,
   },
   parser: 'babel-eslint',
   parserOptions: {
@@ -26,5 +28,10 @@ module.exports = {
   rules: {
     'react/prop-types': 0,
     'prettier/prettier': 'error',
+    'jsx-a11y/click-events-have-key-events': 'warn',
+    'jsx-a11y/no-static-element-interactions': 'warn',
+    'react/no-unescaped-entities': 'warn',
+    'react/no-find-dom-node': 'warn',
+    'react/no-string-refs': 'warn',
   },
 }

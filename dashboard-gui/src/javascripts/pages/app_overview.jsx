@@ -476,7 +476,7 @@ class AppOverview extends React.Component {
     return function (app) {
       const normalizedCategories = this.normalizeCategories(app)
       for (const facet in facets) {
-        if (facets.hasOwnProperty(facet)) {
+        if (Object.prototype.hasOwnProperty.call(facets, facet)) {
           const facetValues = facets[facet] || []
           if (normalizedCategories[facet] && facetValues.length > 0) {
             const hits = normalizedCategories[facet].filter((facetValue) => {

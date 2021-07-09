@@ -411,7 +411,7 @@ class EditMyIdp extends React.Component {
             <tr>
               <td>{I18n.t('my_idp.state')}</td>
               <td>
-                <select value={this.state.stateType} onChange={(e) => this.setState({ stateType: e.target.value })}>
+                <select value={this.state.stateType} onBlur={(e) => this.setState({ stateType: e.target.value })}>
                   <option value="prodaccepted">{I18n.t('my_idp.prodaccepted')}</option>
                 </select>
               </td>
@@ -511,7 +511,7 @@ class EditMyIdp extends React.Component {
           <select
             className="contact-person-type"
             value={contactPerson.contactPersonType}
-            onChange={changeFunction.bind(this, 'contactPersonType', i, service)}
+            onBlur={changeFunction.bind(this, 'contactPersonType', i, service)}
           >
             {contactPersonTypes.map((type) => (
               <option key={type} value={type}>
@@ -640,7 +640,7 @@ class EditMyIdp extends React.Component {
             <tr>
               <td>{I18n.t('my_idp.state')}</td>
               <td>
-                <select value={service.state} onChange={(e) => this.changeServiceField(service.id, 'state', e)}>
+                <select value={service.state} onBlur={(e) => this.changeServiceField(service.id, 'state', e)}>
                   <option value="prodaccepted">{I18n.t('my_idp.prodaccepted')}</option>
                 </select>
               </td>
