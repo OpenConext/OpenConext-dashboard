@@ -1,9 +1,19 @@
 @import "../utilities/mixins.sass"
 
+html, body, #app
+  height: 100%
+
+#app
+  display: flex
+  flex-direction: column
+
 .container
   width: 1024px
   max-width: 100%
   margin: 0 auto
+
+.l-content
+  flex: 1 0 auto
 
 .l-main
   padding: 30px

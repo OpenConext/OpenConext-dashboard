@@ -25,8 +25,6 @@ I18n.translations.pt = {
   header: {
     welcome: 'Olá,',
     links: {
-      help_html:
-        '<a href="https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard" target="_blank" rel="noopener noreferrer">Ajuda</a>',
       logout: 'Sair',
       exit: 'Sair',
     },
@@ -560,7 +558,10 @@ I18n.translations.pt = {
   },
 
   footer: {
-    surfnet_html: '<a href="https://www.surfnet.nl/en" target="_blank" rel="noopener noreferrer">SURFnet</a>',
+    tips_or_info: 'Precisa de dicas ou informações?',
+    help_html:
+      '<a href="https://wikurfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HandleidingSURFconextDashboard" target="_blank" rel="noopener noreferrer">Ajuda</a>',
+    surf_html: '<a href="https://www.surf.nl/en" target="_blank" rel="noopener noreferrer">SURF</a>',
     terms_html:
       '<a href="https://support.surfconext.nl/terms-en" target="_blank" rel="noopener noreferrer">Termos do Serviço</a>',
     contact_html: '<a href="mailto:support@surfconext.nl">support@surfconext.nl</a>',
