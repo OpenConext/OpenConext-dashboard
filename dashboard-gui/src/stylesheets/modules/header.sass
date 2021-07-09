@@ -93,44 +93,6 @@
     li:last-child a
       border: 0
 
-  ul.language-selector
-    display: flex
-    width: 100px
-    height: 32px
-    margin-left: 25px
-    list-style: none
-    border: 1px solid $blue
-    border-radius: $br
-    font-size: medium
-
-    li
-      display: inline-block
-      padding: 5px 0
-      margin: 0
-      flex: 1
-      text-align: center
-
-      &:first-child
-        border-bottom-left-radius: 1px
-        border-top-left-radius: 1px
-
-      &:last-child
-        border-bottom-right-radius: 1px
-        border-top-right-radius: 1px
-
-      &:not(:first-child):not(:last-child)
-        border-left: 1px $blue solid
-        border-right: 1px $blue solid
-
-      a
-        font-weight: normal
-        padding: 0
-
-      &.selected
-        background-color: $blue
-        a
-          color: white
-
   .dropdown-container
     line-height: 30px
     position: relative
