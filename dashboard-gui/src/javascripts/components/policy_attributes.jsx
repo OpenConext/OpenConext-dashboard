@@ -18,7 +18,7 @@ class PolicyAttributes extends React.Component {
     this.setState(this.markAttributes(this.props.policy))
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState(this.markAttributes(nextProps.policy))
   }
 
@@ -199,7 +199,7 @@ class PolicyAttributes extends React.Component {
           <ReactTooltip id="attribute-tooltip" type="info" class="tool-tip" effect="solid">
             {I18n.t('policy_attributes.attributeTooltip')}
           </ReactTooltip>
-          <select value="" onChange={self.handleNewAttribute.bind(this)}>
+          <select value="" onBlur={self.handleNewAttribute.bind(this)}>
             <option value="" disabled="disabled">
               {I18n.t('policy_attributes.new_attribute')}
             </option>

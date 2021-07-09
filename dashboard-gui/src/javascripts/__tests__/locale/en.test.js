@@ -1,8 +1,3 @@
-import React from 'react'
-import en from '../../locale/en'
-import nl from '../../locale/nl'
-import pt from '../../locale/pt'
-
 import start from '../base'
 import I18n from 'i18n-js'
 

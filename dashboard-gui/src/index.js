@@ -1,71 +1,69 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./javascripts/App";
-import I18n from "i18n-js";
-import "core-js/stable";
-import "isomorphic-fetch";
-import "regenerator-runtime/runtime";
-import {browserSupported} from "./javascripts/lib/browser_supported";
-import {polyfills} from "./javascripts/lib/polyfills";
-import moment from "moment";
-import * as HighChart from "highcharts";
-import * as HighStock from "highcharts/highstock"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './javascripts/App'
+import I18n from 'i18n-js'
+import 'core-js/stable'
+import 'isomorphic-fetch'
+import 'regenerator-runtime/runtime'
+import { browserSupported } from './javascripts/lib/browser_supported'
+import { polyfills } from './javascripts/lib/polyfills'
+import moment from 'moment'
+import * as HighChart from 'highcharts'
+import * as HighStock from 'highcharts/highstock'
 
-import {createCurrentUser} from "./javascripts/models/current_user";
+import { createCurrentUser } from './javascripts/models/current_user'
 
-import {getUserData} from "./javascripts/api";
-import BrowserNotSupported from "./javascripts/pages/browser_not_supported";
-import ServerError from "./javascripts/pages/server_error";
+import { getUserData } from './javascripts/api'
+import BrowserNotSupported from './javascripts/pages/browser_not_supported'
+import ServerError from './javascripts/pages/server_error'
 
-polyfills();
+polyfills()
 
 const deleteSpinner = () => {
-    const spinner = document.getElementById("service-loader-id");
-    spinner.parentNode.removeChild(spinner);
-    const info = document.getElementById("service-loader-info-id");
-    info.parentNode.removeChild(info);
-};
+  const spinner = document.getElementById('service-loader-id')
+  spinner.parentNode.removeChild(spinner)
+  const info = document.getElementById('service-loader-info-id')
+  info.parentNode.removeChild(info)
+}
 
 if (browserSupported()) {
+  const url = window.location.href
+  console.log(url)
 
-    const url = window.location.href;
-    console.log(url);
+  getUserData().then((json) => {
+    if (json.noAccess === true) {
+      deleteSpinner()
+      ReactDOM.render(<ServerError />, document.getElementById('app'))
+      return
+    }
+    I18n.locale = json.language
+    moment.locale(json.language)
 
-    getUserData()
-        .then(json => {
-            if (json.noAccess === true) {
-                deleteSpinner();
-                ReactDOM.render(<ServerError/>, document.getElementById("app"));
-                return;
-            }
-            I18n.locale = json.language;
-            moment.locale(json.language);
+    HighChart.setOptions({
+      lang: {
+        months: moment.months(),
+        weekdays: moment.weekdays(),
+        shortMonths: moment.monthsShort(),
+        downloadCSV: I18n.t('export.downloadCSV'),
+        downloadPNG: I18n.t('export.downloadPNG'),
+        downloadPDF: I18n.t('export.downloadPDF'),
+      },
+    })
+    HighStock.setOptions({
+      lang: {
+        months: moment.months(),
+        weekdays: moment.weekdays(),
+        shortMonths: moment.monthsShort(),
+        downloadCSV: I18n.t('export.downloadCSV'),
+        downloadPNG: I18n.t('export.downloadPNG'),
+        downloadPDF: I18n.t('export.downloadPDF'),
+      },
+    })
+    const currentUser = createCurrentUser(json.payload)
 
-            HighChart.setOptions({
-                lang: {
-                    months: moment.months(),
-                    weekdays: moment.weekdays(),
-                    shortMonths: moment.monthsShort(),
-                    downloadCSV: I18n.t("export.downloadCSV"),
-                    downloadPNG: I18n.t("export.downloadPNG"),
-                    downloadPDF: I18n.t("export.downloadPDF"),
-                }
-            });
-            HighStock.setOptions({
-                lang: {
-                    months: moment.months(),
-                    weekdays: moment.weekdays(),
-                    shortMonths: moment.monthsShort(),
-                    downloadCSV: I18n.t("export.downloadCSV"),
-                    downloadPNG: I18n.t("export.downloadPNG"),
-                    downloadPDF: I18n.t("export.downloadPDF"),
-                }
-            });
-            const currentUser = createCurrentUser(json.payload);
-
-            deleteSpinner();
-            ReactDOM.render(<App currentUser={currentUser}/>, document.getElementById("app"));
-        });
+    deleteSpinner()
+    ReactDOM.render(<App currentUser={currentUser} />, document.getElementById('app'))
+  })
 } else {
-    ReactDOM.render(<BrowserNotSupported/>, document.getElementById("app"));
+  ReactDOM.render(<BrowserNotSupported />, document.getElementById('app'))
 }
