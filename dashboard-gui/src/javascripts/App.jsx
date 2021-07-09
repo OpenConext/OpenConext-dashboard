@@ -52,11 +52,7 @@ class App extends React.Component {
           </div>
           <div className="l-content">
             <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => (showStats ? <Redirect to="/statistics" /> : <Redirect to="/apps" />)}
-              />
+              <Route exact path="/" render={() => <Redirect to="/apps" />} />
               <ProtectedRoute
                 currentUser={currentUser}
                 path="/apps/:id/:type/:activePanel/:jiraKey/:action"
