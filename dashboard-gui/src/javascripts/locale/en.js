@@ -563,7 +563,9 @@ I18n.translations.en = {
   },
 
   footer: {
-    surfnet_html: '<a href="https://www.surfnet.nl/en" target="_blank" rel="noopener noreferrer">SURFnet</a>',
+    tips_or_info: 'Need tips or info?',
+    help_html: '<a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help</a>',
+    surf_html: '<a href="https://www.surf.nl/en" target="_blank" rel="noopener noreferrer">SURF</a>',
     terms_html:
       '<a href="https://support.surfconext.nl/terms-en" target="_blank" rel="noopener noreferrer">Terms of Service</a>',
     contact_html: '<a href="mailto:support@surfconext.nl">support@surfconext.nl</a>',
