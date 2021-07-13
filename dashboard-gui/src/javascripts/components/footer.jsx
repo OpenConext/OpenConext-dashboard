@@ -14,6 +14,7 @@ const Footer = ({ currentUser }) => {
           <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.terms_html') }} />
           <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.contact_html') }} />
         </div>
+
         <LanguageSelector supportedLanguageCodes={supportedLanguageCodes} />
 
         <div className="powered-by-surf">
