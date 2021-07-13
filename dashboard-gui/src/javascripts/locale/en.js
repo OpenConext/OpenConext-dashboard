@@ -171,6 +171,7 @@ I18n.translations.en = {
       connect_button: 'Connect',
       connected: 'Connected',
       connected_services: 'Connected services',
+      all_services: 'All services',
       dashboardConnectOption: 'Automatic connection',
       license: 'License secured',
       licenseStatus: 'License required',

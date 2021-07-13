@@ -22,7 +22,7 @@ import MyIdp from './pages/idp'
 import NotFound from './pages/not_found'
 import SearchUser from './pages/search_user'
 import EditMyIdp from './pages/edit_my_idp'
-import ConnectedServicesOverview from './pages/connected_services_overview'
+import ServicesOverview from './pages/services_overview'
 
 import './locale/en'
 import './locale/nl'
@@ -66,9 +66,14 @@ class App extends React.Component {
                 <Route
                   exact
                   path="/apps/:id/:type"
-                  render={({ params: { id, type } }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
+                  render={({
+                    match: {
+                      params: { id, type },
+                    },
+                  }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
                 />
-                <Route exact path="/apps/connected" component={ConnectedServicesOverview} />
+                <Route exact path="/apps/connected" render={() => <ServicesOverview key="connected" connected />} />
+                <Route exact path="/apps/all" component={ServicesOverview} />
                 <Route exact path="/apps/:back?" component={AppOverview} />
                 {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
                 {isViewerOrAdmin && <Route exact path="/tickets" component={History} />}

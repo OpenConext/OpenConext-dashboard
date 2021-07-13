@@ -171,6 +171,7 @@ I18n.translations.nl = {
       connect_button: 'Activeren',
       connected: 'Dienst gekoppeld',
       connected_services: 'Gekoppelde diensten',
+      all_services: 'Alle diensten',
       dashboardConnectOption: 'Automatisch koppelen',
       license: 'Licentie afgesloten',
       licenseStatus: 'Licentie vereist',
