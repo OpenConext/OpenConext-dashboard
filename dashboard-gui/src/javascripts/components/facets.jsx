@@ -4,15 +4,25 @@ import I18n from 'i18n-js'
 import { FacetShape } from '../shapes'
 import ReactTooltip from 'react-tooltip'
 import stopEvent from '../utils/stop'
+import { exportApps } from '../api'
 
 class Facets extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      hiddenFacets: [],
+      downloading: false,
+    }
+  }
+
   render() {
     const { facets } = this.props
 
     return (
       <div className="mod-filters">
         <div className="header">
-          <h1>{I18n.t('facets.title')}</h1>
+          <h3>{I18n.t('facets.title')}</h3>
         </div>
         <form>
           <fieldset>{this.renderTotals()}</fieldset>
@@ -57,8 +67,8 @@ class Facets extends React.Component {
           {this.renderDropDownIndicator(facet)}
         </a>
 
-        <span>
-          {facet.name}
+        <span className="facet-name">
+          <h3>{facet.name}</h3>
           {facet.tooltip && (
             <span>
               <i className="fa fa-info-circle" data-for={facet.name} data-tip></i>
@@ -82,7 +92,7 @@ class Facets extends React.Component {
   }
 
   renderFacetOptions(facet) {
-    if (!this.props.hiddenFacets[facet.name]) {
+    if (!this.state.hiddenFacets[facet.name]) {
       return facet.values.map((value) => {
         return this.renderFacetValue(facet, value)
       })
@@ -93,12 +103,18 @@ class Facets extends React.Component {
   handleFacetToggle(facet) {
     return function (e) {
       stopEvent(e)
-      this.props.onHide(facet)
+      const hiddenFacets = { ...this.state.hiddenFacets }
+      if (hiddenFacets[facet.name]) {
+        delete hiddenFacets[facet.name]
+      } else {
+        hiddenFacets[facet.name] = true
+      }
+      this.setState({ hiddenFacets: hiddenFacets })
     }.bind(this)
   }
 
   renderDropDownIndicator(facet) {
-    if (this.props.hiddenFacets[facet.name]) {
+    if (this.state.hiddenFacets[facet.name]) {
       return <i className="fa fa-caret-down" />
     }
 
@@ -106,20 +122,23 @@ class Facets extends React.Component {
   }
 
   renderFacetValue(facet, facetValue) {
+    const { apps } = this.props
     const facetName = facet.searchValue || facet.name
     const value = facetValue.searchValue || facetValue.value
     const facetValueLabel = facetValue.value === '1.3.6.1.4.1.1076.20.40.40.1' ? 'CollabPersonId' : facetValue.value
     const checked =
       Array.isArray(this.props.selectedFacets[facetName]) && this.props.selectedFacets[facetName].indexOf(value) > -1
+    const count = facetValue.count(apps)
     return (
-      <label key={facetValue.value} className={facetValue.count === 0 ? 'greyed-out' : ''}>
+      <label key={facetValue.value} className={count === 0 ? 'greyed-out' : ''}>
         <input
           className={checked ? 'checked' : 'unchecked'}
           checked={checked}
+          disabled={!checked && count === 0}
           type="checkbox"
           onChange={this.handleSelectFacet(facetName, value)}
         />
-        {facetValueLabel} ({facetValue.count})
+        {facetValueLabel} ({count})
       </label>
     )
   }
@@ -137,9 +156,39 @@ class Facets extends React.Component {
     return null
   }
 
+  fake_click = (obj) => {
+    const ev = document.createEvent('MouseEvents')
+    ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+    obj.dispatchEvent(ev)
+  }
+
   handleDownload(e) {
     stopEvent(e)
-    this.props.onDownload()
+    if (this.state.downloading) {
+      return
+    }
+    this.setState({ downloading: true })
+    const { currentUser } = this.props
+    const ids = this.props.apps.map((app) => app.id)
+    exportApps(currentUser.getCurrentIdpId(), ids).then((res) => {
+      const urlObject = window.URL || window.webkitURL || window
+      const lines = res.reduce((acc, arr) => {
+        acc.push(arr.join(','))
+        return acc
+      }, [])
+      const csvContent = lines.join('\n')
+      const export_blob = new Blob([csvContent])
+      if ('msSaveBlob' in window.navigator) {
+        window.navigator.msSaveBlob(export_blob, 'services.csv')
+      } else if ('download' in HTMLAnchorElement.prototype) {
+        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+        save_link.href = urlObject.createObjectURL(export_blob)
+        save_link.download = 'services.csv'
+        this.fake_click(save_link)
+      }
+
+      this.setState({ downloading: false })
+    })
   }
 
   handleSelectFacet(facet, facetValue) {
@@ -157,16 +206,11 @@ class Facets extends React.Component {
 
 Facets.propTypes = {
   onReset: PropTypes.func.isRequired,
-  onDownload: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onHide: PropTypes.func.isRequired,
   facets: PropTypes.arrayOf(FacetShape),
   filteredCount: PropTypes.number.isRequired,
   totalCount: PropTypes.number.isRequired,
-  hiddenFacets: PropTypes.objectOf(PropTypes.bool),
   selectedFacets: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-  download: PropTypes.bool.isRequired,
-  downloading: PropTypes.bool.isRequired,
 }
 
 export default Facets

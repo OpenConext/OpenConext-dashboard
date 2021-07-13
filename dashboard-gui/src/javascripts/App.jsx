@@ -22,12 +22,15 @@ import MyIdp from './pages/idp'
 import NotFound from './pages/not_found'
 import SearchUser from './pages/search_user'
 import EditMyIdp from './pages/edit_my_idp'
+import ConnectedServicesOverview from './pages/connected_services_overview'
 
 import './locale/en'
 import './locale/nl'
 import './locale/pt'
 import InviteRequest from './pages/invite_request'
 import ResendInvite from './pages/resend_invite'
+
+export const CurrentUserContext = React.createContext({ currentUser: null })
 
 class App extends React.Component {
   getChildContext() {
@@ -44,51 +47,54 @@ class App extends React.Component {
     const nonGuest = !currentUser.guest
     const showStats = currentUser.showStats()
     return (
-      <Router>
-        <>
-          <div className="l-header">
-            <Header />
-            <Welcome />
-          </div>
-          <div className="l-content">
-            <Switch>
-              <Route exact path="/" render={() => <Redirect to="/apps" />} />
-              <ProtectedRoute
-                currentUser={currentUser}
-                path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                component={AppDetail}
-              />
-              <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
-              <Route
-                exact
-                path="/apps/:id/:type"
-                render={({ params: { id, type } }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
-              />
-              <Route exact path="/apps/:back?" component={AppOverview} />
-              {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
-              {isViewerOrAdmin && <Route exact path="/tickets" component={History} />}
-              {nonGuest && <Route exact path="/profile" component={Profile} />}
-              {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
-              {nonGuest && <Route exact path="/my-idp" component={MyIdp} />}
-              {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp} />}
-              <SuperUserProtectedRoute currentUser={currentUser} path="/users/search" component={SearchUser} />
-              <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite" component={InviteRequest} />
-              <SuperUserProtectedRoute
-                currentUser={currentUser}
-                path="/users/resend_invite/:jiraKey"
-                component={ResendInvite}
-              />
-              {isAllowedToMaintainPolicies && (
-                <Route exact path="/policies/:id/revisions" component={PolicyRevisions} />
-              )}
-              {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail} />}
-              <Route exact path="/dummy" component={Dummy} />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-          <Footer currentUser={currentUser} />
-        </>
-      </Router>
+      <CurrentUserContext.Provider value={{ currentUser: currentUser }}>
+        <Router>
+          <>
+            <div className="l-header">
+              <Header />
+              <Welcome />
+            </div>
+            <div className="l-content">
+              <Switch>
+                <Route exact path="/" render={() => <Redirect to="/apps" />} />
+                <ProtectedRoute
+                  currentUser={currentUser}
+                  path="/apps/:id/:type/:activePanel/:jiraKey/:action"
+                  component={AppDetail}
+                />
+                <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
+                <Route
+                  exact
+                  path="/apps/:id/:type"
+                  render={({ params: { id, type } }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
+                />
+                <Route exact path="/apps/connected" component={ConnectedServicesOverview} />
+                <Route exact path="/apps/:back?" component={AppOverview} />
+                {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
+                {isViewerOrAdmin && <Route exact path="/tickets" component={History} />}
+                {nonGuest && <Route exact path="/profile" component={Profile} />}
+                {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
+                {nonGuest && <Route exact path="/my-idp" component={MyIdp} />}
+                {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp} />}
+                <SuperUserProtectedRoute currentUser={currentUser} path="/users/search" component={SearchUser} />
+                <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite" component={InviteRequest} />
+                <SuperUserProtectedRoute
+                  currentUser={currentUser}
+                  path="/users/resend_invite/:jiraKey"
+                  component={ResendInvite}
+                />
+                {isAllowedToMaintainPolicies && (
+                  <Route exact path="/policies/:id/revisions" component={PolicyRevisions} />
+                )}
+                {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail} />}
+                <Route exact path="/dummy" component={Dummy} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+            <Footer currentUser={currentUser} />
+          </>
+        </Router>
+      </CurrentUserContext.Provider>
     )
   }
 }

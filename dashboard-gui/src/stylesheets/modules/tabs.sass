@@ -1,0 +1,28 @@
+@import "../utilities/vars.sass"
+
+.mod-tabs
+  background-color: $light-grey
+  padding-top: 13px
+
+  .tab
+    padding: 11px 24px 13px 24px
+    font-size: 16px
+    font-weight: 600
+    color: $text
+    text-decoration: none
+    display: inline-flex
+    align-items: center
+
+    &.active
+      background: #fff
+      color: #00883b
+      border-left: 1px solid $brown-grey
+      border-right: 1px solid $brown-grey
+      border-top: 4px solid $jade-green
+
+      svg *
+        stroke: #00883b
+
+    svg
+      width: 24px
+      margin-right: 10px

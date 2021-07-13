@@ -79,8 +79,8 @@ I18n.translations.nl = {
       license: {
         name: 'Licentie',
         unknown: 'Onbekend',
-        not_needed: 'Niet nodig',
-        has_license_sp: 'Ja, bij service provider',
+        not_needed: 'Nee',
+        has_license_sp: 'Ja, bij SP',
         has_license_surfmarket: 'Ja, bij SURFmarket',
       },
       used_by_idp: {
@@ -170,6 +170,7 @@ I18n.translations.nl = {
       connect: '',
       connect_button: 'Activeren',
       connected: 'Dienst gekoppeld',
+      connected_services: 'Gekoppelde diensten',
       dashboardConnectOption: 'Automatisch koppelen',
       license: 'Licentie afgesloten',
       licenseStatus: 'Licentie vereist',
@@ -182,12 +183,12 @@ I18n.translations.nl = {
         yes: 'Ja',
       },
       license_unknown: 'Onbekend',
-      name: 'Service',
+      name: 'Naam',
       organisation: 'Aanbieder',
       no_results: 'Geen services beschikbaar',
       processing_results: 'Alle services worden opgehaald...',
       search: 'Zoek',
-      search_hint: 'Zoeken',
+      search_hint: 'Zoeken...',
       add_services_hint:
         'Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount. Dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. De dienst kan voor meer informatie contact opnemen met support@surfconext.nl.',
     },

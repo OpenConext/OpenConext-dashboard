@@ -167,6 +167,7 @@ I18n.translations.pt = {
       connect: '',
       connect_button: 'Ativar',
       connected: 'Ativado',
+      connected_services: 'Connected servies', // TODO: translate
       dashboardConnectOption: 'Automatic connection', // TODO: translate
       license: 'Licença protegida',
       licenseStatus: 'Licença exigida',

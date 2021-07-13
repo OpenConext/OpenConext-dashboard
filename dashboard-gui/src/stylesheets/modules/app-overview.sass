@@ -1,0 +1,81 @@
+@import "../base/type.sass"
+@import "../utilities/vars.sass"
+
+.mod-app-overview
+  margin-top: 22px
+
+  h2
+    flex: 1
+    @extend %h2
+
+  .top-bar
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+    .search-container
+      position: relative
+      flex: 1
+
+      svg
+        height: 23px
+        width: 23px
+        position: absolute
+        right: 15px
+        top: 13px
+
+        *
+          fill: $blue
+
+      input[type="search"]
+        padding: 15px 46px 15px 16px;
+        width: 100%
+        border-radius: 8px;
+        border: solid 1px #676767;
+        font-size: 16px
+
+  .apps-and-search
+    flex: 1
+
+  .facets-and-table
+    display: flex
+
+  table
+    width: 100%
+    margin-top: 24px
+
+    thead
+      border-bottom: 1px solid $text
+
+      th
+        padding: 11px 10px
+        font-size: 14px
+        font-weight: 600
+
+    td
+      padding: 15px 10px
+      vertical-align: middle
+      font-size: 16px
+
+    tbody
+      tr
+        border-bottom: 1px solid #c4cdd5
+
+    td.name
+      a
+        color: #0077c8
+        text-decoration: none
+        font-weight: 600
+
+    td.connected
+      svg
+        width: 22px
+
+        *
+          stroke: $jade-green
+
+    td.vendor
+      width: 185px
+
+    td.license
+      width: 185px

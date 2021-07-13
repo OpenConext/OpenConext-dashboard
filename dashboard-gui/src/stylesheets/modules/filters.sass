@@ -3,15 +3,15 @@
 @import "../base/type.sass"
 
 .mod-filters
-  @extend %box
+  margin-top: 20px
+  margin-right: 32px
+  width: 230px
+  flex-shrink: 0
 
-  .header
-    padding: 20px
-
-  h1
-    @extend %h2
-    font-weight: bold
+  h3
     display: inline-block
+    font-size: 16px
+    font-weight: 600
 
   .download-button
     float: right
@@ -20,23 +20,37 @@
       opacity: 0.5
       pointer-events: none
 
+  .facet-name
+    display: flex
+    align-items: flex-start
+    justify-content: space-between
+    margin-bottom: 10px
+
   fieldset
     border: 0
-    padding: 20px
+    padding: 20px 0
     border-top: 1px solid $border
+
+    &:first-child
+      border-top: 0
+
     i.fa-info-circle
       color: $blue
-      margin-left: 15px
+      margin: 0 5px
     div.__react_component_tooltip
       z-index: 999
       pointer-events: auto !important
+      a
+        color: #fff
   label
     display: block
     line-height: 25px
+    margin-bottom: 5px
+    cursor: pointer
 
-    &.inactive
-      cursor: default
-      color: #ccc
+    &:hover:not(.greyed-out)
+      color: $blue
+      text-decoration: underline
 
   input
     margin-right: 5px
@@ -65,8 +79,10 @@
   i.fa-caret-up, i.fa-caret-down
     float: right
     font-size: larger
+    color: $text
 
   .greyed-out
+    cursor: default
     color: grey
 
   input[type=text]
@@ -83,9 +99,10 @@
     position: relative
     align-items: center
     margin-top: 8px
+    padding-right: 14px
     label
       margin: 0 3px 0 auto
     i.absolute
       position: absolute
       right: -8px
-      top: -6px
+      top: 5px
