@@ -15,7 +15,7 @@ import { consentTypes } from '../utils/utils'
 
 const PAGE_COUNT = 25
 
-export default function AppList({ apps, currentUser, facets: remoteFacets }) {
+export default function AppList({ apps, currentUser, facets: remoteFacets, connected }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFacets, setActiveFacets] = useState({})
   const [page, setPage] = useState(1)
@@ -439,7 +439,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
         />
         <div className="apps-and-search">
           <div className="top-bar">
-            <h2>{I18n.t('apps.overview.connected_services')}</h2>
+            <h2>{connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')}</h2>
             <div className="search-container">
               <input
                 type="search"
@@ -465,13 +465,19 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
                   <tr key={app.id}>
                     <td className="connected">{app.connected && <ConnectedServiceIcon />}</td>
                     <td className="name">
-                      <Link to="/">{app.name}</Link>
+                      <Link to={`/apps/${app.id}/${app.entityType}`}>{app.name}</Link>
                     </td>
                     <td className="vendor">{app.organisation}</td>
                     <td className="license">{I18n.t('facets.static.license.' + app.licenseStatus.toLowerCase())}</td>
                   </tr>
                 )
               })}
+              {paginatedApps.length === 0 && (
+                <tr>
+                  <td></td>
+                  <td colSpan={3}>{I18n.t('apps.overview.no_results')}</td>
+                </tr>
+              )}
             </tbody>
           </table>
           <Pagination page={page} pageCount={PAGE_COUNT} total={filteredApps.length} onChange={setPage} />
