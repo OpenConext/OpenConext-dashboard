@@ -10,12 +10,12 @@ export default function Breadcrumbs({ items }) {
         {items.map((item, index) => {
           const active = index == items.length - 1
           return (
-            <>
+            <span key={item.text}>
               <Link key={item.link} to={item.link} className={active ? 'active' : ''}>
                 {item.text}
               </Link>
               {!active && <FontAwesomeIcon icon={faChevronRight} />}
-            </>
+            </span>
           )
         })}
       </div>

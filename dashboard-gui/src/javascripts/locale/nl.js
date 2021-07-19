@@ -143,7 +143,15 @@ I18n.translations.nl = {
   },
 
   apps: {
+    tabs: {
+      about: 'Over',
+      attributes: 'Attributen & Privacy',
+      resource_servers: 'Resource Servers',
+      usage: 'Gebruik',
+      settings: 'Instellingen',
+    },
     detail: {
+      about: 'Over deze dienst',
       application_usage: 'Service gebruik',
       attribute_policy: 'Attributen',
       close_screenshot: 'Sluiten',
@@ -151,6 +159,7 @@ I18n.translations.nl = {
       how_to_disconnect: 'Dienst ontkoppelen',
       idp_usage: 'Gebruikt door',
       license_data: 'Licentie',
+      links: 'Links',
       overview: 'Overzicht',
       connected_resource_servers: 'Resource servers',
       sirtfi_security: 'Sirtfi contacten',
@@ -165,6 +174,13 @@ I18n.translations.nl = {
         ' Ga naar de <a class="link" href="{{link}}">{{linkName}}</a> sectie om de uitnodiging te accepteren / weigeren.',
       approved: 'goedgekeurd',
       denied: 'afgewezen',
+      institutions_header: {
+        one: 'Gebruikt door 1 instelling',
+        other: 'Gebruiker door {{count}} instellingen',
+        zero: 'Gebruikt door geen instellingen',
+      },
+      institutions: 'Instellingen',
+      provided_information: '{{organisation}} heeft de volgende informatie doorgegeven',
     },
     overview: {
       connect: '',
@@ -266,7 +282,7 @@ I18n.translations.nl = {
     single_tenant_service: 'Single tenant dienst',
     single_tenant_service_html:
       '{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a> voor meer informatie over single tenant diensten.',
-    interfed_source: 'Federatie bron:',
+    interfed_source: 'Federatie bron',
     publish_in_edugain_date: 'Gepubliceerd in eduGAIN op:',
     supports_ssa: 'SURFsecureID aangezet',
     minimalLoaLevel:

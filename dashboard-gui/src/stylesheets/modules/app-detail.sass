@@ -1,4 +1,108 @@
+@import "../base/type.sass"
+
 .l-center-app-detail
   .app-detail-container
     display: flex
     margin-bottom: 20px
+
+.app-detail
+  .mod-tabs
+    .container
+      padding-left: 63px
+
+  .app-detail-content
+    padding: 20px 20px 20px 47px
+
+    .top-content
+      display: flex
+      justify-content: space-between
+
+      .right-side
+        width: 230px
+        flex-shrink: 0
+        margin-left: 80px
+
+        .external-url
+          padding: 11px 0
+          font-size: 16px
+          font-weight: 600
+          border-bottom: 1px solid #c3c3c3
+          a
+            text-decoration: none
+
+          &:last-child
+            border-bottom: 0
+
+        .federation-source
+          margin-top: 40px
+          font-size: 16px
+
+          a
+            font-weight: 600
+            text-decoration: none
+
+    h2
+      @extend %h2
+      margin-bottom: 15px
+
+    .description
+      font-size: 16px
+      margin-top: 10px
+
+    .contractual-base
+      line-height: 1.25
+      display: flex
+      margin: 44px 0
+      font-size: 16px
+      a
+        font-weight: 600
+        text-decoration: none
+
+      .contractual-base-header
+        font-weight: 600
+        line-height: 1.25
+        padding-right: 16px
+        border-right: solid 2px #c3c3c3
+        width: 148px
+        flex-shrink: 0
+
+      .contractual-base-content
+        padding-left: 16px
+
+  .institutions-overview
+    margin-bottom: 40px
+
+    p
+      font-size: 16px
+      margin-bottom: 25px
+
+  .institutions-container
+    box-shadow: 0 1px 0 2px #c3c3c3
+    border-radius: 8px
+
+    .institutions-header
+      font-size: 16px
+      font-weight: 600
+      background-color: #f3f6f8
+      padding: 12px 17px
+      border-radius: 8px 8px 0 0
+      border-bottom: solid 1px #c3c3c3
+
+    .institution-details
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      border-radius: 0 0 8px 8px
+
+    .institution
+      padding: 12px 17px
+      background-color: #fff
+      display: flex
+      align-items: center
+      border-bottom: solid 1px #c3c3c3
+
+      img
+        width: 53px
+        margin-right: 25px
+
+      &:last-child
+        border-bottom: 0
