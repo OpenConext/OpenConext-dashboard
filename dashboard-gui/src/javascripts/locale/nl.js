@@ -176,7 +176,7 @@ I18n.translations.nl = {
       denied: 'afgewezen',
       institutions_header: {
         one: 'Gebruikt door 1 instelling',
-        other: 'Gebruiker door {{count}} instellingen',
+        other: 'Gebruikt door {{count}} instellingen',
         zero: 'Gebruikt door geen instellingen',
       },
       institutions: 'Instellingen',
