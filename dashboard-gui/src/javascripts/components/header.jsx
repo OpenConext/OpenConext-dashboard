@@ -61,7 +61,7 @@ class Header extends React.Component {
             </div>
 
             <div className="meta">
-              {!currentUser.guest && (
+              {currentUser.guest && (
                 <a className="login" href="/login" onClick={this.login}>
                   Login
                 </a>
