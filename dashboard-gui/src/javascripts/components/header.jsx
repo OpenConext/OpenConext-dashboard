@@ -61,12 +61,10 @@ class Header extends React.Component {
             </div>
 
             <div className="meta">
-              {currentUser.guest && (
-                <li className="login">
-                  <a href="/login" onClick={this.login}>
-                    Login
-                  </a>
-                </li>
+              {!currentUser.guest && (
+                <a className="login" href="/login" onClick={this.login}>
+                  Login
+                </a>
               )}
               {!currentUser.guest && this.renderDropDownToggle()}
             </div>

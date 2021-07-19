@@ -19,12 +19,15 @@ class Welcome extends React.Component {
     if (!currentUser.guest || !this.state.show) {
       return null
     }
+
     return (
       <div className="mod-welcome">
-        <p>{I18n.t('header.welcome_txt')}</p>
-        <a href="/close" className="close" onClick={this.close}>
-          X
-        </a>
+        <div className="container">
+          <p>{I18n.t('header.welcome_txt')}</p>
+          <a href="/close" className="close" onClick={this.close}>
+            X
+          </a>
+        </div>
       </div>
     )
   }
