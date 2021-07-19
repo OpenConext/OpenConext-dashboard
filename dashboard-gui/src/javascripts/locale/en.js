@@ -143,7 +143,15 @@ I18n.translations.en = {
   },
 
   apps: {
+    tabs: {
+      about: 'About',
+      attributes: 'Attributes & Privacy',
+      resource_servers: 'Resource Servers',
+      usage: 'Usage',
+      settings: 'Settings',
+    },
     detail: {
+      about: 'About this service',
       application_usage: 'Service usage',
       attribute_policy: 'Attributes',
       close_screenshot: 'Close',
@@ -151,6 +159,7 @@ I18n.translations.en = {
       how_to_disconnect: 'Deactivate service',
       idp_usage: 'Used by',
       license_data: 'License',
+      links: 'Links',
       overview: 'Overview',
       connected_resource_servers: 'Resource servers',
       sirtfi_security: 'Sirtfi Security',
@@ -165,6 +174,13 @@ I18n.translations.en = {
         ' Go to the <a class="link" href="{{link}}">{{linkName}}</a> section to approve / deny the invitation.',
       approved: 'approved',
       denied: 'denied',
+      institutions_header: {
+        one: 'Used by 1 institution',
+        other: 'Used by {{count}} institutions',
+        zero: 'Used by no institutions',
+      },
+      institutions: 'Institutions',
+      provided_information: '{{organisation}} provided the following information',
     },
     overview: {
       connect: '',
@@ -245,7 +261,7 @@ I18n.translations.en = {
     no_license_needed: 'No license needed',
     license_info: 'Read how to obtain a license',
     license_unknown_info: 'Read more',
-    valid: 'License is valid untill {{date}}',
+    valid: 'License is valid until {{date}}',
   },
 
   overview_panel: {
@@ -267,7 +283,7 @@ I18n.translations.en = {
     single_tenant_service: 'Single tenant service',
     single_tenant_service_html:
       '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>',
-    interfed_source: 'Federation source:',
+    interfed_source: 'Federation source',
     publish_in_edugain_date: 'Published in eduGAIN on:',
     supports_ssa: 'SURFsecureID enabled',
     minimalLoaLevel:
@@ -284,7 +300,7 @@ I18n.translations.en = {
     aansluitovereenkomst: 'Connection Policy',
     aansluitovereenkomstRefused:
       '{{organisation}} has refused to sign the \'SURFconext connection agreement\' with SURF. Read more about this policy on the <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
-    vendorInfo: 'This service is offered by {{organisation}}. ',
+    vendorInfo: 'This service is offered by {{organisation}}.',
     privacyInformation: 'Privacy information',
     privacyInformationInfo: '{{organisation}} has not delivered any privacy information.',
     contractualBase: {
@@ -296,8 +312,7 @@ I18n.translations.en = {
       entree: 'Member of the Kennisnet Entree-federation.',
       clarin: 'Member of the Clarin research federation.',
     },
-    contractualBaseWiki:
-      ' For more information see the <a href="https://edu.nl/c83yx" target="_blank" rel="noopener noreferrer">wiki</a>.',
+    contractualBaseWiki: 'See <a href="https://edu.nl/c83yx" target="_blank" rel="noopener noreferrer">wiki</a>.',
   },
 
   attributes_policy_panel: {

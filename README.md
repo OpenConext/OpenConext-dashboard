@@ -20,7 +20,7 @@ SURFconext: [https://www.surfconext.nl](https://www.surfconext.nl)
 
 - Java 8
 - Maven 3
-- NodeJS v8.9.0 (best managed with `nvm`, current version in [.node-version](dashboard/.node-version)
+- NodeJS v14.17.3 (best managed with `nvm`, current version in [.nvmrc](dashboard-gui/.nvmrc)
 - yarn 1.1.0
 
 ## [Building and running](#building_and_running)

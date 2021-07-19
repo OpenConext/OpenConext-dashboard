@@ -43,12 +43,12 @@ class Navigation extends React.Component {
     emitter.removeListener('invite_request_updates', this.callback)
   }
 
-  renderItem(href, value, activeTab, marker = 0) {
+  renderItem(href, value, active, marker = 0) {
     return (
       <li>
         <a
           href={href}
-          className={activeTab === href ? 'active' : ''}
+          className={active ? 'active' : ''}
           onClick={(e) => {
             stopEvent(e)
             if (href === '/tickets') {
@@ -73,22 +73,24 @@ class Navigation extends React.Component {
     return (
       <div className="mod-navigation">
         <ul>
-          {hideTabs.indexOf('apps') === -1 && this.renderItem('/apps', 'apps', activeTab)}
-          {hideTabs.indexOf('my_idp') === -1 && !currentUser.guest && this.renderItem('/my-idp', 'my_idp', activeTab)}
+          {hideTabs.indexOf('apps') === -1 && this.renderItem('/apps/connected', 'apps', activeTab.startsWith('/apps'))}
+          {hideTabs.indexOf('my_idp') === -1 &&
+            !currentUser.guest &&
+            this.renderItem('/my-idp', 'my_idp', activeTab === '/my-idp')}
           {hideTabs.indexOf('policies') === -1 &&
             !currentUser.guest &&
             !currentUser.dashboardMember &&
-            this.renderItem('/policies', 'policies', activeTab)}
-          {currentUser.showStats() && this.renderItem('/statistics', 'stats', activeTab)}
+            this.renderItem('/policies', 'policies', activeTab === '/policies')}
+          {currentUser.showStats() && this.renderItem('/statistics', 'stats', activeTab === '/statistics')}
           {hideTabs.indexOf('user_invite') === -1 &&
             !currentUser.guest &&
             !currentUser.dashboardMember &&
             showInviteRequest &&
-            this.renderItem('/users/invite', 'invite_request', activeTab)}
+            this.renderItem('/users/invite', 'invite_request', activeTab === '/users/invite')}
           {hideTabs.indexOf('tickets') === -1 &&
             !currentUser.guest &&
             !currentUser.dashboardMember &&
-            this.renderItem('/tickets', 'history', activeTab, awaitingInputTickets)}
+            this.renderItem('/tickets', 'history', activeTab === '/tickets', awaitingInputTickets)}
         </ul>
       </div>
     )

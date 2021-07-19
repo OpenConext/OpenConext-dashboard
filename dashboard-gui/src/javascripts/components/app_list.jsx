@@ -465,7 +465,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
                   <tr key={app.id}>
                     <td className="connected">{app.connected && <ConnectedServiceIcon />}</td>
                     <td className="name">
-                      <Link to={`/apps/${app.id}/${app.entityType}`}>{app.name}</Link>
+                      <Link to={`/apps/${app.id}/${app.entityType}/about`}>{app.name}</Link>
                     </td>
                     <td className="vendor">{app.organisation}</td>
                     <td className="license">{I18n.t('facets.static.license.' + app.licenseStatus.toLowerCase())}</td>

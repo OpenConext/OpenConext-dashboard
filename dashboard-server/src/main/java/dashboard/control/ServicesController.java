@@ -95,7 +95,7 @@ public class ServicesController extends BaseController {
         if (serviceProvider.isAllowedAll()) {
             idps = manage.getLinkedIdentityProviders(spEntityId).stream()
                     .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
-                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
+                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState(), idp.getLogoUrl()))
                     .collect(toList());
         } else {
             idps = serviceProvider.getAllowedEntityIds().stream()
@@ -103,7 +103,7 @@ public class ServicesController extends BaseController {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .map(idp -> new InstitutionIdentityProvider(idp.getId(), idp.getName(Provider.Language.EN),
-                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState()))
+                            idp.getName(Provider.Language.NL), idp.getInstitutionId(), idp.getState(), idp.getLogoUrl()))
                     .collect(toList());
         }
         return createRestResponse(idps);

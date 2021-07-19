@@ -140,7 +140,16 @@ I18n.translations.pt = {
   },
 
   apps: {
+    tabs: {
+      //TODO: translate
+      about: 'About',
+      attributes: 'Attributes & Privacy',
+      resource_servers: 'Resource Servers',
+      usage: 'Usage',
+      settings: 'Settings',
+    },
     detail: {
+      about: 'About this service', //TODO: translate
       application_usage: 'Utilização do serviço',
       attribute_policy: 'Atributos',
       close_screenshot: 'Fechar',
@@ -148,6 +157,7 @@ I18n.translations.pt = {
       how_to_disconnect: 'Desativar serviço',
       idp_usage: 'Utilizado por',
       license_data: 'Licença',
+      links: 'Links', // TODO: translate
       overview: 'Visão geral',
       connected_resource_servers: 'Resource servers',
       sirtfi_security: 'Sirtfi Security',
@@ -162,6 +172,14 @@ I18n.translations.pt = {
         ' Aceda à seção <a class="link" href="{{link}}">{{linkName}}</a>  para aprovar / recusar o convite.',
       approved: 'aprovado',
       denied: 'recusado',
+      institutions_header: {
+        // TODO: translate
+        one: 'Used by 1 institution',
+        other: 'Used by {{count}} institutions',
+        zero: 'Used by no institutions',
+      },
+      institutions: 'Institutions',
+      provided_information: '{{organisation}} provided the following information',
     },
     overview: {
       connect: '',
@@ -262,7 +280,7 @@ I18n.translations.pt = {
     single_tenant_service: 'Serviço single tenant',
     single_tenant_service_html:
       '{{name}} é um serviço single tenant, como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href="https://wiki.surfnet.nl/display/services/(Cloud)services" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>',
-    interfed_source: 'Origem da federação:',
+    interfed_source: 'Origem da federação',
     publish_in_edugain_date: 'Publicado no eduGAIN em:',
     supports_ssa: 'SURFsecureID enabled',
     minimalLoaLevel:
