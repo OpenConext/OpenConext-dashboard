@@ -404,6 +404,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   })
 
   facets = facets.concat(preparedRemoteFacets)
+  console.log(facets)
 
   // Filter by search query
   const filteredApps = apps
