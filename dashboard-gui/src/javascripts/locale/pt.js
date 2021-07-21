@@ -438,6 +438,7 @@ I18n.translations.pt = {
     privacy_policy: 'política de privacidade',
     back_to_apps: 'Voltar a todos os serviços',
     cancel: 'Cancelar',
+    close: 'Close', //TODO: translate
     check: 'Verificar que',
     checklist: 'Finalize a lista de verificações antes de activar a ligação:',
     processing_agreements:

@@ -1,15 +1,16 @@
 @import "../utilities/vars.sass"
 
 @mixin button($color, $bg-color)
-  padding: 7px 15px
-  border-radius: $br
+  padding: 8px 15px
+  border-radius: 3px
   text-decoration: none
   display: inline-block
   color: $color
   background-color: $bg-color
   white-space: nowrap
+  cursor: pointer;
 
-  &.disabled
+  &.disabled, &:disabled
     opacity: 0.5
     pointer-events: none
 
@@ -20,11 +21,11 @@
     background: darken($bg-color,10)
 
 .c-button
-  @include button(white, $blue)
-  border: 1px solid $blue
+  @include button(white, $lighter-blue)
+  border: 1px solid $lighter-blue
 
   &.white
-    color: $blue
+    color: $lighter-blue
     background-color: white
 
     &:hover
@@ -39,3 +40,6 @@
 .r-button
   @include button(white, $medium-grey)
 
+.g-button
+  @include button(white, #009f4d)
+  border: 1px solid #009f4d

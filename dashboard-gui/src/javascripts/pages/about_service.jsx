@@ -11,14 +11,12 @@ export default function AboutService() {
   const { id, type } = useParams()
   const [app, setApp] = useState(null)
   const [institutions, setInstitutions] = useState(null)
-  console.log(institutions)
 
   async function fetchApp() {
     const data = await getApp(id, type)
     setApp(data.payload)
     const idpData = await getIdps(data.payload.spEntityId, type)
     setInstitutions(idpData.payload)
-    console.log(idpData)
   }
 
   useEffect(() => {
@@ -121,7 +119,6 @@ function InstitutionTable({ institutions, app }) {
     return null
   }
 
-  console.log(app.organisation)
   return (
     <div className="institutions-overview">
       <h2>{I18n.t('apps.detail.institutions_header.other', { count: institutions.length })}</h2>

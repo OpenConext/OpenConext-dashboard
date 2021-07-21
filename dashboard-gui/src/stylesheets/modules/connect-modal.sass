@@ -1,0 +1,119 @@
+@import "../base/type.sass"
+
+.connect-modal
+  .connect-modal-header
+    background-color: #dfe3e8;
+    padding: 13px 37px
+    line-height: 1.7
+    color: #5b5b5b
+    font-size: 20px
+
+  .connect-modal-subtitle
+    background-color: #fedb00
+    font-size: 20px
+    font-weight: 600
+    padding: 24px
+    margin-bottom: 30px
+
+  .connect-modal-body
+    padding: 13px 37px
+    font-size: 18px
+
+  a
+    font-weight: 600
+    text-decoration: none
+
+  .step
+    margin: 0 24px 0 42px
+    padding-bottom: 30px
+    padding-left: 40px
+    border-left: 8px solid #ddf2fd
+    position: relative
+    font-size: 18px
+
+    &:last-child
+      padding-bottom: 0
+
+    .number
+      position: absolute
+      left: -28px
+      top: -8px
+      background-color: #ddf2fd
+      font-size: 28px
+      font-weight: 600
+      width: 48px
+      height: 48px
+      border-radius: 50%
+      display: flex
+      align-items: center
+      justify-content: center
+
+    h2
+      @extend %h2
+      margin-bottom: 8px
+
+    ul
+      margin-bottom: 10px;
+      list-style: disc;
+      list-style-position: outside;
+      margin-left: 30px
+
+      li
+        margin-bottom: 3px
+
+
+    .grey-container
+      background-color: #f3f6f8
+      padding: 16px
+      margin: 20px 0
+
+      p
+        font-weight: 600
+        margin-bottom: 16px
+
+      .react-select
+        font-size: 16px
+
+
+  .activation-terms, .aansluitovereenkomst
+    .grey-container
+      display: flex
+
+  .single-tenant
+    p.explanation
+      margin-bottom: 20px
+
+  input[type='checkbox']
+    margin-right: 11px
+    cursor: pointer
+    transform: scale(1.4)
+
+  input[type='text']
+    padding: 11px
+    margin-bottom: 5px
+
+  textarea
+    padding: 11px
+
+  label
+    font-size: 16px
+    font-weight: 600
+    cursor: pointer
+
+  div.error
+    color: $red
+    margin-top: 5px
+
+  .buttons
+    display: flex
+    justify-content: flex-end
+    margin: 0 24px 24px 42px
+
+    button
+      padding: 13px 30px
+      font-size: 18px
+      font-weight: 600
+      border-radius: 8px
+
+      &:first-child
+        margin-right: 20px

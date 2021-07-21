@@ -282,7 +282,7 @@ I18n.translations.en = {
       'For this service the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.',
     single_tenant_service: 'Single tenant service',
     single_tenant_service_html:
-      '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>',
+      '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>.',
     interfed_source: 'Federation source',
     publish_in_edugain_date: 'Published in eduGAIN on:',
     supports_ssa: 'SURFsecureID enabled',
@@ -438,6 +438,7 @@ I18n.translations.en = {
     privacy_policy: 'privacy policy',
     back_to_apps: 'Back to all services',
     cancel: 'Cancel',
+    close: 'Close',
     check: 'Check the',
     checklist: 'Finish this checklist before activating the connection:',
     processing_agreements:

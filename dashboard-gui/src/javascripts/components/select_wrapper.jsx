@@ -4,7 +4,14 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 
 const colourStyles = {
-  control: (base, state) => ({ ...base, backgroundColor: state.isDisabled ? 'white' : 'white' }),
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: state.isDisabled ? 'white' : 'white',
+    borderColor: '#676767',
+  }),
+  indicatorsContainer: (base) => ({ ...base, backgroundColor: '#94d6ff' }),
+  dropdownIndicator: (base) => ({ ...base, padding: '11px', svg: { fill: '#004c97' } }),
+  valueContainer: (base) => ({ ...base, padding: '14px' }),
 }
 
 class SelectWrapper extends React.Component {

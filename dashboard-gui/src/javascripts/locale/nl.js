@@ -444,6 +444,7 @@ I18n.translations.nl = {
     privacy_policy: 'privacy-informatie',
     back_to_apps: 'Terug naar alle services',
     cancel: 'Annuleren',
+    close: 'Sluiten',
     check: 'Controleer',
     checklist: 'Loop deze checklist na voordat je een connectie activeert:',
     processing_agreements:
