@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import ConnectModal from '../components/connect_modal'
+import DisconnectModal from '../components/disconnect_modal'
 import LicenseInfoText from '../components/license_info_text'
 import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.svg'
 
@@ -14,6 +15,7 @@ export default function ServiceHeader({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
   const params = useParams()
   const [showConnectModal, setShowConnectModal] = useState(false)
+  const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
@@ -93,7 +95,11 @@ export default function ServiceHeader({ app }) {
                   </button>
                 )}
                 {!pendingAction && app.connected && (
-                  <button disabled={!canConnectOrDisconnect} className="g-button">
+                  <button
+                    disabled={!canConnectOrDisconnect}
+                    className="g-button"
+                    onClick={() => setShowDisconnectModal(true)}
+                  >
                     <FontAwesomeIcon icon={faCheck} />
                     {I18n.t('apps.detail.connected')}
                   </button>
@@ -129,6 +135,13 @@ export default function ServiceHeader({ app }) {
           hasInvite={hasInvite}
           existingJiraAction={jiraAction}
           onClose={() => setShowConnectModal(false)}
+        />
+        <DisconnectModal
+          app={app}
+          currentUser={currentUser}
+          isOpen={showDisconnectModal}
+          onSubmit={fetchJira}
+          onClose={() => setShowDisconnectModal(false)}
         />
       </div>
     </>

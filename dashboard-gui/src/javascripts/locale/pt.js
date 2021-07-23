@@ -172,14 +172,19 @@ I18n.translations.pt = {
         ' Aceda à seção <a class="link" href="{{link}}">{{linkName}}</a>  para aprovar / recusar o convite.',
       approved: 'aprovado',
       denied: 'recusado',
+      // TODO: translate
       institutions_header: {
-        // TODO: translate
         one: 'Used by 1 institution',
         other: 'Used by {{count}} institutions',
         zero: 'Used by no institutions',
       },
       institutions: 'Institutions',
       provided_information: '{{organisation}} provided the following information',
+      connect_service: 'Koppel met dienst',
+      connected: 'Gekoppeld',
+      pending_connection: 'Openstaand koppelverzoek...',
+      pending_disconnect: 'Openstaand ontkoppelverzoek...',
+      approve_invite: 'Accepteer uitnodiging',
     },
     overview: {
       connect: '',

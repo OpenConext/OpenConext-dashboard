@@ -1,35 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import I18n from 'i18n-js'
-import Modal from 'react-modal'
 import { isEmpty } from '../utils/utils'
 import { privacyProperties } from '../utils/privacy'
 import SelectWrapper from './select_wrapper'
 import { validEmailRegExp } from '../utils/validations'
 import { makeConnection, updateInviteRequest } from '../api'
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: '777px',
-    padding: 0,
-    background: 'rgb(255, 255, 255)',
-    border: '1px solid rgb(204, 204, 204)',
-    inset: '50% auto auto 50%',
-    overflow: 'auto',
-    outline: 'none',
-    position: 'absolute',
-    borderRadius: '8px',
-    maxHeight: '95%',
-  },
-}
-
-Modal.setAppElement('#app')
+import ConnectModalContainer from './connect_modal_container'
 
 export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubmit, hasInvite, existingJiraAction }) {
   const title = hasInvite ? 'connect_invite_title' : 'connect_title'
@@ -388,24 +365,4 @@ function WikiUrl({ app }) {
   }
 
   return null
-}
-
-function ConnectModalContainer({ isOpen, onClose, children }) {
-  return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      onAfterOpen={() => {
-        document.body.style.overflow = 'hidden'
-      }}
-      onAfterClose={() => {
-        document.body.removeAttribute('style')
-      }}
-      style={customStyles}
-      overlayClassName="confirmation-dialog-overlay"
-      className="connect-modal"
-    >
-      {children}
-    </Modal>
-  )
 }

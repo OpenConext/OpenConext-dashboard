@@ -23,6 +23,15 @@
     font-weight: 600
     text-decoration: none
 
+  .grey-container
+    background-color: #f3f6f8
+    padding: 16px
+    margin: 20px 0
+
+  h2
+    @extend %h2
+    margin-bottom: 8px
+
   .step
     margin: 0 24px 0 42px
     padding-bottom: 30px
@@ -48,9 +57,6 @@
       align-items: center
       justify-content: center
 
-    h2
-      @extend %h2
-      margin-bottom: 8px
 
     ul
       margin-bottom: 10px;
@@ -62,10 +68,6 @@
         margin-bottom: 3px
 
 
-    .grey-container
-      background-color: #f3f6f8
-      padding: 16px
-      margin: 20px 0
 
       p
         font-weight: 600
@@ -117,3 +119,7 @@
 
       &:first-child
         margin-right: 20px
+
+  .disconnect
+    .checkbox
+      margin-top: 10px
