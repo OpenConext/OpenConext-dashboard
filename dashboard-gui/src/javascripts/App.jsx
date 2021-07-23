@@ -62,7 +62,7 @@ class App extends React.Component {
                 <ProtectedRoute
                   currentUser={currentUser}
                   path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                  component={AppDetail}
+                  component={AboutService}
                 />
                 <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
                 <Route

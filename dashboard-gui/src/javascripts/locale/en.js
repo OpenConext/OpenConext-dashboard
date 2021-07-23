@@ -181,6 +181,11 @@ I18n.translations.en = {
       },
       institutions: 'Institutions',
       provided_information: '{{organisation}} provided the following information',
+      connect_service: 'Connect this service',
+      connected: 'Connected',
+      pending_connection: 'Pending connection request...',
+      pending_disconnect: 'Pending disconnect request...',
+      approve_invite: 'Approve invite',
     },
     overview: {
       connect: '',

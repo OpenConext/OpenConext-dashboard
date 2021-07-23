@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { CurrentUserContext } from '../App'
 import { searchJira } from '../api'
 import I18n from 'i18n-js'
@@ -11,6 +12,7 @@ import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.
 
 export default function ServiceHeader({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
+  const params = useParams()
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
@@ -19,17 +21,13 @@ export default function ServiceHeader({ app }) {
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId && !pendingAction
 
-  console.log(hasInvite)
-  console.log(jiraAction)
-  console.log(pendingAction)
-
   const jiraFilter = {
     maxResults: 1,
     startAt: 0,
     spEntityId: app.spEntityId,
-    statuses: ['To Do', 'In Progress', 'Awaiting Input'],
+    statuses: params.jiraKey ? [] : ['To Do', 'In Progress', 'Awaiting Input'],
     types: ['LINKREQUEST', 'UNLINKREQUEST', 'LINKINVITE'],
-    key: null,
+    key: params.jiraKey || null,
   }
 
   async function fetchJira() {
@@ -86,18 +84,18 @@ export default function ServiceHeader({ app }) {
               <div className="right">
                 {pendingAction && !app.connected && (
                   <button disabled className="c-button">
-                    Pending connection request...
+                    {I18n.t('apps.detail.pending_connection')}
                   </button>
                 )}
                 {pendingAction && app.connected && (
                   <button disabled className="c-button">
-                    Pending disconnect request...
+                    {I18n.t('apps.detail.pending_disconnect')}
                   </button>
                 )}
                 {!pendingAction && app.connected && (
                   <button disabled={!canConnectOrDisconnect} className="g-button">
                     <FontAwesomeIcon icon={faCheck} />
-                    Connected
+                    {I18n.t('apps.detail.connected')}
                   </button>
                 )}
                 {!pendingAction && !app.connected && (
@@ -106,7 +104,7 @@ export default function ServiceHeader({ app }) {
                     className="c-button"
                     onClick={() => setShowConnectModal(true)}
                   >
-                    Connect this service
+                    {hasInvite ? I18n.t('apps.detail.approve_invite') : I18n.t('apps.detail.connect_service')}
                   </button>
                 )}
                 {app.connected && (
@@ -128,6 +126,8 @@ export default function ServiceHeader({ app }) {
           currentUser={currentUser}
           isOpen={showConnectModal}
           onSubmit={fetchJira}
+          hasInvite={hasInvite}
+          existingJiraAction={jiraAction}
           onClose={() => setShowConnectModal(false)}
         />
       </div>
@@ -136,22 +136,36 @@ export default function ServiceHeader({ app }) {
 }
 
 function JiraActionMessage({ action, app }) {
-  console.log(action, app)
+  const params = useParams()
+
   if (!action) {
     return null
   }
+
   function determineMessage() {
-    let message = I18n.t('apps.detail.outstandingIssue', {
+    if (params.jiraKey && action.status !== 'Awaiting Input') {
+      const i18nParam = action.status === 'Closed' ? 'denied' : 'approved'
+      return I18n.t('apps.detail.inviteAlreadyProcessed', {
+        jiraKey: action.jiraKey,
+        action: I18n.t(`apps.detail.${i18nParam}`),
+      })
+    } else if (params.jiraKey && app.connected) {
+      return I18n.t('how_to_connect_panel.invite_action_collision', {
+        app: app.name,
+        jiraKey: params.jiraKey,
+      })
+    }
+
+    return I18n.t('apps.detail.outstandingIssue', {
       jiraKey: action.jiraKey,
       type: I18n.t('history.action_types_name.' + action.type),
       status: I18n.t('history.statuses.' + action.status),
     })
-    return message
   }
   const message = determineMessage()
   return (
     <div className="action-message">
-      <div className="container">{message}</div>
+      <div className="container" dangerouslySetInnerHTML={{ __html: message }} />
     </div>
   )
 }

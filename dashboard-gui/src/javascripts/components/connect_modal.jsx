@@ -6,7 +6,7 @@ import { isEmpty } from '../utils/utils'
 import { privacyProperties } from '../utils/privacy'
 import SelectWrapper from './select_wrapper'
 import { validEmailRegExp } from '../utils/validations'
-import { makeConnection } from '../api'
+import { makeConnection, updateInviteRequest } from '../api'
 
 const customStyles = {
   content: {
@@ -31,9 +31,16 @@ const customStyles = {
 
 Modal.setAppElement('#app')
 
-export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubmit }) {
-  // const isInvite = jiraKey && inviteAction
-  // const title = isInvite ? 'connect_invite_title' : 'connect_title'
+export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubmit, hasInvite, existingJiraAction }) {
+  const title = hasInvite ? 'connect_invite_title' : 'connect_title'
+  const subTitle = hasInvite ? 'info_sub_invite_title' : 'info_sub_title'
+  const shareInstitutionId = app.institutionId === currentUser.getCurrentIdp().institutionId
+  const subTitleAutomaticConnection = automaticallyConnect
+    ? I18n.t('how_to_connect_panel.info_connection_without_interaction')
+    : shareInstitutionId
+    ? I18n.t('how_to_connect_panel.info_connection_share_institution')
+    : ''
+
   const [loaLevel, setLoaLevel] = useState('')
   const [acceptActivationTerms, setAcceptActivationTerms] = useState(false)
   const [emailContactPerson, setEmailContactPerson] = useState('')
@@ -47,6 +54,10 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   const connectAutomaticallyWithEmail = app.dashboardConnectOption === 'CONNECT_WITHOUT_INTERACTION_WITH_EMAIL'
   const inValidContactPersonEmail = !refusedShareContactPersonEmail && !validEmailRegExp.test(emailContactPerson)
   const currentIdp = currentUser.getCurrentIdp()
+
+  const automaticallyConnect =
+    connectAutomaticallyWithEmail || app.dashboardConnectOption === 'CONNECT_WITHOUT_INTERACTION_WITHOUT_EMAIL'
+  const actionName = hasInvite ? 'approve' : automaticallyConnect ? 'automatic_connect' : 'connect'
 
   const loaOptions = [{ value: '', display: I18n.t('consent_panel.defaultLoa') }].concat(
     currentUser.loaLevels.map((t) => ({
@@ -72,14 +83,26 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
   async function submitForm() {
     try {
-      const action = await makeConnection(
-        app,
-        comments,
-        loaLevel,
-        refusedShareContactPersonEmail ? '' : emailContactPerson
-      )
+      if (hasInvite) {
+        const action = await updateInviteRequest({
+          status: 'ACCEPTED',
+          comment: comments,
+          jiraKey: existingJiraAction.jiraKey,
+          spEntityId: app.spEntityId,
+          typeMetaData: app.entityType,
+        })
 
-      setAction(action)
+        setAction(action.payload)
+      } else {
+        const action = await makeConnection(
+          app,
+          comments,
+          loaLevel,
+          refusedShareContactPersonEmail ? '' : emailContactPerson
+        )
+
+        setAction(action)
+      }
     } catch {
       setFailed(true)
     }
@@ -186,8 +209,10 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
   return (
     <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
-      <div className="connect-modal-header">Connect {app.name}</div>
-      <div className="connect-modal-subtitle">{I18n.t('how_to_connect_panel.info_sub_title')}</div>
+      <div className="connect-modal-header">{I18n.t(`how_to_connect_panel.${title}`, { app: app.name })}</div>
+      <div className="connect-modal-subtitle">
+        {I18n.t(`how_to_connect_panel.${subTitle}`)} {subTitleAutomaticConnection}
+      </div>
       <div className="step">
         <div className="number">{stepNumber++}</div>
         <h2>{I18n.t('how_to_connect_panel.checklist')}</h2>
@@ -343,7 +368,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
           {I18n.t('how_to_connect_panel.cancel')}
         </button>
         <button disabled={!submitAllowed} className="c-button" onClick={submitForm}>
-          Connect service
+          {I18n.t(`how_to_connect_panel.${actionName}`)}
         </button>
       </div>
     </ConnectModalContainer>
