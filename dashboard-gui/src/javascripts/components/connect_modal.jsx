@@ -31,7 +31,7 @@ const customStyles = {
 
 Modal.setAppElement('#app')
 
-export default function ConnectModal({ app, currentUser, isOpen, onClose }) {
+export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubmit }) {
   // const isInvite = jiraKey && inviteAction
   // const title = isInvite ? 'connect_invite_title' : 'connect_title'
   const [loaLevel, setLoaLevel] = useState('')
@@ -70,7 +70,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose }) {
     return `/apps/${app.id}/${app.entityType}/${panel}`
   }
 
-  async function onSubmit() {
+  async function submitForm() {
     try {
       const action = await makeConnection(
         app,
@@ -83,6 +83,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose }) {
     } catch {
       setFailed(true)
     }
+    onSubmit()
   }
 
   if (failed) {
@@ -341,7 +342,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose }) {
         <button className="c-button white" onClick={onClose}>
           {I18n.t('how_to_connect_panel.cancel')}
         </button>
-        <button disabled={!submitAllowed} className="c-button" onClick={onSubmit}>
+        <button disabled={!submitAllowed} className="c-button" onClick={submitForm}>
           Connect service
         </button>
       </div>

@@ -132,7 +132,12 @@ function InstitutionTable({ institutions, app }) {
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((institution) => (
                   <div key={institution.id} className="institution">
-                    <img src={institution.logoUrl} alt={institution.name} /> {institution.name}
+                    {institution.logoUrl ? (
+                      <img src={institution.logoUrl} alt={institution.name} />
+                    ) : (
+                      <div className="logo-placeholder" />
+                    )}
+                    {institution.name}
                   </div>
                 ))}
             </div>

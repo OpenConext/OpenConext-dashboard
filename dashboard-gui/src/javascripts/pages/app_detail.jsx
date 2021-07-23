@@ -142,6 +142,7 @@ class AppDetail extends React.Component {
       if (removeStats) {
         delete this.panelMap['application_usage']
       }
+
       const jiraFilter = {
         maxResults: 1,
         startAt: 0,
