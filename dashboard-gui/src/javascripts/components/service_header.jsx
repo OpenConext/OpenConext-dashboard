@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import ConnectModal from '../components/connect_modal'
+import DenyInviteModal from '../components/deny_invite_modal'
 import DisconnectModal from '../components/disconnect_modal'
 import LicenseInfoText from '../components/license_info_text'
 import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.svg'
@@ -16,6 +17,7 @@ export default function ServiceHeader({ app }) {
   const params = useParams()
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
+  const [showDenyModal, setShowDenyModal] = useState(false)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
@@ -104,14 +106,32 @@ export default function ServiceHeader({ app }) {
                     {I18n.t('apps.detail.connected')}
                   </button>
                 )}
-                {!pendingAction && !app.connected && (
+                {!pendingAction && !app.connected && !hasInvite && (
                   <button
                     disabled={!canConnectOrDisconnect}
                     className="c-button"
                     onClick={() => setShowConnectModal(true)}
                   >
-                    {hasInvite ? I18n.t('apps.detail.approve_invite') : I18n.t('apps.detail.connect_service')}
+                    {I18n.t('apps.detail.connect_service')}
                   </button>
+                )}
+                {!pendingAction && !app.connected && hasInvite && (
+                  <>
+                    <button
+                      disabled={!canConnectOrDisconnect}
+                      className="g-button"
+                      onClick={() => setShowConnectModal(true)}
+                    >
+                      {I18n.t('apps.detail.approve_invite')}
+                    </button>
+                    <button
+                      disabled={!canConnectOrDisconnect}
+                      className="red-button deny-invite"
+                      onClick={() => setShowDenyModal(true)}
+                    >
+                      {I18n.t('apps.detail.deny_invite')}
+                    </button>
+                  </>
                 )}
                 {app.connected && (
                   <div className="connection-details">
@@ -142,6 +162,14 @@ export default function ServiceHeader({ app }) {
           isOpen={showDisconnectModal}
           onSubmit={fetchJira}
           onClose={() => setShowDisconnectModal(false)}
+        />
+        <DenyInviteModal
+          app={app}
+          currentUser={currentUser}
+          jiraAction={jiraAction}
+          isOpen={showDenyModal}
+          onSubmit={fetchJira}
+          onClose={() => setShowDenyModal(false)}
         />
       </div>
     </>

@@ -186,6 +186,7 @@ I18n.translations.en = {
       pending_connection: 'Pending connection request...',
       pending_disconnect: 'Pending disconnect request...',
       approve_invite: 'Approve invite',
+      deny_invite: 'Deny invite',
     },
     overview: {
       connect: '',

@@ -186,6 +186,7 @@ I18n.translations.nl = {
       pending_connection: 'Openstaand koppelverzoek...',
       pending_disconnect: 'Openstaand ontkoppelverzoek...',
       approve_invite: 'Uitnodiging goedkeuren',
+      deny_invite: 'Uitnodiging afwijzen',
     },
     overview: {
       connect: '',
