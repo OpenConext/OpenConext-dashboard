@@ -182,6 +182,7 @@ I18n.translations.nl = {
       institutions: 'Instellingen',
       provided_information: '{{organisation}} heeft de volgende informatie doorgegeven',
       connect_service: 'Koppel met dienst',
+      disconnect_service: 'Ontkoppel met dienst',
       connected: 'Gekoppeld',
       pending_connection: 'Openstaand koppelverzoek...',
       pending_disconnect: 'Openstaand ontkoppelverzoek...',

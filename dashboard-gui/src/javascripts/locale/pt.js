@@ -181,6 +181,7 @@ I18n.translations.pt = {
       institutions: 'Institutions',
       provided_information: '{{organisation}} provided the following information',
       connect_service: 'Connect this service',
+      disconnect_service: 'Disconnect this service',
       connected: 'Connected',
       pending_connection: 'Pending connection request...',
       pending_disconnect: 'Pending disconnect request...',

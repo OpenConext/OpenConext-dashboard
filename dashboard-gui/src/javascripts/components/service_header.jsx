@@ -99,11 +99,10 @@ export default function ServiceHeader({ app }) {
                 {!pendingAction && app.connected && (
                   <button
                     disabled={!canConnectOrDisconnect}
-                    className="g-button"
+                    className="c-button"
                     onClick={() => setShowDisconnectModal(true)}
                   >
-                    <FontAwesomeIcon icon={faCheck} />
-                    {I18n.t('apps.detail.connected')}
+                    {I18n.t('apps.detail.disconnect_service')}
                   </button>
                 )}
                 {!pendingAction && !app.connected && !hasInvite && (
@@ -135,6 +134,11 @@ export default function ServiceHeader({ app }) {
                 )}
                 {app.connected && (
                   <div className="connection-details">
+                    <div className="loa">
+                      <div className="green-dot"></div>
+                      <FontAwesomeIcon icon={faCheck} />
+                      Connected
+                    </div>
                     {app.minimalLoaLevel && (
                       <div className="loa">
                         <div className="green-dot"></div>
