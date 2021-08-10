@@ -23,7 +23,7 @@ import NotFound from './pages/not_found'
 import SearchUser from './pages/search_user'
 import EditMyIdp from './pages/edit_my_idp'
 import ServicesOverview from './pages/services_overview'
-import AboutService from './pages/about_service'
+import ServiceDetail from './pages/service_detail'
 
 import './locale/en'
 import './locale/nl'
@@ -58,13 +58,15 @@ class App extends React.Component {
             <div className="l-content">
               <Switch>
                 <Route exact path="/" render={() => <Redirect to="/apps/connected" />} />
-                <Route exact path="/apps/:id/:type/about" component={AboutService} />
+
+                <Route path="/apps/:id/:type" component={ServiceDetail} />
                 <ProtectedRoute
                   currentUser={currentUser}
                   path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                  component={AboutService}
+                  component={ServiceDetail}
                 />
                 <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
+
                 <Route
                   exact
                   path="/apps/:id/:type"
