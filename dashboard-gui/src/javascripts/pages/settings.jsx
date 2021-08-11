@@ -3,6 +3,7 @@ import I18n from 'i18n-js'
 import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
 import Consent from './consent'
 import { CurrentUserContext } from '../App'
+import SurfSecureID from './surf_secure_id'
 
 export default function Settings({ app, type }) {
   const { path } = useRouteMatch()
@@ -13,6 +14,8 @@ export default function Settings({ app, type }) {
 
   const showConsent =
     app.connected && currentUser.manageConsentEnabled && !currentUser.guest && !currentUser.dashboardMember
+
+  const showSsid = app.connected && !currentUser.guest && !currentUser.dashboardMember
 
   return (
     <div className="app-detail-content mod-settings">
@@ -29,12 +32,14 @@ export default function Settings({ app, type }) {
         >
           {I18n.t('apps.settings.menu.authorization_policy')}
         </Link>
-        <Link
-          className={currentPath === 'surf_secure_id' ? 'active' : ''}
-          to={`/apps/${app.id}/${type}/settings/surf_secure_id`}
-        >
-          {I18n.t('apps.settings.menu.surf_secure_id')}
-        </Link>
+        {showSsid && (
+          <Link
+            className={currentPath === 'surf_secure_id' ? 'active' : ''}
+            to={`/apps/${app.id}/${type}/settings/surf_secure_id`}
+          >
+            {I18n.t('apps.settings.menu.surf_secure_id')}
+          </Link>
+        )}
       </div>
       <div className="settings-content-container">
         <Switch>
@@ -44,7 +49,11 @@ export default function Settings({ app, type }) {
             </Route>
           )}
           <Route path={`${path}/authorization_policy`}>policy</Route>
-          <Route path={`${path}/surf_secure_id`}>secure id</Route>
+          {showSsid && (
+            <Route path={`${path}/surf_secure_id`}>
+              <SurfSecureID app={app} />
+            </Route>
+          )}
         </Switch>
       </div>
     </div>

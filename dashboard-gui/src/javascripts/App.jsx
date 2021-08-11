@@ -65,7 +65,6 @@ class App extends React.Component {
                   path="/apps/:id/:type/:activePanel/:jiraKey/:action"
                   component={ServiceDetail}
                 />
-                <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
 
                 <Route
                   exact
@@ -76,6 +75,7 @@ class App extends React.Component {
                     },
                   }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
                 />
+                <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
 
                 <Route exact path="/apps/connected" render={() => <ServicesOverview key="connected" connected />} />
                 <Route exact path="/apps/all" component={ServicesOverview} />
