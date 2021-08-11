@@ -11,7 +11,7 @@ const colourStyles = {
   }),
   indicatorsContainer: (base) => ({ ...base, backgroundColor: '#94d6ff' }),
   dropdownIndicator: (base) => ({ ...base, padding: '11px', svg: { fill: '#004c97' } }),
-  valueContainer: (base) => ({ ...base, padding: '14px' }),
+  valueContainer: (base) => ({ ...base }),
 }
 
 class SelectWrapper extends React.Component {

@@ -147,7 +147,7 @@ I18n.translations.en = {
       about: 'About',
       attributes: 'Attributes & Privacy',
       resource_servers: 'Resource Servers',
-      usage: 'Usage',
+      statistics: 'Statistics',
       settings: 'Settings',
     },
     detail: {

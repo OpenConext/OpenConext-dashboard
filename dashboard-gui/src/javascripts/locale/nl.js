@@ -147,7 +147,7 @@ I18n.translations.nl = {
       about: 'Over',
       attributes: 'Attributen & Privacy',
       resource_servers: 'Resource Servers',
-      usage: 'Gebruik',
+      statistics: 'Statistieken',
       settings: 'Instellingen',
     },
     detail: {

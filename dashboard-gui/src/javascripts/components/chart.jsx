@@ -30,7 +30,7 @@ const exporting = () => ({
   filename: 'SURFconext logins',
   buttons: {
     contextButton: {
-      symbolStroke: '#4DB2CF',
+      symbolStroke: '#0062B0',
       menuItems: [
         {
           text: I18n.t('export.downloadCSV'),

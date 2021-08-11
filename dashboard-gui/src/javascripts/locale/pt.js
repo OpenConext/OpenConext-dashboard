@@ -145,7 +145,7 @@ I18n.translations.pt = {
       about: 'About',
       attributes: 'Attributes & Privacy',
       resource_servers: 'Resource Servers',
-      usage: 'Usage',
+      statistics: 'Statistics',
       settings: 'Settings',
     },
     detail: {
