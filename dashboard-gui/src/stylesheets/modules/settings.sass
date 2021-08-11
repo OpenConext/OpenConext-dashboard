@@ -1,0 +1,40 @@
+@import "../utilities/vars.sass"
+
+.mod-settings
+  display: flex
+
+  .settings-menu
+    h3
+      font-size: 20px
+      font-weight: 600
+      margin-bottom: 20px
+
+    a
+      display: block
+      font-size: 16px
+      font-weight: 600
+      text-decoration: none
+      margin: 20px 0
+
+      &.active
+        color: #353535
+        font-weight: bold
+
+  .settings-content-container
+    flex: 1
+    margin-left: 60px
+
+    .mod-consent
+      margin-top: 20px
+      label
+        font-weight: 600
+
+      input[type=text]
+        height: 44px
+
+    .flash-message
+      background-color: #fedb00
+      padding: 14px
+      font-size: 16px
+      font-weight: bold
+      margin-bottom: 10px

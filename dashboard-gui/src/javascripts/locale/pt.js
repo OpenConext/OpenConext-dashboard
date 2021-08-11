@@ -215,6 +215,15 @@ I18n.translations.pt = {
       add_services_hint:
         'Não foi encontrado o serviço que procura? Recorra ao endereço <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO using SURFconext</a> e indique-nos qual o serviço que pretende utilizar. Com isto, o acesso ao serviço será realizado com a sua conta institucional, sendo mais seguro e eficiente para todas as partes envolvidas. Desta forma torna o serviço ainda mais atraente para outras instituições, dentro e fora dos Países Baixos. É aconselhado que seja feita uma reflecção sobre o tema e que seja enviado um email para support@surfconext.nl a solicitar um contato para que seja discutida a ligação do serviço.',
     },
+    // TODO: translate
+    settings: {
+      title: 'Service settings',
+      menu: {
+        consent: 'Consent',
+        authorization_policy: 'Authorization policy',
+        surf_secure_id: 'SURF Secure ID',
+      },
+    },
   },
 
   app_meta: {

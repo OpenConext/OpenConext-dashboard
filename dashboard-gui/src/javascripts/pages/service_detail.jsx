@@ -10,6 +10,7 @@ import AboutService from './about_service'
 import AttributesAndPrivacy from './attributes_and_privacy'
 import ResourceServers from './resource_servers'
 import Statistics from './statistics'
+import Settings from './settings'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { CurrentUserContext } from '../App'
 
@@ -61,15 +62,20 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.statistics')}
           </Tab>
         )}
-        <Tab to="/apps/all">{I18n.t('apps.tabs.settings')}</Tab>
+        <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
+          {I18n.t('apps.tabs.settings')}
+        </Tab>
       </TabBar>
       <div className="container">
         <Switch>
-          <Route path={`${path}/about`} component={AboutService}>
+          <Route path={`${path}/about`}>
             <AboutService app={app} type={type} />
           </Route>
-          <Route path={`${path}/overview`} component={AboutService}>
+          <Route path={`${path}/overview`}>
             <AboutService app={app} type={type} />
+          </Route>
+          <Route path={`${path}/settings`}>
+            <Settings app={app} type={type} />
           </Route>
           <Route exact path={`${path}/attributes_and_privacy`}>
             <AttributesAndPrivacy app={app} />

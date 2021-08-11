@@ -216,6 +216,14 @@ I18n.translations.nl = {
       add_services_hint:
         'Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount. Dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. De dienst kan voor meer informatie contact opnemen met support@surfconext.nl.',
     },
+    settings: {
+      title: 'Dienst instellingen',
+      menu: {
+        consent: 'Toestemming',
+        authorization_policy: 'Autorisatieregels',
+        surf_secure_id: 'SURF Secure ID',
+      },
+    },
   },
 
   app_meta: {
