@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import I18n from 'i18n-js'
 import { useParams, useLocation } from 'react-router-dom'
 import { getApp } from '../api'
@@ -11,6 +11,7 @@ import AttributesAndPrivacy from './attributes_and_privacy'
 import ResourceServers from './resource_servers'
 import Statistics from './statistics'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import { CurrentUserContext } from '../App'
 
 export default function ServiceDetail() {
   const { id, type } = useParams()
@@ -19,6 +20,7 @@ export default function ServiceDetail() {
   const location = useLocation()
   const pathElements = location.pathname.split('/')
   const currentPath = pathElements[pathElements.length - 1]
+  const { currentUser } = useContext(CurrentUserContext)
 
   async function fetchApp() {
     const data = await getApp(id, type)
@@ -54,9 +56,11 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.resource_servers')}
           </Tab>
         )}
-        <Tab active={currentPath === 'statistics'} to={`/apps/${id}/${type}/statistics`}>
-          {I18n.t('apps.tabs.statistics')}
-        </Tab>
+        {currentUser.showStats() && (
+          <Tab active={currentPath === 'statistics'} to={`/apps/${id}/${type}/statistics`}>
+            {I18n.t('apps.tabs.statistics')}
+          </Tab>
+        )}
         <Tab to="/apps/all">{I18n.t('apps.tabs.settings')}</Tab>
       </TabBar>
       <div className="container">
@@ -73,9 +77,11 @@ export default function ServiceDetail() {
           <Route exact path={`${path}/resource_servers`}>
             <ResourceServers app={app} />
           </Route>
-          <Route exact path={`${path}/statistics`}>
-            <Statistics app={app} />
-          </Route>
+          {currentUser.showStats() && (
+            <Route exact path={`${path}/statistics`}>
+              <Statistics app={app} />
+            </Route>
+          )}
         </Switch>
       </div>
     </div>
