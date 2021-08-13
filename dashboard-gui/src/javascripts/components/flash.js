@@ -35,11 +35,13 @@ class Flash extends React.Component {
     const { className = 'flash' } = this.props
     if (!isEmpty(flash) && !isEmpty(flash.message)) {
       return (
-        <div className={className}>
-          <p className={flash.type} dangerouslySetInnerHTML={{ __html: flash.message }}></p>
-          <a className="close" href="/close" onClick={(e) => this.closeFlash(e)}>
-            <i className="fa fa-remove"></i>
-          </a>
+        <div className={`${className} ${flash.type}`}>
+          <div className="container">
+            <p dangerouslySetInnerHTML={{ __html: flash.message }}></p>
+            <a className="close" href="/close" onClick={(e) => this.closeFlash(e)}>
+              <i className="fa fa-remove"></i>
+            </a>
+          </div>
         </div>
       )
     }

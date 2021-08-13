@@ -6,10 +6,10 @@ import SelectWrapper from '../components/select_wrapper'
 import ReactTooltip from 'react-tooltip'
 import { consentTypes } from '../utils/utils'
 import stopEvent from '../utils/stop'
+import { setFlash } from '../utils/flash'
 
 export default function Consent({ app }) {
   const [consent, setConsent] = useState(null)
-  const [flash, setFlash] = useState(null)
   const { currentUser } = useContext(CurrentUserContext)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const subTitle2 = isDashboardAdmin ? 'subtitle2' : 'subtitle2Viewer'
@@ -34,7 +34,7 @@ export default function Consent({ app }) {
       .then((res) => {
         res.json().then((action) => {
           if (action.payload['no-changes']) {
-            setFlash(I18n.t('my_idp.no_change_request_created'))
+            setFlash(I18n.t('my_idp.no_change_request_created'), 'warning')
           } else {
             setFlash(I18n.t('my_idp.change_request_created', { jiraKey: action.payload.jiraKey }))
           }
@@ -42,7 +42,7 @@ export default function Consent({ app }) {
         })
       })
       .catch(() => {
-        setFlash(I18n.t('my_idp.change_request_failed'))
+        setFlash(I18n.t('my_idp.change_request_failed'), 'error')
         window.scrollTo(0, 0)
       })
   }
@@ -59,7 +59,6 @@ export default function Consent({ app }) {
 
   return (
     <div>
-      {flash && <div className="flash-message">{flash}</div>}
       <h2>{I18n.t('consent_panel.title')}</h2>
       <p>{I18n.t('consent_panel.subtitle', { name: app.name })}</p>
       <p

@@ -10,6 +10,7 @@ import IDPSelector from '../components/idp_selector'
 import Navigation from '../components/navigation'
 import isUndefined from 'lodash.isundefined'
 import stopEvent from '../utils/stop'
+import Flash from '../components/flash'
 import surfLogo from '../../images/SURF.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
@@ -70,6 +71,7 @@ class Header extends React.Component {
             </div>
           </div>
         </div>
+        <Flash />
       </div>
     )
   }

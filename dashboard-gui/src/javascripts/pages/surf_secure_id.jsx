@@ -5,6 +5,7 @@ import { isEmpty } from '../utils/utils'
 import SelectWrapper from '../components/select_wrapper'
 import { surfSecureIdChangeRequest } from '../api'
 import stopEvent from '../utils/stop'
+import { setFlash } from '../utils/flash'
 
 export default function SurfSecureID({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -12,7 +13,6 @@ export default function SurfSecureID({ app }) {
   const initialLoaLevel = app.minimalLoaLevel || (stepEntity && stepEntity.level) || ''
 
   const [loaLevel, setLoaLevel] = useState(initialLoaLevel)
-  const [flash, setFlash] = useState(null)
 
   const isDashboardAdmin = currentUser.dashboardAdmin
   const appHasLoaLevel = !isEmpty(app.minimalLoaLevel)
@@ -36,7 +36,7 @@ export default function SurfSecureID({ app }) {
       .then((res) => {
         res.json().then((action) => {
           if (action.payload['no-changes']) {
-            setFlash(I18n.t('my_idp.no_change_request_created'))
+            setFlash(I18n.t('my_idp.no_change_request_created'), 'warning')
           } else {
             setFlash(I18n.t('my_idp.change_request_created', { jiraKey: action.payload.jiraKey }))
           }
@@ -44,14 +44,13 @@ export default function SurfSecureID({ app }) {
         })
       })
       .catch(() => {
-        setFlash(I18n.t('my_idp.change_request_failed'))
+        setFlash(I18n.t('my_idp.change_request_failed'), 'error')
         window.scrollTo(0, 0)
       })
   }
 
   return (
     <div>
-      {flash && <div className="flash-message">{flash}</div>}
       <h2 dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.title') }} />
       <p dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle') }} />
       <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle2') }} />
