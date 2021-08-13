@@ -3,7 +3,8 @@ import I18n from 'i18n-js'
 import ReactTooltip from 'react-tooltip'
 import includes from 'lodash.includes'
 import isEmpty from 'lodash.isempty'
-import { disableConsent } from '../api'
+import { disableConsent, exportApps } from '../api'
+import stopEvent from '../utils/stop'
 import { Link } from 'react-router-dom'
 import { ReactComponent as ConnectedServiceIcon } from '../../images/tags-favorite-star.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,9 +16,10 @@ import { consentTypes } from '../utils/utils'
 
 const PAGE_COUNT = 25
 
-export default function AppList({ apps, currentUser, facets: remoteFacets, connected }) {
+export default function AppList({ apps, currentUser, facets: remoteFacets }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFacets, setActiveFacets] = useState({})
+  const [downloading, setDownloading] = useState(false)
   const [page, setPage] = useState(1)
   const [entityCategoriesFacetSelector, setEntityCategoriesFacetSelector] = useState(false)
   const [idpDisableConsent, setIdpDisableConsent] = useState([])
@@ -424,6 +426,41 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
 
   const paginatedApps = filteredApps.slice((page - 1) * PAGE_COUNT, page * PAGE_COUNT)
 
+  function fakeClick(obj) {
+    const ev = document.createEvent('MouseEvents')
+    ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+    obj.dispatchEvent(ev)
+  }
+
+  function handleDownload(e) {
+    stopEvent(e)
+    if (downloading) {
+      return
+    }
+
+    setDownloading(true)
+    const ids = filteredApps.map((app) => app.id)
+    exportApps(currentUser.getCurrentIdpId(), ids).then((res) => {
+      const urlObject = window.URL || window.webkitURL || window
+      const lines = res.reduce((acc, arr) => {
+        acc.push(arr.join(','))
+        return acc
+      }, [])
+      const csvContent = lines.join('\n')
+      const export_blob = new Blob([csvContent])
+      if ('msSaveBlob' in window.navigator) {
+        window.navigator.msSaveBlob(export_blob, 'services.csv')
+      } else if ('download' in HTMLAnchorElement.prototype) {
+        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+        save_link.href = urlObject.createObjectURL(export_blob)
+        save_link.download = 'services.csv'
+        fakeClick(save_link)
+      }
+
+      setDownloading(false)
+    })
+  }
+
   return (
     <div className="mod-app-overview">
       <div className="facets-and-table">
@@ -439,7 +476,6 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         />
         <div className="apps-and-search">
           <div className="top-bar">
-            <h2>{connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')}</h2>
             <div className="search-container">
               <input
                 type="search"
@@ -449,6 +485,17 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
               />
               <FontAwesomeIcon icon={faSearch} />
             </div>
+
+            {('msSaveBlob' in window.navigator || 'download' in HTMLAnchorElement.prototype) && (
+              <button
+                type="button"
+                onClick={handleDownload}
+                className="c-button white export"
+                disabled={filteredApps.length <= 0}
+              >
+                {I18n.t('facets.download')}
+              </button>
+            )}
           </div>
           <table className="apps-table">
             <thead>

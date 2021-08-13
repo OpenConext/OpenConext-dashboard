@@ -4,7 +4,6 @@ import I18n from 'i18n-js'
 import { FacetShape } from '../shapes'
 import ReactTooltip from 'react-tooltip'
 import stopEvent from '../utils/stop'
-import { exportApps } from '../api'
 
 class Facets extends React.Component {
   constructor(props) {
@@ -23,13 +22,14 @@ class Facets extends React.Component {
       <div className="mod-filters">
         <div className="header">
           <h3>{I18n.t('facets.title')}</h3>
+          {this.props.filteredCount < this.props.totalCount && (
+            <a href="/reset" onClick={this.handleResetFilters.bind(this)}>
+              {I18n.t('facets.clear_all')}
+            </a>
+          )}
         </div>
         <form>
           <fieldset>{this.renderTotals()}</fieldset>
-          <fieldset>
-            {this.renderResetFilters()}
-            {this.renderDownloadButton()}
-          </fieldset>
           {facets.map((facet) => this.renderFacet(facet))}
           <fieldset>{this.renderTotals()}</fieldset>
         </form>
@@ -141,54 +141,6 @@ class Facets extends React.Component {
         {facetValueLabel} ({count})
       </label>
     )
-  }
-
-  renderDownloadButton() {
-    if ('msSaveBlob' in window.navigator || 'download' in HTMLAnchorElement.prototype) {
-      const { downloading } = this.props
-      const className = this.props.filteredCount <= 0 || downloading ? ' disabled' : ''
-      return (
-        <span onClick={this.handleDownload.bind(this)} className={'download-button c-button' + className}>
-          {I18n.t('facets.download')}
-        </span>
-      )
-    }
-    return null
-  }
-
-  fake_click = (obj) => {
-    const ev = document.createEvent('MouseEvents')
-    ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-    obj.dispatchEvent(ev)
-  }
-
-  handleDownload(e) {
-    stopEvent(e)
-    if (this.state.downloading) {
-      return
-    }
-    this.setState({ downloading: true })
-    const { currentUser } = this.props
-    const ids = this.props.apps.map((app) => app.id)
-    exportApps(currentUser.getCurrentIdpId(), ids).then((res) => {
-      const urlObject = window.URL || window.webkitURL || window
-      const lines = res.reduce((acc, arr) => {
-        acc.push(arr.join(','))
-        return acc
-      }, [])
-      const csvContent = lines.join('\n')
-      const export_blob = new Blob([csvContent])
-      if ('msSaveBlob' in window.navigator) {
-        window.navigator.msSaveBlob(export_blob, 'services.csv')
-      } else if ('download' in HTMLAnchorElement.prototype) {
-        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
-        save_link.href = urlObject.createObjectURL(export_blob)
-        save_link.download = 'services.csv'
-        this.fake_click(save_link)
-      }
-
-      this.setState({ downloading: false })
-    })
   }
 
   handleSelectFacet(facet, facetValue) {

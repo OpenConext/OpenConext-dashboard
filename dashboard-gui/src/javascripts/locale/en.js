@@ -62,6 +62,7 @@ I18n.translations.en = {
   facets: {
     title: 'Filters',
     refresh: 'Refresh',
+    clear_all: '(Clear all)',
     reset: 'Reset',
     download: 'Export overview',
     unknown: 'Unknown',

@@ -62,6 +62,7 @@ I18n.translations.nl = {
   facets: {
     title: 'Filters',
     reset: 'Reset',
+    clear_all: '(Wis alles)',
     refresh: 'Verversen',
     download: 'Export overzicht',
     unknown: 'Unknown',
