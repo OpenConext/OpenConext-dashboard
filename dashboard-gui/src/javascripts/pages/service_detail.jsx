@@ -29,7 +29,7 @@ export default function ServiceDetail() {
       const data = await getApp(id, type)
       setApp(data.payload)
       const res = await getPolicies()
-      const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === app.spEntityId)
+      const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === data.payload.spEntityId)
       setPolicies(policiesForApp)
     } catch (e) {
       setPolicies([])
@@ -38,7 +38,7 @@ export default function ServiceDetail() {
 
   useEffect(() => {
     fetchApp()
-  }, [])
+  }, [id, type])
 
   if (!app) {
     return null
