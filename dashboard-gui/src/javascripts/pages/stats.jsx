@@ -422,59 +422,61 @@ class Stats extends React.Component {
         : idp.displayNames['nl']
     const classNameView = fullView ? 'l-right-small' : 'minimal'
     return (
-      <div className="l-main stats">
-        {fullView && (
-          <div className="l-left-large">
-            <div className="mod-filters">
-              <div className="header">
-                <h1>{I18n.t('stats.filters.name')}</h1>
-                <a href={I18n.t('stats.helpLink')} target="_blank" rel="noopener noreferrer" className="help">
-                  <i className="fa fa-info-circle"></i>
-                </a>
-                <a href="reset" className="reset c-button" onClick={this.reset}>
-                  {I18n.t('facets.reset')}
-                </a>
+      <div className="container">
+        <div className="l-main stats">
+          {fullView && (
+            <div className="l-left-large">
+              <div className="mod-filters">
+                <div className="header">
+                  <h1>{I18n.t('stats.filters.name')}</h1>
+                  <a href={I18n.t('stats.helpLink')} target="_blank" rel="noopener noreferrer" className="help">
+                    <i className="fa fa-info-circle"></i>
+                  </a>
+                  <a href="reset" className="reset c-button" onClick={this.reset}>
+                    {I18n.t('facets.reset')}
+                  </a>
+                </div>
+                {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP)}
+                {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
               </div>
-              {this.renderSpSelect(sp, allSp, spSelected, displayDetailPerSP)}
-              {this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected)}
             </div>
-          </div>
-        )}
-        <div className={classNameView}>
-          <div className="mod-chart">
-            {!fullView && this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected, 'horizontal')}
-            {results && (
-              <Chart
-                data={data}
-                scale={scale}
-                includeUniques={scale !== 'minutes' && scale !== 'hour'}
-                title={this.title(from, to, displayDetailPerSP, sp, scale)}
-                aggregate={displayDetailPerSP}
-                groupedBySp={displayDetailPerSP}
-                groupedByIdp={false}
-                serviceProvidersDict={serviceProvidersDict}
-                identityProvidersDict={identityProvidersDict}
-                goRight={this.goRight}
-                goLeft={this.goLeft}
-                rightDisabled={maximumTo}
-                noTimeFrame={scale === 'all'}
-              />
-            )}
-            {!loaded && (
-              <div>
-                <section className="loading">
-                  <em>{I18n.t('chart.loading')}</em>
-                  <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
-                </section>
-              </div>
-            )}
-            {noResult && (
-              <div>
-                <section className="loading">
-                  <em>{I18n.t('chart.noResults')}</em>
-                </section>
-              </div>
-            )}
+          )}
+          <div className={classNameView}>
+            <div className="mod-chart">
+              {!fullView && this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected, 'horizontal')}
+              {results && (
+                <Chart
+                  data={data}
+                  scale={scale}
+                  includeUniques={scale !== 'minutes' && scale !== 'hour'}
+                  title={this.title(from, to, displayDetailPerSP, sp, scale)}
+                  aggregate={displayDetailPerSP}
+                  groupedBySp={displayDetailPerSP}
+                  groupedByIdp={false}
+                  serviceProvidersDict={serviceProvidersDict}
+                  identityProvidersDict={identityProvidersDict}
+                  goRight={this.goRight}
+                  goLeft={this.goLeft}
+                  rightDisabled={maximumTo}
+                  noTimeFrame={scale === 'all'}
+                />
+              )}
+              {!loaded && (
+                <div>
+                  <section className="loading">
+                    <em>{I18n.t('chart.loading')}</em>
+                    <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                  </section>
+                </div>
+              )}
+              {noResult && (
+                <div>
+                  <section className="loading">
+                    <em>{I18n.t('chart.noResults')}</em>
+                  </section>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
