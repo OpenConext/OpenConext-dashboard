@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { setFlash } from '../utils/flash'
 
-export default function AuthorizationPolicyOverview({ app, type }) {
+export default function AuthorizationPolicyOverview({ app, type, onPolicyChange }) {
   const [policies, setPolicies] = useState([])
   const [unreachable, setUnreachable] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -31,6 +31,7 @@ export default function AuthorizationPolicyOverview({ app, type }) {
     if (window.confirm(I18n.t('policies.confirmation', { policyName: policy.name }))) {
       await deletePolicy(policy.id)
       await fetchPolicies()
+      onPolicyChange()
       setFlash(
         I18n.t('policies.flash', {
           policyName: policy.name,

@@ -11,8 +11,9 @@ import DenyInviteModal from '../components/deny_invite_modal'
 import DisconnectModal from '../components/disconnect_modal'
 import LicenseInfoText from '../components/license_info_text'
 import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.svg'
+import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
 
-export default function ServiceHeader({ app }) {
+export default function ServiceHeader({ app, policies }) {
   const { currentUser } = useContext(CurrentUserContext)
   const params = useParams()
   const [showConnectModal, setShowConnectModal] = useState(false)
@@ -139,6 +140,12 @@ export default function ServiceHeader({ app }) {
                       <div className="loa">
                         <div className="green-dot"></div>
                         <LoaIcon /> {app.minimalLoaLevel.split('/').pop()}
+                      </div>
+                    )}
+                    {policies.length > 0 && (
+                      <div className="loa">
+                        <div className="green-dot"></div>
+                        <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
                       </div>
                     )}
                   </div>

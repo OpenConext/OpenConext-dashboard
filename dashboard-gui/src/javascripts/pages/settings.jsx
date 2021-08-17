@@ -7,7 +7,7 @@ import AuthorizationPolicyDetail from './authorization_policy_detail'
 import AuthorizationPolicyOverview from './authorization_policy_overview'
 import AuthorizationPolicyRevisions from './authorization_policy_revisions'
 
-export default function Settings({ app, type, isAllowedToMaintainPolicies, showConsent, showSsid }) {
+export default function Settings({ app, type, isAllowedToMaintainPolicies, showConsent, showSsid, onPolicyChange }) {
   const { path } = useRouteMatch()
   const location = useLocation()
   const pathElements = location.pathname.split('/')
@@ -63,12 +63,12 @@ export default function Settings({ app, type, isAllowedToMaintainPolicies, showC
           )}
           {isAllowedToMaintainPolicies && (
             <Route path={`${path}/authorization_policies/:id`}>
-              <AuthorizationPolicyDetail app={app} type={type} />
+              <AuthorizationPolicyDetail app={app} type={type} onPolicyChange={onPolicyChange} />
             </Route>
           )}
           {isAllowedToMaintainPolicies && (
             <Route path={`${path}/authorization_policies`}>
-              <AuthorizationPolicyOverview app={app} type={type} />
+              <AuthorizationPolicyOverview app={app} type={type} onPolicyChange={onPolicyChange} />
             </Route>
           )}
           {showSsid && (

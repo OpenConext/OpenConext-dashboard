@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import I18n from 'i18n-js'
 import { useParams, useLocation } from 'react-router-dom'
-import { getApp } from '../api'
+import { getApp, getPolicies } from '../api'
 import Breadcrumbs from '../components/breadcrumbs'
 import ServiceHeader from '../components/service_header'
 import Tab from '../components/tab'
@@ -17,6 +17,7 @@ import { CurrentUserContext } from '../App'
 export default function ServiceDetail() {
   const { id, type } = useParams()
   const [app, setApp] = useState(null)
+  const [policies, setPolicies] = useState([])
   const { path } = useRouteMatch()
   const location = useLocation()
   const pathElements = location.pathname.split('/')
@@ -24,8 +25,15 @@ export default function ServiceDetail() {
   const { currentUser } = useContext(CurrentUserContext)
 
   async function fetchApp() {
-    const data = await getApp(id, type)
-    setApp(data.payload)
+    try {
+      const data = await getApp(id, type)
+      setApp(data.payload)
+      const res = await getPolicies()
+      const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === app.spEntityId)
+      setPolicies(policiesForApp)
+    } catch (e) {
+      setPolicies([])
+    }
   }
 
   useEffect(() => {
@@ -51,7 +59,7 @@ export default function ServiceDetail() {
   return (
     <div className="app-detail">
       <Breadcrumbs items={breadcrumbs} />
-      <ServiceHeader app={app} />
+      <ServiceHeader app={app} policies={policies} />
       <TabBar>
         <Tab active={currentPath === 'about'} to={`/apps/${id}/${type}/about`}>
           {I18n.t('apps.tabs.about')}
@@ -90,6 +98,7 @@ export default function ServiceDetail() {
               isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
               showConsent={showConsent}
               showSsid={showSsid}
+              onPolicyChange={() => fetchApp()}
             />
           </Route>
           <Route exact path={`${path}/attributes_and_privacy`}>

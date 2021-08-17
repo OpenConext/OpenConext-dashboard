@@ -13,7 +13,7 @@ import { ReactComponent as OrIcon } from '../../images/rule-type-or.svg'
 import AutoFormat from '../utils/autoformat_policy'
 import { setFlash } from '../utils/flash'
 
-export default function AuthorizationPolicyDetail({ app, type }) {
+export default function AuthorizationPolicyDetail({ app, type, onPolicyChange }) {
   const params = useParams()
   const history = useHistory()
   const { currentUser } = useContext(CurrentUserContext)
@@ -63,6 +63,7 @@ export default function AuthorizationPolicyDetail({ app, type }) {
       } else {
         setFlash(I18n.t('policies.flash_first'))
       }
+      onPolicyChange()
       history.replace(`/apps/${app.id}/${type}/settings/authorization_policies`)
     } catch (e) {
       if (e.response && e.response.json) {

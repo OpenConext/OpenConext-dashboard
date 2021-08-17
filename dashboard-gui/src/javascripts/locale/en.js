@@ -165,6 +165,10 @@ I18n.translations.en = {
       connected_resource_servers: 'Resource servers',
       sirtfi_security: 'Sirtfi Security',
       ssid: 'SURFsecureID',
+      policies: {
+        one: '1 policy',
+        other: '%{count} policies',
+      },
       privacy: 'Privacy',
       consent: 'Consent',
       back: 'Back',
