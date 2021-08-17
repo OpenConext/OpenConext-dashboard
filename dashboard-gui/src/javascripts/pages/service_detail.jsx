@@ -41,6 +41,13 @@ export default function ServiceDetail() {
     { link: `/apps/${id}/${type}/about`, text: app.name },
   ]
 
+  const isAllowedToMaintainPolicies =
+    currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
+  const showConsent =
+    app.connected && currentUser.manageConsentEnabled && !currentUser.guest && !currentUser.dashboardMember
+
+  const showSsid = app.connected && !currentUser.guest && !currentUser.dashboardMember
+
   return (
     <div className="app-detail">
       <Breadcrumbs items={breadcrumbs} />
@@ -62,9 +69,11 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.statistics')}
           </Tab>
         )}
-        <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
-          {I18n.t('apps.tabs.settings')}
-        </Tab>
+        {(isAllowedToMaintainPolicies || showConsent || showSsid) && (
+          <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
+            {I18n.t('apps.tabs.settings')}
+          </Tab>
+        )}
       </TabBar>
       <div className="container">
         <Switch>
@@ -75,7 +84,13 @@ export default function ServiceDetail() {
             <AboutService app={app} type={type} />
           </Route>
           <Route path={`${path}/settings`}>
-            <Settings app={app} type={type} />
+            <Settings
+              app={app}
+              type={type}
+              isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
+              showConsent={showConsent}
+              showSsid={showSsid}
+            />
           </Route>
           <Route exact path={`${path}/attributes_and_privacy`}>
             <AttributesAndPrivacy app={app} />

@@ -776,6 +776,7 @@ I18n.translations.en = {
       'Authorization policies are not yet applied for this service. Before policies for this service will be applied, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.',
     flash_updated: 'updated',
     new_policy: 'New authorization policy',
+    no_policies: 'There are no policies for this service.',
     how_to: 'How-to',
     policy_name_not_unique_exception: 'This policy name is already in use',
     pdp_unreachable: 'PDP unreachable',
@@ -785,7 +786,9 @@ I18n.translations.en = {
     overview: {
       active: 'Active',
       description: 'Description',
+      header: 'Authorization policies',
       identityProviderNames: 'Institution(s)',
+      inactive: 'Inactive',
       name: 'Name',
       numberOfRevisions: 'Revisions',
       search: 'Search',
@@ -799,31 +802,39 @@ I18n.translations.en = {
     attribute_value_placeholder: 'Attribute value...',
     group_info:
       " The value(s) must be fully qualified group IDs e.g. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
-    new_attribute: 'Add new attribute...',
-    new_value: 'Add a new value...',
+    new_attribute: 'Add attribute',
+    new_value: '+ Add value',
     sab_info: " The value(s) must be valid roles in SAB e.g. 'Instellingsbevoegde'",
-    values: 'Values(s)',
+    values: 'Value(s)',
     help_link: 'https://support.surfconext.nl/dashboard-help-attributes',
     attributeTooltip: 'Click to read more about attributes.',
   },
 
   policy_detail: {
-    access: 'Access',
-    attribute: 'Attribute',
-    autoFormat: 'AutoFormat policy description',
+    about: 'About',
+    access: 'Policy type',
+    access_denied_message: '"Access Denied" message',
+    activate_policy: 'Activate this policy',
+    deactivate_policy: 'Deactivate this policy',
+    active: 'Active policy',
+    inactive: 'Inactive policy',
+    attribute: 'Attribute(s)',
+    autoFormat: 'Auto generate',
     cancel: 'Cancel',
     confirmation: 'Are your sure you want to leave this page?',
     create_policy: 'Create new authorization policy',
     deny: 'Deny',
     deny_info:
       'Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.',
-    deny_message: 'Deny message in English',
+    deny_message: 'English message',
     deny_message_info: 'This is the message displayed to the user if access is denied based on this policy.',
-    deny_message_nl: 'Deny message in Dutch',
-    deny_message_pt: 'Deny message in Portuguese',
+    deny_message_nl: 'Dutch message',
+    deny_message_pt: 'Portuguese message',
     description: 'Description',
     idps_placeholder: 'Select the Identity Providers - zero or more',
     institutions: 'Institutions',
+    intro:
+      'Define who can access this service. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
     isActive: 'Active',
     isActiveDescription: 'Mark the authorization policy active',
     isActiveInfo: ' Inactive authorization policies are not evaluated in enforcement decisions',
@@ -832,6 +843,7 @@ I18n.translations.en = {
     permit_info:
       'Permit policies enforce that a only a successful match of the attributes defined will result in a Permit. No match will result in a Deny.',
     rule: 'Rule',
+    rules: 'Rules',
     rule_and: 'AND',
     rule_and_info:
       'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.',
@@ -841,6 +853,7 @@ I18n.translations.en = {
     rule_or: 'OR',
     rule_or_info:
       'Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.',
+    save_changes: 'Save changes',
     service: 'Service',
     spScopeInfo: "The available Services are scoped to your services if you don't select an Institution",
     sp_placeholder: 'Select the Service Provider - required',
@@ -867,6 +880,9 @@ I18n.translations.en = {
     revision: 'Revision number',
     serviceProviderName: 'Service',
     title: 'Revisions',
+    intro_1:
+      'Every time a policy gets updated a copy of the previous state is stored as a revision of the new policy. By comparing revisions of a policy with each other and with the most current policy we are able to display an audit log of all changes made to a policy.',
+    intro_2: 'When a policy is deleted then all of the revisions of that policy - if any - are also deleted.',
   },
 
   history: {

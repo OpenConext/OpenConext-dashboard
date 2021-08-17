@@ -2,6 +2,50 @@
 @import "../utilities/placeholders.sass"
 @import "../base/type.sass"
 
+.policy-revisions
+  h3
+    font-weight: 600
+    font-size: 16px
+
+  .revisions
+    margin-top: 20px
+
+  .revision
+    display: flex
+    padding: 20px 0
+    border-top: 1px solid #c4cdd5
+
+    button
+      font-weight: 600
+      font-size: 20px
+
+    .revision-details
+      flex: 1
+
+.revision-modal
+  label
+    display: block
+
+  .diff-container
+    margin-bottom: 10px
+
+  .diff-element
+    .diff-changed
+      display: flex
+
+    .diff
+      flex: 1
+
+      &.prev
+        color: $red
+        text-decoration: line-through
+
+      &.curr
+        color: $green
+
+      &.no-change
+        color: $dark-grey
+
 .mod-policy-revisions, .mod-policy-revisions-about, .mod-policy-revisions-diff
   @extend %box
 

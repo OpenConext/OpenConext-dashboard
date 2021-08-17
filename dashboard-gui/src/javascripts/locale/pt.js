@@ -778,6 +778,7 @@ I18n.translations.pt = {
       'Esta é a primeira política de autorização para este serviço. Antes de ficar ativo, a equipa SURFconext tem de realizar alterações de configuração manualmente. Foi enviada uma notificação para a equipa SURFconext. Em breve será contactado.',
     flash_updated: 'atualizado',
     new_policy: 'Nova Política de Autorização',
+    no_policies: 'There are no policies for this service.',
     how_to: 'Ajuda',
     policy_name_not_unique_exception: 'Este nome de política já está a ser utilizado',
     pdp_unreachable: 'PDP inacessível',
@@ -788,7 +789,9 @@ I18n.translations.pt = {
     overview: {
       active: 'Ativo',
       description: 'Descrição',
+      header: 'Authorization policies',
       identityProviderNames: 'Instituições',
+      inactive: 'Inactive',
       name: 'Nome',
       numberOfRevisions: 'Revisões',
       search: 'Pesquisar',
@@ -811,7 +814,12 @@ I18n.translations.pt = {
   },
 
   policy_detail: {
+    //TODO: translate
+    about: 'About',
     access: 'Acesso',
+    access_denied_message: '"Access Denied" message',
+    activate_policy: 'Activate this policy',
+    deactivate_policy: 'Deactivate this policy',
     attribute: 'Atributos',
     autoFormat: 'Formatação automática da descrição da política',
     cancel: 'Cancelar',
@@ -828,6 +836,8 @@ I18n.translations.pt = {
     description: 'Descrição',
     idps_placeholder: 'Selecione os Fornecedores de Identidade - zero ou mais',
     institutions: 'Instituições',
+    intro:
+      'Define who can access this service. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
     isActive: 'Ativo',
     isActiveDescription: 'Marcar a política de permisão como ativa',
     isActiveInfo: ' Políticas de autorização inativas não são avaliadas nas decisões',
@@ -836,6 +846,7 @@ I18n.translations.pt = {
     permit_info:
       'Políticas para Permitir, garantem que apenas uma correspondência bem sucedida dos atributos definidos resultará em permitir o acesso. Nenhuma correspondência resulta em não permitir.',
     rule: 'Regra',
+    rules: 'Rules',
     rule_and: 'AND',
     rule_and_info:
       'Políticas com regras AND garantem que todos os atributos definidos tem de corresponder aos da pessoa que está a tentar fazer login.',
@@ -846,6 +857,7 @@ I18n.translations.pt = {
     rule_or: 'OR',
     rule_or_info:
       'Políticas definidas com a lógica OR apenas obriga a que um dos atributos do utilizador faça correspondência, ao que está a ser pedido para o acesso.',
+    save_changes: 'Save changes',
     service: 'Serviço',
     spScopeInfo: 'Os Serviços disponíveis são limitados aos seus serviços se não selecionar uma Instituição',
     sp_placeholder: 'Selecione o Fornecedor de Serviço - obrigatório',
@@ -872,6 +884,10 @@ I18n.translations.pt = {
     revision: 'Número da Revisão',
     serviceProviderName: 'Serviço',
     title: 'Revisões',
+    intro_1:
+      'Sempre que uma política é atualizada é efetuada uma cópia da política anterior como uma revisão da nova política. Ao comparar revisões de políticas entre si e com a política mais atual podemos apresentar um registo de auditoria de todas as alterações efetuadas a uma política.',
+    intro_2:
+      'Quando uma política é apagada, todas as revisões dessa política, no caso de existirem, serão também apagadas.',
   },
 
   history: {

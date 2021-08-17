@@ -34,7 +34,7 @@ class SelectWrapper extends React.Component {
     return (
       <Select
         className="react-select"
-        value={valueFromId(data, defaultValue)}
+        value={valueFromId(data, defaultValue) || null}
         options={data}
         isDisabled={this.props.isDisabled}
         isMulti={this.props.multiple}

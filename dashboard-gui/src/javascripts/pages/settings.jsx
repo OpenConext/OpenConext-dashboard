@@ -1,21 +1,29 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import I18n from 'i18n-js'
-import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
+import { Redirect, Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
 import Consent from './consent'
-import { CurrentUserContext } from '../App'
 import SurfSecureID from './surf_secure_id'
+import AuthorizationPolicyDetail from './authorization_policy_detail'
+import AuthorizationPolicyOverview from './authorization_policy_overview'
+import AuthorizationPolicyRevisions from './authorization_policy_revisions'
 
-export default function Settings({ app, type }) {
+export default function Settings({ app, type, isAllowedToMaintainPolicies, showConsent, showSsid }) {
   const { path } = useRouteMatch()
   const location = useLocation()
   const pathElements = location.pathname.split('/')
   const currentPath = pathElements[pathElements.length - 1]
-  const { currentUser } = useContext(CurrentUserContext)
 
-  const showConsent =
-    app.connected && currentUser.manageConsentEnabled && !currentUser.guest && !currentUser.dashboardMember
+  function getDefaultPath() {
+    if (showConsent) {
+      return `${location.pathname}/consent`
+    } else if (isAllowedToMaintainPolicies) {
+      return `${location.pathname}/authorization_policies`
+    } else if (showSsid) {
+      return `${location.pathname}/surf_secure_id`
+    }
 
-  const showSsid = app.connected && !currentUser.guest && !currentUser.dashboardMember
+    return `/apps/${app.id}/${type}/about`
+  }
 
   return (
     <div className="app-detail-content mod-settings">
@@ -27,8 +35,8 @@ export default function Settings({ app, type }) {
           </Link>
         )}
         <Link
-          className={currentPath === 'authorization_policy' ? 'active' : ''}
-          to={`/apps/${app.id}/${type}/settings/authorization_policy`}
+          className={pathElements.includes('authorization_policies') ? 'active' : ''}
+          to={`/apps/${app.id}/${type}/settings/authorization_policies`}
         >
           {I18n.t('apps.settings.menu.authorization_policy')}
         </Link>
@@ -48,12 +56,27 @@ export default function Settings({ app, type }) {
               <Consent app={app} />
             </Route>
           )}
-          <Route path={`${path}/authorization_policy`}>policy</Route>
+          {isAllowedToMaintainPolicies && (
+            <Route path={`${path}/authorization_policies/:id/revisions`}>
+              <AuthorizationPolicyRevisions app={app} type={type} />
+            </Route>
+          )}
+          {isAllowedToMaintainPolicies && (
+            <Route path={`${path}/authorization_policies/:id`}>
+              <AuthorizationPolicyDetail app={app} type={type} />
+            </Route>
+          )}
+          {isAllowedToMaintainPolicies && (
+            <Route path={`${path}/authorization_policies`}>
+              <AuthorizationPolicyOverview app={app} type={type} />
+            </Route>
+          )}
           {showSsid && (
             <Route path={`${path}/surf_secure_id`}>
               <SurfSecureID app={app} />
             </Route>
           )}
+          <Route path={path} render={() => <Redirect to={getDefaultPath()} />} />
         </Switch>
       </div>
     </div>
