@@ -27,6 +27,7 @@ export default function AuthorizationPolicyDetail({ app, type }) {
       const policy = res.payload
       policy.serviceProviderId = app.spEntityId
       policy.serviceProviderName = app.name
+      policy.active = false
       setPolicy(policy)
     } else {
       const res = await getPolicy(params.id)
