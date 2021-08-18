@@ -162,6 +162,10 @@ I18n.translations.nl = {
       license_data: 'Licentie',
       links: 'Links',
       overview: 'Overzicht',
+      policies: {
+        one: '1 autorisatieregel',
+        other: '%{count} autorisatieregels',
+      },
       connected_resource_servers: 'Resource servers',
       sirtfi_security: 'Sirtfi contacten',
       ssid: 'SURFsecureID',

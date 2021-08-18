@@ -11,7 +11,6 @@ import { searchJira } from '../api'
 import { CurrentUserContext } from '../App'
 import { isEmpty } from '../utils/utils'
 
-// const allStatuses = ['To Do', 'In Progress', 'Awaiting Input', 'Resolved', 'Closed']
 const statusMap = {
   todo: 'To Do',
   in_progress: 'In Progress',
@@ -25,7 +24,7 @@ const allTypes = ['LINKREQUEST', 'UNLINKREQUEST', 'CHANGE', 'LINKINVITE']
 export default function Tickets() {
   const [actions, setActions] = useState([])
   const { status } = useParams()
-  const currentStatus = [statusMap[status]] || Object.values(statusMap)
+  const currentStatus = statusMap[status] ? [statusMap[status]] : Object.values(statusMap)
   const { currentUser } = useContext(CurrentUserContext)
 
   async function fetchActions() {
@@ -101,7 +100,9 @@ function Action({ action, currentUser }) {
     <div className="ticket">
       <div className="ticket-content">
         <h4>{action.spName === 'Information unavailable' ? action.spId : action.spName}</h4>
-        {action.personalMessage && <p>{action.personalMessage.replace(/\n/g, '<br>')}</p>}
+        {action.personalMessage && (
+          <p dangerouslySetInnerHTML={{ __html: action.personalMessage.replace(/\n/g, '<br>') }} />
+        )}
         <div className="actions">
           {action.spEid && (
             <Link to={`/apps/${action.spEid}/${type}/about`} className="c-button">

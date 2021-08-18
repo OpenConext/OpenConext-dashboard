@@ -161,6 +161,10 @@ I18n.translations.pt = {
       links: 'Links', // TODO: translate
       overview: 'Visão geral',
       connected_resource_servers: 'Resource servers',
+      policies: {
+        one: '1 policy',
+        other: '%{count} policies',
+      },
       sirtfi_security: 'Sirtfi Security',
       ssid: 'SURF Secure ID',
       privacy: 'Privacidade',
