@@ -14,7 +14,6 @@ import PolicyOverview from './pages/policy_overview'
 import PolicyDetail from './pages/policy_detail'
 import Dummy from './pages/dummy'
 import PolicyRevisions from './pages/policy_revisions'
-import History from './pages/history'
 import Profile from './pages/profile'
 import Welcome from './components/welcome'
 import Stats from './pages/stats'
@@ -83,7 +82,6 @@ class App extends React.Component {
                 <Route exact path="/apps/:back?" component={AppOverview} />
                 {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
                 {isViewerOrAdmin && <Route exact path="/tickets/:status?" component={Tickets} />}
-                {isViewerOrAdmin && <Route exact path="/tickets-old" component={History} />}
                 {nonGuest && <Route exact path="/profile" component={Profile} />}
                 {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
                 {nonGuest && <Route exact path="/my-idp" component={MyIdp} />}
