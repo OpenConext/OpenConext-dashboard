@@ -86,7 +86,7 @@ class Navigation extends React.Component {
           {hideTabs.indexOf('tickets') === -1 &&
             !currentUser.guest &&
             !currentUser.dashboardMember &&
-            this.renderItem('/tickets', 'history', activeTab === '/tickets', awaitingInputTickets)}
+            this.renderItem('/tickets', 'history', activeTab.startsWith('/tickets'), awaitingInputTickets)}
         </ul>
       </div>
     )
