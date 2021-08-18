@@ -10,7 +10,6 @@ import { ProtectedRoute, SuperUserProtectedRoute } from './components/protected_
 
 import AppDetail from './pages/app_detail'
 import AppOverview from './pages/app_overview'
-import PolicyOverview from './pages/policy_overview'
 import PolicyDetail from './pages/policy_detail'
 import Dummy from './pages/dummy'
 import PolicyRevisions from './pages/policy_revisions'
@@ -80,7 +79,6 @@ class App extends React.Component {
                 <Route exact path="/apps/connected" render={() => <ServicesOverview key="connected" connected />} />
                 <Route exact path="/apps/all" component={ServicesOverview} />
                 <Route exact path="/apps/:back?" component={AppOverview} />
-                {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
                 {isViewerOrAdmin && <Route exact path="/tickets/:status?" component={Tickets} />}
                 {nonGuest && <Route exact path="/profile" component={Profile} />}
                 {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
