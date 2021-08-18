@@ -893,6 +893,7 @@ I18n.translations.en = {
     header: 'Tickets',
     filter: 'Filter',
     last_updated: 'Last updated:',
+    no_results: 'No results',
     info: 'On this page you find all tickets related to (dis)connecting services and change requests.',
     moreAwaitingTickets:
       "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",

@@ -950,6 +950,7 @@ I18n.translations.nl = {
     header: 'Tickets',
     filter: 'Filter',
     last_updated: 'Laatst gewijzigd:',
+    no_results: 'Geen resultaten',
     info: 'Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken.',
     moreAwaitingTickets:
       "Niet alle 'Wachtende op goedkeuring' tickets worden getoond omdat als filter een periode is geselecteerd waarin niet al deze tickets vallen",

@@ -898,6 +898,7 @@ I18n.translations.pt = {
     header: 'Tickets',
     filter: 'Filter',
     last_updated: 'Last updated:',
+    no_results: 'No results',
     info: 'Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações.',
     moreAwaitingTickets:
       "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",

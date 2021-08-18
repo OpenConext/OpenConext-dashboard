@@ -10,6 +10,7 @@ import { ReactComponent as RobotIcon } from '../../images/robot-2.svg'
 import { searchJira } from '../api'
 import { CurrentUserContext } from '../App'
 import { isEmpty } from '../utils/utils'
+import pagination from '../utils/pagination'
 
 const statusMap = {
   todo: 'To Do',
@@ -18,14 +19,16 @@ const statusMap = {
   resolved: 'Resolved',
   closed: 'Closed',
 }
-
 const allTypes = ['LINKREQUEST', 'UNLINKREQUEST', 'CHANGE', 'LINKINVITE']
+const pageCount = 10
 
 export default function Tickets() {
   const [actions, setActions] = useState([])
+  const [loading, setLoading] = useState(true)
   const { status } = useParams()
   const currentStatus = statusMap[status] ? [statusMap[status]] : Object.values(statusMap)
   const { currentUser } = useContext(CurrentUserContext)
+  const [page, setPage] = useState(1)
 
   async function fetchActions() {
     const from = moment().subtract(1, 'year')
@@ -44,6 +47,7 @@ export default function Tickets() {
     const data = await searchJira(filter)
     const { issues } = data.payload
     setActions(issues)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -54,6 +58,8 @@ export default function Tickets() {
     { link: '/apps/connected', text: 'Home' },
     { link: `/tickets`, text: I18n.t('history.header') },
   ]
+
+  const visibleActions = actions.slice((page - 1) * pageCount, page * pageCount)
 
   return (
     <div className="tickets">
@@ -80,13 +86,48 @@ export default function Tickets() {
           </div>
           <div className="list">
             <h2>{I18n.t(`history.statuses.${statusMap[status] || 'all'}`)}</h2>
-            {actions.map((action) => (
+            {visibleActions.length === 0 && !loading && <p className="no-results">{I18n.t('history.no_results')}</p>}
+            {visibleActions.map((action) => (
               <Action key={action.jiraKey} action={action} currentUser={currentUser} />
             ))}
+            <Pagination page={page} total={actions.length} onChange={setPage} />
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+function Pagination({ page, total: resultLength, onChange }) {
+  if (resultLength <= pageCount) {
+    return null
+  }
+  const nbrPages = Math.ceil(resultLength / pageCount)
+  const rangeWithDots = pagination(page, nbrPages)
+  return (
+    <section className="pagination">
+      <section className="pagination-container">
+        {nbrPages > 1 && page !== 1 && (
+          <i className="fa fa-arrow-left" role="button" tabIndex={-1} onClick={() => onChange(page - 1)}></i>
+        )}
+        {rangeWithDots.map((nbr, index) =>
+          typeof nbr === 'string' || nbr instanceof String ? (
+            <span key={index} className="dots">
+              {nbr}
+            </span>
+          ) : nbr === page ? (
+            <span className="current" key={index}>
+              {nbr}
+            </span>
+          ) : (
+            <span key={index} onClick={() => onChange(nbr)} role="button" tabIndex={-1}>
+              {nbr}
+            </span>
+          )
+        )}
+        {nbrPages > 1 && page !== nbrPages && <i className="fa fa-arrow-right" onClick={() => onChange(page + 1)}></i>}
+      </section>
+    </section>
   )
 }
 
