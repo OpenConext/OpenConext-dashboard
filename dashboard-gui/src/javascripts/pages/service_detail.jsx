@@ -53,6 +53,7 @@ export default function ServiceDetail() {
     currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
   const showConsent =
     app.connected && currentUser.manageConsentEnabled && !currentUser.guest && !currentUser.dashboardMember
+  const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser
 
   const showSsid = app.connected && !currentUser.guest && !currentUser.dashboardMember
 
@@ -77,7 +78,7 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.statistics')}
           </Tab>
         )}
-        {(isAllowedToMaintainPolicies || showConsent || showSsid) && (
+        {(isViewerOrAdmin || showConsent || showSsid) && (
           <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
             {I18n.t('apps.tabs.settings')}
           </Tab>
@@ -95,6 +96,7 @@ export default function ServiceDetail() {
             <Settings
               app={app}
               type={type}
+              isViewerOrAdmin={isViewerOrAdmin}
               isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
               showConsent={showConsent}
               showSsid={showSsid}
