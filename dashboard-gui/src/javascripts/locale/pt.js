@@ -891,7 +891,10 @@ I18n.translations.pt = {
   },
 
   history: {
-    info: 'Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações. À esquerda pode editar o filtro aplicado a esta lista.',
+    header: 'Tickets',
+    filter: 'Filter',
+    last_updated: 'Last updated:',
+    info: 'Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações.',
     moreAwaitingTickets:
       "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",
     requestDate: 'Criado',
@@ -914,6 +917,7 @@ I18n.translations.pt = {
     typeIssue: 'Tipo',
     spEntityId: 'Serviço',
     statuses: {
+      all: 'All tickets',
       'To Do': 'Abrir',
       'In Progress': 'Em progresso',
       'Awaiting Input': 'Input pendente',
@@ -949,6 +953,7 @@ I18n.translations.pt = {
     servicePlaceHolder: 'Pesquisa e selecione um serviço...',
     noTicketsFound: 'Não foram encontrados pedidos para o filtro fornecido.',
     viewInvitation: 'Aprovar / Recusar',
+    serviceDetails: 'View service details',
   },
 
   stats: {

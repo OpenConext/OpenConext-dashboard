@@ -943,7 +943,10 @@ I18n.translations.nl = {
   },
 
   history: {
-    info: 'Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken. In het menu links kan je de lijst van tickets filteren.',
+    header: 'Tickets',
+    filter: 'Filter',
+    last_updated: 'Laatst gewijzigd:',
+    info: 'Hieronder alle tickets met betrekking tot (ont)koppelen van diensten of wijzigingsverzoeken.',
     moreAwaitingTickets:
       "Niet alle 'Wachtende op goedkeuring' tickets worden getoond omdat als filter een periode is geselecteerd waarin niet al deze tickets vallen",
     requestDate: 'Aangemaakt',
@@ -966,6 +969,7 @@ I18n.translations.nl = {
     typeIssue: 'Type',
     spEntityId: 'Dienst',
     statuses: {
+      all: 'Alle tickets',
       'To Do': 'Open',
       'In Progress': 'Bezig',
       'Awaiting Input': 'Wachtende op goedkeuring',
@@ -1004,6 +1008,7 @@ I18n.translations.nl = {
     resendInvitation: 'Herstuur uitnodiging',
     resendInvitationConfirmation: 'Weet je zeker dat je de uitnodigings mail nogmaals wilt versturen?',
     resendInvitationFlash: 'Uitnodigings mail voor {{jiraKey}} is opnieuw verstuurd',
+    serviceDetails: 'Bekijk dienst',
   },
   service_filter: {
     title: 'Filter diensten',

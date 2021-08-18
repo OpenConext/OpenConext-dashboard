@@ -24,6 +24,7 @@ import SearchUser from './pages/search_user'
 import EditMyIdp from './pages/edit_my_idp'
 import ServicesOverview from './pages/services_overview'
 import ServiceDetail from './pages/service_detail'
+import Tickets from './pages/tickets'
 
 import './locale/en'
 import './locale/nl'
@@ -81,7 +82,8 @@ class App extends React.Component {
                 <Route exact path="/apps/all" component={ServicesOverview} />
                 <Route exact path="/apps/:back?" component={AppOverview} />
                 {isViewerOrAdmin && <Route exact path="/policies" component={PolicyOverview} />}
-                {isViewerOrAdmin && <Route exact path="/tickets" component={History} />}
+                {isViewerOrAdmin && <Route exact path="/tickets/:status?" component={Tickets} />}
+                {isViewerOrAdmin && <Route exact path="/tickets-old" component={History} />}
                 {nonGuest && <Route exact path="/profile" component={Profile} />}
                 {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
                 {nonGuest && <Route exact path="/my-idp" component={MyIdp} />}

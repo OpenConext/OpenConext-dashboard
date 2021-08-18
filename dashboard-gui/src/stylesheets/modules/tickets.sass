@@ -1,0 +1,107 @@
+@import "../base/type.sass"
+@import "../utilities/vars.sass"
+
+.tickets
+  .tickets-header
+    background-color: #f3f6f8
+    padding: 17px 0
+
+    .container
+      display: flex
+      align-items: center
+
+      h1
+        font-size: 30px
+        font-weight: 600
+        margin-left: 28px
+
+    svg
+      width: 34px
+
+    span
+      margin-left: 45px
+      color: #4e4e4e
+      font-size: 12px
+
+  .tickets-content
+    padding-top: 34px
+
+    .container
+      display: flex
+
+    h2
+      @extend %h2
+    h3
+      font-size: 20px
+      font-weight: 600
+
+    .filters
+      width: 200px
+      a
+        font-size: 16px
+        display: block
+        font-weight: 600
+        text-decoration: none
+        margin: 16px 0
+
+        &.active
+          color: $text
+
+    .list
+      flex: 1
+
+      .ticket
+        border: 1px solid #c8c8c8
+        border-radius: 6px
+        margin: 20px 0
+        display: flex
+
+        .ticket-content
+          padding: 12px 28px
+          flex: 1
+
+          h4
+            font-size: 18px
+            color: #1e5db4
+            font-weight: 600
+            margin-bottom: 12px
+
+          p
+            font-size: 16px
+
+          .actions
+            a
+              margin-top: 20px
+              margin-left: 10px
+
+              &:first-child
+                margin-left: 0
+
+        .ticket-details
+          width: 270px
+          border-left: 1px solid #e4e4e4
+
+        .ticket-detail-row
+          display: flex
+          align-items: center
+          padding: 13px 0
+          border-bottom: 1px solid #dadada
+
+          &:last-child
+            border-bottom: none
+
+          &.type
+            font-size: 16px
+            color: #353535
+            font-weight: 600
+            background-color: #f3f6f8
+
+          &.timestamps
+            font-size: 12px
+            line-height: 14px
+
+          svg
+            margin: 0 24px
+            width: 24px
+
+

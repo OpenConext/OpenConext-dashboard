@@ -890,7 +890,10 @@ I18n.translations.en = {
   },
 
   history: {
-    info: 'On this page you find all tickets related to (dis)connecting services and change requests. On the left you can edit the filter applied to this list.',
+    header: 'Tickets',
+    filter: 'Filter',
+    last_updated: 'Last updated:',
+    info: 'On this page you find all tickets related to (dis)connecting services and change requests.',
     moreAwaitingTickets:
       "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",
     requestDate: 'Created',
@@ -913,6 +916,7 @@ I18n.translations.en = {
     typeIssue: 'Type',
     spEntityId: 'Service',
     statuses: {
+      all: 'All tickets',
       'To Do': 'Open',
       'In Progress': 'In progress',
       'Awaiting Input': 'Pending input',
@@ -951,6 +955,7 @@ I18n.translations.en = {
     resendInvitation: 'Resend invitation mail',
     resendInvitationConfirmation: 'Are you sure you want to resend the invitation mail?',
     resendInvitationFlash: 'Invitation mail for {{jiraKey}} was resent',
+    serviceDetails: 'View service details',
   },
 
   stats: {
