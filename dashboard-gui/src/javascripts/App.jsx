@@ -8,11 +8,7 @@ import Header from './components/header'
 import Footer from './components/footer'
 import { ProtectedRoute, SuperUserProtectedRoute } from './components/protected_route'
 
-import AppDetail from './pages/app_detail'
-import AppOverview from './pages/app_overview'
-import PolicyDetail from './pages/policy_detail'
 import Dummy from './pages/dummy'
-import PolicyRevisions from './pages/policy_revisions'
 import Profile from './pages/profile'
 import Welcome from './components/welcome'
 import Stats from './pages/stats'
@@ -42,8 +38,6 @@ class App extends React.Component {
   render() {
     const { currentUser } = this.props
     const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser
-    const isAllowedToMaintainPolicies =
-      currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
     const nonGuest = !currentUser.guest
     const showStats = currentUser.showStats()
     return (
@@ -74,11 +68,8 @@ class App extends React.Component {
                     },
                   }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
                 />
-                <Route exact path="/apps/:id/:type/:activePanel" component={AppDetail} />
-
                 <Route exact path="/apps/connected" render={() => <ServicesOverview key="connected" connected />} />
                 <Route exact path="/apps/all" component={ServicesOverview} />
-                <Route exact path="/apps/:back?" component={AppOverview} />
                 {isViewerOrAdmin && <Route exact path="/tickets/:status?" component={Tickets} />}
                 {nonGuest && <Route exact path="/profile" component={Profile} />}
                 {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
@@ -91,10 +82,6 @@ class App extends React.Component {
                   path="/users/resend_invite/:jiraKey"
                   component={ResendInvite}
                 />
-                {isAllowedToMaintainPolicies && (
-                  <Route exact path="/policies/:id/revisions" component={PolicyRevisions} />
-                )}
-                {isAllowedToMaintainPolicies && <Route exact path="/policies/:id" component={PolicyDetail} />}
                 <Route exact path="/dummy" component={Dummy} />
                 <Route component={NotFound} />
               </Switch>
