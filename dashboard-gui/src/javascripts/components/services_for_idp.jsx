@@ -8,10 +8,12 @@ import groupBy from 'lodash.groupby'
 import ContactPerson from '../components/contact_person'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { CurrentUserContext } from '../App'
 
 export default function SerivcesForIdp() {
   const [services, setServices] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function fetchServiceProviders() {
@@ -24,11 +26,31 @@ export default function SerivcesForIdp() {
     fetchServiceProviders()
   }, [])
 
+  const filteredServices =
+    searchQuery.length > 0
+      ? services.filter(
+          (service) =>
+            Object.values(service.names).some((name) => name.toLowerCase().indexOf(searchQuery) > -1) ||
+            service.spEntityId.toLowerCase().indexOf(searchQuery) > -1
+        )
+      : services
+
   return (
     <div className="services-overview">
-      <h2>{I18n.t('my_idp.services_title')}</h2>
-      {!loading && services.length === 0 && <span>{I18n.t('my_idp.services_title_none')}</span>}
-      {services
+      <div className="title-container">
+        <h2>{I18n.t('my_idp.services_title')}</h2>
+        <div className="search-container">
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value.trim().toLowerCase())}
+            placeholder={I18n.t('apps.overview.search_hint')}
+          />
+          <FontAwesomeIcon icon={faSearch} />
+        </div>
+      </div>
+      {!loading && filteredServices.length === 0 && <span>{I18n.t('my_idp.services_title_none')}</span>}
+      {filteredServices
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((service) => (
           <Service key={service.id} service={service} />
