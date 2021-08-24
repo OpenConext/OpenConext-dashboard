@@ -669,12 +669,15 @@ I18n.translations.nl = {
 
   my_idp: {
     title: 'Mijn instelling',
+    general_information: 'Algemene informatie',
+    english: 'Engels',
+    dutch: 'Nederlands',
     roles: 'Rollen',
     sub_title_html:
       'De volgende rollen zijn toegekend (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">toelichting</a>):',
     role: 'Rol',
     users: 'Gebruiker(s)',
-    settings: 'Gegevens van mijn eigen instelling',
+    settings: 'Instellingen',
     settings_edit: 'Gegevens van mijn eigen instelling en diensten',
     settings_text:
       "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens laten wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
@@ -700,16 +703,19 @@ I18n.translations.nl = {
     testaccepted: 'Staging',
     all: 'Alle',
     name: {
+      general: 'Naam',
       en: 'Naam (en)',
       nl: 'Naam (nl)',
       pt: 'Naam (pt)',
     },
     displayName: {
+      general: 'Weergave naam',
       en: 'Weergave naam (en)',
       nl: 'Weergave naam (nl)',
       pt: 'Weergave naam (pt)',
     },
     organizationURL: {
+      general: 'Organisatie URL',
       en: 'Organisatie URL (en)',
       nl: 'Organisatie URL (nl)',
       pt: 'Organisatie URL (pt)',
@@ -718,6 +724,7 @@ I18n.translations.nl = {
     organizationURL_en_tooltip: 'Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.',
     organizationURL_pt_tooltip: 'Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.',
     organizationName: {
+      general: 'Organisatie naam',
       en: 'Organisatie naam (en)',
       nl: 'Organisatie naam (nl)',
       pt: 'Organisatie naam (pt)',
@@ -726,6 +733,7 @@ I18n.translations.nl = {
     organizationName_en_tooltip: 'De officiële Engelse naam van de organisatie.',
     organizationName_pt_tooltip: 'De officiële Portugese naam van de organisatie.',
     organizationDisplayName: {
+      general: 'Organisatie weergave naam',
       en: 'Organisatie weergave naam (en)',
       nl: 'Organisatie weergave naam name (nl)',
       pt: 'Organisatie weergave naam (pt)',
@@ -734,6 +742,7 @@ I18n.translations.nl = {
     organizationDisplayName_en_tooltip: 'De Engelse weergave naam van de organisatie.',
     organizationDisplayName_pt_tooltip: 'De Portugese weergave naam van de organisatie.',
     keywords: {
+      general: 'Trefwoorden',
       en: 'Trefwoorden (en)',
       nl: 'Trefwoorden (nl)',
       pt: 'Trefwoorden (pt)',
@@ -754,7 +763,7 @@ I18n.translations.nl = {
     displayStatsInDashboard: 'Leden kunnen statistieken zien',
     displayStatsInDashboardTooltip:
       'Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan je instelling kunnen worden bekeken door reguliere gebruikers<br>van je instelling.',
-    contact: 'Contactpersonen voor {{name}}',
+    contact: 'Contactpersonen',
     contact_name: {
       title: 'Contact naam',
     },
@@ -813,6 +822,7 @@ I18n.translations.nl = {
       },
     },
     description: {
+      general: 'Beschrijving',
       en: 'Beschrijving (en)',
       nl: 'Beschrijving (nl)',
       pt: 'Beschrijving (pt)',

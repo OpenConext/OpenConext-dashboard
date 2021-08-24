@@ -610,12 +610,15 @@ I18n.translations.en = {
 
   my_idp: {
     title: 'My institute',
+    general_information: 'General information',
+    english: 'English',
+    dutch: 'Dutch',
     roles: 'Roles',
     sub_title_html:
       'The following roles have been assigned (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">more info</a>):',
     role: 'Role',
     users: 'User(s)',
-    settings: 'Settings for my own institute',
+    settings: 'Settings',
     settings_edit: 'Settings for my own institute and services',
     settings_text:
       "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
@@ -641,16 +644,19 @@ I18n.translations.en = {
     testaccepted: 'Staging',
     all: 'All',
     name: {
+      general: 'Name',
       en: 'Name (en)',
       nl: 'Name (nl)',
       pt: 'Name (pt)',
     },
     displayName: {
+      general: 'Display name',
       en: 'Display name (en)',
       nl: 'Display name (nl)',
       pt: 'Display name (pt)',
     },
     organizationURL: {
+      general: 'Organization URL',
       en: 'Organization URL (en)',
       nl: 'Organization URL (nl)',
       pt: 'Organization URL (pt)',
@@ -660,6 +666,7 @@ I18n.translations.en = {
     organizationURL_pt_tooltip:
       'A URL the end user can access for more information in Portuguese about the organization.',
     organizationName: {
+      general: 'Organization name',
       en: 'Organization name (en)',
       nl: 'Organization name (nl)',
       pt: 'Organization name (pt)',
@@ -668,6 +675,7 @@ I18n.translations.en = {
     organizationName_en_tooltip: 'The official English name of the organization.',
     organizationName_pt_tooltip: 'The official Portuguese name of the organization.',
     organizationDisplayName: {
+      general: 'Organization display name',
       en: 'Organization display name (en)',
       nl: 'Organization display name (nl)',
       pt: 'Organization display name (pt)',
@@ -676,6 +684,7 @@ I18n.translations.en = {
     organizationDisplayName_en_tooltip: 'The English display name of the organization.',
     organizationDisplayName_pt_tooltip: 'The Portuguese display name of the organization.',
     keywords: {
+      general: 'Keywords',
       en: 'Keywords (en)',
       nl: 'Keywords (nl)',
       pt: 'Keywords (pt)',
@@ -696,7 +705,7 @@ I18n.translations.en = {
     displayStatsInDashboard: 'Allow regular members to see statistics',
     displayStatsInDashboardTooltip:
       'This means that regular members of your institution<br>can see the usage / statistics of the services connected<br>to this institution.',
-    contact: 'Contact persons for {{name}}',
+    contact: 'Contact persons',
     contact_name: {
       title: 'Contact name',
     },
@@ -755,6 +764,7 @@ I18n.translations.en = {
       },
     },
     description: {
+      general: 'Description',
       en: 'Description (en)',
       nl: 'Description (nl)',
       pt: 'Description (pt)',

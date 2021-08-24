@@ -611,12 +611,15 @@ I18n.translations.pt = {
 
   my_idp: {
     title: 'A minha instituição',
+    general_information: 'General information',
+    english: 'English',
+    dutch: 'Dutch',
     roles: 'Perfis',
     sub_title_html:
       'Os seguintes perfis foram atribuídos (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">mais info</a>):',
     role: 'Perfil',
     users: 'Utilizador(es)',
-    settings: 'Configurações da minha Instituição',
+    settings: 'Configurações',
     settings_edit: 'Configurações da minha instituição e serviços',
     settings_text:
       "Esta secção contém várias configurações da sua instituição e de Fornecedores de Serviço(s) fornecidos à RCTSaai através da sua instituição.Estas configurações são utilizadas na RCTSaai, por exemplo na página Where Are You From. Se pretende alterar informação, clique em 'Criar pedido de alteração'.",
@@ -642,16 +645,19 @@ I18n.translations.pt = {
     testaccepted: 'Testes',
     all: 'Todos',
     name: {
+      general: 'Nome',
       en: 'Nome (en)',
       nl: 'Nome (nl)',
       pt: 'Nome (pt)',
     },
     displayName: {
+      general: 'Nome de Exibido',
       en: 'Nome de Exibido (en)',
       nl: 'Nome de Exibido (nl)',
       pt: 'Nome de Exibido (pt)',
     },
     organizationURL: {
+      general: 'URL da Organização',
       en: 'URL da Organização (en)',
       nl: 'URL da Organização (nl)',
       pt: 'URL da Organização (pt)',
@@ -663,6 +669,7 @@ I18n.translations.pt = {
     organizationURL_pt_tooltip:
       'URL onde o utilizador final pode aceder para obter mais informações sobre a organização em Português.',
     organizationName: {
+      general: 'Nome da Organização',
       en: 'Nome da Organização (en)',
       nl: 'Nome da Organização (nl)',
       pt: 'Nome da Organização (pt)',
@@ -671,6 +678,7 @@ I18n.translations.pt = {
     organizationName_en_tooltip: 'Nome oficial da organização em Inglês.',
     organizationName_pt_tooltip: 'Nome oficial da organização em Português.',
     organizationDisplayName: {
+      general: 'Nome de Apresentação da Organização',
       en: 'Nome de Apresentação da Organização(en)',
       nl: 'Nome de Apresentação da Organização(nl)',
       pt: 'Nome de Apresentação da Organização(pt)',
@@ -679,6 +687,7 @@ I18n.translations.pt = {
     organizationDisplayName_en_tooltip: 'Nome de visualização oficial da organização em Inglês.',
     organizationDisplayName_pt_tooltip: 'Nome de visualização oficial da organização em Português.',
     keywords: {
+      general: 'Keywords',
       en: 'Keywords (en)',
       nl: 'Keywords (nl)',
       pt: 'Keywords (pt)',
@@ -699,7 +708,7 @@ I18n.translations.pt = {
     displayStatsInDashboard: 'Allow regular members to see statistics',
     displayStatsInDashboardTooltip:
       'This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.',
-    contact: 'Contacto para {{name}}',
+    contact: 'Contacto',
     contact_name: {
       title: 'Nome do contacto',
     },
@@ -758,6 +767,7 @@ I18n.translations.pt = {
       },
     },
     description: {
+      general: 'Descrição',
       en: 'Descrição (en)',
       nl: 'Descrição (nl)',
       pt: 'Descrição (pt)',

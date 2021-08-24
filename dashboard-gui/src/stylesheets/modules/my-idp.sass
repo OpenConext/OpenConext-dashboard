@@ -1,0 +1,165 @@
+@import "../utilities/vars.sass"
+
+.my-idp
+
+  .header
+    background-color: #f3f6f8
+    padding: 16px 0
+    margin-bottom: 22px
+
+    h1
+      font-size: 30px
+      font-weight: 600
+
+    img
+      width: 80px
+      margin-right: 14px
+
+    .container
+      display: flex
+      align-items: center
+
+  .content
+    font-size: 16px
+
+  .roles-table, .general-information, .settings, .contact-persons
+    margin-bottom: 40px
+
+  .header-with-button
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    a
+      font-size: 14px
+
+  .settings
+    td:first-child
+      width: 70%
+
+    .tooltip-container
+      justify-content: flex-start
+
+    svg
+      margin-left: 9px
+
+  .contact-persons
+    .contact-persons-grid
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(382px, 1fr))
+      border-radius: 0 0 8px 8px
+      grid-row-gap: 30px
+      grid-column-gap: 37px
+      margin-top: 20px
+
+      .contact-person-container
+        border: 1px solid #c8c8c8
+        border-radius: 6px
+
+        .contact-person-name
+          padding: 14px 28px
+          border-bottom: 1px solid #dadada
+
+          h3
+            font-size: 20px
+            font-weight: 600
+
+        .contact-person-contact-info
+          padding: 14px 28px
+          border-bottom: 1px solid #dadada
+
+          .contact-person-email
+            color: $blue
+            margin-bottom: 30px
+
+            svg *
+              stroke: $blue
+
+          .contact-person-email, .contact-person-telephone
+            display: flex
+
+            a
+              font-weight: bold
+              text-decoration: none
+
+            svg
+              width: 20px
+              margin-right: 25px
+
+        .contact-person-type
+          padding: 14px 16px
+          background-color: #f3f6f8
+          display: flex
+          justify-content: flex-end
+          align-items: center
+          border-radius: 0 0 6px 6px
+
+          .type-badge
+            color: #494949
+            font-size: 12px
+            font-weight: 600
+            background-color: #bfedff
+            border-radius: 100px
+            border: 2px solid #fff
+            padding: 2px 10px
+
+  h2
+    font-weight: 600
+    font-size: 24px
+    margin-bottom: 5px
+
+  .badge
+    font-size: 12px
+    width: 49px
+    height: 22px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 100px
+    font-weight: 600
+
+    &.enabled
+      background-color: #b5f2c6
+      color: #494949
+
+    &.disabled
+      background-color: #ff685c
+      color: #fff
+
+  table
+    width: 100%
+    border: 1px solid #c8c8c8
+    border-radius: 6px
+    border-collapse: separate !important;
+    margin: 16px 0
+
+    tr
+      border-bottom: 1px solid #c8c8c8
+
+      &.logo-url
+        background-color: #f3f6f8
+
+      th, td
+        padding: 11px 27px
+        border-bottom: 1px solid #c8c8c8
+        vertical-align: middle
+
+        &.bold
+          font-weight: 600
+
+      th
+        color: #1e5db4
+
+      &:last-child
+        td
+          border-bottom: none
+
+      .tooltip-container
+        display: flex
+        justify-content: space-between
+
+      svg.fa-question-circle
+        color: $blue
+
+      img
+        width: 80px

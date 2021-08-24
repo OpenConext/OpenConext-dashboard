@@ -12,7 +12,8 @@ import Dummy from './pages/dummy'
 import Profile from './pages/profile'
 import Welcome from './components/welcome'
 import Stats from './pages/stats'
-import MyIdp from './pages/idp'
+import MyIdpOld from './pages/idp'
+import MyIdp from './pages/my_idp'
 import NotFound from './pages/not_found'
 import SearchUser from './pages/search_user'
 import EditMyIdp from './pages/edit_my_idp'
@@ -74,6 +75,7 @@ class App extends React.Component {
                 {nonGuest && <Route exact path="/profile" component={Profile} />}
                 {showStats && <Route exact path="/statistics" render={(props) => <Stats view="full" {...props} />} />}
                 {nonGuest && <Route exact path="/my-idp" component={MyIdp} />}
+                {nonGuest && <Route exact path="/my-idp-old" component={MyIdpOld} />}
                 {currentUser.dashboardAdmin && <Route exact path="/my-idp/edit" component={EditMyIdp} />}
                 <SuperUserProtectedRoute currentUser={currentUser} path="/users/search" component={SearchUser} />
                 <SuperUserProtectedRoute currentUser={currentUser} path="/users/invite" component={InviteRequest} />
