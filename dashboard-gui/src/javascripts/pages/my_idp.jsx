@@ -5,11 +5,11 @@ import I18n from 'i18n-js'
 import ReactTooltip from 'react-tooltip'
 import { getIdpRolesWithUsers } from '../api'
 import Breadcrumbs from '../components/breadcrumbs'
+import ContactPerson from '../components/contact_person'
+import ServicesForIdp from '../components/services_for_idp'
 import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
-import { ReactComponent as EmailIcon } from '../../images/email-action-unread.svg'
-import { ReactComponent as TelephoneIcon } from '../../images/phone-actions-wait-1.svg'
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
@@ -45,6 +45,7 @@ export default function MyIdp() {
         <GeneralInformation idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
         <Settings idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
         <ContactPersons idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
+        <ServicesForIdp />
       </div>
     </div>
   )
@@ -63,30 +64,7 @@ function ContactPersons({ idp, isDashboardAdmin }) {
       </div>
       <div className="contact-persons-grid">
         {idp.contactPersons.map((contactPerson, i) => (
-          <div className="contact-person-container" key={i}>
-            <div className="contact-person-name">
-              <h3>{contactPerson.name}</h3>
-            </div>
-            <div className="contact-person-contact-info">
-              <div className="contact-person-email">
-                <EmailIcon />
-                {contactPerson.emailAddress ? (
-                  <a href={`mailto:${contactPerson.emailAddress}`}>{contactPerson.emailAddress}</a>
-                ) : (
-                  '-'
-                )}
-              </div>
-              <div className="contact-person-telephone">
-                <TelephoneIcon />
-                {contactPerson.telephoneNumber || '-'}
-              </div>
-            </div>
-            <div className="contact-person-type">
-              <div className="type-badge">
-                {I18n.t('my_idp.contact_types.' + contactPerson.contactPersonType + '.display')}
-              </div>
-            </div>
-          </div>
+          <ContactPerson contactPerson={contactPerson} key={i} />
         ))}
       </div>
     </div>
