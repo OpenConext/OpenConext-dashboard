@@ -10,6 +10,7 @@ import ServicesForIdp from '../components/services_for_idp'
 import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
+import groupBy from 'lodash.groupby'
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
@@ -55,6 +56,20 @@ function ContactPersons({ idp, isDashboardAdmin }) {
   if (!idp.contactPersons || idp.contactPersons.length === 0) {
     return null
   }
+
+  const groupedContactPersons = groupBy(idp.contactPersons, (contactPerson) => {
+    return `${contactPerson.name}-${contactPerson.emailAddress}-${contactPerson.telephoneNumber}`
+  })
+
+  const contactPersons = Object.values(groupedContactPersons).map((roleObjects) => {
+    return {
+      name: roleObjects[0].name,
+      emailAddress: roleObjects[0].emailAddress,
+      telephoneNumber: roleObjects[0].telephoneNumber,
+      types: [...new Set(roleObjects.map((x) => x.contactPersonType))],
+    }
+  })
+
   return (
     <div className="contact-persons">
       <div className="header-with-button">
@@ -63,7 +78,7 @@ function ContactPersons({ idp, isDashboardAdmin }) {
         {isDashboardAdmin && <EditIdpButton />}
       </div>
       <div className="contact-persons-grid">
-        {idp.contactPersons.map((contactPerson, i) => (
+        {contactPersons.map((contactPerson, i) => (
           <ContactPerson contactPerson={contactPerson} key={i} />
         ))}
       </div>

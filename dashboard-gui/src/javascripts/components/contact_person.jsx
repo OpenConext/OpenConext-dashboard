@@ -24,9 +24,11 @@ export default function ContactPerson({ contactPerson }) {
         </div>
       </div>
       <div className="contact-person-type">
-        <div className="type-badge">
-          {I18n.t('my_idp.contact_types.' + contactPerson.contactPersonType + '.display')}
-        </div>
+        {contactPerson.types.map((type) => (
+          <div className="type-badge" key={type}>
+            {I18n.t('my_idp.contact_types.' + type + '.display')}
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { getInstitutionServiceProviders } from '../api'
 import moment from 'moment'
 import ReactTooltip from 'react-tooltip'
+import groupBy from 'lodash.groupby'
 import ContactPerson from '../components/contact_person'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
@@ -47,6 +48,19 @@ function EditIdpButton() {
 function Service({ service }) {
   const { currentUser } = useContext(CurrentUserContext)
   const isDashboardAdmin = currentUser.dashboardAdmin
+
+  const groupedContactPersons = groupBy(service.contactPersons, (contactPerson) => {
+    return `${contactPerson.name}-${contactPerson.emailAddress}-${contactPerson.telephoneNumber}`
+  })
+
+  const contactPersons = Object.values(groupedContactPersons).map((roleObjects) => {
+    return {
+      name: roleObjects[0].name,
+      emailAddress: roleObjects[0].emailAddress,
+      telephoneNumber: roleObjects[0].telephoneNumber,
+      types: [...new Set(roleObjects.map((x) => x.contactPersonType))],
+    }
+  })
 
   return (
     <div className="service">
@@ -140,13 +154,13 @@ function Service({ service }) {
           </tbody>
         </table>
       </div>
-      {service.contactPersons && service.contactPersons.length > 0 && (
+      {contactPersons && contactPersons.length > 0 && (
         <div className="contact-persons">
           <div className="header-with-button">
             <h2>{I18n.t('my_idp.contact')}</h2>
           </div>
           <div className="contact-persons-grid">
-            {service.contactPersons.map((contactPerson, i) => (
+            {contactPersons.map((contactPerson, i) => (
               <ContactPerson contactPerson={contactPerson} key={i} />
             ))}
           </div>
