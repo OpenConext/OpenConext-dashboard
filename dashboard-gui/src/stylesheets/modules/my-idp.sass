@@ -29,6 +29,7 @@
     display: flex
     justify-content: space-between
     align-items: center
+    flex-wrap: wrap
 
     a
       font-size: 14px
@@ -42,12 +43,15 @@
 
     .service
       border: 1px solid #c8c8c8
-      padding: 20px
+      padding: 10px
+      @media(min-width: 768px)
+        padding: 20px
       border-radius: 6px
       margin: 20px 0
 
     .title-container
       display: flex
+      flex-wrap: wrap
       align-items: center
       justify-content: space-between
 
@@ -75,7 +79,10 @@
 
   .general-information table
     td:first-child
-      width: 250px
+      width: 120px
+
+      @media(min-width: 768px)
+        width: 250px
 
     td
       width: calc(50% - 125px)
@@ -93,7 +100,7 @@
   .contact-persons
     .contact-persons-grid
       display: grid
-      grid-template-columns: repeat(auto-fill, minmax(382px, 1fr))
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
       border-radius: 0 0 8px 8px
       grid-row-gap: 30px
       grid-column-gap: 37px
@@ -188,7 +195,9 @@
         background-color: #f3f6f8
 
       th, td
-        padding: 11px 27px
+        padding: 11px 10px
+        @media(min-width: 768px)
+          padding: 11px 27px
         border-bottom: 1px solid #c8c8c8
         vertical-align: middle
         word-break: break-word
