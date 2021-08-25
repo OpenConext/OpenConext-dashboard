@@ -63,8 +63,11 @@
         display: flex
 
         .ticket-content
-          padding: 12px 28px
+          padding: 12px
           flex: 1
+
+          @media(min-width: 768px)
+            padding: 12px 28px
 
           h4
             font-size: 18px
@@ -112,7 +115,9 @@
             line-height: 14px
 
           svg
-            margin: 0 24px
+            margin: 0 12px
+            @media(min-width: 768px)
+              margin: 0 24px
             width: 24px
 
 
