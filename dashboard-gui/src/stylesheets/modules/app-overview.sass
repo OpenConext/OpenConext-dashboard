@@ -44,9 +44,11 @@
 
   .apps-and-search
     flex: 1
+    flex-basis: 400px
 
   .facets-and-table
     display: flex
+    flex-wrap: wrap-reverse
 
   table
     width: 100%
@@ -61,9 +63,14 @@
         font-weight: 600
 
     td
-      padding: 15px 10px
+      padding: 10px 5px
+
+      @media(min-width: 1080px)
+        padding: 15px 10px
+
       vertical-align: middle
       font-size: 16px
+      word-break: break-word
 
     tbody
       tr
@@ -85,7 +92,19 @@
           stroke: $jade-green
 
     td.vendor
-      width: 185px
+      width: 80px
+
+      @media(min-width: 400px)
+        width: 120px
+
+      @media(min-width: 1080px)
+        width: 185px
 
     td.license
-      width: 185px
+      width: 80px
+
+      @media(min-width: 400px)
+        width: 120px
+
+      @media(min-width: 1080px)
+        width: 185px

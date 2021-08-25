@@ -6,6 +6,7 @@
   .container
     display: flex
     justify-content: space-between
+    flex-wrap: wrap
 
   a
     display: block
@@ -15,9 +16,13 @@
     &:hover
       color: darken(#b2e5ff, 5%)
 
+  .help, .powered-by-surf
+    margin-bottom: 10px
+
   ul.language-selector
     display: flex
     align-items: flex-start
+    margin-bottom: 10px
 
     li
       border-right: 1px #b2e5ff solid
