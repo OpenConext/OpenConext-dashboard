@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import I18n from 'i18n-js'
 import ReactTooltip from 'react-tooltip'
+import qs from 'query-string'
 import includes from 'lodash.includes'
 import isEmpty from 'lodash.isempty'
 import { disableConsent, exportApps } from '../api'
 import stopEvent from '../utils/stop'
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as ConnectedServiceIcon } from '../../images/tags-favorite-star.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { setBackPath } from '../utils/back_path'
 
 import Facets from '../components/facets'
 import Pagination from '../components/pagination'
@@ -17,10 +19,13 @@ import { consentTypes } from '../utils/utils'
 const PAGE_COUNT = 25
 
 export default function AppList({ apps, currentUser, facets: remoteFacets }) {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [activeFacets, setActiveFacets] = useState({})
+  const history = useHistory()
+  const location = useLocation()
+  const queryString = qs.parse(location.search)
+  const [searchQuery, setSearchQuery] = useState(queryString.search || '')
+  const [activeFacets, setActiveFacets] = useState(queryString.activeFacets ? JSON.parse(queryString.activeFacets) : {})
   const [downloading, setDownloading] = useState(false)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(queryString.page || 1)
   const [entityCategoriesFacetSelector, setEntityCategoriesFacetSelector] = useState(false)
   const [idpDisableConsent, setIdpDisableConsent] = useState([])
 
@@ -45,16 +50,29 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
 
     setActiveFacets(newFacets)
     setPage(1)
+    history.replace({
+      search: qs.stringify({ ...qs.parse(location.search), activeFacets: JSON.stringify(newFacets), page: 1 }),
+    })
+  }
+
+  function onPageChange(page) {
+    setPage(page)
+    history.replace({ search: qs.stringify({ ...qs.parse(location.search), page }) })
   }
 
   function resetFilters() {
     setActiveFacets({})
+    setSearchQuery('')
     setPage(1)
+    history.replace({ search: null })
   }
 
   function onSearch(e) {
     setSearchQuery(e.target.value.toLowerCase())
     setPage(1)
+    history.replace({
+      search: qs.stringify({ ...qs.parse(location.search), search: e.target.value.toLowerCase(), page: 1 }),
+    })
   }
 
   const stepupEntities = currentUser.getCurrentIdp().stepupEntities || []
@@ -512,7 +530,12 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
                   <tr key={app.id}>
                     <td className="connected">{app.connected && <ConnectedServiceIcon />}</td>
                     <td className="name">
-                      <Link to={`/apps/${app.id}/${app.entityType}/about`}>{app.name}</Link>
+                      <Link
+                        to={`/apps/${app.id}/${app.entityType}/about`}
+                        onClick={() => setBackPath(`${location.pathname}${location.search}`)}
+                      >
+                        {app.name}
+                      </Link>
                     </td>
                     <td className="vendor">{app.organisation}</td>
                     <td className="license">{I18n.t('facets.static.license.' + app.licenseStatus.toLowerCase())}</td>
@@ -527,7 +550,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
               )}
             </tbody>
           </table>
-          <Pagination page={page} pageCount={PAGE_COUNT} total={filteredApps.length} onChange={setPage} />
+          <Pagination page={page} pageCount={PAGE_COUNT} total={filteredApps.length} onChange={onPageChange} />
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import DisconnectModal from '../components/disconnect_modal'
 import LicenseInfoText from '../components/license_info_text'
 import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.svg'
 import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
+import { getBackPath } from '../utils/back_path'
 
 export default function ServiceHeader({ app, policies }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -61,7 +62,7 @@ export default function ServiceHeader({ app, policies }) {
         <div className="container">
           <div className="header-wrapper">
             <div className="arrow-container">
-              <Link to="/apps/connected">
+              <Link to={getBackPath}>
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Link>
             </div>
