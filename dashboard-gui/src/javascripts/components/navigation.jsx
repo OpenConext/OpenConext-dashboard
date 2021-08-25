@@ -1,12 +1,12 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 import { slide as Menu } from 'react-burger-menu'
 
 import { isEmpty } from '../utils/utils'
 import { searchJira } from '../api'
-import stopEvent from '../utils/stop'
 import { emitter } from '../utils/flash'
 
 class Navigation extends React.Component {
@@ -47,19 +47,18 @@ class Navigation extends React.Component {
   renderItem(href, value, active, marker = 0) {
     return (
       <li>
-        <a
-          href={href}
+        <Link
+          to={href}
           className={active ? 'active' : ''}
-          onClick={(e) => {
-            stopEvent(e)
+          onClick={() => {
             if (href === '/tickets') {
               this.getAwaitingInputJiraTickets()
             }
-            this.props.history.push(href)
+            this.props.onMobileMenuChange(false)
           }}
         >
           {I18n.t('navigation.' + value)}
-        </a>
+        </Link>
         {marker > 0 && <span className="marker">{marker}</span>}
       </li>
     )
