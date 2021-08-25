@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
+import { slide as Menu } from 'react-burger-menu'
 
 import { isEmpty } from '../utils/utils'
 import { searchJira } from '../api'
@@ -64,30 +65,45 @@ class Navigation extends React.Component {
     )
   }
 
-  render() {
+  renderNavigationItems() {
     const { currentUser } = this.context
     const { awaitingInputTickets } = this.state
     const showInviteRequest = !isEmpty(currentUser) && currentUser.superUser
     const activeTab = this.props.location.pathname
     const hideTabs = currentUser.getHideTabs()
+
+    return (
+      <ul>
+        {hideTabs.indexOf('apps') === -1 && this.renderItem('/apps/connected', 'apps', activeTab.startsWith('/apps'))}
+        {hideTabs.indexOf('my_idp') === -1 &&
+          !currentUser.guest &&
+          this.renderItem('/my-idp', 'my_idp', activeTab === '/my-idp')}
+        {currentUser.showStats() && this.renderItem('/statistics', 'stats', activeTab === '/statistics')}
+        {hideTabs.indexOf('user_invite') === -1 &&
+          !currentUser.guest &&
+          !currentUser.dashboardMember &&
+          showInviteRequest &&
+          this.renderItem('/users/invite', 'invite_request', activeTab === '/users/invite')}
+        {hideTabs.indexOf('tickets') === -1 &&
+          !currentUser.guest &&
+          !currentUser.dashboardMember &&
+          this.renderItem('/tickets', 'history', activeTab.startsWith('/tickets'), awaitingInputTickets)}
+      </ul>
+    )
+  }
+
+  render() {
     return (
       <div className="mod-navigation">
-        <ul>
-          {hideTabs.indexOf('apps') === -1 && this.renderItem('/apps/connected', 'apps', activeTab.startsWith('/apps'))}
-          {hideTabs.indexOf('my_idp') === -1 &&
-            !currentUser.guest &&
-            this.renderItem('/my-idp', 'my_idp', activeTab === '/my-idp')}
-          {currentUser.showStats() && this.renderItem('/statistics', 'stats', activeTab === '/statistics')}
-          {hideTabs.indexOf('user_invite') === -1 &&
-            !currentUser.guest &&
-            !currentUser.dashboardMember &&
-            showInviteRequest &&
-            this.renderItem('/users/invite', 'invite_request', activeTab === '/users/invite')}
-          {hideTabs.indexOf('tickets') === -1 &&
-            !currentUser.guest &&
-            !currentUser.dashboardMember &&
-            this.renderItem('/tickets', 'history', activeTab.startsWith('/tickets'), awaitingInputTickets)}
-        </ul>
+        <div className="desktop-menu">{this.renderNavigationItems()}</div>
+        <Menu
+          isOpen={this.props.mobileMenuOpen}
+          right
+          customBurgerIcon={false}
+          onStateChange={(state) => this.props.onMobileMenuChange(state.isOpen)}
+        >
+          {this.renderNavigationItems()}
+        </Menu>
       </div>
     )
   }

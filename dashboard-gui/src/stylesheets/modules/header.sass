@@ -9,6 +9,18 @@
   flex-direction: column
   align-items: center
   color: #fff
+  position: relative
+
+  .desktop-menu
+    display: none
+  .fa-bars
+    display: block
+
+  @media (min-width: 768px)
+    .desktop-menu
+      display: block
+    .fa-bars
+      display: none
 
   .header-content
     display: flex
@@ -146,3 +158,12 @@
           position: absolute
           left: 0
           top: 8px
+
+  .fa-bars
+    height: 30px
+    width: 30px
+    margin-left: 20px
+    cursor: pointer
+
+    &:hover
+      color: darken(#fff, 5%)

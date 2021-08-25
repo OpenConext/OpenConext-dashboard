@@ -13,7 +13,7 @@ import stopEvent from '../utils/stop'
 import Flash from '../components/flash'
 import surfLogo from '../../images/SURF.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 const UserIndicator = ({ user }) => {
   const givenNameCharacter = user.givenName ? user.givenName[0] : ''
@@ -37,7 +37,7 @@ class Header extends React.Component {
   constructor() {
     super()
 
-    this.state = { dropDownActive: false }
+    this.state = { dropDownActive: false, openMobileMenu: false }
   }
 
   login = (e) => {
@@ -58,7 +58,10 @@ class Header extends React.Component {
             </Link>
 
             <div className="navigation-items">
-              <Navigation />
+              <Navigation
+                mobileMenuOpen={this.state.openMobileMenu}
+                onMobileMenuChange={(state) => this.setState({ openMobileMenu: state })}
+              />
             </div>
 
             <div className="meta">
@@ -68,6 +71,7 @@ class Header extends React.Component {
                 </a>
               )}
               {!currentUser.guest && this.renderDropDownToggle()}
+              <FontAwesomeIcon icon={faBars} onClick={() => this.setState({ openMobileMenu: true })} />
             </div>
           </div>
         </div>
