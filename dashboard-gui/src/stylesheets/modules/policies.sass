@@ -5,6 +5,7 @@
 
 .policy-overview-header
   display: flex
+  flex-wrap: wrap
   justify-content: space-between
   align-items: center
   margin-bottom: 20px
@@ -41,23 +42,3 @@
       margin-top: 5px
       justify-content: space-between
       display: flex
-
-.mod-policy-list
-  @extend %box, %table
-
-  overflow-x: auto
-
-  .controls
-    a
-      padding: 0 5px
-
-.mod-policy-search
-  @extend %box, %search-box
-
-.policy-button
-  padding: 20px 18px
-  line-height: 23px
-  font-size: 20px
-
-  &.how-to
-    margin-left: 20px

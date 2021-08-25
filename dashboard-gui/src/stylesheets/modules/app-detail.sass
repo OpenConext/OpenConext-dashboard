@@ -8,14 +8,23 @@
 .app-detail
   .mod-tabs
     .container
-      padding-left: 63px
+      @media(min-width: 768px)
+        padding-left: 63px
 
   .app-detail-content
-    padding: 40px 20px 40px 47px
+    padding: 40px 6px 40px 6px
+
+    @media(min-width: 768px)
+      padding: 40px 20px 40px 47px
 
     .top-content
       display: flex
+      flex-wrap: wrap
       justify-content: space-between
+      margin-left: -80px
+
+      .left-side
+        margin-left: 80px
 
       .right-side
         width: 230px
