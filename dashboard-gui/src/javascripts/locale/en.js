@@ -79,7 +79,7 @@ I18n.translations.en = {
       },
       license: {
         has_license_sp: 'Yes, with SP',
-        has_license_surfmarket: 'Yes, with SURFmarket',
+        has_license_surfmarket: 'Yes, with SURF',
         name: 'License',
         not_needed: 'No',
         unknown: 'Unknown',
@@ -248,19 +248,19 @@ I18n.translations.en = {
   license_info_panel: {
     title: 'License information',
     has_license_surfmarket_html:
-      'There is a valid license available via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>.',
+      'There is a valid license available via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
     has_license_sp_html:
       'A license for <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> can be acquired from {{organisation}} who is the the supplier of this service.',
     has_license_sp_html_no_service_url:
       'A license for {{serviceName}} can be acquired from {{organisation}} who is the supplier of this service.',
     no_license_html:
-      'Your institution has no valid license available via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>.',
+      'Your institution has no valid license available via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
     not_needed_html: 'This Service does not require a license.',
     unknown_license: 'It is unknown whether a license is required or not.',
     no_license_description_html:
       '' +
       '<ul>' +
-      '   <li>Your institution can obtain a license from <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>.</li>' +
+      '   <li>Your institution can obtain a license from <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.</li>' +
       '</ul>' +
       '<br />In some cases this license needs to be obtained directly from the service supplier.',
     unknown_license_description_html:
@@ -268,14 +268,14 @@ I18n.translations.en = {
       '<ul>' +
       '   <li>SURF or another institution is offering this service for free.</li>' +
       '   <li>The license needs to be obtained directly from the service supplier.</li>' +
-      '   <li>The license hasn\'t been added to <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>\'s administration yet.</li>' +
+      '   <li>The license hasn\'t been added to <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>\'s administration yet.</li>' +
       '</ul>' +
-      '<p>If necessary, SURFnet will contact the service supplier or <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a> before activating the connection.</p>',
+      '<p>If necessary, SURF will contact the service supplier or <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a> before activating the connection.</p>',
   },
 
   license_info: {
     unknown_license: 'No license information available',
-    has_license_surfmarket: 'License available via SURFmarket',
+    has_license_surfmarket: 'License available via SURF',
     has_license_sp: 'License necessary (via service supplier)',
     no_license: 'No license available',
     no_license_needed: 'No license needed',
@@ -302,7 +302,7 @@ I18n.translations.en = {
       'For this service the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.',
     single_tenant_service: 'Single tenant service',
     single_tenant_service_html:
-      '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>.',
+      '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
     interfed_source: 'Federation source',
     publish_in_edugain_date: 'Published in eduGAIN on:',
     supports_ssa: 'SURFsecureID enabled',
@@ -488,7 +488,7 @@ I18n.translations.en = {
     done_without_interaction_subtitle: 'You can make use of it now.', // TODO: check text
     forward_permission: {
       after: ' to {{app}}.',
-      before: 'SURFnet has permission to forward the ',
+      before: 'SURF has permission to forward the ',
     },
     info_connection_without_interaction:
       'This service provider allows institutions to connect immediately. There is no need to wait for this connection request to be processed, you can use the service right away!',
@@ -513,7 +513,7 @@ I18n.translations.en = {
     },
     read: 'Read the',
     single_tenant_service_warning:
-      'Requests for activating a single tenant services take longer to process. SURFnet will contact you to discuss the activation process after it has received your request.',
+      'Requests for activating a single tenant services take longer to process. SURF will contact you to discuss the activation process after it has received your request.',
     terms_title: 'By requesting an activation you accept these terms',
     wiki: 'wiki for this service',
     aansluitovereenkomst_accept:
@@ -775,7 +775,7 @@ I18n.translations.en = {
     edit_message: 'You are able to edit the following fields.',
     save: 'Create change request',
     change_request_created:
-      'Change request sent to the SURFnet SURFconext-team. The ticket number of the change request is {{jiraKey}}',
+      'Change request sent to the SURF SURFconext-team. The ticket number of the change request is {{jiraKey}}',
     no_change_request_created: 'No change request is created as you did not change anything.',
     change_request_failed: 'Failed to create your change request.',
     comments: 'Comments',

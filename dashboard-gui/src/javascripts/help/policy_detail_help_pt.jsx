@@ -66,7 +66,7 @@ class PolicyDetailHelpPt extends React.Component {
           Os atributos e os seus valores na verdade é que definem se é permitido ou não o acesso a um utilizador. Para
           mais informações sobre atributos aceda a{' '}
           <a target="_blank" rel="noopener noreferrer" href={I18n.t('policy_attributes.help_link')}>
-            SURFnet wiki
+            SURF wiki
           </a>
           .
         </p>

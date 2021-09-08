@@ -66,7 +66,7 @@ class PolicyDetailHelpEn extends React.Component {
           The attributes and their values actually define if a user is granted access to the service or not. For more
           information about attributes see the{' '}
           <a target="_blank" rel="noopener noreferrer" href={I18n.t('policy_attributes.help_link')}>
-            SURFnet wiki
+            SURF wiki
           </a>
           .
         </p>

@@ -79,7 +79,7 @@ I18n.translations.pt = {
       },
       license: {
         has_license_sp: 'Sim, fornecida pelo SP',
-        has_license_surfmarket: 'Sim, fornecida pela SURFmarket',
+        has_license_surfmarket: 'Sim, fornecida pela SURF',
         name: 'Licença',
         not_needed: 'Não é necessário',
         unknown: 'Não definida',

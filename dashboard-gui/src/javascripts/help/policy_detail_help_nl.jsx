@@ -71,7 +71,7 @@ class PolicyDetailHelpNl extends React.Component {
           dienst. De attributen worden gematched tegen de attributen van de gebruiker. Meer informatie over attributen
           kan worden gevonden op de{' '}
           <a target="_blank" rel="noopener noreferrer" href={I18n.t('policy_attributes.help_link')}>
-            SURFnet wiki
+            SURF wiki
           </a>
           .
         </p>

@@ -14,9 +14,9 @@ export default function LicenseInfoText({ app }) {
       case 'UNKNOWN':
         return I18n.t('license_info.unknown_license')
       case 'HAS_LICENSE_SURFMARKET':
-        return I18n.t('license_info.has_license_surfmarket')
+        return I18n.t('license_info.has_license')
       case 'HAS_LICENSE_SP':
-        return I18n.t('license_info.has_license_sp')
+        return I18n.t('license_info.has_license')
     }
   }
 

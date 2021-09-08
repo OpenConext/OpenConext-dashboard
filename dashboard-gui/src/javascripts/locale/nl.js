@@ -247,19 +247,19 @@ I18n.translations.nl = {
   license_info_panel: {
     title: 'Licentie-informatie',
     has_license_surfmarket_html:
-      'Er is via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a> een licentie beschikbaar voor deze service.',
+      'Er is via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a> een licentie beschikbaar voor deze service.',
     has_license_sp_html:
       'Een licentie voor <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
     has_license_sp_html_no_service_url:
       'Een licentie voor {{serviceName}}</a> kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
     no_license_html:
-      'Jouw instelling heeft voor deze service geen licentie via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>.',
+      'Jouw instelling heeft voor deze service geen licentie via <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
     not_needed_html: 'Voor deze dienst is geen licentie nodig',
     unknown_license: 'Het is onbekend welke licentie voor deze service geldt.',
     no_license_description_html:
       '' +
       '<ul>' +
-      '   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a></li>' +
+      '   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a></li>' +
       '</ul>' +
       '<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.',
     unknown_license_description_html:
@@ -267,15 +267,14 @@ I18n.translations.nl = {
       '<ul>' +
       '   <li>SURF of een andere instelling biedt deze service gratis aan.</li>' +
       '   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>' +
-      '   <li>De licentie is nog niet bijgewerkt in de administratie van <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a>.</li>' +
+      '   <li>De licentie is nog niet bijgewerkt in de administratie van <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.</li>' +
       '</ul>' +
-      '<p>SURFnet zal, indien nodig, contact opnemen met de aanbieder of <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURFmarket</a> alvorens de koppeling te activeren.</p>',
+      '<p>SURF zal, indien nodig, contact opnemen met de aanbieder of <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a> alvorens de koppeling te activeren.</p>',
   },
 
   license_info: {
     unknown_license: 'Geen licentie-informatie beschikbaar',
-    has_license_surfmarket: 'Licentie beschikbaar via SURFmarket',
-    has_license_sp: 'Licentie nodig (via service supplier)',
+    has_license: 'Licentie nodig',
     no_license: 'Licentie is niet aanwezig',
     no_license_needed: 'Geen licentie nodig',
     license_info: 'Lees hoe je een licentie kunt verkrijgen',
@@ -301,7 +300,7 @@ I18n.translations.nl = {
       'Voor deze dienst heeft de leverancier nog geen AVG/GDPR informatie aangeleverd; informatie over welke data ze verwerken, waar ze dat doen etc. kun je opvragen bij de leverancier.',
     single_tenant_service: 'Single tenant dienst',
     single_tenant_service_html:
-      '{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a> voor meer informatie over single tenant diensten.',
+      '{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURF wiki</a> voor meer informatie over single tenant diensten.',
     interfed_source: 'Federatie bron',
     publish_in_edugain_date: 'Gepubliceerd in eduGAIN op:',
     supports_ssa: 'SURFsecureID aangezet',
@@ -396,7 +395,7 @@ I18n.translations.nl = {
     title: 'Privacy informatie',
     subtitle:
       'SURF geeft leveranciers de kans informatie te delen die van belang is in het kader van de AVG. Indien beschikbaar, vind je deze informatie hieronder. Voor ontbrekende informatie kun je contact opnemen met de leverancier.',
-    subtitle2: 'De leverancier van de service {{name}} heeft SURFnet voorzien van de volgende informatie:',
+    subtitle2: 'De leverancier van de service {{name}} heeft SURF voorzien van de volgende informatie:',
     question: 'Vraag',
     answer: 'Antwoord',
     accessData: 'WIE HEEFT TOEGANG TOT DE DATA?',
@@ -494,7 +493,7 @@ I18n.translations.nl = {
     done_without_interaction_subtitle: 'Er kan meteen gebruik van worden gemaakt.', // TODO: check text
     forward_permission: {
       after: ' door te sturen naar {{app}}.',
-      before: 'SURFnet heeft toestemming om de ',
+      before: 'SURF heeft toestemming om de ',
     },
     info_connection_without_interaction:
       'Deze dienstverlener staat instellingen toe om meteen te koppelen. Je hoeft dus niet te wachten tot een verzoek tot kopppeling is verwerkt: je kunt de dienst gelijk gebruiken!',
@@ -519,7 +518,7 @@ I18n.translations.nl = {
     },
     read: 'Lees de',
     single_tenant_service_warning:
-      'Verzoeken voor activatie van single tenant diensten duren langer om te verwerken. SURFnet zal contact opnemen zodra het dit verzoek heeft ontvangen.',
+      'Verzoeken voor activatie van single tenant diensten duren langer om te verwerken. SURF zal contact opnemen zodra het dit verzoek heeft ontvangen.',
     terms_title: 'Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:',
     wiki: 'wiki voor deze service',
     aansluitovereenkomst_accept:
@@ -833,7 +832,7 @@ I18n.translations.nl = {
     edit_message: 'De volgende velden kunnen worden aangepast.',
     save: 'Maak wijzigingsverzoek aan',
     change_request_created:
-      'Wijzigingsverzoek ingediend bij het SURFnet SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}',
+      'Wijzigingsverzoek ingediend bij het SURF SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}',
     no_change_request_created: 'Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.',
     change_request_failed: 'Er ging iets mis bij het aanmaken van het wijzigingsverzoek.',
     comments: 'Opmerkingen',
