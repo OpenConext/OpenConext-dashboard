@@ -18,7 +18,7 @@ import { consentTypes } from '../utils/utils'
 
 const PAGE_COUNT = 25
 
-export default function AppList({ apps, currentUser, facets: remoteFacets }) {
+export default function AppList({ apps, currentUser, facets: remoteFacets, connected }) {
   const history = useHistory()
   const location = useLocation()
   const queryString = qs.parse(location.search)
@@ -91,25 +91,28 @@ export default function AppList({ apps, currentUser, facets: remoteFacets }) {
   }
 
   let facets = []
-  facets.push({
-    name: I18n.t('facets.static.connection.name'),
-    searchValue: 'connection',
-    values: [
-      {
-        value: I18n.t('facets.static.connection.has_connection'),
-        searchValue: 'yes',
-        count: (apps) => apps.filter((app) => app.connected).length,
+
+  if (!connected) {
+    facets.push({
+      name: I18n.t('facets.static.connection.name'),
+      searchValue: 'connection',
+      values: [
+        {
+          value: I18n.t('facets.static.connection.has_connection'),
+          searchValue: 'yes',
+          count: (apps) => apps.filter((app) => app.connected).length,
+        },
+        {
+          value: I18n.t('facets.static.connection.no_connection'),
+          searchValue: 'no',
+          count: (apps) => apps.filter((app) => !app.connected).length,
+        },
+      ],
+      filterApp: function (app) {
+        return filterYesNoFacet('connection', app.connected)
       },
-      {
-        value: I18n.t('facets.static.connection.no_connection'),
-        searchValue: 'no',
-        count: (apps) => apps.filter((app) => !app.connected).length,
-      },
-    ],
-    filterApp: function (app) {
-      return filterYesNoFacet('connection', app.connected)
-    },
-  })
+    })
+  }
   facets.push({
     name: I18n.t('facets.static.used_by_idp.name'),
     searchValue: 'used_by_idp',
