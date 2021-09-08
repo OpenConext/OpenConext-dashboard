@@ -82,7 +82,7 @@ I18n.translations.nl = {
         unknown: 'Onbekend',
         not_needed: 'Nee',
         has_license_sp: 'Ja, bij SP',
-        has_license_surfmarket: 'Ja, bij SURFmarket',
+        has_license_surfmarket: 'Ja, bij SURF',
       },
       used_by_idp: {
         all: 'Alle',

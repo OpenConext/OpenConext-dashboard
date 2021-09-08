@@ -524,7 +524,6 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
                 <th>&nbsp;</th>
                 <th>{I18n.t('apps.overview.name')}</th>
                 <th>{I18n.t('apps.overview.organisation')}</th>
-                <th>{I18n.t('apps.overview.licenseStatus')}</th>
               </tr>
             </thead>
             <tbody>
@@ -541,7 +540,6 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
                       </Link>
                     </td>
                     <td className="vendor">{app.organisation}</td>
-                    <td className="license">{I18n.t('facets.static.license.' + app.licenseStatus.toLowerCase())}</td>
                   </tr>
                 )
               })}
