@@ -21,7 +21,6 @@ export default function Consent({ app }) {
       type: 'DEFAULT_CONSENT',
       explanationNl: '',
       explanationEn: '',
-      explanationPt: '',
       typeMetaData: app.entityType,
     }
 
@@ -118,29 +117,6 @@ export default function Consent({ app }) {
                 setConsent({
                   ...consent,
                   explanationEn: e.target.value,
-                })
-              }
-            />
-          )}
-
-          {msgAllowed && (
-            <label>
-              {I18n.t('consent_panel.explanationPt')}
-              <i className="fa fa-info-circle" data-for="explanationPt_tooltip" data-tip></i>
-              <ReactTooltip id="explanationPt_tooltip" type="info" class="tool-tip" effect="solid" multiline={true}>
-                <span dangerouslySetInnerHTML={{ __html: I18n.t('consent_panel.explanationPt_tooltip') }} />
-              </ReactTooltip>
-            </label>
-          )}
-          {msgAllowed && (
-            <input
-              type="text"
-              value={consent.explanationPt}
-              disabled={!isDashboardAdmin}
-              onChange={(e) =>
-                setConsent({
-                  ...consent,
-                  explanationPt: e.target.value,
                 })
               }
             />
