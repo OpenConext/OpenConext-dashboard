@@ -7,6 +7,9 @@
 
   table
     margin: 20px 0
+    border: 1px solid #c4cdd5
+    border-radius: 6px
+    border-collapse: separate
     width: 100%
 
     svg
@@ -16,12 +19,14 @@
 
     thead
       tr
-        border-bottom: 1px solid $text
 
     th
-      font-size: 14px
-      font-weight: 600
-      padding: 11px
+      font-size: 16px
+      border-bottom: 1px solid #c4cdd5
+      padding: 6px
+      color: #1e5db4
+      @media(min-width: 768px)
+        padding: 14px
 
     td
       min-width: 20%
@@ -29,9 +34,15 @@
       vertical-align: middle
       padding: 6px
       @media(min-width: 768px)
-        padding: 19px
+        padding: 14px
       border-bottom: solid 1px #c4cdd5
       font-size: 16px
+
+    tr
+      &:last-child
+        td
+          border-bottom: 0
+
 
   .privacy
     margin-top: 50px
