@@ -846,7 +846,7 @@ I18n.translations.en = {
     deny_message_info: 'This is the message displayed to the user if access is denied based on this policy.',
     deny_message_nl: 'Dutch message',
     deny_message_pt: 'Portuguese message',
-    description: 'Description',
+    description: 'Rule description',
     idps_placeholder: 'Select the Identity Providers - zero or more',
     institutions: 'Institutions',
     intro:

@@ -902,7 +902,7 @@ I18n.translations.nl = {
     deny_message_info: "Dit is de melding die de gebruiker ziet bij een 'Deny' op basis van deze regel.",
     deny_message_nl: 'Nederlandse melding',
     deny_message_pt: 'Portugese melding',
-    description: 'Omschrijving',
+    description: 'Regel omschrijving',
     idps_placeholder: 'Selecteer de instellingen - 0 of meer',
     institutions: 'Instelling(en)',
     intro:
