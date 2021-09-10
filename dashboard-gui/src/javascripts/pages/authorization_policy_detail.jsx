@@ -73,9 +73,11 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
             message = I18n.t('policies.policy_name_not_unique_exception')
           }
           setFlash(message, 'error')
+          window.scrollTo(0, 0)
         })
       } else {
         setFlash(e, 'error')
+        window.scrollTo(0, 0)
       }
     }
   }
