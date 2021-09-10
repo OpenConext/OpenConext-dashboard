@@ -62,7 +62,14 @@ export default function ServiceDetail() {
       <Breadcrumbs items={breadcrumbs} />
       <ServiceHeader app={app} policies={policies} />
       <TabBar>
-        <Tab active={currentPath === 'about'} to={`/apps/${id}/${type}/about`}>
+        <Tab
+          active={
+            pathElements.includes('about') ||
+            pathElements.includes('overview') ||
+            pathElements.includes('how_to_connect')
+          }
+          to={`/apps/${id}/${type}/about`}
+        >
           {I18n.t('apps.tabs.about')}
         </Tab>
         <Tab active={currentPath === 'attributes_and_privacy'} to={`/apps/${id}/${type}/attributes_and_privacy`}>
@@ -86,12 +93,6 @@ export default function ServiceDetail() {
       </TabBar>
       <div className="container">
         <Switch>
-          <Route path={`${path}/about`}>
-            <AboutService app={app} type={type} />
-          </Route>
-          <Route path={`${path}/overview`}>
-            <AboutService app={app} type={type} />
-          </Route>
           <Route path={`${path}/settings`}>
             <Settings
               app={app}
@@ -114,6 +115,9 @@ export default function ServiceDetail() {
               <Statistics app={app} />
             </Route>
           )}
+          <Route>
+            <AboutService app={app} type={type} />
+          </Route>
         </Switch>
       </div>
     </div>
