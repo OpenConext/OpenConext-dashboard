@@ -117,7 +117,7 @@ I18n.translations.en = {
       strong_authentication: {
         name: 'SURFsecureID enabled',
         tooltip:
-          'SURFsecureID second factor authentication is required.<br>For more information see the <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">wiki</a>.',
+          'SURFsecureID second factor authentication is required.<br>For more information see the <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">wiki</a>.',
         none: 'None',
       },
       attribute_manipulation: {
@@ -307,9 +307,9 @@ I18n.translations.en = {
     publish_in_edugain_date: 'Published in eduGAIN on:',
     supports_ssa: 'SURFsecureID enabled',
     minimalLoaLevel:
-      'For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>.',
+      'For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>.',
     minimalLoaLevelIdp:
-      'For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>.',
+      'For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>.',
     supportsSsaTooltip: 'Services can also dynamically request a specific LoA during authentication.',
     entity_categories: 'Supported Entity Categories',
     entity_category: {
@@ -332,7 +332,8 @@ I18n.translations.en = {
       entree: 'Member of the Kennisnet Entree-federation.',
       clarin: 'Member of the Clarin research federation.',
     },
-    contractualBaseWiki: 'See <a href="https://edu.nl/c83yx" target="_blank" rel="noopener noreferrer">wiki</a>.',
+    contractualBaseWiki:
+      'See <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a>.',
   },
 
   attributes_policy_panel: {
@@ -444,7 +445,7 @@ I18n.translations.en = {
     subtitle2:
       'A user logs in with username and password (the first factor) and SURFsecureID takes care of the second factor authentication like via a mobile app or USB key.',
     subtitle3:
-      'By chosing a higher <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
+      'By chosing a higher <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
     highestLoaReached:
       'You already have the highest LoA setting. For security reasons you can not request a lower LoA in this form. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you want to lower the LoA for this service.',
     appHasLoaLevel:
@@ -582,7 +583,7 @@ I18n.translations.en = {
     reasonLoginPre: 'You’re trying to access a page where you need to login for. Please press ',
     reasonLoginPost: ' and see if that takes you to the page you tried to access.',
     reasonHelp:
-      'You don’t have the right authorisation to access that URL. Please check the <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help pages</a> to see who should be able to access what.',
+      'You don’t have the right authorisation to access that URL. Please check the <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">Help pages</a> to see who should be able to access what.',
     reasonRemoved: 'The URL you tried to access does not exist (anymore). Sorry.',
     reasonUnknown:
       'You ran into something else, need help and/or maybe we have to fix this. Send us a mail at <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> so we can have a look.',
@@ -601,7 +602,8 @@ I18n.translations.en = {
 
   footer: {
     tips_or_info: 'Need tips or info?',
-    help_html: '<a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help</a>',
+    help_html:
+      '<a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">Help</a>',
     surf_html: '<a href="https://www.surf.nl/en" target="_blank" rel="noopener noreferrer">SURF</a>',
     terms_html:
       '<a href="https://support.surfconext.nl/terms-en" target="_blank" rel="noopener noreferrer">Terms of Service</a>',
@@ -771,7 +773,7 @@ I18n.translations.en = {
     },
     guest_enabled: 'Guest access enabled',
     guest_enabled_tooltip:
-      'When enabled this means users of the Guest IdP are<br>allowed to connect to this service.<br>See the <a href="https://edu.nl/46yyn" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
+      'When enabled this means users of the Guest IdP are<br>allowed to connect to this service.<br>See the <a href="https://wiki.surfnet.nl/display/conextsupport/Guest+access+with+eduID" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
     edit_message: 'You are able to edit the following fields.',
     save: 'Create change request',
     change_request_created:

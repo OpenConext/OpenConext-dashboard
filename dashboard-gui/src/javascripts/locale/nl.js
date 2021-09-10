@@ -117,7 +117,7 @@ I18n.translations.nl = {
       strong_authentication: {
         name: 'SURFsecureID ingeschakeld',
         tooltip:
-          'SURFsecureID second factor authentication is vereist.<br>Zie de <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
+          'SURFsecureID second factor authentication is vereist.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
         none: 'Geen',
       },
       attribute_manipulation: {
@@ -305,9 +305,9 @@ I18n.translations.nl = {
     publish_in_edugain_date: 'Gepubliceerd in eduGAIN op:',
     supports_ssa: 'SURFsecureID aangezet',
     minimalLoaLevel:
-      'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>',
+      'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>',
     minimalLoaLevelIdp:
-      'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van je instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>',
+      'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van je instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>',
     supportsSsaTooltip: 'Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.',
     entity_categories: 'Ondersteunde Entity Categories',
     entity_category: {
@@ -331,7 +331,7 @@ I18n.translations.nl = {
       clarin: 'Onderdeel van de Clarin-onderzoeksfederatie.',
     },
     contractualBaseWiki:
-      ' Voor meer informatie zie de <a href="https://edu.nl/c83yx" target="_blank" rel="noopener noreferrer">wiki</a>.',
+      ' Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a>.',
   },
 
   attributes_policy_panel: {
@@ -449,7 +449,7 @@ I18n.translations.nl = {
     subtitle2:
       'Een gebruiker logt in met een gebruikersnaam en wachtwoord (de eerste factor) en SURFsecureID zorgt vervolgens voor de tweede factor authenticatie via bijvoorbeeld een mobiele app of USB sleutel. ',
     subtitle3:
-      'Door het kiezen van een hoger <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.',
+      'Door het kiezen van een hoger <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.',
     highestLoaReached:
       'Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service.',
     appHasLoaLevel:
@@ -645,7 +645,7 @@ I18n.translations.nl = {
     reasonLoginPre: 'Je probeert een pagina te bezoeken waarvoor je ingelogd moet zijn. Klik op ',
     reasonLoginPost: ' om te kijken of je op de pagina komt die je bedoelde.',
     reasonHelp:
-      'Je hebt niet de juiste rechten om deze pagina te bezoeken. Kijk op de <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help</a> sectie van onze wiki om te lezen wie wat mag zien.',
+      'Je hebt niet de juiste rechten om deze pagina te bezoeken. Kijk op de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">Help</a> sectie van onze wiki om te lezen wie wat mag zien.',
     reasonRemoved: 'De URL die je probeert te bekijken bestaat niet (meer). Sorry.',
     reasonUnknown:
       'Je bent ergens anders tegen aangelopen, hebt hulp nodig en/of misschien moeten wij dit oplossen. Stuur ons een mail via <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> en we zullen het onderzoeken.',
@@ -828,7 +828,7 @@ I18n.translations.nl = {
     },
     guest_enabled: 'Gast-toegang ingeschakeld',
     guest_enabled_tooltip:
-      'Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href="https://edu.nl/3nu37" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
+      'Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
     edit_message: 'De volgende velden kunnen worden aangepast.',
     save: 'Maak wijzigingsverzoek aan',
     change_request_created:
