@@ -75,7 +75,7 @@ export default function ServiceDetail() {
         <Tab active={currentPath === 'attributes_and_privacy'} to={`/apps/${id}/${type}/attributes_and_privacy`}>
           {I18n.t('apps.tabs.attributes')}
         </Tab>
-        {app.resourceServers && (
+        {app.resourceServers && app.resourceServers.length > 0 && (
           <Tab active={currentPath === 'resource_servers'} to={`/apps/${id}/${type}/resource_servers`}>
             {I18n.t('apps.tabs.resource_servers')}
           </Tab>
