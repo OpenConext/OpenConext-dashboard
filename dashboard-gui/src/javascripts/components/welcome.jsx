@@ -16,7 +16,7 @@ class Welcome extends React.Component {
 
   render() {
     const { currentUser } = this.context
-    if (1 === 0 && (!currentUser.guest || !this.state.show)) {
+    if (!currentUser.guest || !this.state.show) {
       return null
     }
 
