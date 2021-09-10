@@ -275,8 +275,7 @@ I18n.translations.en = {
 
   license_info: {
     unknown_license: 'No license information available',
-    has_license_surfmarket: 'License available via SURF',
-    has_license_sp: 'License necessary (via service supplier)',
+    has_license: 'License necessary',
     no_license: 'No license available',
     no_license_needed: 'No license needed',
     license_info: 'Read how to obtain a license',

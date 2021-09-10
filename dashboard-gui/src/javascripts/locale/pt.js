@@ -273,8 +273,7 @@ I18n.translations.pt = {
 
   license_info: {
     unknown_license: 'Nenhuma informação de licença disponível',
-    has_license_surfmarket: 'Licença disponível através da SURFmarket',
-    has_license_sp: 'Licença necessária (através do fornecedor de serviço)',
+    has_license: 'Licença necessária',
     no_license: 'Nenhuma licença disponível',
     no_license_needed: 'Não é necessário licença',
     license_info: 'Saiba como obter a licença',

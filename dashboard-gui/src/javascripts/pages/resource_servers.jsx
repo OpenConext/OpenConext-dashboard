@@ -19,7 +19,7 @@ export default function ResourceServers({ app }) {
     } catch (e) {
       console.error(e)
     }
-  })
+  }, [])
 
   function description(rs) {
     const descriptions = rs.descriptions
