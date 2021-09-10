@@ -25,7 +25,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   const [searchQuery, setSearchQuery] = useState(queryString.search || '')
   const [activeFacets, setActiveFacets] = useState(queryString.activeFacets ? JSON.parse(queryString.activeFacets) : {})
   const [downloading, setDownloading] = useState(false)
-  const [page, setPage] = useState(queryString.page || 1)
+  const [page, setPage] = useState(parseInt(queryString.page) || 1)
   const [entityCategoriesFacetSelector, setEntityCategoriesFacetSelector] = useState(false)
   const [idpDisableConsent, setIdpDisableConsent] = useState([])
 
