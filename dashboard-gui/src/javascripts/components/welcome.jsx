@@ -16,14 +16,21 @@ class Welcome extends React.Component {
 
   render() {
     const { currentUser } = this.context
-    if (!currentUser.guest || !this.state.show) {
+    if (1 === 0 && (!currentUser.guest || !this.state.show)) {
       return null
     }
 
     return (
       <div className="mod-welcome">
         <div className="container">
-          <p>{I18n.t('header.welcome_txt')}</p>
+          <a
+            href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="welcome-text"
+          >
+            {I18n.t('header.welcome_txt')}
+          </a>
           <a href="/close" className="close" onClick={this.close}>
             X
           </a>
