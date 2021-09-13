@@ -44,11 +44,9 @@ class App extends React.Component {
       <CurrentUserContext.Provider value={{ currentUser: currentUser }}>
         <Router>
           <>
-            <div className="l-header">
-              <Header />
-              <Welcome />
-            </div>
-            <div className="l-content">
+            <Header />
+            <Welcome />
+            <main>
               <Switch>
                 <Route exact path="/" render={() => <Redirect to="/apps/connected" />} />
 
@@ -85,7 +83,7 @@ class App extends React.Component {
                 <Route exact path="/dummy" component={Dummy} />
                 <Route component={NotFound} />
               </Switch>
-            </div>
+            </main>
             <Footer currentUser={currentUser} />
           </>
         </Router>

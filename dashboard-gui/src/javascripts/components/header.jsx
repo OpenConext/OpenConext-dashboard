@@ -49,7 +49,7 @@ class Header extends React.Component {
     const { currentUser } = this.context
 
     return (
-      <div className="mod-header">
+      <header>
         <div className="container">
           <div className="header-content">
             <Link to="/" className="logo-container">
@@ -57,12 +57,10 @@ class Header extends React.Component {
               <span className="idp-dashboard">IdP Dashboard</span>
             </Link>
 
-            <div className="navigation-items">
-              <Navigation
-                mobileMenuOpen={this.state.openMobileMenu}
-                onMobileMenuChange={(state) => this.setState({ openMobileMenu: state })}
-              />
-            </div>
+            <Navigation
+              mobileMenuOpen={this.state.openMobileMenu}
+              onMobileMenuChange={(state) => this.setState({ openMobileMenu: state })}
+            />
 
             <div className="meta">
               {currentUser.guest && (
@@ -76,7 +74,7 @@ class Header extends React.Component {
           </div>
         </div>
         <Flash />
-      </div>
+      </header>
     )
   }
 

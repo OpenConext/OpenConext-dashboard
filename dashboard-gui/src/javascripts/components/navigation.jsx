@@ -93,7 +93,7 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div className="mod-navigation">
+      <nav>
         <div className="desktop-menu">{this.renderNavigationItems()}</div>
         <Menu
           isOpen={this.props.mobileMenuOpen}
@@ -103,7 +103,7 @@ class Navigation extends React.Component {
         >
           {this.renderNavigationItems()}
         </Menu>
-      </div>
+      </nav>
     )
   }
 }

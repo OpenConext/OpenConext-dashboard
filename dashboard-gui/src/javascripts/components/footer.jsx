@@ -6,7 +6,7 @@ const Footer = ({ currentUser }) => {
   const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : []
 
   return (
-    <div className="mod-footer">
+    <footer>
       <div className="container">
         <div className="help">
           {I18n.t('footer.tips_or_info')}
@@ -22,7 +22,7 @@ const Footer = ({ currentUser }) => {
           <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.surf_html') }} />
         </div>
       </div>
-    </div>
+    </footer>
   )
 }
 
