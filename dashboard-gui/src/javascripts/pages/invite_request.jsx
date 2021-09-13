@@ -210,10 +210,18 @@ class InviteRequest extends React.Component {
         <table>
           <thead>
             <tr>
-              <th className="percent_25">{I18n.t('invite_request.selectContact')}</th>
-              <th className="percent_25">{I18n.t('my_idp.contact_name.title')}</th>
-              <th className="percent_25">{I18n.t('my_idp.contact_email.title')}</th>
-              <th className="percent_25">{I18n.t('my_idp.contact_type.title')}</th>
+              <th scope="col" className="percent_25">
+                {I18n.t('invite_request.selectContact')}
+              </th>
+              <th scope="col" className="percent_25">
+                {I18n.t('my_idp.contact_name.title')}
+              </th>
+              <th scope="col" className="percent_25">
+                {I18n.t('my_idp.contact_email.title')}
+              </th>
+              <th scope="col" className="percent_25">
+                {I18n.t('my_idp.contact_type.title')}
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -44,9 +44,13 @@ function AttributeReleasePolicy({ app }) {
       <table className="attributes">
         <thead>
           <tr>
-            <th className="attribute">{I18n.t('attributes_policy_panel.attribute')}</th>
+            <th scope="col" className="attribute">
+              {I18n.t('attributes_policy_panel.attribute')}
+            </th>
             {!currentUser.guest && <th className="value">{I18n.t('attributes_policy_panel.your_value')}</th>}
-            <th className="motivation">{I18n.t('attributes_policy_panel.motivation')}</th>
+            <th scope="col" className="motivation">
+              {I18n.t('attributes_policy_panel.motivation')}
+            </th>
           </tr>
         </thead>
         <tbody>

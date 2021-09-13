@@ -188,8 +188,8 @@ function GeneralInformation({ idp, isDashboardAdmin }) {
         <thead>
           <tr>
             <th></th>
-            <th>{I18n.t('my_idp.english')}</th>
-            <th>{I18n.t('my_idp.dutch')}</th>
+            <th scope="col">{I18n.t('my_idp.english')}</th>
+            <th scope="col">{I18n.t('my_idp.dutch')}</th>
           </tr>
         </thead>
         <tbody>
@@ -295,8 +295,8 @@ function RolesTable({ roles }) {
       <table>
         <thead>
           <tr>
-            <th>{I18n.t('my_idp.role')}</th>
-            <th>{I18n.t('my_idp.users')}</th>
+            <th scope="col">{I18n.t('my_idp.role')}</th>
+            <th scope="col">{I18n.t('my_idp.users')}</th>
           </tr>
         </thead>
         <tbody>

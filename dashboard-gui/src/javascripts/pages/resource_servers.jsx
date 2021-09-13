@@ -39,9 +39,13 @@ export default function ResourceServers({ app }) {
       <table>
         <thead>
           <tr>
-            <th className="clientId">{I18n.t('connected_resource_servers_panel.clientId')}</th>
-            <th className="name">{I18n.t('connected_resource_servers_panel.name')}</th>
-            <th>{I18n.t('connected_resource_servers_panel.description')}</th>
+            <th scope="col" className="clientId">
+              {I18n.t('connected_resource_servers_panel.clientId')}
+            </th>
+            <th scope="col" className="name">
+              {I18n.t('connected_resource_servers_panel.name')}
+            </th>
+            <th scope="col">{I18n.t('connected_resource_servers_panel.description')}</th>
           </tr>
         </thead>
         <tbody>

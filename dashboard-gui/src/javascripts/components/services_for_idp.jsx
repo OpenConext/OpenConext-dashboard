@@ -99,9 +99,9 @@ function Service({ service }) {
         <table>
           <thead>
             <tr>
-              <th></th>
-              <th>{I18n.t('my_idp.english')}</th>
-              <th>{I18n.t('my_idp.dutch')}</th>
+              <th scope="col"></th>
+              <th scope="col">{I18n.t('my_idp.english')}</th>
+              <th scope="col">{I18n.t('my_idp.dutch')}</th>
             </tr>
           </thead>
           <tbody>

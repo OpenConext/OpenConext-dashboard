@@ -18,8 +18,12 @@ class Profile extends React.Component {
           <table>
             <thead>
               <tr>
-                <th className="percent_50">{I18n.t('profile.attribute')}</th>
-                <th className="percent_50">{I18n.t('profile.value')}</th>
+                <th scope="col" className="percent_50">
+                  {I18n.t('profile.attribute')}
+                </th>
+                <th scope="col" className="percent_50">
+                  {I18n.t('profile.value')}
+                </th>
               </tr>
             </thead>
             <tbody>{attributeKeys.map(this.renderAttribute.bind(this))}</tbody>

@@ -42,8 +42,10 @@ class SearchUser extends React.Component {
           <table>
             <thead>
               <tr>
-                <th>{I18n.t('search_user.name')}</th>
-                <th className="center percent_25">{I18n.t('search_user.switch_to')}</th>
+                <th scope="col">{I18n.t('search_user.name')}</th>
+                <th scope="col" className="center percent_25">
+                  {I18n.t('search_user.switch_to')}
+                </th>
               </tr>
             </thead>
             <tbody>{this.filteredIdps().map(this.renderItem.bind(this))}</tbody>
