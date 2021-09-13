@@ -28,11 +28,11 @@ class Facets extends React.Component {
             </a>
           )}
         </div>
-        <form>
-          <fieldset>{this.renderTotals()}</fieldset>
+        <div>
+          {this.renderTotals()}
           {facets.map((facet) => this.renderFacet(facet))}
-          <fieldset>{this.renderTotals()}</fieldset>
-        </form>
+          {this.renderTotals()}
+        </div>
       </div>
     )
   }
@@ -54,26 +54,24 @@ class Facets extends React.Component {
     const total = this.props.totalCount
 
     if (count === total) {
-      return I18n.t('facets.totals.all', { total: total })
+      return <div className="totals">{I18n.t('facets.totals.all', { total: total })}</div>
     }
 
-    return I18n.t('facets.totals.filtered', { count: count, total: total })
+    return <div className="totals">{I18n.t('facets.totals.filtered', { count: count, total: total })}</div>
   }
 
   renderFacet(facet) {
     return (
-      <fieldset key={facet.name}>
-        <a href="/dropdown" onClick={this.handleFacetToggle(facet)}>
-          {this.renderDropDownIndicator(facet)}
-        </a>
+      <div className="facet" key={facet.name}>
+        {this.renderDropDownIndicator(facet)}
 
-        <span className="facet-name">
+        <div className="facet-name">
           <h3>{facet.name}</h3>
           {facet.tooltip && (
-            <span>
-              <i className="fa fa-info-circle" data-for={facet.name} data-tip></i>
+            <div>
+              <i className="fa fa-info-circle" data-for={facet.searchValue} data-tip></i>
               <ReactTooltip
-                id={facet.name}
+                id={facet.searchValue}
                 type="info"
                 class="tool-tip"
                 effect="solid"
@@ -82,12 +80,12 @@ class Facets extends React.Component {
               >
                 <span dangerouslySetInnerHTML={{ __html: facet.tooltip }} />
               </ReactTooltip>
-            </span>
+            </div>
           )}
-        </span>
+        </div>
         {this.renderFacetOptions(facet)}
         {facet.extraContentRenderer && facet.extraContentRenderer()}
-      </fieldset>
+      </div>
     )
   }
 
@@ -115,10 +113,10 @@ class Facets extends React.Component {
 
   renderDropDownIndicator(facet) {
     if (this.state.hiddenFacets[facet.name]) {
-      return <i className="fa fa-caret-down" />
+      return <i className="fa fa-caret-down" onClick={this.handleFacetToggle(facet)} />
     }
 
-    return <i className="fa fa-caret-up" />
+    return <i className="fa fa-caret-up" onClick={this.handleFacetToggle(facet)} />
   }
 
   renderFacetValue(facet, facetValue) {

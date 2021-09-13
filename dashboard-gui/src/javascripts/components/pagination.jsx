@@ -12,13 +12,9 @@ export default function Pagination({ page, total, pageCount = 20, onChange }) {
     <section className="pagination">
       <section className="pagination-container">
         {nbrPages > 1 && page !== 1 && (
-          <i
-            className="fa fa-arrow-left"
-            role="button"
-            onClick={() => onChange(page - 1)}
-            tabIndex={0}
-            onKeyDown={() => onChange(page - 1)}
-          ></i>
+          <button type="button" onClick={() => onChange(page - 1)} title="Previous page" aria-label="Previous page">
+            <i className="fa fa-arrow-left"></i>
+          </button>
         )}
         {rangeWithDots.map((nbr, index) =>
           typeof nbr === 'string' || nbr instanceof String ? (
@@ -30,19 +26,15 @@ export default function Pagination({ page, total, pageCount = 20, onChange }) {
               {nbr}
             </span>
           ) : (
-            <span key={index} role="button" tabIndex={0} onClick={() => onChange(nbr)} onKeyDown={() => onChange(nbr)}>
+            <button key={index} type="button" onClick={() => onChange(nbr)}>
               {nbr}
-            </span>
+            </button>
           )
         )}
         {nbrPages > 1 && page !== nbrPages && (
-          <i
-            className="fa fa-arrow-right"
-            role="button"
-            tabIndex={0}
-            onClick={() => onChange(page + 1)}
-            onKeyDown={() => onChange(page + 1)}
-          ></i>
+          <button type="button" onClick={() => onChange(page + 1)} title="Next page" aria-label="Next page">
+            <i className="fa fa-arrow-right"></i>
+          </button>
         )}
       </section>
     </section>

@@ -43,11 +43,11 @@ export default function ServicesOverview({ connected = false }) {
       <Breadcrumbs items={breadcrumbs} />
       <TabBar>
         <Tab active={connected} to="/apps/connected">
-          <ConnectedServiceIcon />
+          <ConnectedServiceIcon focusable="true" />
           {I18n.t('apps.overview.connected_services')}
         </Tab>
         <Tab active={!connected} to="/apps/all">
-          <AllServiceIcon />
+          <AllServiceIcon focusable="true" />
           {I18n.t('apps.overview.all_services')}
         </Tab>
       </TabBar>

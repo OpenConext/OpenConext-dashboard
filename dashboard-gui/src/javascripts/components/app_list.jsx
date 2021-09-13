@@ -497,6 +497,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         />
         <div className="apps-and-search">
           <div className="top-bar">
+            <h1>{connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')}</h1>
             <div className="search-container">
               <input
                 type="search"
@@ -521,16 +522,16 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
           <table className="apps-table">
             <thead>
               <tr>
-                <th>&nbsp;</th>
-                <th>{I18n.t('apps.overview.name')}</th>
-                <th>{I18n.t('apps.overview.organisation')}</th>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">{I18n.t('apps.overview.name')}</th>
+                <th scope="col">{I18n.t('apps.overview.organisation')}</th>
               </tr>
             </thead>
             <tbody>
               {paginatedApps.map((app) => {
                 return (
                   <tr key={app.id}>
-                    <td className="connected">{app.connected && <ConnectedServiceIcon />}</td>
+                    <td className="connected">{app.connected && <ConnectedServiceIcon focusable />}</td>
                     <td className="name">
                       <Link
                         to={`/apps/${app.id}/${app.entityType}/about`}

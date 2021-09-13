@@ -20,12 +20,12 @@ const UserIndicator = ({ user }) => {
   const surNameCharacter = user.surName ? user.surName[0] : ''
 
   return (
-    <div className="user-indicator">
+    <span className="user-indicator">
       <span>
         {givenNameCharacter}
         {surNameCharacter}
       </span>
-    </div>
+    </span>
   )
 }
 
@@ -92,16 +92,10 @@ class Header extends React.Component {
 
     return (
       <div className="dropdown-container">
-        <div
-          className="dropdown-toggle"
-          role="button"
-          tabIndex={0}
-          onKeyDown={this.handleDropdownKeyDown.bind(this)}
-          onClick={this.handleToggle.bind(this)}
-        >
+        <button className="dropdown-toggle" type="button" onClick={this.handleToggle.bind(this)}>
           <UserIndicator user={currentUser} />
           {this.renderDropDownIndicator()}
-        </div>
+        </button>
         {this.renderDropDown()}
       </div>
     )
