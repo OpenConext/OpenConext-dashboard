@@ -1,4 +1,5 @@
 @import "../utilities/mixins.sass"
+@import "../utilities/vars.sass"
 
 html, body, #app
   height: 100%
@@ -94,4 +95,19 @@ main
 
   .l-push-right
     float: right
+
+.screenreader-text
+  position: absolute
+  left: -999px
+  width: 1px
+  height: 1px
+  top: auto
+
+  &:focus
+    color: $text
+    display: inline-block
+    height: auto
+    width: auto
+    position: static
+    margin: auto
 

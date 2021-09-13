@@ -44,9 +44,12 @@ class App extends React.Component {
       <CurrentUserContext.Provider value={{ currentUser: currentUser }}>
         <Router>
           <>
+            <a id="skip-nav" className="screenreader-text" href="#main-content">
+              Skip Navigation or Skip to Content
+            </a>
             <Header />
             <Welcome />
-            <main>
+            <main id="main-content">
               <Switch>
                 <Route exact path="/" render={() => <Redirect to="/apps/connected" />} />
 
