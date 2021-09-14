@@ -76,7 +76,7 @@ class Navigation extends React.Component {
         {hideTabs.indexOf('apps') === -1 && this.renderItem('/apps/connected', 'apps', activeTab.startsWith('/apps'))}
         {hideTabs.indexOf('my_idp') === -1 &&
           !currentUser.guest &&
-          this.renderItem('/my-idp', 'my_idp', activeTab === '/my-idp')}
+          this.renderItem('/my-idp', 'my_idp', activeTab.startsWith('/my-idp'))}
         {currentUser.showStats() && this.renderItem('/statistics', 'stats', activeTab === '/statistics')}
         {hideTabs.indexOf('user_invite') === -1 &&
           !currentUser.guest &&

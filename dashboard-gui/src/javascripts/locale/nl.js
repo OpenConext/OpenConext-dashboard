@@ -677,7 +677,7 @@ I18n.translations.nl = {
     role: 'Rol',
     users: 'Gebruiker(s)',
     settings: 'Instellingen',
-    settings_edit: 'Gegevens van mijn eigen instelling en diensten',
+    settings_edit: 'Gegevens van mijn eigen instelling',
     settings_text:
       "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens laten wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
     settings_text_viewer:
@@ -779,28 +779,28 @@ I18n.translations.nl = {
     },
     contact_types: {
       technical: {
-        title: 'Technisch Contact',
+        title: 'Technisch Contact:<br>',
         display: 'Technisch Contact',
         tooltip:
           'De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.<br><br>',
         alttooltip: 'suggestie: technisch persoon voor storingen en changes.',
       },
       support: {
-        title: 'Support Contact',
+        title: 'Support Contact:<br>',
         display: 'Support Contact',
         tooltip:
           'Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>',
         alttooltip: 'suggestie: servicedesk van de instelling.',
       },
       help: {
-        title: 'Support Contact',
+        title: 'Support Contact:<br>',
         display: 'Support Contact',
         tooltip:
           'Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>',
         alttooltip: 'suggestie: servicedesk van de instelling.',
       },
       administrative: {
-        title: 'Administratief Contact',
+        title: 'Administratief Contact:<br>',
         display: 'Administratief Contact',
         tooltip:
           "De administratieve contactpersoon van de IdP. In de praktijk is dit vaak dezelfde contactpersoon als de rol 'SURFconext-verantwoordelijke'.<br><br>",

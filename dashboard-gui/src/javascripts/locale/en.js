@@ -620,7 +620,7 @@ I18n.translations.en = {
     role: 'Role',
     users: 'User(s)',
     settings: 'Settings',
-    settings_edit: 'Settings for my own institute and services',
+    settings_edit: 'Settings for my own institute',
     settings_text:
       "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
     settings_text_viewer:
