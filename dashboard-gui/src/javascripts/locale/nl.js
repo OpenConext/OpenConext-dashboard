@@ -779,21 +779,21 @@ I18n.translations.nl = {
     },
     contact_types: {
       technical: {
-        title: 'Technisch Contact:<br>',
+        title: 'Technisch Contact',
         display: 'Technisch Contact',
         tooltip:
           'De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.<br><br>',
         alttooltip: 'suggestie: technisch persoon voor storingen en changes.',
       },
       support: {
-        title: 'Support Contact:<br>',
-        display: 'Support Contact:<br>',
+        title: 'Support Contact',
+        display: 'Support Contact',
         tooltip:
           'Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>',
         alttooltip: 'suggestie: servicedesk van de instelling.',
       },
       help: {
-        title: 'Support Contact:<br>',
+        title: 'Support Contact',
         display: 'Support Contact',
         tooltip:
           'Naar dit adres verwijzen wij eindgebruikers die problemen hebben met inloggen, en waarbij wij vermoeden dat het aan de IdP ligt. Dit is dus in de regel een servicedesk van de instelling.<br><br>',
