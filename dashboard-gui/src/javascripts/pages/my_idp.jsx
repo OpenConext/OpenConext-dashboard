@@ -6,7 +6,6 @@ import ReactTooltip from 'react-tooltip'
 import { getIdpRolesWithUsers } from '../api'
 import Breadcrumbs from '../components/breadcrumbs'
 import ContactPerson from '../components/contact_person'
-import ServicesForIdp from '../components/services_for_idp'
 import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
@@ -46,7 +45,6 @@ export default function MyIdp() {
         <GeneralInformation idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
         <Settings idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
         <ContactPersons idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
-        <ServicesForIdp />
       </div>
     </div>
   )
