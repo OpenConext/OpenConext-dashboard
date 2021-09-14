@@ -68,8 +68,15 @@ export default function PolicyAttributeSelect({ policy, allowedAttributes, onCha
         return (
           <div key={attrName}>
             <div className="attribute-container">
-              <input type="text" name="attribute" className="form-input disabled" value={attrName} disabled />
-              <button onClick={() => removeAttribute(attrName)} className="c-button remove">
+              <input
+                type="text"
+                name="attribute"
+                aria-label="attribute name"
+                className="form-input disabled"
+                value={attrName}
+                disabled
+              />
+              <button title="Remove attribute" onClick={() => removeAttribute(attrName)} className="c-button remove">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
@@ -81,13 +88,18 @@ export default function PolicyAttributeSelect({ policy, allowedAttributes, onCha
                   <div className="attribute-value-container" key={index}>
                     <input
                       key={index}
+                      aria-label="attribute value"
                       type="text"
                       className="form-input"
                       value={attribute.value}
                       placeholder={I18n.t('policy_attributes.attribute_value_placeholder')}
                       onChange={(e) => handleAttributeValueChanged(attrName, index, e.target.value)}
                     />
-                    <button onClick={() => removeAttributeValue(attrName, index)} className="c-button remove">
+                    <button
+                      title="Remove attribute value"
+                      onClick={() => removeAttributeValue(attrName, index)}
+                      className="c-button remove"
+                    >
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                   </div>
@@ -103,6 +115,7 @@ export default function PolicyAttributeSelect({ policy, allowedAttributes, onCha
       <div className="new-attribute">
         <SelectWrapper
           value={null}
+          inputId="new-attribute"
           placeholder={I18n.t('policy_attributes.new_attribute')}
           options={newAttributeOptions}
           handleChange={onNewAttribute}

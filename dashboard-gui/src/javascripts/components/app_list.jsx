@@ -196,6 +196,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
             className={entityCategoriesFacetSelector ? 'checked' : 'unchecked'}
             checked={entityCategoriesFacetSelector}
             type="checkbox"
+            title="select all"
             onChange={() => {
               setEntityCategoriesFacetSelector(!entityCategoriesFacetSelector)
             }}
@@ -501,6 +502,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
             <div className="search-container">
               <input
                 type="search"
+                title="search services"
                 value={searchQuery}
                 onChange={onSearch}
                 placeholder={I18n.t('apps.overview.search_hint')}

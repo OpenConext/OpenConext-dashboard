@@ -40,6 +40,7 @@ class SelectWrapper extends React.Component {
         isMulti={this.props.multiple}
         onChange={(val) => this.onChange(val)}
         styles={colourStyles}
+        inputId={this.props.inputId}
         placeholder={this.props.placeholder}
         isSearchable={data.length >= minimumResultsForSearch}
         isClearable={this.props.isClearable || false}

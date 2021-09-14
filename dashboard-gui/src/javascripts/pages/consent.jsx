@@ -66,7 +66,7 @@ export default function Consent({ app }) {
       ></p>
       <div className="mod-consent">
         <section className="change-form">
-          <label>
+          <label htmlFor="consent-value">
             {I18n.t('consent_panel.consent_value')}
             <i className="fa fa-info-circle" data-for="consent_value_tooltip" data-tip></i>
             <ReactTooltip id="consent_value_tooltip" type="info" class="tool-tip" effect="solid" multiline={true}>
@@ -77,12 +77,13 @@ export default function Consent({ app }) {
             defaultValue={consent.type}
             options={consentTypes.map((t) => ({ value: t, display: I18n.t(`consent_panel.${t.toLowerCase()}`) }))}
             multiple={false}
+            inputId="consent-value"
             isDisabled={!isDashboardAdmin}
             handleChange={(val) => setConsent({ ...consent, type: val })}
           />
 
           {msgAllowed && (
-            <label>
+            <label htmlFor="explanation-nl">
               {I18n.t('consent_panel.explanationNl')}
               <i className="fa fa-info-circle" data-for="explanationNl_tooltip" data-tip></i>
               <ReactTooltip id="explanationNl_tooltip" type="info" class="tool-tip" effect="solid" multiline={true}>
@@ -93,6 +94,7 @@ export default function Consent({ app }) {
           {msgAllowed && (
             <input
               type="text"
+              id="explanation-nl"
               value={consent.explanationNl}
               disabled={!isDashboardAdmin}
               onChange={(e) => setConsent({ ...consent, explanationNl: e.target.value })}
@@ -100,7 +102,7 @@ export default function Consent({ app }) {
           )}
 
           {msgAllowed && (
-            <label>
+            <label htmlFor="explanation-en">
               {I18n.t('consent_panel.explanationEn')}
               <i className="fa fa-info-circle" data-for="explanationEn_tooltip" data-tip></i>
               <ReactTooltip id="explanationEn_tooltip" type="info" class="tool-tip" effect="solid" multiline={true}>
@@ -111,6 +113,7 @@ export default function Consent({ app }) {
           {msgAllowed && (
             <input
               type="text"
+              id="explanation-en"
               value={consent.explanationEn}
               disabled={!isDashboardAdmin}
               onChange={(e) =>

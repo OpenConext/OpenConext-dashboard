@@ -61,11 +61,12 @@ export default function SurfSecureID({ app }) {
           <p className="error" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.highestLoaReached') }} />
         )}
         <section className="change-form">
-          <label>{I18n.t('consent_panel.loa_level')}</label>
+          <label htmlFor="loa-level">{I18n.t('consent_panel.loa_level')}</label>
           <SelectWrapper
             defaultValue={loaLevel}
             options={options}
             multiple={false}
+            inputId="loa-level"
             isDisabled={highestLoaLevel || !isDashboardAdmin || appHasLoaLevel}
             handleChange={(val) => setLoaLevel(val)}
           />

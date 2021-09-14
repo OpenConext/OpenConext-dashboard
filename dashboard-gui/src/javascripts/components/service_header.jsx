@@ -62,7 +62,7 @@ export default function ServiceHeader({ app, policies }) {
         <div className="container">
           <div className="header-wrapper">
             <div className="arrow-container">
-              <Link to={getBackPath}>
+              <Link to={getBackPath} aria-label="back">
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Link>
             </div>
