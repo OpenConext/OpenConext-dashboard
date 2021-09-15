@@ -1,6 +1,7 @@
 @import "../utilities/table.sass"
 @import "../utilities/vars.sass"
 @import "../utilities/placeholders.sass"
+@import "../utilities/mixins.sass"
 @import "../base/type.sass"
 
 .mod-idp
@@ -64,7 +65,7 @@
     background: white
     height: 30px
     width: 100%
-    font-size: 14px
+    @include font-size(14)
 
   div.contact-persons
     margin-left: 30px
@@ -79,7 +80,7 @@
       margin: 20px auto 0 auto
       padding: 20px 18px
       line-height: 23px
-      font-size: 20px
+      @include font-size(20)
 
   textarea
     height: 100px

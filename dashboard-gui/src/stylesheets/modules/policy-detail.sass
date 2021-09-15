@@ -1,10 +1,11 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/placeholders.sass"
 @import "../utilities/vars.sass"
 
 .authorization-policy-detail
   .section-header
     color: #008738
-    font-size: 22px
+    @include font-size(22)
     font-weight: 600
     border-bottom: 1px solid #009f4d
     padding-bottom: 16px
@@ -40,7 +41,6 @@
     font-weight: 600
     margin-bottom: 12px
     display: inline-block
-    font-size: 16px
 
   input[type=text]
     height: 44px
@@ -134,7 +134,7 @@
 
     .select-block-header
       display: flex
-      font-size: 24px
+      @include font-size(24)
       margin-bottom: 15px
 
       span
@@ -145,7 +145,7 @@
         width: 40px
         height: 40px
     p
-      font-size: 18px
+      @include font-size(18)
 
     &.disabled
       border-color: #a2a2a2 !important
@@ -180,7 +180,7 @@
       display: flex
       justify-content: center
       align-items: center
-      font-size: 23px
+      @include font-size(23)
 
     .new-attribute-value
       color: $lighter-blue
@@ -204,7 +204,7 @@
     justify-content: flex-end
 
     button
-      font-size: 18px
+      @include font-size(18)
       font-weight: 600
       height: 44px
       border-radius: 8px
@@ -214,7 +214,7 @@
   @extend %box
 
   h1
-    font-size: 30px
+    @include font-size(30)
     line-height: 40px
     padding: 20px
 
@@ -222,7 +222,7 @@
     color: $blue
   a.help-link
     display: inline-block
-    font-size: 22px
+    @include font-size(22)
     margin-left: 10px
 
   .info
@@ -239,7 +239,7 @@
     &.note
       display: block
       padding-top: 20px
-      font-size: 12px
+      @include font-size(12)
 
   .form-element
     padding: 20px 0
@@ -319,7 +319,7 @@
       position: absolute
       right: 8px
       top: 4px
-      font-size: 18px
+      @include font-size(18)
 
       &.remove
         color: $remove-red
@@ -343,7 +343,7 @@
   padding-bottom: 20px
 
   h2
-    font-size: 20px
+    @include font-size(20)
     line-height: 30px
     padding: 10px 20px 5px 20px
 

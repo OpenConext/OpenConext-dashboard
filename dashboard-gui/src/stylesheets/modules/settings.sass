@@ -1,3 +1,4 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 
 .mod-settings
@@ -8,13 +9,12 @@
   .settings-menu
     margin-left: 60px
     h3
-      font-size: 20px
+      @include font-size(20)
       font-weight: 600
       margin-bottom: 20px
 
     a
       display: block
-      font-size: 16px
       font-weight: 600
       text-decoration: none
       margin: 20px 0
@@ -38,7 +38,6 @@
     .flash-message
       background-color: #fedb00
       padding: 14px
-      font-size: 16px
       font-weight: bold
       margin-bottom: 10px
 
@@ -48,7 +47,6 @@
 
       label
         font-weight: 600
-        font-size: 16
 
       button.save
         display: inline-block

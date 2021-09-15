@@ -2,6 +2,7 @@
 @import "../utilities/table.sass"
 @import "../utilities/placeholders.sass"
 @import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
 
 .policy-overview-header
   display: flex
@@ -12,13 +13,13 @@
 
 .policy-block
   display: flex
-  font-size: 16px
+  @include font-size(16)
   padding-bottom: 20px
   padding-top: 20px
   border-top: 1px solid #c4cdd5
 
   h3
-    font-size: 20px
+    @include font-size(20)
     font-weight: 600
 
   .policy-name-description

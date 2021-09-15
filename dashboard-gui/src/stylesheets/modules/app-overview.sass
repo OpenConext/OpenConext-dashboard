@@ -1,5 +1,6 @@
 @import "../base/type.sass"
 @import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
 
 .mod-app-overview
   margin-top: 22px
@@ -16,7 +17,7 @@
 
     h1
       font-weight: 600
-      font-size: 24px
+      @include font-size(24)
       margin-right: 30px
 
     .search-container
@@ -39,7 +40,6 @@
         width: 100%
         border-radius: 8px;
         border: solid 1px #676767;
-        font-size: 16px
 
     button.export
       height: 50px
@@ -66,7 +66,7 @@
 
       th
         padding: 11px 10px
-        font-size: 14px
+        @include font-size(14)
         font-weight: 600
 
     td
@@ -76,7 +76,6 @@
         padding: 15px 10px
 
       vertical-align: middle
-      font-size: 16px
       word-break: break-word
 
     tbody

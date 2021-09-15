@@ -1,4 +1,5 @@
 @import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
 @import "../utilities/placeholders.sass"
 @import "../base/type.sass"
 
@@ -22,7 +23,6 @@
 
   h3
     display: inline-block
-    font-size: 16px
     font-weight: 600
 
   .download-button
@@ -66,6 +66,7 @@
     line-height: 25px
     margin-bottom: 5px
     cursor: pointer
+    @include font-size(14)
 
     &:hover:not(.greyed-out)
       color: $blue
@@ -80,7 +81,7 @@
     border: 1px solid #ccc
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075)
     padding: 5px
-    font-size: 14px
+    @include font-size(14)
     outline: 0
     color: $dark-grey
 
@@ -92,7 +93,7 @@
     position: absolute
     left: 30px
     top: 20px
-    font-size: 14px
+    @include font-size(14)
 
 
   i.fa-caret-up, i.fa-caret-down
@@ -110,7 +111,7 @@
   em.arp-info
     display: inline-block
     margin-top: 15px
-    font-size: 14px
+    @include font-size(14)
     font-style: italic
 
   div.entity-categories-facet-selector

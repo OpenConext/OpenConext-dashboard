@@ -1,4 +1,5 @@
 @import "../base/type.sass"
+@import "../utilities/mixins.sass"
 
 .connect-modal
   .connect-modal-header
@@ -6,18 +7,18 @@
     padding: 13px 37px
     line-height: 1.7
     color: #5b5b5b
-    font-size: 20px
+    @include font-size(20)
 
   .connect-modal-subtitle
     background-color: #fedb00
-    font-size: 20px
+    @include font-size(20)
     font-weight: 600
     padding: 24px
     margin-bottom: 30px
 
   .connect-modal-body
     padding: 13px 37px
-    font-size: 18px
+    @include font-size(18)
 
   a
     font-weight: 600
@@ -38,7 +39,7 @@
     padding-left: 40px
     border-left: 8px solid #ddf2fd
     position: relative
-    font-size: 18px
+    @include font-size(18)
 
     &:last-child
       padding-bottom: 0
@@ -48,7 +49,7 @@
       left: -28px
       top: -8px
       background-color: #ddf2fd
-      font-size: 28px
+      @include font-size(28)
       font-weight: 600
       width: 48px
       height: 48px
@@ -67,15 +68,9 @@
       li
         margin-bottom: 3px
 
-
-
       p
         font-weight: 600
         margin-bottom: 16px
-
-      .react-select
-        font-size: 16px
-
 
   .activation-terms, .aansluitovereenkomst
     .grey-container
@@ -98,7 +93,6 @@
     padding: 11px
 
   label
-    font-size: 16px
     font-weight: 600
     cursor: pointer
 
@@ -113,7 +107,7 @@
 
     button
       padding: 13px 30px
-      font-size: 18px
+      @include font-size(18)
       font-weight: 600
       border-radius: 8px
 

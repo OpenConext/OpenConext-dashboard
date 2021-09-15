@@ -1,4 +1,5 @@
 @import "../base/type.sass"
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 
 .tickets
@@ -12,7 +13,7 @@
       align-items: center
 
       h1
-        font-size: 30px
+        @include font-size(30)
         font-weight: 600
         margin-left: 28px
 
@@ -22,7 +23,7 @@
     span
       margin-left: 45px
       color: #4e4e4e
-      font-size: 12px
+      @include font-size(12)
 
   .tickets-content
     padding-top: 34px
@@ -34,13 +35,12 @@
     h2
       @extend %h2
     h3
-      font-size: 20px
+      @include font-size(20)
       font-weight: 600
 
     .filters
       width: 200px
       a
-        font-size: 16px
         display: block
         font-weight: 600
         text-decoration: none
@@ -53,7 +53,6 @@
       flex: 1
 
       p.no-results
-        font-size: 16px
         margin-top: 20px
 
       .ticket
@@ -70,13 +69,10 @@
             padding: 12px 28px
 
           h4
-            font-size: 18px
+            @include font-size(18)
             color: #1e5db4
             font-weight: 600
             margin-bottom: 12px
-
-          p
-            font-size: 16px
 
           .actions
             a
@@ -105,13 +101,12 @@
             border-bottom: none
 
           &.type
-            font-size: 16px
             color: #353535
             font-weight: 600
             background-color: #f3f6f8
 
           &.timestamps
-            font-size: 12px
+            @include font-size(12)
             line-height: 14px
 
           svg

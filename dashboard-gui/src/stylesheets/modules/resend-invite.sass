@@ -1,3 +1,4 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/placeholders.sass"
 @import "../utilities/table.sass"
 @import "../utilities/vars.sass"
@@ -20,17 +21,17 @@
       @extend %table
       margin-top: 50px
       table th
-        font-size: 14px
+        @include font-size(14)
       p.select
         margin-bottom: 10px
       td.contact-source
         font-style: italic
       td.add-email
-        font-size: 28px
+        @include font-size(28)
         color: $blue
         text-align: center
       td.delete-email
-        font-size: 26px
+        @include font-size(26)
         text-align: left
         a
           i.fa

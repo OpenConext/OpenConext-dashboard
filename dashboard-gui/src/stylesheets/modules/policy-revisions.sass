@@ -1,3 +1,4 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 @import "../utilities/placeholders.sass"
 @import "../base/type.sass"
@@ -5,7 +6,6 @@
 .policy-revisions
   h3
     font-weight: 600
-    font-size: 16px
 
   .revisions
     margin-top: 20px
@@ -17,7 +17,7 @@
 
     button
       font-weight: 600
-      font-size: 20px
+      @include font-size(20)
 
     .revision-details
       flex: 1
