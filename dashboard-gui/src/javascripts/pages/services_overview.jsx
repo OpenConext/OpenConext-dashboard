@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
+import Helmet from 'react-helmet'
 
 import I18n from 'i18n-js'
 import { getApps } from '../api'
@@ -41,6 +42,7 @@ export default function ServicesOverview({ connected = false }) {
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
+      <Helmet title={connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')} />
       <TabBar>
         <Tab active={connected} to="/apps/connected">
           <ConnectedServiceIcon focusable="true" />

@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import I18n from 'i18n-js'
 
 import { getIdpsForSuper, switchToIdp } from '../api'
@@ -23,6 +24,7 @@ class SearchUser extends React.Component {
   render() {
     return (
       <div className="l-mini">
+        <Helmet title={I18n.t('search_user.switch_identity')} />
         <div className="mod-super-user">
           <h1>{I18n.t('search_user.switch_identity')}</h1>
           <div className="mod-super-user-search">

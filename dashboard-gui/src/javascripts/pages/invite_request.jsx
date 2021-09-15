@@ -1,5 +1,6 @@
 import React from 'react'
 import I18n from 'i18n-js'
+import Helmet from 'react-helmet'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { getAppsForInvitationRequest, getIdpsForSuper, inviteRequest, sabRoles } from '../api'
@@ -278,6 +279,7 @@ class InviteRequest extends React.Component {
     const submitClassName = this.isValidForSubmit() ? '' : 'disabled'
     return (
       <div>
+        <Helmet title={I18n.t('navigation.invite_request')} />
         <Flash />
         <div className="l-mini mod-invite-request">
           <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('invite_request.info') }} />

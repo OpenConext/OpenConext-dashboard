@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
 import moment from 'moment'
 import I18n from 'i18n-js'
 import DatePicker from 'react-datepicker'
@@ -442,6 +443,7 @@ class Stats extends React.Component {
             </div>
           )}
           <div className={classNameView}>
+            <Helmet title={I18n.t('navigation.stats')} />
             <div className="mod-chart">
               {!fullView && this.renderPeriod(scale, from, to, !displayDetailPerSP, spSelected, 'horizontal')}
               {results && (

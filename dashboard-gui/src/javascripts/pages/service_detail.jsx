@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import I18n from 'i18n-js'
+import Helmet from 'react-helmet'
 import { useParams, useLocation } from 'react-router-dom'
 import { getApp, getPolicies } from '../api'
 import Breadcrumbs from '../components/breadcrumbs'
@@ -59,6 +60,7 @@ export default function ServiceDetail() {
 
   return (
     <div className="app-detail">
+      <Helmet title={app.name} />
       <Breadcrumbs items={breadcrumbs} />
       <ServiceHeader app={app} policies={policies} />
       <TabBar>

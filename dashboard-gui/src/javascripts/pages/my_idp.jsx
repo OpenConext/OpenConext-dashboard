@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Helmet from 'react-helmet'
 import moment from 'moment'
 import I18n from 'i18n-js'
 import ReactTooltip from 'react-tooltip'
@@ -33,6 +34,7 @@ export default function MyIdp() {
 
   return (
     <div className="my-idp">
+      <Helmet title={currentIdp.names[I18n.locale]} />
       <Breadcrumbs items={breadcrumbs} />
       <div className="header">
         <div className="container">

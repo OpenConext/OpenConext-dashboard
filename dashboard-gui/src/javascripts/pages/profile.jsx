@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
 
 import I18n from 'i18n-js'
 import { isEmpty } from '../utils/utils'
@@ -11,6 +12,7 @@ class Profile extends React.Component {
     const roles = currentUser.grantedAuthorities
     return (
       <div className="l-mini">
+        <Helmet title={I18n.t('profile.title')} />
         <div className="mod-profile">
           <h1>{I18n.t('profile.title')}</h1>
           <p>{I18n.t('profile.sub_title')}</p>

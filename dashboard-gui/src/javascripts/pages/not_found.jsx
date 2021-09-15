@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
@@ -7,6 +8,7 @@ class NotFound extends React.Component {
     const { currentUser } = this.context
     return (
       <div className="mod-not-found">
+        <Helmet title={I18n.t('not_found.title')} />
         <div className="container">
           <h1>{I18n.t('not_found.title')}</h1>
           <h2 className="sub-title">{I18n.t('not_found.subTitle')}</h2>

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Helmet from 'react-helmet'
 import I18n from 'i18n-js'
 import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
@@ -63,6 +64,7 @@ export default function Tickets() {
 
   return (
     <div className="tickets">
+      <Helmet title={I18n.t('history.header')} />
       <Breadcrumbs items={breadcrumbs} />
       <div className="tickets-header">
         <div className="container">
