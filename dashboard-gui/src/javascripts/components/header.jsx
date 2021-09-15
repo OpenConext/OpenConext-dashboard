@@ -40,11 +40,6 @@ class Header extends React.Component {
     this.state = { dropDownActive: false, openMobileMenu: false }
   }
 
-  login = (e) => {
-    stopEvent(e)
-    window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`
-  }
-
   render() {
     const { currentUser } = this.context
 
@@ -64,7 +59,7 @@ class Header extends React.Component {
 
             <div className="meta">
               {currentUser.guest && (
-                <a className="login" href="/login" onClick={this.login}>
+                <a className="login" href={`/login?redirect_url=${encodeURIComponent(window.location.href)}`}>
                   Login
                 </a>
               )}
@@ -78,13 +73,6 @@ class Header extends React.Component {
     )
   }
 
-  handleDropdownKeyDown(e) {
-    if (e.key !== 'Tab') {
-      e.preventDefault()
-      this.handleToggle()
-    }
-  }
-
   renderDropDownToggle() {
     const { currentUser } = this.context
 
@@ -96,31 +84,6 @@ class Header extends React.Component {
         </button>
         {this.renderDropDown()}
       </div>
-    )
-  }
-
-  renderProfileLink() {
-    const { currentUser } = this.context
-    if (isUndefined(currentUser)) {
-      return null
-    }
-    return currentUser.superUser ? (
-      <span>
-        <span>
-          {I18n.t('header.welcome')}&nbsp;{currentUser.displayName}
-        </span>
-        <Link className="super-user" to={'/users/search'}>
-          {I18n.t('header.super_user_switch')}
-        </Link>
-      </span>
-    ) : (
-      <span>
-        {I18n.t('header.welcome')}&nbsp;
-        <a href="/welcome" onClick={this.handleToggle.bind(this)}>
-          {currentUser.displayName}
-          {this.renderDropDownIndicator()}
-        </a>
-      </span>
     )
   }
 
@@ -143,10 +106,11 @@ class Header extends React.Component {
       return (
         <ul>
           <li>
-            <Link className="super-user" to={'/users/search'}>
+            <Link className="super-user" to="/users/search">
               {I18n.t('header.super_user_switch')}
             </Link>
           </li>
+          {this.renderExitLogout()}
         </ul>
       )
     }
@@ -178,18 +142,14 @@ class Header extends React.Component {
     } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
         <li>
-          <a href="/exit" onClick={this.handleExitClick.bind(this)}>
-            {I18n.t('header.links.exit')}
-          </a>
+          <button onClick={this.handleExitClick.bind(this)}>{I18n.t('header.links.exit')}</button>
         </li>
       )
     }
 
     return (
       <li>
-        <a href="/logout" onClick={this.handleLogoutClick.bind(this)}>
-          {I18n.t('header.links.logout')}
-        </a>
+        <button onClick={this.handleLogoutClick.bind(this)}>{I18n.t('header.links.logout')}</button>
       </li>
     )
   }
