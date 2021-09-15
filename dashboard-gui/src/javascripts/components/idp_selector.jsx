@@ -46,10 +46,10 @@ class IDPSelector extends React.Component {
   renderItem(idp) {
     return (
       <li key={idp.id} className={idp.state}>
-        <a href="/active" onClick={this.handleChooseIdp(idp)}>
+        <button type="button" onClick={this.handleChooseIdp(idp)}>
           {this.renderActiveIndicator(idp)}
           {idp.name}
-        </a>
+        </button>
       </li>
     )
   }

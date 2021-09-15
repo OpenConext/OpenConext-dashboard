@@ -78,9 +78,9 @@ class ResendInvite extends React.Component {
               onChange={(e) => this.setState({ message: e.target.value })}
             />
             <div className="buttons">
-              <a href="/send" className={'t-button save'} onClick={this.sendRequest}>
+              <button type="button" className={'t-button save'} onClick={this.sendRequest}>
                 {I18n.t('invite_request.sendRequest')}
-              </a>
+              </button>
             </div>
           </section>
         </div>

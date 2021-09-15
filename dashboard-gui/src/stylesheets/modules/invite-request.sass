@@ -26,18 +26,29 @@
       td.contact-source
         font-style: italic
       td.add-email
-        font-size: 28px
-        color: $blue
-        text-align: center
+        button
+          cursor: pointer
+          background: none
+          border: 0
+          font-size: 28px
+          color: $blue
+          text-align: center
+
       td.delete-email
         font-size: 26px
         text-align: left
-        a
+        button
+          cursor: pointer
+          background: none
+          border: 0
+
           i.fa
             color: $red !important
     .buttons
       display: flex
-      a.save
+      button.save
+        border: 0
+        cursor: pointer
         margin-top: 25px
         min-width: 120px
         text-align: center

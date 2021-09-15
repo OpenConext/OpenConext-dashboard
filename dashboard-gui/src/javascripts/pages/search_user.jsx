@@ -70,9 +70,9 @@ class SearchUser extends React.Component {
 
   renderSwitchToRole(idp, role) {
     return (
-      <a key={role} href="/switch" className="c-button" onClick={this.handleSwitchToUser(idp, role)}>
+      <button key={role} type="button" className="c-button" onClick={this.handleSwitchToUser(idp, role)}>
         {I18n.t('search_user.switch.' + role.toLowerCase())}
-      </a>
+      </button>
     )
   }
 

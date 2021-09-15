@@ -38,9 +38,9 @@ class Flash extends React.Component {
         <div className={`${className} ${flash.type}`}>
           <div className="container">
             <p dangerouslySetInnerHTML={{ __html: flash.message }}></p>
-            <a className="close" href="/close" onClick={(e) => this.closeFlash(e)}>
+            <button type="button" className="close" onClick={(e) => this.closeFlash(e)}>
               <i className="fa fa-remove"></i>
-            </a>
+            </button>
           </div>
         </div>
       )

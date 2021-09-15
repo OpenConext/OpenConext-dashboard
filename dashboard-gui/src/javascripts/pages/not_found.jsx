@@ -1,14 +1,8 @@
 import React from 'react'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
-import stopEvent from '../utils/stop'
 
 class NotFound extends React.Component {
-  login = (e) => {
-    stopEvent(e)
-    window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`
-  }
-
   render() {
     const { currentUser } = this.context
     return (
@@ -20,9 +14,7 @@ class NotFound extends React.Component {
             {currentUser.guest && (
               <li>
                 <span>{I18n.t('not_found.reasonLoginPre')}</span>
-                <a href="/login" onClick={this.login}>
-                  Login
-                </a>
+                <a href={`/login?redirect_url=${encodeURIComponent(window.location.href)}`}>Login</a>
                 <span>{I18n.t('not_found.reasonLoginPost')}</span>
               </li>
             )}

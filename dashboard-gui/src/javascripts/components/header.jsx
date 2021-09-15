@@ -148,14 +148,18 @@ class Header extends React.Component {
     } else if (currentUser.superUser && currentUser.switchedToIdp) {
       return (
         <li>
-          <button onClick={this.handleExitClick.bind(this)}>{I18n.t('header.links.exit')}</button>
+          <button type="button" onClick={this.handleExitClick.bind(this)}>
+            {I18n.t('header.links.exit')}
+          </button>
         </li>
       )
     }
 
     return (
       <li>
-        <button onClick={this.handleLogoutClick.bind(this)}>{I18n.t('header.links.logout')}</button>
+        <button type="button" onClick={this.handleLogoutClick.bind(this)}>
+          {I18n.t('header.links.logout')}
+        </button>
       </li>
     )
   }

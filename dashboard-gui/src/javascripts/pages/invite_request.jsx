@@ -161,9 +161,9 @@ class InviteRequest extends React.Component {
   renderAdditionalContactPerson = (contactPerson, i, isLast) => (
     <tr key={i + 1000}>
       <td className="delete-email">
-        <a href="delete-email" onClick={this.deleteAdditionalContactPerson(i)}>
+        <button type="button" onClick={this.deleteAdditionalContactPerson(i)}>
           <i className="fa fa-minus" />
-        </a>
+        </button>
       </td>
       <td>
         <input
@@ -256,9 +256,9 @@ class InviteRequest extends React.Component {
             <tr>
               <td colSpan={3}></td>
               <td className="add-email">
-                <a href="add-email" onClick={this.addEmail}>
+                <button type="button" onClick={this.addEmail}>
                   <i className="fa fa-plus" />
-                </a>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -318,9 +318,9 @@ class InviteRequest extends React.Component {
               onChange={(e) => this.setState({ message: e.target.value })}
             />
             <div className="buttons">
-              <a href="/send" className={`t-button save ${submitClassName}`} onClick={this.sendRequest}>
+              <button type="button" className={`t-button save ${submitClassName}`} onClick={this.sendRequest}>
                 {I18n.t('invite_request.sendRequest')}
-              </a>
+              </button>
             </div>
           </section>
         </div>

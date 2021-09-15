@@ -31,9 +31,9 @@ class Welcome extends React.Component {
           >
             {I18n.t('header.welcome_txt')}
           </a>
-          <a href="/close" className="close" onClick={this.close}>
+          <button type="button" className="close" onClick={this.close}>
             X
-          </a>
+          </button>
         </div>
       </div>
     )

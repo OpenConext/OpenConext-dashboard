@@ -23,9 +23,9 @@ class Facets extends React.Component {
         <div className="header">
           <h3>{I18n.t('facets.title')}</h3>
           {this.props.filteredCount < this.props.totalCount && (
-            <a href="/reset" onClick={this.handleResetFilters.bind(this)}>
+            <button type="button" className="reset-filters" onClick={this.handleResetFilters.bind(this)}>
               {I18n.t('facets.clear_all')}
-            </a>
+            </button>
           )}
         </div>
         <div>
@@ -34,18 +34,6 @@ class Facets extends React.Component {
           {this.renderTotals()}
         </div>
       </div>
-    )
-  }
-
-  renderResetFilters() {
-    return (
-      <a
-        className={'c-button' + (this.props.filteredCount >= this.props.totalCount ? ' disabled' : '')}
-        href="/reset"
-        onClick={this.handleResetFilters.bind(this)}
-      >
-        {I18n.t('facets.reset')}
-      </a>
     )
   }
 

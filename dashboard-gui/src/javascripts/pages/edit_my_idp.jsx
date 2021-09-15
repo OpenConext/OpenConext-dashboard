@@ -529,9 +529,9 @@ class EditMyIdp extends React.Component {
           {showInstitution && this.renderIdpFields()}
           <h2>{I18n.t('my_idp.comments')}</h2>
           <textarea value={this.state.comments} onChange={(e) => this.setState({ comments: e.target.value })} />
-          <a href="/save" className="t-button save policy-button" onClick={(e) => this.saveRequest(e)}>
+          <button type="button" className="t-button save policy-button" onClick={(e) => this.saveRequest(e)}>
             {I18n.t('my_idp.save')}
-          </a>
+          </button>
         </div>
       </div>
     )
