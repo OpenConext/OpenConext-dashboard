@@ -104,31 +104,37 @@ class Header extends React.Component {
 
     if (currentUser.superUser) {
       return (
-        <ul>
-          <li>
-            <Link className="super-user" to="/users/search">
-              {I18n.t('header.super_user_switch')}
-            </Link>
-          </li>
-          {this.renderExitLogout()}
-        </ul>
+        <>
+          <div className="overlay" onClick={this.handleClose.bind(this)} />
+          <ul>
+            <li>
+              <Link className="super-user" to="/users/search" onClick={this.handleClose.bind(this)}>
+                {I18n.t('header.super_user_switch')}
+              </Link>
+            </li>
+            {this.renderExitLogout()}
+          </ul>
+        </>
       )
     }
 
     if (!currentUser.superUser) {
       return (
-        <ul>
-          <h2>{currentUser.displayName}</h2>
+        <>
+          <div className="overlay" onClick={this.handleClose.bind(this)} />
           <ul>
-            <li>
-              <Link to="/profile" onClick={this.handleClose.bind(this)}>
-                {I18n.t('header.profile')}
-              </Link>{' '}
-            </li>
-            {this.renderExitLogout()}
+            <h2>{currentUser.displayName}</h2>
+            <ul>
+              <li>
+                <Link to="/profile" onClick={this.handleClose.bind(this)}>
+                  {I18n.t('header.profile')}
+                </Link>{' '}
+              </li>
+              {this.renderExitLogout()}
+            </ul>
+            <IDPSelector />
           </ul>
-          <IDPSelector />
-        </ul>
+        </>
       )
     }
 

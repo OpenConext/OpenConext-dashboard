@@ -87,7 +87,6 @@ header
     li
       button
         display: inline-block
-        margin-left: 25px
         padding: 0
         color: $blue
         background: none
@@ -99,7 +98,6 @@ header
 
     a.super-user
       display: inline-block
-      margin-left: 25px
 
     a.login
       color: #fff
@@ -136,6 +134,13 @@ header
     .fa-caret-down,
     .fa-caret-up
       padding-left: 5px
+
+    > .overlay
+      position: fixed
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
 
     > ul
       @extend %box
