@@ -9,17 +9,21 @@ const Footer = ({ currentUser }) => {
     <footer>
       <div className="container">
         <div className="help">
-          {I18n.t('footer.tips_or_info')}
-          <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.help_html') }} />
-          <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.terms_html') }} />
-          <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.contact_html') }} />
+          <h3>{I18n.t('footer.tips_or_info')}</h3>
+          <ul>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.help_html') }} />
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.terms_html') }} />
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.contact_html') }} />
+          </ul>
         </div>
 
         <LanguageSelector supportedLanguageCodes={supportedLanguageCodes} />
 
         <div className="powered-by-surf">
-          Proudly powered by
-          <div dangerouslySetInnerHTML={{ __html: I18n.t('footer.surf_html') }} />
+          <h3>Proudly powered by</h3>
+          <ul>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.surf_html') }} />
+          </ul>
         </div>
       </div>
     </footer>
