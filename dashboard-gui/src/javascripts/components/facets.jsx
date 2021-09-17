@@ -21,7 +21,7 @@ class Facets extends React.Component {
     return (
       <div className="mod-filters">
         <div className="header">
-          <h3>{I18n.t('facets.title')}</h3>
+          <h2>{I18n.t('facets.title')}</h2>
           {this.props.filteredCount < this.props.totalCount && (
             <button type="button" className="reset-filters" onClick={this.handleResetFilters.bind(this)}>
               {I18n.t('facets.clear_all')}
