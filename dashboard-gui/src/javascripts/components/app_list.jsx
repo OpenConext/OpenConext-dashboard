@@ -499,7 +499,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         <div className="apps-and-search">
           <div className="top-bar">
             <h1>{connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')}</h1>
-            <div className="search-container">
+            <form role="search" className="search-container">
               <input
                 type="search"
                 title="search services"
@@ -508,7 +508,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
                 placeholder={I18n.t('apps.overview.search_hint')}
               />
               <FontAwesomeIcon icon={faSearch} />
-            </div>
+            </form>
 
             {('msSaveBlob' in window.navigator || 'download' in HTMLAnchorElement.prototype) && (
               <button
