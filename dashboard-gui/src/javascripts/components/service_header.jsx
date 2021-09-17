@@ -41,9 +41,7 @@ export default function ServiceHeader({ app, policies }) {
       const res = await searchJira(jiraFilter)
 
       if (res.payload.total > 0) {
-        const nonRejected = res.payload.issues.filter(
-          (action) => !action.rejected && action.service && action.service.id === app.id
-        )
+        const nonRejected = res.payload.issues.filter((action) => !action.rejected)
         if (nonRejected.length > 0) {
           setJiraAction(nonRejected[nonRejected.length - 1])
         }
