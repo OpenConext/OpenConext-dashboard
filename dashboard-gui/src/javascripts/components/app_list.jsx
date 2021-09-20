@@ -227,36 +227,6 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   })
 
   facets.push(entityCategoryFacet)
-  facets.push({
-    name: I18n.t('facets.static.license.name'),
-    searchValue: 'license',
-    values: [
-      {
-        value: I18n.t('facets.static.license.has_license_surfmarket'),
-        searchValue: 'HAS_LICENSE_SURFMARKET',
-        count: (apps) => apps.filter((app) => app.licenseStatus === 'HAS_LICENSE_SURFMARKET').length,
-      },
-      {
-        value: I18n.t('facets.static.license.has_license_sp'),
-        searchValue: 'HAS_LICENSE_SP',
-        count: (apps) => apps.filter((app) => app.licenseStatus === 'HAS_LICENSE_SP').length,
-      },
-      {
-        value: I18n.t('facets.static.license.not_needed'),
-        searchValue: 'NOT_NEEDED',
-        count: (apps) => apps.filter((app) => app.licenseStatus === 'NOT_NEEDED').length,
-      },
-      {
-        value: I18n.t('facets.static.license.unknown'),
-        searchValue: 'UNKNOWN',
-        count: (apps) => apps.filter((app) => app.licenseStatus === 'UNKNOWN').length,
-      },
-    ],
-    filterApp: function (app) {
-      const licenseFacetValues = activeFacets['license'] || []
-      return licenseFacetValues.length === 0 || licenseFacetValues.indexOf(app.licenseStatus) > -1
-    },
-  })
   const strongAuthenticationFacet = {
     name: I18n.t('facets.static.strong_authentication.name'),
     tooltip: I18n.t('facets.static.strong_authentication.tooltip'),
