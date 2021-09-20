@@ -29,9 +29,12 @@ export default function ServiceDetail() {
     try {
       const data = await getApp(id, type)
       setApp(data.payload)
-      const res = await getPolicies()
-      const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === data.payload.spEntityId)
-      setPolicies(policiesForApp)
+
+      if (!currentUser.guest) {
+        const res = await getPolicies()
+        const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === data.payload.spEntityId)
+        setPolicies(policiesForApp)
+      }
     } catch (e) {
       setPolicies([])
     }
