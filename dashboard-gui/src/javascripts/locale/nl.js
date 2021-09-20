@@ -136,9 +136,9 @@ I18n.translations.nl = {
         tooltip:
           'Op welke manier wordt aan nieuwe gebruikers toestemming gevraagd voordat ze toegang krijgen. Zie de <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> voor meer informatie.',
         name: 'Type toestemming',
-        no_consent: 'Geen toestemming',
-        minimal_consent: 'Minimale toestemming',
-        default_consent: 'Default toestemming',
+        no_consent: 'Geen scherm',
+        minimal_consent: 'Toestemmingsscherm',
+        default_consent: 'Informatiescherm (standaard)',
       },
     },
   },

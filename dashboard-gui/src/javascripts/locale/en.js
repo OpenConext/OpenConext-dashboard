@@ -136,9 +136,9 @@ I18n.translations.en = {
         tooltip:
           'Which way new users are asked to give consent before using the service.<br>See the <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> for more information.',
         name: 'Type of consent',
-        no_consent: 'No consent',
-        minimal_consent: 'Minimal consent',
-        default_consent: 'Default consent',
+        no_consent: 'No screen',
+        minimal_consent: 'Consent screen',
+        default_consent: 'Information screen (default)',
       },
     },
   },
