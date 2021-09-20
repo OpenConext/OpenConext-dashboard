@@ -79,13 +79,13 @@ export default function AboutService({ app, type }) {
         </div>
       </div>
       <div className="institutions">
-        <InstitutionTable institutions={institutions} app={app} />
+        <InstitutionTable institutions={institutions} />
       </div>
     </div>
   )
 }
 
-function InstitutionTable({ institutions, app }) {
+function InstitutionTable({ institutions }) {
   if (!institutions) {
     return null
   }
@@ -95,7 +95,6 @@ function InstitutionTable({ institutions, app }) {
       <h2>{I18n.t('apps.detail.institutions_header.other', { count: institutions.length })}</h2>
       {institutions.length > 0 && (
         <>
-          <p>{I18n.t('apps.detail.provided_information', { organisation: app.organisation })}</p>
           <div className="institutions-container">
             <div className="institutions-header">{I18n.t('apps.detail.institutions')}</div>
             <div className="institution-details">
