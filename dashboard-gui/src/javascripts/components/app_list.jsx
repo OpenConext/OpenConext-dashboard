@@ -273,7 +273,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
     searchValue: 'attributes',
     values: arpAttributes.map((attr) => {
       const val = attr.substring(attr.lastIndexOf(':') + 1)
-      return { value: val.charAt(0).toUpperCase() + val.slice(1), searchValue: attr }
+      return { value: val, searchValue: attr }
     }),
     filterApp: function (app) {
       const attrFacetValues = activeFacets['attributes'] || []
