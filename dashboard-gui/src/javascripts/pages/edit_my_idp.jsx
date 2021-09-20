@@ -518,7 +518,7 @@ class EditMyIdp extends React.Component {
     const { showInstitution } = this.state
     return (
       <div className="container">
-        <Helmet title={I18n.t('my_idps.settings_edit')} />
+        <Helmet title={I18n.t('my_idp.settings_edit')} />
         <div className="mod-idp">
           <h1>{I18n.t('my_idp.settings_edit')}</h1>
           <h2>
