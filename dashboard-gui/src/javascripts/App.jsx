@@ -53,7 +53,7 @@ class App extends React.Component {
             <Welcome />
             <main id="main-content">
               <Switch>
-                <Route exact path="/" render={() => <Redirect to="/apps/connected" />} />
+                <Route exact path="/" render={() => <Redirect to={nonGuest ? '/apps/connected' : 'apps/all'} />} />
 
                 <Route path="/apps/:id/:type" component={ServiceDetail} />
                 <ProtectedRoute
@@ -71,7 +71,18 @@ class App extends React.Component {
                     },
                   }) => <Redirect to={`/apps/${id}/${type}/overview`} />}
                 />
-                <Route exact path="/apps/connected" render={() => <ServicesOverview key="connected" connected />} />
+                <Route
+                  exact
+                  path="/apps/connected"
+                  render={() => {
+                    if (nonGuest) {
+                      return <ServicesOverview key="connected" connected />
+                    }
+
+                    return <Redirect to="/apps/all" />
+                  }}
+                />
+
                 <Route exact path="/apps/all" component={ServicesOverview} />
                 {isViewerOrAdmin && <Route exact path="/tickets/:status?" component={Tickets} />}
                 {nonGuest && <Route exact path="/profile" component={Profile} />}

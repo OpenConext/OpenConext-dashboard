@@ -41,18 +41,22 @@ export default function ServicesOverview({ connected = false }) {
 
   return (
     <>
-      <Breadcrumbs items={breadcrumbs} />
       <Helmet title={connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')} />
-      <TabBar>
-        <Tab active={connected} to="/apps/connected">
-          <ConnectedServiceIcon focusable="true" />
-          {I18n.t('apps.overview.connected_services')}
-        </Tab>
-        <Tab active={!connected} to="/apps/all">
-          <AllServiceIcon focusable="true" />
-          {I18n.t('apps.overview.all_services')}
-        </Tab>
-      </TabBar>
+      {!currentUser.guest && (
+        <>
+          <Breadcrumbs items={breadcrumbs} />
+          <TabBar>
+            <Tab active={connected} to="/apps/connected">
+              <ConnectedServiceIcon focusable="true" title={I18n.t('apps.overview.connected_services')} />
+              {I18n.t('apps.overview.connected_services')}
+            </Tab>
+            <Tab active={!connected} to="/apps/all">
+              <AllServiceIcon focusable="true" title={I18n.t('apps.overview.all_services')} />
+              {I18n.t('apps.overview.all_services')}
+            </Tab>
+          </TabBar>
+        </>
+      )}
       <div className="container">
         <AppList apps={apps} facets={facets} currentUser={currentUser} connected={connected} />
       </div>

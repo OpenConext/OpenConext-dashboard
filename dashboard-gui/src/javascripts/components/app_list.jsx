@@ -524,7 +524,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
           <table className="apps-table">
             <thead>
               <tr>
-                <th scope="col">&nbsp;</th>
+                {!currentUser.guest && <th scope="col">&nbsp;</th>}
                 <th scope="col">{I18n.t('apps.overview.name')}</th>
                 <th scope="col">{I18n.t('apps.overview.organisation')}</th>
               </tr>
@@ -533,7 +533,11 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
               {paginatedApps.map((app) => {
                 return (
                   <tr key={app.id}>
-                    <td className="connected">{app.connected && <ConnectedServiceIcon focusable />}</td>
+                    {!currentUser.guest && (
+                      <td className="connected">
+                        {app.connected && <ConnectedServiceIcon focusable title="Connected" />}
+                      </td>
+                    )}
                     <td className="name">
                       <Link
                         to={`/apps/${app.id}/${app.entityType}/about`}

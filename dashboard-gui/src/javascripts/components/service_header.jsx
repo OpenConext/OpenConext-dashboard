@@ -85,71 +85,73 @@ export default function ServiceHeader({ app, policies }) {
                   <LicenseInfoText app={app} />
                 </div>
               </div>
-              <div className="right">
-                {pendingAction && !app.connected && (
-                  <button disabled className="c-button">
-                    {I18n.t('apps.detail.pending_connection')}
-                  </button>
-                )}
-                {pendingAction && app.connected && (
-                  <button disabled className="c-button">
-                    {I18n.t('apps.detail.pending_disconnect')}
-                  </button>
-                )}
-                {!pendingAction && app.connected && (
-                  <button
-                    disabled={!canConnectOrDisconnect}
-                    className="g-button"
-                    onClick={() => setShowDisconnectModal(true)}
-                  >
-                    <FontAwesomeIcon icon={faCheck} />
-                    {I18n.t('apps.detail.connected')}
-                  </button>
-                )}
-                {!pendingAction && !app.connected && !hasInvite && (
-                  <button
-                    disabled={!canConnectOrDisconnect}
-                    className="c-button"
-                    onClick={() => setShowConnectModal(true)}
-                  >
-                    {I18n.t('apps.detail.connect_service')}
-                  </button>
-                )}
-                {!pendingAction && !app.connected && hasInvite && (
-                  <>
+              {!currentUser.guest && (
+                <div className="right">
+                  {pendingAction && !app.connected && (
+                    <button disabled className="c-button">
+                      {I18n.t('apps.detail.pending_connection')}
+                    </button>
+                  )}
+                  {pendingAction && app.connected && (
+                    <button disabled className="c-button">
+                      {I18n.t('apps.detail.pending_disconnect')}
+                    </button>
+                  )}
+                  {!pendingAction && app.connected && (
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="g-button"
-                      onClick={() => setShowConnectModal(true)}
+                      onClick={() => setShowDisconnectModal(true)}
                     >
-                      {I18n.t('apps.detail.approve_invite')}
+                      <FontAwesomeIcon icon={faCheck} />
+                      {I18n.t('apps.detail.connected')}
                     </button>
+                  )}
+                  {!pendingAction && !app.connected && !hasInvite && (
                     <button
                       disabled={!canConnectOrDisconnect}
-                      className="red-button deny-invite"
-                      onClick={() => setShowDenyModal(true)}
+                      className="c-button"
+                      onClick={() => setShowConnectModal(true)}
                     >
-                      {I18n.t('apps.detail.deny_invite')}
+                      {I18n.t('apps.detail.connect_service')}
                     </button>
-                  </>
-                )}
-                {app.connected && (
-                  <div className="connection-details">
-                    {app.minimalLoaLevel && (
-                      <div className="loa">
-                        <div className="green-dot"></div>
-                        <LoaIcon /> {app.minimalLoaLevel.split('/').pop()}
-                      </div>
-                    )}
-                    {policies.length > 0 && (
-                      <div className="loa">
-                        <div className="green-dot"></div>
-                        <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+                  )}
+                  {!pendingAction && !app.connected && hasInvite && (
+                    <>
+                      <button
+                        disabled={!canConnectOrDisconnect}
+                        className="g-button"
+                        onClick={() => setShowConnectModal(true)}
+                      >
+                        {I18n.t('apps.detail.approve_invite')}
+                      </button>
+                      <button
+                        disabled={!canConnectOrDisconnect}
+                        className="red-button deny-invite"
+                        onClick={() => setShowDenyModal(true)}
+                      >
+                        {I18n.t('apps.detail.deny_invite')}
+                      </button>
+                    </>
+                  )}
+                  {app.connected && (
+                    <div className="connection-details">
+                      {app.minimalLoaLevel && (
+                        <div className="loa">
+                          <div className="green-dot"></div>
+                          <LoaIcon /> {app.minimalLoaLevel.split('/').pop()}
+                        </div>
+                      )}
+                      {policies.length > 0 && (
+                        <div className="loa">
+                          <div className="green-dot"></div>
+                          <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
