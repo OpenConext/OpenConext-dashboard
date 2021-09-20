@@ -117,7 +117,7 @@ export default function ServiceHeader({ app, policies }) {
                     </button>
                   )}
                   {!pendingAction && !app.connected && hasInvite && (
-                    <>
+                    <div className="approve-deny">
                       <button
                         disabled={!canConnectOrDisconnect}
                         className="g-button"
@@ -132,7 +132,7 @@ export default function ServiceHeader({ app, policies }) {
                       >
                         {I18n.t('apps.detail.deny_invite')}
                       </button>
-                    </>
+                    </div>
                   )}
                   {app.connected && (
                     <div className="connection-details">
