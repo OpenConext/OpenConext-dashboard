@@ -8,7 +8,6 @@ import SelectWrapper from '../components/select_wrapper'
 import { isEmpty } from '../utils/utils'
 import CheckBox from '../components/checkbox'
 import stopEvent from '../utils/stop'
-import Flash from '../components/flash'
 import { setFlash } from '../utils/flash'
 import { validEmailRegExp, validNameRegExp } from '../utils/validations'
 
@@ -280,7 +279,6 @@ class InviteRequest extends React.Component {
     return (
       <div>
         <Helmet title={I18n.t('navigation.invite_request')} />
-        <Flash />
         <div className="l-mini mod-invite-request">
           <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('invite_request.info') }} />
           <section className="mod-invite-request-inner">

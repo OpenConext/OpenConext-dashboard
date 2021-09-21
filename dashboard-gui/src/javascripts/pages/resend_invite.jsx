@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { resendInviteRequest, searchJira } from '../api'
 import SelectWrapper from '../components/select_wrapper'
 import stopEvent from '../utils/stop'
-import Flash from '../components/flash'
 import { setFlash } from '../utils/flash'
 import { isEmpty } from '../utils/utils'
 
@@ -43,7 +42,6 @@ class ResendInvite extends React.Component {
     }
     return (
       <div>
-        <Flash />
         <div className="l-mini mod-resend-invite">
           <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('invite_request.info') }} />
           <section className="mod-resend-invite-inner">
