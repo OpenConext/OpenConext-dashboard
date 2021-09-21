@@ -408,6 +408,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
     })
     .filter((app) => {
       return facets.every((facet) => {
+        if (facet.searchValue === 'entity_category' && entityCategoriesFacetSelector) {
+          return facet.filterApp(app)
+        }
+
         if (!activeFacets[facet.searchValue] || activeFacets[facet.searchValue].length === 0) {
           return true
         }
