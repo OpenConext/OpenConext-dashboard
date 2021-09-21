@@ -248,19 +248,19 @@ I18n.translations.en = {
   license_info_panel: {
     title: 'License information',
     has_license_surfmarket_html:
-      'License available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
+      'License available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     has_license_sp_html:
       'A license for \'<a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a>\' can be acquired from \'{{organisation}}\' who is the the Vendor of this service.',
     has_license_sp_html_no_service_url:
       "A license for '{{serviceName}}' can be acquired from '{{organisation}}' who is the Vendor of this service.",
     no_license_html:
-      'Your institution has no valid license available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
+      'Your institution has no valid license available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     not_needed_html: 'This Service does not require a license.',
     unknown_license: 'It is unknown whether a license is required or not.',
     no_license_description_html:
       '' +
       '<ul>' +
-      '   <li>Your institution can obtain a license from <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.</li>' +
+      '   <li>Your institution can obtain a license from <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.</li>' +
       '</ul>' +
       '<br />In some cases this license needs to be obtained directly from the service supplier.',
     unknown_license_description_html:
@@ -268,9 +268,9 @@ I18n.translations.en = {
       '<ul>' +
       '   <li>SURF or another institution is offering this service for free.</li>' +
       '   <li>The license needs to be obtained directly from the service supplier.</li>' +
-      '   <li>The license hasn\'t been added to <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>\'s administration yet.</li>' +
+      '   <li>The license hasn\'t been added to <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>\'s administration yet.</li>' +
       '</ul>' +
-      '<p>If necessary, SURF will contact the service supplier or <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a> before activating the connection.</p>',
+      '<p>If necessary, SURF will contact the service supplier or <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a> before activating the connection.</p>',
   },
 
   license_info: {

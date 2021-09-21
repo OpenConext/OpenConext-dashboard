@@ -247,19 +247,19 @@ I18n.translations.nl = {
   license_info_panel: {
     title: 'Licentie-informatie',
     has_license_surfmarket_html:
-      'Licentie beschikbaar via \'<a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
+      'Licentie beschikbaar via \'<a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     has_license_sp_html:
       'Een licentie voor \'<a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a>\' kan via de aanbieder van deze dienst \'{{organisation}}\' worden afgesloten.',
     has_license_sp_html_no_service_url:
       "Een licentie voor '{{serviceName}}' kan via de aanbieder van deze dienst '{{organisation}}' worden afgesloten.",
     no_license_html:
-      'Jouw instelling heeft voor deze service geen licentie via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.',
+      'Jouw instelling heeft voor deze service geen licentie via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     not_needed_html: 'Voor deze dienst is geen licentie nodig',
     unknown_license: 'Het is onbekend welke licentie voor deze service geldt.',
     no_license_description_html:
       '' +
       '<ul>' +
-      '   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a></li>' +
+      '   <li>Laat de licentiecontactpersoon van jouw instelling een licentie afsluiten bij <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a></li>' +
       '</ul>' +
       '<br />In sommige gevallen is de licentie direct bij de aanbieder van de service afgesloten.',
     unknown_license_description_html:
@@ -267,9 +267,9 @@ I18n.translations.nl = {
       '<ul>' +
       '   <li>SURF of een andere instelling biedt deze service gratis aan.</li>' +
       '   <li>De licentie moet direct bij de aanbieder van de service worden afgesloten.</li>' +
-      '   <li>De licentie is nog niet bijgewerkt in de administratie van <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a>.</li>' +
+      '   <li>De licentie is nog niet bijgewerkt in de administratie van <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.</li>' +
       '</ul>' +
-      '<p>SURF zal, indien nodig, contact opnemen met de aanbieder of <a href="https://www.surfmarket.nl" target="_blank" rel="noopener noreferrer">SURF</a> alvorens de koppeling te activeren.</p>',
+      '<p>SURF zal, indien nodig, contact opnemen met de aanbieder of <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a> alvorens de koppeling te activeren.</p>',
   },
 
   license_info: {
