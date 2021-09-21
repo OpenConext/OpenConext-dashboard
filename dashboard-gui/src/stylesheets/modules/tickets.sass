@@ -68,6 +68,18 @@
           @media(min-width: 768px)
             padding: 12px 28px
 
+          .title-and-status
+            display: flex
+            justify-content: space-between
+            align-items: center
+
+            .status-badge
+              background-color: #eaeaea
+              border-radius: 100px
+              padding: 3px 12px
+              @include font-size(12)
+              font-weight: 600
+
           h4
             @include font-size(18)
             color: #1e5db4

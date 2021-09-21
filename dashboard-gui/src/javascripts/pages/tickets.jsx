@@ -78,11 +78,11 @@ export default function Tickets() {
           <div className="filters">
             <h3>{I18n.t('history.filter')}</h3>
             {Object.keys(statusMap).map((s) => (
-              <Link key={s} to={`/tickets/${s}`} className={status === s && 'active'}>
+              <Link key={s} to={`/tickets/${s}`} className={status === s ? 'active' : undefined}>
                 {I18n.t(`history.statuses.${statusMap[s]}`)}
               </Link>
             ))}
-            <Link to={`/tickets`} className={!status && 'active'}>
+            <Link to={`/tickets`} className={!status ? 'active' : undefined}>
               {I18n.t('history.statuses.all')}
             </Link>
           </div>
@@ -90,7 +90,7 @@ export default function Tickets() {
             <h2>{I18n.t(`history.statuses.${statusMap[status] || 'all'}`)}</h2>
             {visibleActions.length === 0 && !loading && <p className="no-results">{I18n.t('history.no_results')}</p>}
             {visibleActions.map((action) => (
-              <Action key={action.jiraKey} action={action} currentUser={currentUser} />
+              <Action key={action.jiraKey} action={action} currentUser={currentUser} showStatus={!statusMap[status]} />
             ))}
             <Pagination page={page} total={actions.length} onChange={setPage} />
           </div>
@@ -133,7 +133,7 @@ function Pagination({ page, total: resultLength, onChange }) {
   )
 }
 
-function Action({ action, currentUser }) {
+function Action({ action, currentUser, showStatus }) {
   const linkInviteAwaitingInput = action.type === 'LINKINVITE' && action.status === 'Awaiting Input' && action.spId
   const type = action.typeMetaData || 'saml20_sp'
   const renderViewInvitation = linkInviteAwaitingInput && currentUser.dashboardAdmin
@@ -142,7 +142,10 @@ function Action({ action, currentUser }) {
   return (
     <div className="ticket">
       <div className="ticket-content">
-        <h4>{action.spName === 'Information unavailable' ? action.spId : action.spName}</h4>
+        <div className="title-and-status">
+          <h4>{action.spName === 'Information unavailable' ? action.spId : action.spName}</h4>
+          {showStatus && <div className="status-badge">{I18n.t(`history.statuses.${action.status}`)}</div>}
+        </div>
         {action.personalMessage && (
           <p dangerouslySetInnerHTML={{ __html: action.personalMessage.replace(/\n/g, '<br>') }} />
         )}
