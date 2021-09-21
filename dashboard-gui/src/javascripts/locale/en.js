@@ -173,7 +173,7 @@ I18n.translations.en = {
       consent: 'Consent',
       back: 'Back',
       outstandingIssue:
-        'There is already an outstanding ticket {{jiraKey}} of type {{type}} and status {{status}} for this Service.',
+        'There is already a ticket with reference {{jiraKey}} of type {{type}} and status {{status}} for this Service.',
       inviteAlreadyProcessed: 'The invite for ticket {{jiraKey}} has already been {{action}}.',
       outstandingIssueLink:
         ' Go to the <a class="link" href="{{link}}">{{linkName}}</a> section to approve / deny the invitation.',
