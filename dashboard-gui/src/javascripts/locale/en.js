@@ -64,7 +64,7 @@ I18n.translations.en = {
     refresh: 'Refresh',
     clear_all: '(Clear all)',
     reset: 'Reset',
-    download: 'Export overview',
+    download: 'Export overview as csv',
     unknown: 'Unknown',
     totals: {
       all: 'Showing all {{total}} services',

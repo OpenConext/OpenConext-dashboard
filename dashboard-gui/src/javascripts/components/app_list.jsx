@@ -473,7 +473,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         <div className="apps-and-search">
           <div className="top-bar">
             <h1>{connected ? I18n.t('apps.overview.connected_services') : I18n.t('apps.overview.all_services')}</h1>
-            <form role="search" className="search-container">
+            <form role="search" className="search-container" aria-controls="apps-table">
               <input
                 type="search"
                 title="search services"
@@ -495,7 +495,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
               </button>
             )}
           </div>
-          <table className="apps-table">
+          <table className="apps-table" id="apps-table" aria-live="polite">
             <thead>
               <tr>
                 {!currentUser.guest && <th scope="col">&nbsp;</th>}

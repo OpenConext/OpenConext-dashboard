@@ -64,7 +64,7 @@ I18n.translations.nl = {
     reset: 'Reset',
     clear_all: '(Wis alles)',
     refresh: 'Verversen',
-    download: 'Export overzicht',
+    download: 'Export overzicht als csv',
     unknown: 'Unknown',
     totals: {
       all: 'Alle {{total}} services worden weergegeven',
