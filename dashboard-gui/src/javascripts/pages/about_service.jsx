@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import I18n from 'i18n-js'
 import { getIdps } from '../api'
+import { ReactComponent as WebsiteIcon } from '../../images/network-search.svg'
+import { ReactComponent as SupportIcon } from '../../images/network-information.svg'
+import { ReactComponent as LoginIcon } from '../../images/login-1.svg'
+import { ReactComponent as EulaIcon } from '../../images/common-file-text-check.svg'
+import { ReactComponent as RegistrationPolicyIcon } from '../../images/common-file-text-edit.svg'
+import { ReactComponent as PrivacyStatementIcon } from '../../images/single-neutral-actions-text.svg'
 
 export default function AboutService({ app, type }) {
   const [institutions, setInstitutions] = useState(null)
@@ -59,12 +65,24 @@ export default function AboutService({ app, type }) {
         <div className="right-side">
           <div className="links">
             <h2>{I18n.t('apps.detail.links')}</h2>
-            <ExternalURL name="website" link={app.websiteUrl} />
-            <ExternalURL name="support" link={app.supportUrl} />
-            <ExternalURL name="login" link={app.appUrl} />
-            <ExternalURL name="eula" link={app.eulaUrl} />
-            <ExternalURL name="registration_policy" link={app.registrationPolicyUrl} />
-            <ExternalURL name="privacy_statement" link={app.privacyStatementUrl} />
+            <ExternalURL name="website" link={app.websiteUrl}>
+              <WebsiteIcon />
+            </ExternalURL>
+            <ExternalURL name="support" link={app.supportUrl}>
+              <SupportIcon />
+            </ExternalURL>
+            <ExternalURL name="login" link={app.appUrl}>
+              <LoginIcon />
+            </ExternalURL>
+            <ExternalURL name="eula" link={app.eulaUrl}>
+              <EulaIcon />
+            </ExternalURL>
+            <ExternalURL name="registration_policy" link={app.registrationPolicyUrl}>
+              <RegistrationPolicyIcon />
+            </ExternalURL>
+            <ExternalURL name="privacy_statement" link={app.privacyStatementUrl}>
+              <PrivacyStatementIcon />
+            </ExternalURL>
           </div>
           {app.registrationInfoUrl && (
             <div className="federation-source">
@@ -132,7 +150,7 @@ function EntityCategoryRow({ category }) {
   )
 }
 
-function ExternalURL({ name, link }) {
+function ExternalURL({ name, link, children }) {
   if (!link) {
     return null
   }
@@ -140,6 +158,7 @@ function ExternalURL({ name, link }) {
   return (
     <div className="external-url">
       <a href={link} target="_blank" rel="noreferrer noopener">
+        {children}
         {I18n.t('app_meta.' + name)}
       </a>
     </div>
