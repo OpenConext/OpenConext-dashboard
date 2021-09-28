@@ -191,7 +191,7 @@ I18n.translations.en = {
       connected: 'Connected',
       pending_connection: 'Pending connection request...',
       pending_disconnect: 'Pending disconnect request...',
-      approve_invite: 'Approve invite',
+      approve_invite: 'Accept invite',
       deny_invite: 'Deny invite',
     },
     overview: {
@@ -524,7 +524,7 @@ I18n.translations.en = {
     invite_denied: 'Ticket {{jiraKey}} was successfully updated with your rejection.',
     invite_accepted: 'Ticket {{jiraKey}} was successfully updated with your approval.',
     deny: 'Deny invition',
-    approve: 'Approve invitation',
+    approve: 'Accept invitation',
     deny_invitation: 'Are you  sure you want to deny the invitation to connect to {{app}}',
     deny_invitation_info: 'After you deny the invitation you can always activate the connection from this dashboard.',
     invite_action_collision_title: 'Service {{app}} is already connected.',
