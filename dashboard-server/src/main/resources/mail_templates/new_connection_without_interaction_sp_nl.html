@@ -1,11 +1,13 @@
 {{> header.html}}
-<p>
-    Hello,
-</p>
-<p>
-    As a service provider, you allow institutions on SURFconext to connect your service automatically.
-    You receive this email because you have chosen to receive notifications for new connections.
-</p>
+<div id="introduction">
+    <p id="salutation">
+        Hello,
+    </p>
+    <p>
+        As a service provider, you allow institutions on SURFconext to connect your service automatically.
+        You receive this email because you have chosen to receive notifications for new connections.
+    </p>
+</div>
 
 <p>
 <strong>Institution <u>{{idpName}}</u> has connected your service <u>{{spName}}</u> (with entityID="<tt>{{spEntityID}}</tt>").</strong>
@@ -16,13 +18,13 @@
 {{/hasEmailContactPerson}}
 
 {{#hasComments}}
-<p>Comments from the {{idpName}} contact person:</p>
-<p style="font-style: italic">{{comments}}</p>
+<div id="personal-message">
+<strong>Comments from the {{idpName}} contact person:</strong><br>"{{comments}}"
+</div>
 {{/hasComments}}
-
-<p>
-    <strong>Need help?</strong><br>
-    If you have any questions about this connection, please contact <a href="mailto:support@surfconext.nl?subject=SP {{spName}} vraag over automatische koppeling met {{idpName}})">support@surfconext.nl</a>.
-</p>
+<div id="footer">
+    <strong>Need help?</strong>
+    Please contact <a href="mailto:support@surfconext.nl?subject=SP {{spName}} vraag over automatische koppeling met {{idpName}})">support@surfconext.nl</a>.
+</div>
 
 {{> closer.html}}

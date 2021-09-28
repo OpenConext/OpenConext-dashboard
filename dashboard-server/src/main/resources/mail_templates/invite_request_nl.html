@@ -1,46 +1,39 @@
 {{> header.html}}
-<p>
-    Beste {{salutation}}
-</p>
-<p>
-    U bent uitgenodigd om een koppeling te maken tussen de dienst <strong>{{inviteRequest.spName}}</strong> en uw eigen
-    instelling <strong>{{inviteRequest.idpName}}</strong>.
-    Lees hieronder wat u moet doen om de uitnodiging te accepteren en de koppeling te activeren.
-</p>
+<div id="introduction">
+    <p id="salutation">
+        Beste {{salutation}}
+    </p>
+    <p>
+        Je bent uitgenodigd om een koppeling te maken tussen de dienst <strong>{{inviteRequest.spName}}</strong> en jouw eigen
+        instelling <strong>{{inviteRequest.idpName}}</strong>.
+        Lees hieronder wat je moet doen om de uitnodiging te accepteren en de koppeling te activeren.
+    </p>
+</div>
 
 {{#inviteRequest.containsMessage}}
-<hr/>
-<p>
+<div id="personal-message">
     <strong>Persoonlijk bericht van SURFconext:</strong><br>"{{{inviteRequest.htmlMessage}}}"
-</p>
-<hr/>
+</div>
 {{/inviteRequest.containsMessage}}
 
-<p>
-    <strong>Uitnodiging accepteren:</strong><br>
-    Klik hieronder op 'Inloggen om de koppeling te activeren' en log vervolgens in met het account van uw instelling
-    om de koppeling te activeren.
+<p id="invitation-message">
+    <strong>Uitnodiging</strong><br>
+    Klik op de knop om in te loggen met het account van jouw instelling
+    en de uitnodiging te <strong>accepteren</strong> of <strong>af te wijzen</strong>.
 </p>
 
-<p>
-    Wilt u deze koppeling niet activeren? Klik dan op 'De uitnodiging afwijzen'.
-</p>
-
-<table id="invitation-mail-table" cellpadding="10" width="90%" align="center">
+<table id="invitation-mail-table">
     <tr>
-        <td class="invitation-accept" align="center" width="50%">
-            <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/about/{{action.jiraKey}}/accept" style="color:#0088CC;">Inloggen om de koppeling te activeren</a></span>
-        </td>
-        <td class="invitation-deny" align="center" width="50%">
-            <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/about/{{action.jiraKey}}/deny" style="color:#0088CC;">De uitnodiging om te koppelen afwijzen</a></span>
+        <td class="invitation-accept">
+            <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/about/{{action.jiraKey}}/accept">Uitnodiging accepteren of afwijzen</a></span>
         </td>
     </tr>
 </table>
 
-<p>
-    <strong>Hulp nodig?</strong><br>
-    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})">support@surfconext.nl</a> als u vragen hebt over deze uitnodiging.
-</p>
+<div id="footer">
+    <strong>Heb je vragen?</strong>
+    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})">support@surfconext.nl</a>.
+</div>
 
 </div>
 </td>

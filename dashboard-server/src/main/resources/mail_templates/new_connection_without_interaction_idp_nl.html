@@ -1,19 +1,23 @@
 {{> header.html}}
-<p>
-    Beste,
-</p>
-<p>
-    Uw instelling {{idpName}} is op verzoek van uzelf of een collega nu gekoppeld aan de dienst {{spName}} (met entityID="{{spEntityID}}").
-</p>
+<div id="introduction">
+    <p id="salutation">
+
+        Beste,
+    </p>
+    <p>
+        Uw instelling {{idpName}} is op verzoek van uzelf of een collega nu gekoppeld aan de dienst {{spName}} (met entityID="{{spEntityID}}").
+    </p>
+</div>
 
 {{#hasComments}}
-<p>Opmerking van de {{idpName}} verantwoordelijke:</p>
-<p style="font-style: italic">{{comments}}</p>
+<div id="personal-message">
+    <strong>Opmerking van de {{idpName}} verantwoordelijke:</strong><br>"{{comments}}"
+</div>
 {{/hasComments}}
 
-<p>
-    <strong>Hulp nodig?</strong><br>
-    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Idp {{idpName}} vraag over automatische koppeling met {{spName}})">support@surfconext.nl</a> als u vragen hebt over deze koppeling.
-</p>
+<div id="footer">
+    <strong>Heb je vragen?</strong>
+    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Idp {{idpName}} vraag over automatische koppeling met {{spName}})">support@surfconext.nl</a>.
+</div>
 
 {{> closer.html}}
