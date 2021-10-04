@@ -32,9 +32,9 @@ public class SabClientMock implements Sab {
     private static final SabRole ROLE_VERANTWOORDELIJKE = new SabRole("CONVER", "SURFconextverantwoordelijke");
 
     private final List<SabPerson> sabPersons = ImmutableList.of(
-            new SabPerson("Hans", "Janssen", "hjanssen", "hjanssen@surfnet.nl", asList(ROLE_BEHEERDER)),
-            new SabPerson("Raoul", "Teeuwen", "rteeuwen", "raoul.teeuwen@surfnet.nl", asList(ROLE_VERANTWOORDELIJKE)),
-            new SabPerson("Okke", "Harsta", "oharsta", "oharsta@zilverline.nl", asList(ROLE_VERANTWOORDELIJKE))
+            new SabPerson("Hans", "", "Janssen", "hjanssen", "hjanssen@surfnet.nl", asList(ROLE_BEHEERDER)),
+            new SabPerson("Raoul", "var der", "Teeuwen", "rteeuwen", "raoul.teeuwen@surfnet.nl", asList(ROLE_VERANTWOORDELIJKE)),
+            new SabPerson("Okke", "", "Harsta", "oharsta", "oharsta@zilverline.nl", asList(ROLE_VERANTWOORDELIJKE))
     );
 
     /**
