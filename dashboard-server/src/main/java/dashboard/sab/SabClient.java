@@ -93,6 +93,7 @@ public class SabClient implements Sab {
                                 .collect(toList());
                         return new SabPerson(
                                 (String) profile.get("firstname"),
+                                (String) profile.get("middlename"),
                                 (String) profile.get("surname"),
                                 (String) profile.get("uid"),
                                 (String) profile.get("email"),
