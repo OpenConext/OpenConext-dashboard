@@ -20,7 +20,7 @@ const Footer = ({ currentUser }) => {
         <LanguageSelector supportedLanguageCodes={supportedLanguageCodes} />
 
         <div className="powered-by-surf">
-          <h3>Proudly powered by</h3>
+          <h3>Powered by</h3>
           <ul>
             <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.surf_html') }} />
           </ul>
