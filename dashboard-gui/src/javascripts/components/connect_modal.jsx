@@ -105,6 +105,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   }
 
   if (action) {
+    console.log(action)
     if (action.connectWithoutInteraction) {
       const rejectedOrDone = action.rejected ? 'rejected' : 'done'
       return (
