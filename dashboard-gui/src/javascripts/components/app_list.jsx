@@ -526,8 +526,8 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
               })}
               {paginatedApps.length === 0 && (
                 <tr key="none">
-                  <td></td>
-                  <td colSpan={3}>{I18n.t('apps.overview.no_results')}</td>
+                  {!currentUser.guest && <td></td>}
+                  <td colSpan={2}>{I18n.t('apps.overview.no_results')}</td>
                 </tr>
               )}
             </tbody>
