@@ -422,6 +422,8 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
 
   const paginatedApps = filteredApps.slice((page - 1) * PAGE_COUNT, page * PAGE_COUNT)
 
+  console.log(paginatedApps)
+
   function fakeClick(obj) {
     const ev = document.createEvent('MouseEvents')
     ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
