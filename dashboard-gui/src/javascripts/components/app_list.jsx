@@ -422,8 +422,6 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
 
   const paginatedApps = filteredApps.slice((page - 1) * PAGE_COUNT, page * PAGE_COUNT)
 
-  console.log(paginatedApps)
-
   function fakeClick(obj) {
     const ev = document.createEvent('MouseEvents')
     ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
@@ -508,7 +506,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
             <tbody>
               {paginatedApps.map((app) => {
                 return (
-                  <tr key={app.id} className={app.id}>
+                  <tr key={app.id}>
                     {!currentUser.guest && (
                       <td className="connected">
                         {app.connected && <ConnectedServiceIcon focusable title="Connected" />}
@@ -527,7 +525,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
                 )
               })}
               {paginatedApps.length === 0 && (
-                <tr>
+                <tr key="none">
                   <td></td>
                   <td colSpan={3}>{I18n.t('apps.overview.no_results')}</td>
                 </tr>
