@@ -106,7 +106,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
   if (action) {
     console.log(action)
-    if (action.connectWithoutInteraction) {
+    if (existingJiraAction.connectWithoutInteraction) {
       const rejectedOrDone = action.rejected ? 'rejected' : 'done'
       return (
         <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
@@ -125,7 +125,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
       )
     }
 
-    const jiraKey = action.jiraKey // TODO: props.jiraKey
+    const jiraKey = action.jiraKey
     const subtitle = jiraKey
       ? I18n.t('how_to_connect_panel.done_subtitle_with_jira_html', { jiraKey: jiraKey })
       : I18n.t('how_to_connect_panel.done_subtitle_html')
