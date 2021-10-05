@@ -508,7 +508,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
             <tbody>
               {paginatedApps.map((app) => {
                 return (
-                  <tr key={app.id}>
+                  <tr key={app.id} className={app.id}>
                     {!currentUser.guest && (
                       <td className="connected">
                         {app.connected && <ConnectedServiceIcon focusable title="Connected" />}
