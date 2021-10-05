@@ -44,7 +44,11 @@ export default function ServiceHeader({ app, policies }) {
         const nonRejected = res.payload.issues.filter((action) => !action.rejected && action.spEid === app.id)
         if (nonRejected.length > 0) {
           setJiraAction(nonRejected[nonRejected.length - 1])
+        } else {
+          setJiraAction(null)
         }
+      } else {
+        setJiraAction(null)
       }
     }
   }
