@@ -6,13 +6,15 @@ import static java.lang.String.format;
 
 public class SabPerson {
     private final String firstName;
+    private final String middleName;
     private final String surname;
     private final String uid;
     private final String email;
     private final List<SabRole> roles;
 
-    public SabPerson(String firstName, String surname, String uid, String email, List<SabRole> roles) {
+    public SabPerson(String firstName, String middleName, String surname, String uid, String email, List<SabRole> roles) {
         this.firstName = firstName;
+        this.middleName = middleName;
         this.surname = surname;
         this.uid = uid;
         this.email = email;
@@ -20,7 +22,10 @@ public class SabPerson {
     }
 
     public String fullname() {
-        return format("%s %s", firstName, surname);
+        if (middleName.isEmpty()) {
+            return format("%s %s", firstName, surname);
+        }
+        return format("%s %s %s", firstName, middleName, surname);
     }
 
     public boolean hasRole(final String roleName) {
@@ -29,6 +34,10 @@ public class SabPerson {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
     }
 
     public String getSurname() {
