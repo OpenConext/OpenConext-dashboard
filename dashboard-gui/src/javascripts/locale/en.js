@@ -1164,7 +1164,7 @@ I18n.translations.en = {
       },
       'Shib-voName': {
         name: 'Virtual Organisation Name',
-        description: 'The name of the Virtual Urganisation for which you have authenticated',
+        description: 'The name of the Virtual Organisation for which you have authenticated',
       },
       'Shib-user': {
         name: 'Identifier',
