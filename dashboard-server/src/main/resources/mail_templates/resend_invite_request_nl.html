@@ -1,9 +1,11 @@
 {{> header.html}}
-<div id="introduction" style="background-color: #f3f6f8; font-size: 16px; line-height: 24px; color: #353535; margin: -25px -25px 0; padding: 24px;">
+<div id="introduction" style="background-color: #f3f6f8; font-size: 16px; line-height: 24px; color: #353535; padding: 24px;">
     Je bent een tijdje geleden uitgenodigd om een koppeling te maken tussen de dienst <strong>{{action.spName}}</strong> en je eigen
     instelling <strong>{{action.idpName}}</strong>.
     Lees hieronder wat je moet doen om de uitnodiging alsnog te accepteren en de koppeling te activeren.
 </div>
+
+<div style="padding: 25px">
 
 {{#hasComments}}
 <div id="personal-message" style="border-radius: 8px; font-size: 18px; margin: 30px 0; padding: 16px; border: 1px solid #c1c1c1;">
@@ -25,8 +27,9 @@
         </td>
     </tr>
 </table>
+</div>
 
-<div id="footer" style="background-color: #1983d5; color: #FFFFFF; margin: 60px -25px -25px; padding: 21px 24px;">
+<div id="footer" style="background-color: #1983d5; color: #FFFFFF; margin: 60px 0 0; padding: 21px 24px;">
     <strong>Heb je vragen?</strong>
     Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})" style="color: #FFFFFF;">support@surfconext.nl</a>.
 </div>
