@@ -11,6 +11,7 @@ import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
 import groupBy from 'lodash.groupby'
+import { isEmpty } from '../utils/utils'
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
@@ -312,7 +313,8 @@ function RolesTable({ roles }) {
 function RoleRow({ roleName, users }) {
   const names = users
     .map((r) => {
-      return r.firstName + ' ' + r.surname
+      const middleName = isEmpty(r.middleName) ? ' ' : ` ${r.middleName} `
+      return `${r.firstName}${middleName}${r.surname}`
     })
     .sort()
     .join(', ')
