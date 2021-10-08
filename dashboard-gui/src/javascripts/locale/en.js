@@ -51,7 +51,7 @@ I18n.translations.en = {
     policies: 'Authorization policies',
     history: 'Tickets',
     stats: 'Statistics',
-    my_idp: 'My institute',
+    my_idp: 'My institution',
     invite_request: 'Invite',
   },
 
@@ -607,7 +607,7 @@ I18n.translations.en = {
   },
 
   my_idp: {
-    title: 'My institute',
+    title: 'My institution',
     general_information: 'General information',
     english: 'English',
     dutch: 'Dutch',
@@ -1047,7 +1047,7 @@ I18n.translations.en = {
   profile: {
     title: 'Profile',
     sub_title:
-      'The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFteams) will be stored in SURFconext and shared with services accessed via SURFconext.',
+      'The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFconext Teams) will be stored in SURFconext and shared with services accessed via SURFconext.',
     my_attributes: 'My attributes',
     attribute: 'Attribute',
     value: 'Value',
