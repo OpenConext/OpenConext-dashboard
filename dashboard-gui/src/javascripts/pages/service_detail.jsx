@@ -65,7 +65,7 @@ export default function ServiceDetail() {
     <div className="app-detail">
       <Helmet title={app.name} />
       <Breadcrumbs items={breadcrumbs} />
-      <ServiceHeader app={app} policies={policies} />
+      <ServiceHeader app={app} policies={policies} onSubmit={fetchApp} />
       <TabBar>
         <Tab
           active={

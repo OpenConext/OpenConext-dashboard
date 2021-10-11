@@ -14,7 +14,7 @@ import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.
 import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
 import { getBackPath } from '../utils/back_path'
 
-export default function ServiceHeader({ app, policies }) {
+export default function ServiceHeader({ app, policies, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext)
   const params = useParams()
   const [showConnectModal, setShowConnectModal] = useState(false)
@@ -26,6 +26,11 @@ export default function ServiceHeader({ app, policies }) {
   const pendingAction = jiraAction && (jiraAction.status === 'To Do' || jiraAction.status === 'In Progress')
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentUser.getCurrentIdp().institutionId && !pendingAction
+
+  const refresh = () => {
+    fetchJira()
+    onSubmit()
+  }
 
   const jiraFilter = {
     maxResults: 1,
@@ -163,7 +168,7 @@ export default function ServiceHeader({ app, policies }) {
           app={app}
           currentUser={currentUser}
           isOpen={showConnectModal}
-          onSubmit={fetchJira}
+          onSubmit={refresh}
           hasInvite={hasInvite}
           existingJiraAction={jiraAction}
           onClose={() => setShowConnectModal(false)}
@@ -172,7 +177,7 @@ export default function ServiceHeader({ app, policies }) {
           app={app}
           currentUser={currentUser}
           isOpen={showDisconnectModal}
-          onSubmit={fetchJira}
+          onSubmit={refresh}
           onClose={() => setShowDisconnectModal(false)}
         />
         <DenyInviteModal
@@ -180,7 +185,7 @@ export default function ServiceHeader({ app, policies }) {
           currentUser={currentUser}
           jiraAction={jiraAction}
           isOpen={showDenyModal}
-          onSubmit={fetchJira}
+          onSubmit={refresh}
           onClose={() => setShowDenyModal(false)}
         />
       </div>
