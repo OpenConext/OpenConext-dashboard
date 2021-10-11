@@ -105,7 +105,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   }
 
   if (action) {
-    if (existingJiraAction.connectWithoutInteraction) {
+    if ((existingJiraAction && existingJiraAction.connectWithoutInteraction) || action.connectWithoutInteraction) {
       const rejectedOrDone = action.rejected ? 'rejected' : 'done'
       return (
         <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
