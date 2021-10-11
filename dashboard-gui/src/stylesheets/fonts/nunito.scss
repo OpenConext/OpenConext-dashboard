@@ -25,3 +25,10 @@
   font-weight: 700;
   src: local('Nunito Bold Italic'), local('Nunito-BoldItalic'), url(../fonts/Nunito-BoldItalic.ttf) format('truetype');
 }
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Nunito ExtraBold'), local('Nunito-ExtraBold'), url(../fonts/Nunito-ExtraBold.ttf) format('truetype');
+}

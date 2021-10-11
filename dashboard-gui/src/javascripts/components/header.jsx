@@ -49,6 +49,7 @@ class Header extends React.Component {
           <div className="header-content">
             <Link to="/" className="logo-container">
               <img src={surfLogo} alt="SURF" />
+              <span className="conext">CONEXT</span>
               <span className="idp-dashboard">IdP Dashboard</span>
             </Link>
 
