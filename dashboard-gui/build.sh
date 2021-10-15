@@ -1,7 +1,8 @@
 #!/bin/bash
 rm -Rf build/*
 rm -Rf target/*
-yarn test && yarn install
+yarn install
+yarn test
 echo "BUILDING CSS"
 yarn build-css
 echo "BUILDING JS"
