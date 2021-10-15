@@ -30,7 +30,7 @@
 
   <groupId>org.openconext</groupId>
   <artifactId>dashboard</artifactId>
-  <version>10.1.8-SNAPSHOT</version>
+  <version>10.1.8</version>
   <name>dashboard</name>
   <description>OpenConext-Dashboard</description>
   <inceptionYear>2012</inceptionYear>
@@ -41,7 +41,7 @@
     <connection>scm:git:git@github.com:OpenConext/OpenConext-dashboard.git</connection>
     <url>scm:git:git@github.com:OpenConext/OpenConext-dashboard.git</url>
     <developerConnection>scm:git:git@github.com:OpenConext/OpenConext-dashboard.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v10.1.8</tag>
   </scm>
 
   <properties>
