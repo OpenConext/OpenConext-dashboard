@@ -1,0 +1,56 @@
+@import "../utilities/vars.sass"
+
+.attributes-privacy, .resource-servers
+  p
+    margin-bottom: 5px
+
+  table
+    margin: 20px 0
+    border: 1px solid #c4cdd5
+    border-radius: 6px
+    border-collapse: separate
+    width: 100%
+
+    svg
+      margin-left: 8px
+      path
+        color: $blue
+
+    thead
+      tr
+
+    th
+      border-bottom: 1px solid #c4cdd5
+      padding: 6px
+      color: #1e5db4
+      @media(min-width: 768px)
+        padding: 14px
+
+    td
+      min-width: 20%
+      overflow-wrap: anywhere
+      vertical-align: middle
+      padding: 6px
+      @media(min-width: 768px)
+        padding: 14px
+      border-bottom: solid 1px #c4cdd5
+
+    tr
+      &:last-child
+        td
+          border-bottom: 0
+
+
+  .privacy
+    margin-top: 50px
+
+  .privacy-row
+    td
+      width: 50%
+
+      &.value
+        font-weight: 600
+
+      em
+        font-style: italic
+        font-weight: normal

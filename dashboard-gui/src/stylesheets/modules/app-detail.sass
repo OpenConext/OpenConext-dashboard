@@ -1,4 +1,132 @@
+@import "../base/type.sass"
+
 .l-center-app-detail
   .app-detail-container
     display: flex
     margin-bottom: 20px
+
+.app-detail
+  .mod-tabs
+    .container
+      @media(min-width: 768px)
+        padding-left: 63px
+
+  .app-detail-content
+    padding: 40px 6px 40px 6px
+
+    @media(min-width: 768px)
+      padding: 40px 20px 40px 47px
+
+    .top-content
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
+      margin-left: -80px
+
+      .left-side
+        flex: 1
+        margin-left: 80px
+
+      .right-side
+        flex-basis: 230px
+        flex-shrink: 0
+        margin-left: 80px
+
+        .external-url
+          padding: 11px 0
+          font-size: 16px
+          font-weight: 600
+          border-bottom: 1px solid #c3c3c3
+
+          svg
+            height: 20px
+            width: 20px
+            margin-right: 15px
+
+            *
+              stroke: $blue
+          a
+            display: flex
+            align-items: center
+            text-decoration: none
+
+          &:last-child
+            border-bottom: 0
+
+        .federation-source
+          margin-top: 40px
+          font-size: 16px
+
+          a
+            font-weight: 600
+            text-decoration: none
+
+    h2
+      @extend %h2
+      margin-bottom: 15px
+
+    .description
+      font-size: 16px
+      margin-top: 10px
+
+    .contractual-base
+      line-height: 1.25
+      display: flex
+      margin: 44px 0
+      font-size: 16px
+      a
+        font-weight: 600
+        text-decoration: none
+
+      .contractual-base-header
+        font-weight: 600
+        line-height: 1.25
+        padding-right: 16px
+        border-right: solid 2px #c3c3c3
+        width: 148px
+        flex-shrink: 0
+
+      .contractual-base-content
+        padding-left: 16px
+
+  .institutions-overview
+    margin: 40px 0
+
+    p
+      font-size: 16px
+      margin-bottom: 25px
+
+  .institutions-container
+    box-shadow: 0 1px 0 2px #c3c3c3
+    border-radius: 8px
+    overflow: hidden
+
+    .institutions-header
+      font-size: 16px
+      font-weight: 600
+      background-color: #f3f6f8
+      padding: 12px 17px
+      border-radius: 8px 8px 0 0
+      border-bottom: solid 1px #c3c3c3
+
+    .institution-details
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr))
+      grid-auto-rows: 67px
+
+      border-radius: 0 0 8px 8px
+      grid-row-gap: 1px
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 67px, #c3c3c3 67px, #c3c3c3 68px)
+
+    .institution
+      padding: 12px 17px
+      background-color: #fff
+      display: flex
+      align-items: center
+
+      img, .logo-placeholder
+        width: 53px
+        margin-right: 25px
+
+      &:last-child
+        border-bottom: 0

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>educative-toys-maths</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="AndService---Settings-2A---Full-width" transform="translate(-526.000000, -1067.000000)" stroke-width="1.5">
+            <g id="AndGroup-20" transform="translate(490.000000, 1003.000000)">
+                <g id="AndGroup-19" transform="translate(0.000000, 26.000000)">
+                    <g id="AndGroup-18" transform="translate(20.000000, 20.000000)">
+                        <g id="Andeducative-toys-maths" transform="translate(17.000000, 19.000000)">
+                            <rect id="AndRectangle" stroke="#000000" x="0.3125" y="0.3125" width="39.375" height="39.375" rx="1.5"></rect>
+                            <circle id="AndOval" stroke="#000101" fill="#000000" cx="29.1665" cy="29.1875" r="5.25"></circle>
+                            <polygon stroke="#000101" fill="#000000" points="5.5625 34.4375 10.8125 23.9375 16.0625 34.4375"></polygon>
+                            <rect id="AndSmall-Rectangle" stroke="#000101" fill="#000000" x="5.5625" y="6.875" width="10.5" height="10.5"></rect>
+                            <path id="AndPath" d="M29.21725,5.986 L30.7345,9.99175 L33.68675,9.99175 C33.9893087,9.982794 34.2655474,10.1628767 34.379442,10.4433228 C34.4933366,10.7237688 34.4208797,11.0454636 34.19775,11.25 L31.634,13.042 L33.055,16.304 C33.1824544,16.6104599 33.1001875,16.964073 32.8505493,17.1828036 C32.6009112,17.4015342 32.2395539,17.4366203 31.9525,17.27 L28.52075,15.345 L25.089,17.27 C24.8019461,17.4366203 24.4405888,17.4015342 24.1909507,17.1828036 C23.9413125,16.964073 23.8590456,16.6104599 23.9865,16.304 L25.4075,13.042 L22.84375,11.25 C22.6148498,11.0474933 22.5380666,10.7228999 22.6519777,10.4393006 C22.7658888,10.1557013 23.0458682,9.97440589 23.35125,9.9865 L26.3,9.9865 L27.819,5.98075 C27.9536099,5.71794228 28.224463,5.5530557 28.5197366,5.5541588 C28.8150101,5.55527302 29.0846174,5.72218887 29.21725,5.986 Z" stroke="#000101" fill="#000000"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

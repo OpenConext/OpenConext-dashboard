@@ -1,23 +1,45 @@
 @import "../utilities/search-box.sass"
 @import "../utilities/table.sass"
 @import "../utilities/placeholders.sass"
+@import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
 
-.mod-policy-list
-  @extend %box, %table
+.policy-overview-header
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 20px
 
-  overflow-x: auto
+.policy-block
+  display: flex
+  @include font-size(16)
+  padding-bottom: 20px
+  padding-top: 20px
+  border-top: 1px solid #c4cdd5
 
-  .controls
-    a
-      padding: 0 5px
+  h3
+    @include font-size(20)
+    font-weight: 600
 
-.mod-policy-search
-  @extend %box, %search-box
+  .policy-name-description
+    flex: 1
 
-.policy-button
-  padding: 20px 18px
-  line-height: 23px
-  font-size: 20px
+  strong
+    font-weight: 600
 
-  &.how-to
+  .policy-actions
     margin-left: 20px
+    width: 100px
+
+    .active-state
+      font-weight: 600
+      color: $red
+
+      &.active
+        color: $green
+
+    .policy-buttons
+      margin-top: 5px
+      justify-content: space-between
+      display: flex

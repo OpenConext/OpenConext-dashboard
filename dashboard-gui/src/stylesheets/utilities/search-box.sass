@@ -1,3 +1,4 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 
 %search-box
@@ -18,7 +19,7 @@
     width: 100%
     padding: 20px
     padding-left: 60px
-    font-size: 20px
+    @include font-size(20)
     border: 0
     outline: 0
     color: $dark-grey
@@ -32,4 +33,4 @@
     position: absolute
     left: 30px
     top: 20px
-    font-size: 20px
+    @include font-size(20)

@@ -40,7 +40,7 @@
         "abbrev": "SURFNET",
         "name": "SURFnet bv"
       },
-      "middlename": "",
+      "middlename": "den",
       "authorisations": [
         {
           "short": "AAI",
@@ -121,7 +121,7 @@
         "abbrev": "SURFNET",
         "name": "SURFnet bv"
       },
-      "middlename": "",
+      "middlename": "van",
       "authorisations": [
         {
           "short": "SUP",
@@ -154,7 +154,7 @@
         "abbrev": "SURFNET",
         "name": "SURFnet bv"
       },
-      "middlename": "",
+      "middlename": "tot",
       "authorisations": [
         {
           "short": "IBV",
@@ -180,14 +180,14 @@
     },
     {
       "firstname": "Wesley",
-      "surname": "van Rossum",
+      "surname": "Rossum",
       "idp": "surfguest.nl",
       "uid": "wesley2",
       "organisation": {
         "abbrev": "SURFNET",
         "name": "SURFnet bv"
       },
-      "middlename": "",
+      "middlename": "van",
       "authorisations": [
         {
           "short": "SUP",
@@ -264,7 +264,7 @@
         "abbrev": "SURFNET",
         "name": "SURFnet bv"
       },
-      "middlename": "",
+      "middlename": "der",
       "authorisations": [
         {
           "short": "CONVER",

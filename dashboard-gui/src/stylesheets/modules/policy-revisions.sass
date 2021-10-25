@@ -1,101 +1,47 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 @import "../utilities/placeholders.sass"
 @import "../base/type.sass"
 
-.mod-policy-revisions, .mod-policy-revisions-about, .mod-policy-revisions-diff
-  @extend %box
+.policy-revisions
+  h3
+    font-weight: 600
 
-  h1
-    @extend %h1
-    padding: 20px
+  .revisions
+    margin-top: 20px
 
-  .form-element
+  .revision
+    display: flex
     padding: 20px 0
-    border-top: 1px solid $border
+    border-top: 1px solid #c4cdd5
 
-.mod-policy-revisions
-  fieldset
-    padding: 5px 50px 10px 40px
+    button
+      font-weight: 600
+      @include font-size(20)
 
-    &.success
-      border-left: 6px solid $blue
+    .revision-details
+      flex: 1
 
-    &.failure
-      border-left: 6px solid $medium-grey
-
-    p.label
-      margin: 5px 0
-      color: $blue
-
-      &.before-em
-        margin: 0
-
-    p.info
-      font-weight: 700
-      margin-top: 5px
-
-      &.not-selected
-        color: $medium-grey
-
-  .compare
-    font-size: 24px
-    padding: 3px 8px
-
-    &:hover, &.selected
-      text-decoration: none
-      background: darken(white, 5)
-
-.mod-policy-revisions-about
-  padding-bottom: 20px
-
-  h2
-    @extend %h2
-    padding: 10px 20px 5px 20px
-  p
-    padding: 0 20px
-
-.mod-policy-revisions-diff
-  .curr
-    color: $green
-
-  .top-diff
-    padding: 20px
-
-  .diff-panel
-    padding: 20px
-    border-top: 1px solid $border
-
-  .diff-container
-    padding: 10px 0 10px 0
-    border-bottom: 1px solid $border
-
-  .diff-element
-
-    &.changed
-      padding-left: 20px
-      border-left: 1px solid $green
-
-    &.form-title
-      font-size: large
-      border-bottom: 1px solid $light-grey
-      padding: 25px 300px 25px 40px
-
-    p.label
-      color: $blue
-
-      &.before-em
-        margin: 0px
-
-  span.diff
+.revision-modal
+  label
     display: block
 
-    &.prev
-      color: $red
-      text-decoration: line-through
+  .diff-container
+    margin-bottom: 10px
 
-    &.no-change
-      color: $dark-grey
+  .diff-element
+    .diff-changed
+      display: flex
 
-  .attribute-values-container
-    margin: 10px 20px
+    .diff
+      flex: 1
 
+      &.prev
+        color: $red
+        text-decoration: line-through
+
+      &.curr
+        color: $green
+
+      &.no-change
+        color: $dark-grey

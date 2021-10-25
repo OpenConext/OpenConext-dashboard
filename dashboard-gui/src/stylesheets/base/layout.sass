@@ -1,4 +1,24 @@
 @import "../utilities/mixins.sass"
+@import "../utilities/vars.sass"
+
+html, body, #app
+  height: 100%
+
+#app
+  display: flex
+  flex-direction: column
+
+.container
+  width: 1280px
+  max-width: 100%
+  margin: 0 auto
+  padding: 0 8px
+
+  @media(min-width: 768px)
+    padding: 0 16px
+
+main
+  flex: 1 0 auto
 
 .l-main
   padding: 30px
@@ -75,4 +95,19 @@
 
   .l-push-right
     float: right
+
+.screenreader-text
+  position: absolute
+  left: -999px
+  width: 1px
+  height: 1px
+  top: auto
+
+  &:focus
+    color: $text
+    display: inline-block
+    height: auto
+    width: auto
+    position: static
+    margin: auto
 

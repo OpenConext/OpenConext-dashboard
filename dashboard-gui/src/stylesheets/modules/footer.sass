@@ -1,15 +1,48 @@
-@import "../utilities/vars.sass"
-@import "../utilities/mixins.sass"
+footer
+  background-color: #1983d5
+  color: #fff
+  padding: 18px 5px
 
-.mod-footer
-  +clearfix
-  border-top: 1px solid darken($border,10)
-  padding-left: 20px
+  .container
+    display: flex
+    justify-content: space-between
+    flex-wrap: wrap
 
-  li
-    float: left
-    margin-left: 10px
+  h3
+    font-weight: 600
 
-  a
+  a, button
     display: block
-    line-height: 40px
+    color: #fff
+    text-decoration: none
+
+    &:hover
+      color: darken(#b2e5ff, 5%)
+
+  .help, .powered-by-surf
+    margin-bottom: 10px
+
+  ul.language-selector
+    display: flex
+    align-items: flex-start
+    margin-bottom: 10px
+
+    li
+      border-right: 1px #b2e5ff solid
+      padding: 0 5px
+
+      button
+        background: none
+        border: 0
+        cursor: pointer
+
+      &.selected button
+        color: #fff
+        font-weight: bold
+
+      &:first-child
+        padding-left: 0
+
+      &:last-child
+        padding-right: 0
+        border-right: 0

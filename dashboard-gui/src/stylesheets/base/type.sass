@@ -1,10 +1,12 @@
 @import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
 
 body
-  font-family: "Roboto", Sans-serif
+  font-family: "Nunito", Sans-serif
   font-weight: 400
-  @extend %body
-  color: $dark-grey
+  font-size: 100%
+  line-height: 1.5
+  color: $text
   -webkit-font-smoothing: antialiased
 
 blockquote
@@ -23,19 +25,16 @@ a
   text-align: center
 
 %h1
-  font-size: 30px
+  @include font-size(30)
   line-height: 40px
 
 %h2
-  font-size: 20px
-  line-height: 30px
+  @include font-size(24)
+  line-height: 1
+  font-weight: 600
 
 %h3
-  font-size: 16px
+  @include font-size(16)
   font-weight: bold
   line-height: 25px
   margin-bottom: 5px
-
-%body
-  font-size: 14px
-  line-height: 20px

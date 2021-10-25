@@ -1,37 +1,47 @@
-import React from "react";
-import PropTypes from "prop-types";
-import I18n from "i18n-js";
-import stopEvent from "../utils/stop";
+import React from 'react'
+import PropTypes from 'prop-types'
+import I18n from 'i18n-js'
+import stopEvent from '../utils/stop'
 
 class Welcome extends React.Component {
+  constructor() {
+    super()
+    this.state = { show: true }
+  }
 
-    constructor() {
-        super();
-        this.state = {show: true};
+  close = (e) => {
+    stopEvent(e)
+    this.setState({ show: !this.state.show })
+  }
+
+  render() {
+    const { currentUser } = this.context
+    if (!currentUser.guest || !this.state.show) {
+      return null
     }
 
-    close = e => {
-        stopEvent(e);
-        this.setState({show: !this.state.show})
-    };
-
-    render() {
-        const {currentUser} = this.context;
-        if (!currentUser.guest || !this.state.show) {
-            return null;
-        }
-        return (
-            <div className="mod-welcome">
-                <p>{I18n.t("header.welcome_txt")}</p>
-                <a href="/close" className="close" onClick={this.close}>X</a>
-            </div>
-        );
-    }
-
+    return (
+      <div className="mod-welcome">
+        <div className="container">
+          <a
+            href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="welcome-text"
+          >
+            {I18n.t('header.welcome_txt')}
+          </a>
+          <button type="button" className="close" onClick={this.close}>
+            X
+          </button>
+        </div>
+      </div>
+    )
+  }
 }
 
 Welcome.contextTypes = {
-    currentUser: PropTypes.object
-};
+  currentUser: PropTypes.object,
+}
 
-export default Welcome;
+export default Welcome

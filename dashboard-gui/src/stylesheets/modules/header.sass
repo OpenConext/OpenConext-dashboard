@@ -1,36 +1,70 @@
 @import "../utilities/placeholders.sass"
-@import "../utilities/vars.sass"
 @import "../utilities/mixins.sass"
+@import "../utilities/vars.sass"
 
-.mod-header
-  padding: 25px 30px 10px
-  background: #fff
-  border-bottom: 2px solid $blue
+header
+  background: $blue
+  height: auto
+  width: 100%
   display: flex
+  flex-direction: column
   align-items: center
+  color: #fff
+  position: relative
 
-  // Main app title
-  .title
-    white-space: nowrap
-    &.openconext
-      background: url("../images/open-conext-logo.png") no-repeat left center
-      background-size: 161px 50px
-    &.surfconext
-      background: url("../images/logo@2x.png") no-repeat left center
-      background-size: 161px 50px
-    &.rctsaai
-      background: url("../images/rctsaai_blue.svg") no-repeat left center
-      background-size: 161px 50px
-    height: 50px
-    font-size: 20px
-    line-height: 30px
+  .desktop-menu
+    display: none
+  .fa-bars
+    display: block
 
-    a
-      color: $blue
-      padding-left: 170px
+  @media (min-width: 768px)
+    .desktop-menu
+      display: block
+    .fa-bars
+      display: none
+
+  .header-content
+    display: flex
+    padding: 11px 0
+    justify-content: space-between;
+    align-items: center;
+
+  .logo-container
+    position: relative
+    width: 180px
+    flex-shrink: 0
+
+    .conext
+      position: absolute
+      top: 0
+      left: 60px
+      color: #fff
+      font-weight: 800
+      @include font-size(15)
+
+    .idp-dashboard
+      font-weight: bold
+      @include font-size(12)
+      color: #fff
+      position: absolute
+      top: 22px
+      left: 80px
 
       &:hover
-        color: $blue
+        color: #fff
+
+  .user-indicator
+    background-color: #fedb00
+    border-radius: 50%
+    padding: 7px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    color: #000
+    line-height: 16px
+    font-weight: bold
+    border: none
+    cursor: pointer
 
   div.institute
     p
@@ -40,14 +74,43 @@
       &.testaccepted
         color: $red
 
+  .dropdown-toggle
+    user-select: none
+    display: flex
+    align-items: center
+    @include font-size(20)
+    cursor: pointer
+    border: none
+    background: none
+
+    .svg-inline--fa
+      color: #fff
+      margin-left: 10px
+
   // Meta = right aligned stuff
   .meta
     display: flex
-    margin-left: auto
+    align-items: center
+
+    li
+      button
+        display: inline-block
+        padding: 0
+        color: $blue
+        background: none
+        border: 0
+        cursor: pointer
+        @include font-size(16)
+        text-align: left
+
+        &:hover
+          text-decoration: underline
 
     a.super-user
       display: inline-block
-      margin-left: 25px
+
+    a.login
+      color: #fff
 
   // Styling for elements
   a
@@ -68,64 +131,35 @@
       display: block
       padding: 0 14px
       border-right: 1px solid $light-grey
-      font-size: 16px
 
     li:last-child a
       border: 0
 
-  ul.language-selector
-    display: flex
-    width: 100px
-    height: 32px
-    margin-left: 25px
-    list-style: none
-    border: 1px solid $blue
-    border-radius: $br
-    font-size: medium
-
-    li
-      display: inline-block
-      padding: 5px 0
-      margin: 0
-      flex: 1
-      text-align: center
-
-      &:first-child
-        border-bottom-left-radius: 1px
-        border-top-left-radius: 1px
-
-      &:last-child
-        border-bottom-right-radius: 1px
-        border-top-right-radius: 1px
-
-      &:not(:first-child):not(:last-child)
-        border-left: 1px $blue solid
-        border-right: 1px $blue solid
-
-      a
-        font-weight: normal
-        padding: 0
-
-      &.selected
-        background-color: $blue
-        a
-          color: white
-
-  .name
+  .dropdown-container
     line-height: 30px
+    position: relative
 
     .fa-caret-down,
     .fa-caret-up
       padding-left: 5px
 
+    > .overlay
+      position: fixed
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
+
     > ul
       @extend %box
+      color: #000;
       position: absolute
       z-index: 100
-      padding: 20px 20px 0
+      padding: 10px 20px
       max-width: 400px
       min-width: 200px
-      top: 60px
+      top: 45px
+      right: 0
       box-shadow: 1px 1px 5px*2 rgba(black, .4)
       li
         list-style: none
@@ -152,3 +186,12 @@
           position: absolute
           left: 0
           top: 8px
+
+  .fa-bars
+    height: 30px
+    width: 30px
+    margin-left: 20px
+    cursor: pointer
+
+    &:hover
+      color: darken(#fff, 5%)

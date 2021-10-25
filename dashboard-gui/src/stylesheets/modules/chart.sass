@@ -1,4 +1,5 @@
 @import "../utilities/placeholders.sass"
+@import "../utilities/mixins.sass"
 @import "../utilities/vars.sass"
 
 div.chart-container
@@ -31,7 +32,7 @@ div.chart-container
       border-top-right-radius: $br
       display: block
       font-weight: bold
-      font-size: 18px
+      @include font-size(18)
       color: $blue
 
       span.clipboard 
@@ -70,7 +71,7 @@ div.chart-container
       align-items: center
       align-content: center
       bottom: 20px
-      font-size: 30px
+      @include font-size(30)
       flex-direction: row
       justify-content: center
       i 

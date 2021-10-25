@@ -1,0 +1,219 @@
+@import "../utilities/mixins.sass"
+@import "../utilities/vars.sass"
+
+.my-idp
+  .header
+    background-color: #f3f6f8
+    padding: 16px 0
+    margin-bottom: 22px
+
+    h1
+      @include font-size(30)
+      font-weight: 600
+
+    img
+      width: 80px
+      margin-right: 14px
+
+    .container
+      display: flex
+      align-items: center
+
+  .roles-table, .general-information, .settings, .contact-persons, .services-overview
+    margin-bottom: 40px
+
+  .header-with-button
+    display: flex
+    justify-content: space-between
+    align-items: center
+    flex-wrap: wrap
+
+    a
+      @include font-size(14)
+
+  .services-overview
+    h3
+      a
+        @include font-size(24)
+        font-weight: 600
+        text-decoration: none
+
+    .service
+      border: 1px solid #c8c8c8
+      padding: 10px
+      @media(min-width: 768px)
+        padding: 20px
+      border-radius: 6px
+      margin: 20px 0
+
+    .title-container
+      display: flex
+      flex-wrap: wrap
+      align-items: center
+      justify-content: space-between
+
+    .search-container
+      margin-left: 40px
+      position: relative
+      flex: 1
+
+      svg
+        height: 23px
+        width: 23px
+        position: absolute
+        right: 15px
+        top: 13px
+
+        *
+          fill: $blue
+
+      input[type="search"]
+        padding: 15px 46px 15px 16px;
+        width: 100%
+        border-radius: 8px;
+        border: solid 1px #676767;
+
+  .general-information table
+    td:first-child
+      width: 120px
+
+      @media(min-width: 768px)
+        width: 250px
+
+    td
+      width: calc(50% - 125px)
+
+  .settings
+    td:first-child
+      width: 70%
+
+    .tooltip-container
+      justify-content: flex-start
+
+    svg
+      margin-left: 9px
+
+  .contact-persons
+    .contact-persons-grid
+      display: grid
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+      border-radius: 0 0 8px 8px
+      grid-row-gap: 30px
+      grid-column-gap: 37px
+      margin-top: 20px
+
+      .contact-person-container
+        border: 1px solid #c8c8c8
+        border-radius: 6px
+
+        .contact-person-name
+          padding: 14px 28px
+          border-bottom: 1px solid #dadada
+
+          h3
+            @include font-size(20)
+            font-weight: 600
+
+        .contact-person-contact-info
+          padding: 14px 28px
+          border-bottom: 1px solid #dadada
+
+          .contact-person-email
+            color: $blue
+            margin-bottom: 30px
+
+            svg *
+              stroke: $blue
+
+          .contact-person-email, .contact-person-telephone
+            display: flex
+
+            a
+              font-weight: bold
+              text-decoration: none
+
+            svg
+              width: 20px
+              margin-right: 25px
+
+        .contact-person-type
+          padding: 14px 16px
+          background-color: #f3f6f8
+          display: flex
+          justify-content: flex-end
+          align-items: center
+          border-radius: 0 0 6px 6px
+
+          .type-badge
+            color: #494949
+            @include font-size(12)
+            font-weight: 600
+            background-color: #bfedff
+            border-radius: 100px
+            border: 2px solid #fff
+            padding: 2px 10px
+            margin-left: 10px
+
+  h2
+    font-weight: 600
+    @include font-size(24)
+    margin-bottom: 5px
+
+  .badge
+    @include font-size(12)
+    width: 49px
+    height: 22px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 100px
+    font-weight: 600
+
+    &.enabled
+      background-color: #b5f2c6
+      color: #494949
+
+    &.disabled
+      background-color: #ff685c
+      color: #fff
+
+  table
+    width: 100%
+    border: 1px solid #c8c8c8
+    border-radius: 6px
+    border-collapse: separate !important;
+    margin: 16px 0
+
+    tr
+      border-bottom: 1px solid #c8c8c8
+
+      &.logo-url
+        background-color: #f3f6f8
+
+      th, td
+        padding: 11px 10px
+        @media(min-width: 768px)
+          padding: 11px 27px
+        border-bottom: 1px solid #c8c8c8
+        vertical-align: middle
+        word-break: break-word
+
+        &.bold
+          font-weight: 600
+
+      th
+        color: #1e5db4
+
+      &:last-child
+        td
+          border-bottom: none
+
+      .tooltip-container
+        display: flex
+        justify-content: space-between
+
+      svg.fa-question-circle
+        color: $blue
+
+      img
+        width: 80px

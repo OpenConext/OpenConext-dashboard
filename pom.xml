@@ -30,7 +30,7 @@
 
   <groupId>org.openconext</groupId>
   <artifactId>dashboard</artifactId>
-  <version>10.1.6</version>
+  <version>10.1.10-SNAPSHOT</version>
   <name>dashboard</name>
   <description>OpenConext-Dashboard</description>
   <inceptionYear>2012</inceptionYear>

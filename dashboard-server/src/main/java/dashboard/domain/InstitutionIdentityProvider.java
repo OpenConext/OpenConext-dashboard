@@ -30,15 +30,18 @@ public class InstitutionIdentityProvider implements Serializable {
   private String nameNl;
   private String institutionId;
   private String state;
+  private String logoUrl;
 
   public InstitutionIdentityProvider() {
   }
 
-  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId, String state) {
+
+  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId, String state, String logoUrl) {
     this.id = id;
     this.name = name;
     this.nameNl = nameNl;
     this.institutionId = institutionId;
+    this.logoUrl = logoUrl;
     this.state = state;
   }
 
@@ -72,6 +75,14 @@ public class InstitutionIdentityProvider implements Serializable {
 
   public void setState(String state) {
     this.state = state;
+  }
+
+  public String getLogoUrl() {
+    return logoUrl;
+  }
+
+  public void setLogoUrl(String logoUrl) {
+    this.logoUrl = logoUrl;
   }
 
   public String getNameNl() {

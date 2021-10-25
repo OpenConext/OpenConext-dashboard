@@ -1,14 +1,23 @@
 @import "../utilities/vars.sass"
 
 .mod-welcome
-  background: #fff
-  display: flex
-  align-items: center
+  background: #fedb00
+  font-weight: 600
+  border-bottom: 1px solid #c3c3c3
 
-  p
-    padding: 15px 30px
+  .container
+    display: flex
+    align-items: center
 
-  a.close
+  a.welcome-text
+    padding: 15px 0
+    color: $text
+    text-decoration: none
+
+  button.close
+    background: none
+    border: 0
+    cursor: pointer
     color: $blue
     margin: 0 0 auto auto
     padding: 15px

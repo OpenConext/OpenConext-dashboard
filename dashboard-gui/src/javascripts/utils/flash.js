@@ -1,22 +1,22 @@
-import {EventEmitter} from "events";
+import { EventEmitter } from 'events'
 
-export const emitter = new EventEmitter();
+export const emitter = new EventEmitter()
 
-let flash = null;
-let timeout = null;
+let flash = null
+let timeout = null
 
 export function getFlash() {
-    const tempFlash = flash;
-    timeout = setTimeout(() => flash = null, 100);
-    return tempFlash;
+  const tempFlash = flash
+  timeout = setTimeout(() => (flash = null), 100)
+  return tempFlash
 }
 
 export function setFlash(message, type) {
-    clearTimeout(timeout);
-    flash = {message, type: type || "info"};
-    emitter.emit("flash", flash);
+  clearTimeout(timeout)
+  flash = { message, type: type || 'info' }
+  emitter.emit('flash', flash)
 }
 
 export function clearFlash() {
-    setFlash(null);
+  setFlash(null)
 }

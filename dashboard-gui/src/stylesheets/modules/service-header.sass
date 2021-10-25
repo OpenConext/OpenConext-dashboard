@@ -1,0 +1,113 @@
+@import "../utilities/mixins.sass"
+@import "../utilities/vars.sass"
+
+.action-message
+  background-color: #fedb00
+  padding: 20px 0
+  font-weight: 600
+
+.mod-service-header
+  background-color: #f3f6f8
+  padding: 23px 0
+
+  h1
+    @include font-size(30)
+    color: #008738
+    font-weight: 600
+    margin-bottom: 10px
+    line-height: 1
+
+  .header-wrapper
+    display: flex
+
+    .arrow-container
+      width: 47px
+
+      .fa-arrow-left
+        width: 24px
+        height: 24px
+        color: #5e6873
+
+    .service-info-container
+      flex: 1
+      display: flex
+      flex-wrap: wrap-reverse
+      justify-content: space-between
+
+      .left
+        flex: 1
+        display: flex
+        flex-basis: 600px
+
+        .organisation
+          margin-bottom: 4px
+
+        .entity-id
+          color: $lighter-blue
+          font-weight: 600
+          margin-bottom: 4px
+
+        .license
+          display: flex
+          margin-top: 20px
+          svg
+            width: 19px
+            height: 19px
+            margin-right: 7px
+
+          .tooltip-trigger
+            display: flex
+            &.underline
+              text-decoration: underline
+              cursor: pointer
+
+            svg
+              margin-left: 7px
+
+        .tool-tip
+          a
+            color: #fff
+
+      .logo
+        max-width: 120px
+        margin-right: 20px
+        flex-shrink: 0
+
+        img
+          max-width: 100%
+
+    .right
+      margin-bottom: 20px
+
+      button
+        @include font-size(14)
+
+        svg
+          margin-right: 5px
+
+      .approve-deny
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+
+      .deny-invite
+        margin-top: 10px
+
+      .loa
+        display: flex
+        align-items: center
+        margin: 12px 0
+        font-weight: 600
+
+        .green-dot
+          background-color: #009f4d
+          height: 8px
+          width: 8px
+          border-radius: 50%
+          display: inline-block
+          margin-right: 10px
+
+        svg
+          width: 20px
+          margin-right: 10px
+

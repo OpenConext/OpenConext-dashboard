@@ -1,12 +1,21 @@
 @import "../utilities/vars.sass"
 
 div.flash
-  margin: 0 auto
-  padding-bottom: 20px
+  width: 100%
   text-align: center
   color: white
   font-size: large
   position: relative
+
+  .container
+    position: relative
+
+  &.info
+    background-color: $green
+  &.warning
+    background-color: $orange
+  &.error
+    background-color: $red
 
   &.full
     max-width: 100%
@@ -17,21 +26,17 @@ div.flash
 
   p
     padding: 10px
-
-    &.info
-      background-color: $green
-    &.warning
-      background-color: $orange
-    &.error
-      background-color: $red
+    padding-right: 30px
 
   a.link
     color: white
 
-  a.close
+  button.close
     text-decoration: none
     position: absolute
-    right: 4px
-    top: 0
+    right: 20px
+    top: 5px
     color: white
-    font-size: small
+    cursor: pointer
+    background: none
+    border: 0

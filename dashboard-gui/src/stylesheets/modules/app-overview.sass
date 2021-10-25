@@ -1,0 +1,107 @@
+@import "../base/type.sass"
+@import "../utilities/vars.sass"
+@import "../utilities/mixins.sass"
+
+.mod-app-overview
+  margin-top: 22px
+
+  h2
+    flex: 1
+    @extend %h2
+
+  .top-bar
+    display: flex
+    align-items: center
+    justify-content: space-between
+    flex-wrap: wrap
+
+    h1
+      font-weight: 600
+      @include font-size(24)
+      margin-right: 30px
+
+    .search-container
+      position: relative
+      flex: 1
+      flex-basis: 200px
+
+      svg
+        height: 23px
+        width: 23px
+        position: absolute
+        right: 15px
+        top: 13px
+
+        *
+          fill: $blue
+
+      input[type="search"]
+        padding: 15px 46px 15px 16px;
+        width: 100%
+        border-radius: 8px;
+        border: solid 1px #676767;
+
+    button.export
+      height: 50px
+      border-radius: 8px
+      font-weight: 600
+      margin-left: 10px
+      display: block
+
+
+  .apps-and-search
+    flex: 1
+    flex-basis: 400px
+
+  .facets-and-table
+    display: flex
+    flex-wrap: wrap-reverse
+
+  table
+    width: 100%
+    margin-top: 24px
+
+    thead
+      border-bottom: 1px solid $text
+
+      th
+        padding: 11px 10px
+        @include font-size(14)
+        font-weight: 600
+
+    td
+      padding: 10px 5px
+
+      @media(min-width: 1080px)
+        padding: 15px 10px
+
+      vertical-align: middle
+      word-break: break-word
+
+    tbody
+      tr
+        border-bottom: 1px solid #c4cdd5
+
+    td.name
+      a
+        color: $lighter-blue
+        text-decoration: none
+        font-weight: 600
+
+    td.connected
+      width: 40px
+
+      svg
+        width: 22px
+
+        *
+          stroke: $jade-green
+
+    td.vendor
+      width: 120px
+
+      @media(min-width: 400px)
+        width: 200px
+
+      @media(min-width: 1080px)
+        width: 300px

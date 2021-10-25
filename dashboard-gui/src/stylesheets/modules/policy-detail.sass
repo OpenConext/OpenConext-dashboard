@@ -1,11 +1,224 @@
+@import "../utilities/mixins.sass"
 @import "../utilities/placeholders.sass"
 @import "../utilities/vars.sass"
+
+.authorization-policy-detail
+  .section-header
+    color: #008738
+    @include font-size(22)
+    font-weight: 600
+    border-bottom: 1px solid #009f4d
+    padding-bottom: 16px
+    margin-bottom: 20px
+
+  p.intro
+    margin-bottom: 30px
+
+    a
+      font-weight: 600
+      text-decoration: none
+
+  .authorization-policy-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    flex-wrap: wrap
+
+    .status-badge
+      height: 34px
+      border-radius: 17px
+      padding: 3px 17px
+      background-color: #fedb00
+      display: flex
+      align-items: center
+      justify-content: center
+
+      &.active
+        background-color: $green
+        color: #fff
+
+  label
+    font-weight: 600
+    margin-bottom: 12px
+    display: inline-block
+
+  input[type=text]
+    height: 44px
+    padding: 5px 10px
+    margin-bottom: 22px
+
+  textarea
+    margin-bottom: 22px
+
+  .react-select
+    margin-bottom: 22px
+
+  .grey-block
+    background-color: #f3f6f8
+    padding: 20px
+    display: flex
+    margin-bottom: 22px
+
+  .select-block
+    flex: 1
+    background-color: #fff
+    padding: 14px
+    border-radius: 8px
+    border: solid 1px #c1c1c1;
+    cursor: pointer
+    margin-right: 23px
+
+    &.disabled
+      border-color: #a2a2a2
+      color: #a2a2a2
+      cursor: not-allowed
+
+    &.permit.selected, &.and.selected, &.or.selected
+      padding: 12px
+      border: solid 3px #42ae00
+
+      &.disabled
+        border-color: #a2a2a2
+
+        .select-block-header
+          color: #a2a2a2
+
+          svg *
+            stroke: #a2a2a2
+
+      .select-block-header
+        color: #42ae00
+
+        svg *
+          stroke: #42ae00
+
+    &.or.selected
+      svg
+        path#OrPath
+          fill: #42ae00
+
+    &.or.disabled
+      svg
+        *
+          stroke: #a2a2a2
+
+        path#OrPath
+          fill: #a2a2a2
+
+    &.and.selected
+      &.disabled
+        svg
+          g#Andeducative-toys-maths
+            *
+              fill: #a2a2a2
+
+      svg
+        g#Andeducative-toys-maths
+          rect#AndRectangle
+            fill: none
+          *
+            fill: #42ae00
+
+    &.deny.selected
+      padding: 12px
+      border: solid 3px $red
+
+      .select-block-header
+        color: $red
+
+        svg *
+          stroke: $red
+
+    &:last-child
+      margin-right: 0
+
+    .select-block-header
+      display: flex
+      @include font-size(24)
+      margin-bottom: 15px
+
+      span
+        font-weight: 600
+
+      svg
+        margin-right: 16px
+        width: 40px
+        height: 40px
+    p
+      @include font-size(18)
+
+    &.disabled
+      border-color: #a2a2a2 !important
+
+  .policy-attribute-select
+    .attribute-container, .attribute-value-container
+      display: flex
+      align-items: flex-start
+
+      input
+        min-width: auto
+        flex: 1
+
+    .attribute-values
+      margin-left: 130px
+      margin-bottom: 30px
+
+      input
+        margin-bottom: 12px
+
+    .new-attribute
+      max-width: 400px
+
+      input[type="text"]
+        height: 100%
+        margin-bottom: 0
+
+    button.remove
+      background-color: #b3e5ff
+      margin-left: 20px
+      width: 44px
+      height: 44px
+      border: none
+      border-radius: 8px
+      color: $blue
+      display: flex
+      justify-content: center
+      align-items: center
+      @include font-size(23)
+
+    .new-attribute-value
+      color: $lighter-blue
+      font-weight: 600
+      cursor: pointer
+
+  .description-header
+    display: flex
+    justify-content: space-between
+
+    .auto-format
+      display: flex
+      align-items: center
+
+      label
+        margin-bottom: 0
+        margin-left: 5px
+
+  .buttons
+    display: flex
+    justify-content: flex-end
+
+    button
+      @include font-size(18)
+      font-weight: 600
+      height: 44px
+      border-radius: 8px
+      margin-left: 25px
 
 .mod-policy-detail, .mod-policy-detail-help
   @extend %box
 
   h1
-    font-size: 30px
+    @include font-size(30)
     line-height: 40px
     padding: 20px
 
@@ -13,7 +226,7 @@
     color: $blue
   a.help-link
     display: inline-block
-    font-size: 22px
+    @include font-size(22)
     margin-left: 10px
 
   .info
@@ -30,7 +243,7 @@
     &.note
       display: block
       padding-top: 20px
-      font-size: 12px
+      @include font-size(12)
 
   .form-element
     padding: 20px 0
@@ -110,7 +323,7 @@
       position: absolute
       right: 8px
       top: 4px
-      font-size: 18px
+      @include font-size(18)
 
       &.remove
         color: $remove-red
@@ -134,7 +347,7 @@
   padding-bottom: 20px
 
   h2
-    font-size: 20px
+    @include font-size(20)
     line-height: 30px
     padding: 10px 20px 5px 20px
 

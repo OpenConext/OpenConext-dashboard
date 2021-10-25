@@ -1,15 +1,33 @@
-import React from "react";
-import I18n from "i18n-js";
+import React from 'react'
+import I18n from 'i18n-js'
+import LanguageSelector from './language_selector'
 
-const Footer = () =>
-  (
-    <div className="mod-footer">
-      <ul>
-        <li dangerouslySetInnerHTML={{__html: I18n.t("footer.surfnet_html")}}></li>
-        <li dangerouslySetInnerHTML={{__html: I18n.t("footer.terms_html")}}></li>
-        <li dangerouslySetInnerHTML={{__html: I18n.t("footer.contact_html")}}></li>
-      </ul>
-    </div>
-  );
+const Footer = ({ currentUser }) => {
+  const supportedLanguageCodes = currentUser ? currentUser.supportedLanguages : []
 
-export default Footer;
+  return (
+    <footer>
+      <div className="container">
+        <div className="help">
+          <h3>{I18n.t('footer.tips_or_info')}</h3>
+          <ul>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.help_html') }} />
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.terms_html') }} />
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.contact_html') }} />
+          </ul>
+        </div>
+
+        <LanguageSelector supportedLanguageCodes={supportedLanguageCodes} />
+
+        <div className="powered-by-surf">
+          <h3>Powered by</h3>
+          <ul>
+            <li dangerouslySetInnerHTML={{ __html: I18n.t('footer.surf_html') }} />
+          </ul>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+export default Footer

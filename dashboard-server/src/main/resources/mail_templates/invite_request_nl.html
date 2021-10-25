@@ -1,46 +1,40 @@
 {{> header.html}}
-<p>
-    Beste {{salutation}}
-</p>
-<p>
-    U bent uitgenodigd om een koppeling te maken tussen de dienst <strong>{{inviteRequest.spName}}</strong> en uw eigen
-    instelling <strong>{{inviteRequest.idpName}}</strong>.
-    Lees hieronder wat u moet doen om de uitnodiging te accepteren en de koppeling te activeren.
-</p>
+<div id="introduction" style="background-color: #f3f6f8; font-size: 16px; line-height: 24px; color: #353535; padding: 24px;">
+    <p id="salutation" style="color: #212121; font-size: 24px; line-height: 24px;">
+        Beste {{salutation}}
+    </p>
+    <p>
+        Je bent uitgenodigd om een koppeling te maken tussen de dienst <strong>{{inviteRequest.spName}}</strong> en jouw eigen
+        instelling <strong>{{inviteRequest.idpName}}</strong>.
+        Lees hieronder wat je moet doen om de uitnodiging te accepteren en de koppeling te activeren.
+    </p>
+</div>
+<div style="padding: 25px">
+    {{#inviteRequest.containsMessage}}
+    <div id="personal-message" style="border-radius: 8px; font-size: 18px; margin: 30px 0; padding: 16px; border: 1px solid #c1c1c1;">
+        <strong style="font-size: 24px; line-height: 28px; display: inline-block; margin-bottom: 20px;">Persoonlijk bericht van SURFconext:</strong><br>"{{{inviteRequest.htmlMessage}}}"
+    </div>
+    {{/inviteRequest.containsMessage}}
 
-{{#inviteRequest.containsMessage}}
-<hr/>
-<p>
-    <strong>Persoonlijk bericht van SURFconext:</strong><br>"{{{inviteRequest.htmlMessage}}}"
-</p>
-<hr/>
-{{/inviteRequest.containsMessage}}
+    <p id="invitation-message" style="color: #353535; font-size: 16px; line-height: 24px;">
+        <strong>Uitnodiging</strong><br>
+        Klik op de knop om in te loggen met het account van jouw instelling
+        en de uitnodiging te <strong>accepteren</strong> of <strong>af te wijzen</strong>.
+    </p>
 
-<p>
-    <strong>Uitnodiging accepteren:</strong><br>
-    Klik hieronder op 'Inloggen om de koppeling te activeren' en log vervolgens in met het account van uw instelling
-    om de koppeling te activeren.
-</p>
+    <table id="invitation-mail-table">
+        <tr>
+            <td class="invitation-accept" style="font-family: Arial, sans-serif; font-size: 13px; mso-line-height-rule: exactly; line-height: 18px; color: #FFFFFF; border-radius: 8px; padding: 16px 44px;" bgcolor="#0077c8">
+                <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/about/{{action.jiraKey}}/accept"  style="color: #fff; text-decoration: none; font-size: 18px; font-weight: bold;">Uitnodiging accepteren of afwijzen</a></span>
+            </td>
+        </tr>
+    </table>
+</div>
 
-<p>
-    Wilt u deze koppeling niet activeren? Klik dan op 'De uitnodiging afwijzen'.
-</p>
-
-<table id="invitation-mail-table" cellpadding="10" width="90%" align="center">
-    <tr>
-        <td class="invitation-accept" align="center" width="50%">
-            <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/how_to_connect/{{action.jiraKey}}/accept" style="color:#0088CC;">Inloggen om de koppeling te activeren</a></span>
-        </td>
-        <td class="invitation-deny" align="center" width="50%">
-            <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/how_to_connect/{{action.jiraKey}}/deny" style="color:#0088CC;">De uitnodiging om te koppelen afwijzen</a></span>
-        </td>
-    </tr>
-</table>
-
-<p>
-    <strong>Hulp nodig?</strong><br>
-    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})">support@surfconext.nl</a> als u vragen hebt over deze uitnodiging.
-</p>
+<div id="footer" style="background-color: #1983d5; color: #FFFFFF; margin: 60px 0 0; padding: 21px 24px;">
+    <strong>Heb je vragen?</strong>
+    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})" style="color: #FFFFFF;">support@surfconext.nl</a>.
+</div>
 
 </div>
 </td>
