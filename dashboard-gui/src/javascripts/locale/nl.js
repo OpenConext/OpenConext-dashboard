@@ -749,16 +749,16 @@ I18n.translations.nl = {
     new_logo_url: 'Nieuwe logo URL',
     research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
     research_and_scholarship_tooltip:
-      'Dit betekent dat je IdP automatisch aan alle huidige en toekomstige SP\'s<br>in SURFconext wordt gekoppeld die voldoen aan zowel ‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’,<br>waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> vooor meer informatie.',
+      'Je IdP wordt automatisch aan alle huidige en toekomstige SP\'s in SURFconext gekoppeld die voldoen aan zowel<br>‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’, waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> vooor meer informatie.',
     allow_maintainers_to_manage_authz_rules: 'SURFconextbeheerders mogen autorisatie regels beheren',
     allow_maintainers_to_manage_authz_rules_tooltip:
-      'Dit betekent dat de SURFconextbeheerders van je instelling autorisatie regels mogen aanmaken, bewerken en verwijderen.',
+      'De SURFconextbeheerders van je instelling mogen autorisatie regels aanmaken, bewerken en verwijderen.',
     displayAdminEmailsInDashboard: 'Leden kunnen admin email-adres zien',
     displayAdminEmailsInDashboardTooltip:
-      'Dit betekent dat de email adressen van de<br>SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van je instelling.',
+      'De email adressen van de SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van je instelling.',
     displayStatsInDashboard: 'Leden kunnen statistieken zien',
     displayStatsInDashboardTooltip:
-      'Dit betekent dat het gebruik / statistieken van alle diensten gekoppeld<br>aan je instelling kunnen worden bekeken door reguliere gebruikers<br>van je instelling.',
+      'Het gebruik / statistieken van alle diensten gekoppeld<br>aan je instelling kunnen worden bekeken door reguliere gebruikers<br>van je instelling.',
     contact: 'Contactpersonen',
     contact_name: {
       title: 'Contact naam',

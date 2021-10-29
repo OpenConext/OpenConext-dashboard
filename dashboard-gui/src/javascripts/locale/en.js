@@ -693,16 +693,16 @@ I18n.translations.en = {
     new_logo_url: 'New logo URL',
     research_and_scholarship_info: 'Connect to CoCo R&S SP’s automatically',
     research_and_scholarship_tooltip:
-      'This means your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
+      'Your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
     allow_maintainers_to_manage_authz_rules: 'Allow SURFconext maintainers to manage Authorization rules',
     allow_maintainers_to_manage_authz_rules_tooltip:
-      'This means the SURFconext maintainers of your<br>IdP are allowed to create, edit and delete<br>Authorization rules.',
+      'The SURFconext maintainers of your IdP are allowed to create, edit and delete<br>Authorization rules.',
     displayAdminEmailsInDashboard: 'Allow regular members to see admin contacts',
     displayAdminEmailsInDashboardTooltip:
-      'This means that regular members of your institution can<br>see the email address of the SURFconext owners <br>and owners of services of this institution.',
+      'Regular members of your institution can see the email address of the SURFconext owners <br>and owners of services of this institution.',
     displayStatsInDashboard: 'Allow regular members to see statistics',
     displayStatsInDashboardTooltip:
-      'This means that regular members of your institution<br>can see the usage / statistics of the services connected<br>to this institution.',
+      'Regular members of your institution can see the usage / statistics of the services connected<br>to this institution.',
     contact: 'Contact persons',
     contact_name: {
       title: 'Contact name',
