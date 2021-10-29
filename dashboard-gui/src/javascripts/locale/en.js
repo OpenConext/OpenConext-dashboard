@@ -56,7 +56,7 @@ I18n.translations.en = {
   },
 
   loader: {
-    loading: 'All services are being loaded',
+    loading: 'Services are being loaded',
   },
 
   facets: {

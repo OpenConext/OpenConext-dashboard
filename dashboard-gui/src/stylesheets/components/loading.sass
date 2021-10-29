@@ -1,21 +1,26 @@
 @import "../utilities/vars.sass"
 
+.loader-container
+  display: flex
+  align-items: center
+  margin-top: 10px
+
 .loader,
 .loader:after
   border-radius: 50%
-  width: 10em
-  height: 10em
+  width: 2em
+  height: 2em
 p#service-loader-info-id
   text-align: center
   font-size: x-large
   color: $blue
   margin-bottom: 50px
 .loader
-  margin: 60px auto
+  margin-right: 10px
   font-size: 10px
   position: relative
   text-indent: -9999em
-  border: 1.1em solid $blue
+  border: 0.2em solid $blue
   border-left-color: white
   -webkit-transform: translateZ(0)
   -ms-transform: translateZ(0)

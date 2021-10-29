@@ -19,6 +19,7 @@ export default function ServicesOverview({ connected = false }) {
   }
 
   const [apps, setApps] = useState([])
+  const [loadingApps, setLoadingApps] = useState(true)
   const [facets, setFacets] = useState([])
   const { currentUser } = useContext(CurrentUserContext)
 
@@ -33,6 +34,7 @@ export default function ServicesOverview({ connected = false }) {
 
     setApps(filteredApps)
     setFacets(apps.payload.facets)
+    setLoadingApps(false)
   }
 
   useEffect(() => {
@@ -58,7 +60,14 @@ export default function ServicesOverview({ connected = false }) {
         </>
       )}
       <div className="container">
-        <AppList apps={apps} facets={facets} currentUser={currentUser} connected={connected} />
+        {loadingApps ? (
+          <div className="loader-container">
+            <div id="service-loader-id" className="loader"></div>
+            {I18n.t('loader.loading')}
+          </div>
+        ) : (
+          <AppList apps={apps} facets={facets} currentUser={currentUser} connected={connected} />
+        )}
       </div>
     </>
   )

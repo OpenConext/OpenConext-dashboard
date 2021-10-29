@@ -56,7 +56,7 @@ I18n.translations.nl = {
   },
 
   loader: {
-    loading: 'Alle services worden ingeladen',
+    loading: 'Services worden ingeladen',
   },
 
   facets: {
