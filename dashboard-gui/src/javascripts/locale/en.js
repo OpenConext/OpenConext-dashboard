@@ -349,7 +349,7 @@ I18n.translations.en = {
     subtitle: '{{name}} wants to receive the following attributes',
     title: 'Attributes',
     your_value: 'Your value',
-    filter: 'For this attribute the following filters have been applied:',
+    filter: 'for this attribute the following filters have been applied:',
     motivationInfo:
       'The column ‘motivation‘ contains, to the extent available, the explanation of the supplier why they need this attribute.',
     motivation: 'Motivation',
