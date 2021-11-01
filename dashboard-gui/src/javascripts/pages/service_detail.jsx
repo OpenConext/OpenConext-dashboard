@@ -85,12 +85,12 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.resource_servers')}
           </Tab>
         )}
-        {currentUser.showStats() && (
+        {app.connected && currentUser.showStats() && (
           <Tab active={currentPath === 'statistics'} to={`/apps/${id}/${type}/statistics`}>
             {I18n.t('apps.tabs.statistics')}
           </Tab>
         )}
-        {(isViewerOrAdmin || showConsent || showSsid) && (
+        {app.connected && (isViewerOrAdmin || showConsent || showSsid) && (
           <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
             {I18n.t('apps.tabs.settings')}
           </Tab>
@@ -98,24 +98,28 @@ export default function ServiceDetail() {
       </TabBar>
       <div className="container">
         <Switch>
-          <Route path={`${path}/settings`}>
-            <Settings
-              app={app}
-              type={type}
-              isViewerOrAdmin={isViewerOrAdmin}
-              isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
-              showConsent={showConsent}
-              showSsid={showSsid}
-              onPolicyChange={() => fetchApp()}
-            />
-          </Route>
+          {app.connected && (isViewerOrAdmin || showConsent || showSsid) && (
+            <Route path={`${path}/settings`}>
+              <Settings
+                app={app}
+                type={type}
+                isViewerOrAdmin={isViewerOrAdmin}
+                isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
+                showConsent={showConsent}
+                showSsid={showSsid}
+                onPolicyChange={() => fetchApp()}
+              />
+            </Route>
+          )}
           <Route exact path={`${path}/attributes_and_privacy`}>
             <AttributesAndPrivacy app={app} />
           </Route>
-          <Route exact path={`${path}/resource_servers`}>
-            <ResourceServers app={app} />
-          </Route>
-          {currentUser.showStats() && (
+          {app.resourceServers && app.resourceServers.length > 0 && (
+            <Route exact path={`${path}/resource_servers`}>
+              <ResourceServers app={app} />
+            </Route>
+          )}
+          {app.connected && currentUser.showStats() && (
             <Route exact path={`${path}/statistics`}>
               <Statistics app={app} />
             </Route>
