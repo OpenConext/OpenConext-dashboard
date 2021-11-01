@@ -94,7 +94,7 @@ function Attribute({ attribute, app, currentUser }) {
           </span>
         )}
         {renderFilters.length > 0 && !currentUser.guest && (
-          <span className="filter-info"> {I18n.t('attributes_policy_panel.filter')}</span>
+          <div className="filter-info">{I18n.t('attributes_policy_panel.filter')}</div>
         )}
       </td>
       {!currentUser.guest && (

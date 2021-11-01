@@ -348,7 +348,7 @@ I18n.translations.nl = {
     subtitle: '{{name}} wil de volgende attributen ontvangen.',
     title: 'Attributen',
     your_value: 'Jouw waarde',
-    filter: 'voor dit attribuut zijn de volgende filters toegepast:',
+    filter: 'Voor dit attribuut zijn de volgende filters toegepast:',
     motivationInfo:
       'De kolom ‘motivatie‘ bevat, voor zover beschikbaar, de uitleg van de leverancier over waarom ze dat attribuut willen ontvangen.',
     motivation: 'Motivatie',
