@@ -17,7 +17,7 @@ export default function AboutService({ app, type }) {
 
   async function fetchInstitutions() {
     const idpData = await getIdps(app.spEntityId, type)
-    const filtered = idpData.payload.filter((idp) => idp.state !== 'testaccepted')
+    const filtered = idpData.payload.filter((idp) => idp.state === app.state)
     setInstitutions(filtered)
   }
 
