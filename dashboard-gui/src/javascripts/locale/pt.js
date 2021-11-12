@@ -226,7 +226,7 @@ I18n.translations.pt = {
       menu: {
         consent: 'Consent',
         authorization_policy: 'Authorization policy',
-        surf_secure_id: 'SURFSecureID',
+        surf_secure_id: 'SURFsecureID',
       },
     },
   },

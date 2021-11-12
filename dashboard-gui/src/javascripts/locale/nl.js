@@ -226,7 +226,7 @@ I18n.translations.nl = {
       menu: {
         consent: 'Toestemming',
         authorization_policy: 'Autorisatieregels',
-        surf_secure_id: 'SURFSecureID',
+        surf_secure_id: 'SURFsecureID',
       },
     },
   },
