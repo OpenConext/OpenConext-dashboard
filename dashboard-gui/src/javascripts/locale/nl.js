@@ -92,14 +92,14 @@ I18n.translations.nl = {
       },
       published_edugain: {
         all: 'Alle',
-        name: 'Gepubliceerd in eduGAIN federatie',
+        name: 'Gepubliceerd in eduGAIN-federatie',
         no: 'Nee',
         yes: 'Ja',
       },
       interfed_source: {
         tooltip:
           'Sommige via SURFconext beschikbare diensten zijn primair aangesloten op een met SURFconext gekoppelde federatie. Hier kun je evt selecteren per federatie.',
-        name: 'Federatie bron',
+        name: 'Federatiebron',
         surfconext: 'SURFconext',
         edugain: 'eduGAIN',
         entree: 'Entree',
@@ -107,7 +107,7 @@ I18n.translations.nl = {
       entity_category: {
         name: 'eduGAIN Entity Categorie',
         tooltip:
-          'Diensten kunnen voldoen aan \'entity categories\'.<br>Zie de <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie. Hier kunt je evt diensten filteren die voldoen aan een bepaalde entity category.',
+          'Diensten kunnen voldoen aan \'entity categories\'.<br>Zie de <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie. Hier kunt je diensten filteren die voldoen aan een bepaalde entity category.',
         code_of_conduct: 'Code of Conduct',
         research_and_scholarship: 'Research and Scholarship',
         selectAll: 'Filter allemaal',
@@ -149,11 +149,11 @@ I18n.translations.nl = {
       attributes: 'Attributen & Privacy',
       resource_servers: 'Resource Servers',
       statistics: 'Statistieken',
-      settings: 'Instellingen',
+      settings: 'Extra opties',
     },
     detail: {
       about: 'Over deze dienst',
-      application_usage: 'Service gebruik',
+      application_usage: 'Service-gebruik',
       attribute_policy: 'Attributen',
       close_screenshot: 'Sluiten',
       how_to_connect: 'Dienst koppelen',
@@ -176,7 +176,7 @@ I18n.translations.nl = {
         'Er is al een openstaand ticket {{jiraKey}} van het type {{type}} en status {{status}} voor deze dienst.',
       inviteAlreadyProcessed: 'De uitnodiging voor ticket {{jiraKey}} is reeds {{action}}.',
       outstandingIssueLink:
-        ' Ga naar de <a class="link" href="{{link}}">{{linkName}}</a> sectie om de uitnodiging te accepteren / weigeren.',
+        ' Ga naar de <a class="link" href="{{link}}">{{linkName}}</a> sectie om de uitnodiging te accepteren of weigeren.',
       approved: 'goedgekeurd',
       denied: 'afgewezen',
       institutions_header: {
@@ -222,7 +222,7 @@ I18n.translations.nl = {
         'Is de dienst die je zoekt niet te vinden? Stuur dan je contact bij die dienst een mail dat je de dienst graag wil gebruiken, maar dan wel via <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO van SURFconext</a> zodat je in kunt loggen met je instellingsaccount. Dat dat veiliger en handiger voor iedereen is. Je kunt vermelden dat de dienst daarmee ook aantrekkelijker wordt voor andere instellingen, ook buiten Nederland. De dienst kan voor meer informatie contact opnemen met support@surfconext.nl.',
     },
     settings: {
-      title: 'Dienst instellingen',
+      title: 'SP-opties',
       menu: {
         consent: 'Toestemming',
         authorization_policy: 'Autorisatieregels',
@@ -235,11 +235,11 @@ I18n.translations.nl = {
     question: 'Heb je een vraag?',
     eula: 'Algemene voorwaarden',
     website: 'Website',
-    support: 'Support pagina',
-    login: 'Login pagina',
+    support: 'Support-pagina',
+    login: 'Login-pagina',
     registration_info_html:
       'Deze Service Provider is beschikbaar in SURFconext via <a href="https://support.surfconext.nl/edugain" target="_blank" rel="noopener noreferrer">eduGAIN</a>. De Service Provider is door de volgende federatie geregistreerd: <a href="{{url}}" target="_blank" rel="noopener noreferrer">{{url}}</a>.',
-    registration_policy: 'Registratie beleid',
+    registration_policy: 'Registratiebeleid',
     privacy_statement: 'Privacyverklaring',
     metadata_link: 'Metadata',
   },
@@ -485,9 +485,9 @@ I18n.translations.nl = {
       'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl?subject=Vraag over koppeling {{jiraKey}}">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).',
     done_title: 'Verbinding aangevraagd!',
     rejected_without_interaction_title: 'Koppeling niet geslaagd!',
-    rejected_without_interaction_subtitle: 'Er is iets fout gegaan bij de koppeling.', // TODO: change text
+    rejected_without_interaction_subtitle: 'Er is iets fout gegaan bij de koppeling.',
     done_without_interaction_title: 'Service gekoppeld!', // TODO: check text
-    done_without_interaction_subtitle: 'Er kan meteen gebruik van worden gemaakt.', // TODO: check text
+    done_without_interaction_subtitle: 'Er kan meteen gebruik van worden gemaakt.',
     forward_permission: {
       after: ' door te sturen naar {{app}}.',
       before: 'SURF heeft toestemming om de ',
@@ -520,7 +520,7 @@ I18n.translations.nl = {
     wiki: 'wiki voor deze service',
     aansluitovereenkomst_accept:
       "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de 'SURFconext aansluitovereenkomst' te ondertekenen.",
-    not_published_in_edugain_idp: 'eduGAIN dienst',
+    not_published_in_edugain_idp: 'eduGAIN-dienst',
     not_published_in_edugain_idp_info:
       "De dienst {{name}} kan niet worden gekoppeld omdat je instelling niet is gepubliceerd is in eduGAIN. Om je instelling te publiceren in eduGAIN kun je een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
     edit_my_idp_link: "Wijzigingsverzoek aanmaken in 'Mijn instelling'",
@@ -551,7 +551,7 @@ I18n.translations.nl = {
     },
   },
   application_usage_panel: {
-    title: 'Service gebruik',
+    title: 'Service-gebruik',
     download: 'Export',
     error_html:
       'Op dit moment zijn de statistieken niet beschikbaar. <a href="mailto:support@surfconext.nl">Neem contact op</a> met de supportafdeling, voor meer informatie.',
@@ -673,7 +673,7 @@ I18n.translations.nl = {
       'De volgende rollen zijn toegekend (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">toelichting</a>):',
     role: 'Rol',
     users: 'Gebruiker(s)',
-    settings: 'Instellingen',
+    settings: 'Opties',
     settings_edit: 'Gegevens van mijn eigen instelling',
     settings_text:
       "Hieronder staan enkele gegevens van jouw instelling en van Service Providers die door jouw instelling in SURFconext worden aangeboden. Deze gegevens worden in SURFconext gebruikt, bijvoorbeeld in de Where Are You From-pagina. Je kunt deze gegevens laten wijzigen door te klikken op 'Wijzigingsverzoek aanmaken'.",
@@ -705,34 +705,34 @@ I18n.translations.nl = {
       pt: 'Naam (pt)',
     },
     displayName: {
-      general: 'Weergave naam',
-      en: 'Weergave naam (en)',
-      nl: 'Weergave naam (nl)',
-      pt: 'Weergave naam (pt)',
+      general: 'Weergavenaam',
+      en: 'Weergavenaam (en)',
+      nl: 'Weergavenaam (nl)',
+      pt: 'Weergavenaam (pt)',
     },
     organizationURL: {
-      general: 'Organisatie URL',
-      en: 'Organisatie URL (en)',
+      general: 'Organisatie-URL',
+      en: 'Organisatie-URL (en)',
       nl: 'Organisatie URL (nl)',
-      pt: 'Organisatie URL (pt)',
+      pt: 'Organisatie-URL (pt)',
     },
     organizationURL_nl_tooltip: 'Een URL waar een eindgebruiker Nederlandse informatie kan lezen over de organisatie.',
     organizationURL_en_tooltip: 'Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.',
     organizationURL_pt_tooltip: 'Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.',
     organizationName: {
-      general: 'Organisatie naam',
-      en: 'Organisatie naam (en)',
-      nl: 'Organisatie naam (nl)',
-      pt: 'Organisatie naam (pt)',
+      general: 'Organisatienaam',
+      en: 'Organisatienaam (en)',
+      nl: 'Organisatienaam (nl)',
+      pt: 'Organisatienaam (pt)',
     },
     organizationName_nl_tooltip: 'De officiële Nederlandse naam van de organisatie.',
     organizationName_en_tooltip: 'De officiële Engelse naam van de organisatie.',
     organizationName_pt_tooltip: 'De officiële Portugese naam van de organisatie.',
     organizationDisplayName: {
-      general: 'Organisatie weergave naam',
-      en: 'Organisatie weergave naam (en)',
-      nl: 'Organisatie weergave naam name (nl)',
-      pt: 'Organisatie weergave naam (pt)',
+      general: 'Organisatie weergavenaam',
+      en: 'Organisatie weergavenaam (en)',
+      nl: 'Organisatie weergavenaam (nl)',
+      pt: 'Organisatie weergavenaam (pt)',
     },
     organizationDisplayName_nl_tooltip: 'De Nederlandse weergave naam van de organisatie.',
     organizationDisplayName_en_tooltip: 'De Engelse weergave naam van de organisatie.',
@@ -750,9 +750,9 @@ I18n.translations.nl = {
     research_and_scholarship_info: "Koppel met SP's die aan CoCo en R&S voldoen",
     research_and_scholarship_tooltip:
       'Je IdP wordt automatisch aan alle huidige en toekomstige SP\'s in SURFconext gekoppeld die voldoen aan zowel<br>‘Research & Scholarship Entity Category’ en de ‘GEANT Data Protection Code of Conduct ’, waarbij de R&S attributen aan de SP worden vrijgegeven.<br/>Zie de <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> vooor meer informatie.',
-    allow_maintainers_to_manage_authz_rules: 'SURFconextbeheerders mogen autorisatie regels beheren',
+    allow_maintainers_to_manage_authz_rules: 'SURFconextbeheerders mogen autorisatieregels beheren',
     allow_maintainers_to_manage_authz_rules_tooltip:
-      'De SURFconextbeheerders van je instelling mogen autorisatie regels aanmaken, bewerken en verwijderen.',
+      'De SURFconextbeheerders van je instelling mogen autorisatieregels aanmaken, bewerken en verwijderen.',
     displayAdminEmailsInDashboard: 'Leden kunnen admin email-adres zien',
     displayAdminEmailsInDashboardTooltip:
       'De email adressen van de SURFconextbeheerders worden getoond aan reguliere gebruikers<br>van je instelling.',
@@ -779,7 +779,7 @@ I18n.translations.nl = {
         title: 'Technisch Contact:<br>',
         display: 'Technisch Contact',
         tooltip:
-          'De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, changes en andere technische zaken met betrekking tot de IdP.<br><br>',
+          'De technische contactpersoon van de IdP. Eerste contactpersoon voor storingen, wijzigingen en andere technische zaken met betrekking tot de IdP.<br><br>',
         alttooltip: 'suggestie: technisch persoon voor storingen en changes.',
       },
       support: {
@@ -825,11 +825,11 @@ I18n.translations.nl = {
     },
     guest_enabled: 'Gast-toegang ingeschakeld',
     guest_enabled_tooltip:
-      'Als gast toegang is ingeschakeld betekent dat gebruikers<br>van de gast IdPgebruik kunnen maken van deze dienst.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
+      'Als gasttoegang is ingeschakeld, betekent dit dat gebruikers<br>van de gast-IdP eduID gebruik kunnen maken van deze dienst.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
     edit_message: 'De volgende velden kunnen worden aangepast.',
     save: 'Maak wijzigingsverzoek aan',
     change_request_created:
-      'Wijzigingsverzoek ingediend bij het SURF SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}',
+      'Wijzigingsverzoek ingediend bij het SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}',
     no_change_request_created: 'Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.',
     change_request_failed: 'Er ging iets mis bij het aanmaken van het wijzigingsverzoek.',
     comments: 'Opmerkingen',
@@ -841,12 +841,12 @@ I18n.translations.nl = {
     flash_created: 'aangemaakt',
     flash_deleted: 'verwijderd',
     flash_first:
-      'Autorisatieregel worden nog niet toegepast voor deze dienst. Voordat autorisatieregels wel worden toegepast voor deze dienst moet het SURFconext Team een configuratie verandering maken. Er is een notificatie gestuurd naar het SURFconext Team. Er wordt contact met je opgenomen.',
+      'Autorisatieregels worden nog niet toegepast voor deze dienst. Voordat autorisatieregels voor het eerst worden toegepast op een dienst is not een handeling nodig. Je krijgt bericht als dit uitgevoerd is.',
     flash_updated: 'bijgewerkt',
     new_policy: 'Nieuwe autorisatieregel',
     no_policies: 'Er zijn geen autorisatieregels voor deze dienst.',
     how_to: 'Uitleg',
-    policy_name_not_unique_exception: 'Deze autorisatieregel naam is al in gebruik',
+    policy_name_not_unique_exception: 'Deze naam is al in gebruik',
     pdp_unreachable: 'PDP niet bereikbaar',
     pdp_unreachable_description:
       'Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.',
@@ -868,12 +868,12 @@ I18n.translations.nl = {
 
   policy_attributes: {
     attribute: 'Attribuut',
-    attribute_value_placeholder: 'Attribuut waarde...',
+    attribute_value_placeholder: 'Attribuutwaarde...',
     group_info:
-      " De waarde(s) moeten volledige unieke groep ID zijn e.g. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
+      " De waarde(s) moeten volledige unieke groep ID zijn, b.v.. 'urn:collab:group:surfteams.nl:nl:surfnet:diensten:admins'",
     new_attribute: 'Nieuw attribuut',
     new_value: '+ Nieuwe waarde',
-    sab_info: "De waarde(s) moet geldige rollen in SAB zijn e.g. 'Instellingsbevoegde'",
+    sab_info: "De waarde(s) moet geldige rollen in SAB zijn, b.v. 'Instellingsbevoegde'",
     values: 'Waarde(s)',
     help_link: 'https://support.surfconext.nl/dashboard-help-attributes',
     attributeTooltip: 'Klik om meer te lezen over attributen.',
@@ -882,12 +882,12 @@ I18n.translations.nl = {
   policy_detail: {
     about: 'Over',
     access: 'Regel type',
-    access_denied_message: 'Ongeautoriseerd melding',
+    access_denied_message: 'Ongeautoriseerd-melding',
     activate_policy: 'Activeer deze regel',
     deactivate_policy: 'Deactiveer deze regel',
     active: 'Actieve regel',
     inactive: 'Inactieve regel',
-    attribute: 'Attribute(n)',
+    attribute: 'Attributen',
     autoFormat: 'Automatisch genereren',
     cancel: 'Annuleer',
     confirmation: 'Weet je zeker dat je deze pagina wilt sluiten?',
@@ -899,14 +899,14 @@ I18n.translations.nl = {
     deny_message_info: "Dit is de melding die de gebruiker ziet bij een 'Deny' op basis van deze regel.",
     deny_message_nl: 'Nederlandse melding',
     deny_message_pt: 'Portugese melding',
-    description: 'Regel omschrijving',
+    description: 'Omschrijving van deze regel',
     idps_placeholder: 'Selecteer de instellingen - 0 of meer',
     institutions: 'Instelling(en)',
     intro:
-      'Configureer wie toegang kan krijgen tot deze dienst. Hulp nodig? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Lees de manual.</a>',
+      'Configureer wie toegang kan krijgen tot deze dienst. Hulp nodig? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Lees de handleiding.</a>',
     isActive: 'Actief',
     isActiveDescription: 'Markeer de autorisatieregel actief',
-    isActiveInfo: ' Inactieve autorisatieregels worden niet geevalueerd in access beslissingen',
+    isActiveInfo: ' Inactieve autorisatieregels worden niet geevalueerd in toegangsbeslissingen',
     name: 'Naam',
     permit: 'Permit',
     permit_info:
@@ -915,14 +915,14 @@ I18n.translations.nl = {
     rules: 'Regels',
     rule_and: 'EN',
     rule_and_info: 'Autorisatieregels met een logische EN dwingen af dat alle gedefinieerde attributen moeten matchen.',
-    rule_info_add: ' Attribuut waardes van hetzelfde attribuut zullen altijd worden geevalueerd met de logische OF.',
+    rule_info_add: ' Attribuutwaardes binnen hetzelfde attribuut zullen altijd worden geevalueerd met de logische OF.',
     rule_info_add_2:
       "Een 'Deny' autorisatieregel wordt altijd geevalueerd met de logische EN voor attribuut waarden van verschillende attributen.",
     rule_or: 'OF',
-    rule_or_info: 'Voor autorisatieregels met een logische OF is het slechts vereist dat 1 attribuut matched.',
+    rule_or_info: 'Voor autorisatieregels met een logische OF is het slechts vereist dat 1 attribuut matcht.',
     save_changes: 'Sla wijzigingen op',
     service: 'Dienst',
-    spScopeInfo: 'De beschikbare diensten zijn beperkt tot je eigen diensten zolang er geen Instelling is gekozen',
+    spScopeInfo: 'De beschikbare diensten zijn beperkt tot je eigen diensten zolang er geen instelling is gekozen',
     sp_placeholder: 'Selecteer de dienst - verplicht',
     sub_title: 'Aangemaakt door {{displayName}} op {{created}}',
     submit: 'Verstuur',
@@ -937,9 +937,9 @@ I18n.translations.nl = {
       'Dit is de <span class="curr">eerste revisie {{currRevisionNbr}}</span> aangemaakt door {{userDisplayName}} van {{authenticatingAuthorityName}} op {{createdDate}}.',
     changes_info_html:
       'Veranderingen tussen <span class="prev"> revisie nummer {{prevRevisionNbr}}</span> en <span class="curr">revisie nummer {{currRevisionNbr}}</span> gemaakt door {{userDisplayName}} van {{authenticatingAuthorityName}} op {{createdDate}}.',
-    denyAdvice: 'Ongeautoriseerd melding in het Engels',
-    denyAdviceNl: 'Ongeautoriseerd melding in het Nederlands',
-    denyAdvicePt: 'Ongeautoriseerd melding in het Portugees',
+    denyAdvice: 'Ongeautoriseerd-melding in het Engels',
+    denyAdviceNl: 'Ongeautoriseerd-melding in het Nederlands',
+    denyAdvicePt: 'Ongeautoriseerd-melding in het Portugees',
     denyRule: 'Toegang Permit regel?',
     description: 'Omschrijving',
     identityProviderNames: 'Instelling(en)',
@@ -948,7 +948,7 @@ I18n.translations.nl = {
     serviceProviderName: 'Dienst',
     title: 'Revisies',
     intro_1:
-      'Elke keer als een autorisatieregel wordt bijgewerkt dan wordt er een copie van de oude regel opgeslagen als een revisie van de nieuw bijgewerkte regel. Door revisies met elkaar en met meest actuele regel te vergelijken kan een audit log worden getoond van alle veranderingen die zijn gemaakt van een autorisatieregel.',
+      'Elke keer als een autorisatieregel wordt bijgewerkt dan wordt er een kopie van de oude regel opgeslagen als een revisie van de nieuw bijgewerkte regel. Door revisies met elkaar en met meest actuele regel te vergelijken kan een audit log worden getoond van alle veranderingen die zijn gemaakt van een autorisatieregel.',
     intro_2: 'Wanneer een autorisatieregel wordt verwijderd dan worden ook alle revisies van die regel verwijderd.',
   },
 
@@ -1006,7 +1006,7 @@ I18n.translations.nl = {
       resolvedTooltip: 'Het ticket is opgelost.',
       duplicate: 'Duplicaat',
       duplicateTooltip: 'Het ticket is een duplicaat van een ander ticket.',
-      not_completed: 'Niet compleet completed',
+      not_completed: 'Niet compleet',
       not_completedTooltip: 'Het ticket is niet compleet.',
       cannot_reproduce: 'Kan niet worden gereproduceerd',
       cannot_reproduceTooltip: 'De situatie beschreven in het ticket kon niet worden gereproduceerd',
@@ -1017,8 +1017,8 @@ I18n.translations.nl = {
     noTicketsFound: 'Er zijn geen tickets gevonden met de gegeven filters.',
     viewInvitation: 'Goedkeuren / Afwijzen',
     resendInvitation: 'Herstuur uitnodiging',
-    resendInvitationConfirmation: 'Weet je zeker dat je de uitnodigings mail nogmaals wilt versturen?',
-    resendInvitationFlash: 'Uitnodigings mail voor {{jiraKey}} is opnieuw verstuurd',
+    resendInvitationConfirmation: 'Weet je zeker dat je de uitnodigingsmail nogmaals wilt versturen?',
+    resendInvitationFlash: 'Uitnodigingsmail voor {{jiraKey}} is opnieuw verstuurd',
     serviceDetails: 'Bekijk dienst',
   },
   service_filter: {
