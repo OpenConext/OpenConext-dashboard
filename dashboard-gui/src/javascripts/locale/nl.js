@@ -187,7 +187,7 @@ I18n.translations.nl = {
       institutions: 'Instellingen',
       provided_information: '{{organisation}} heeft de volgende informatie doorgegeven',
       connect_service: 'Koppel met dienst',
-      disconnect_service: 'Ontkoppel met dienst',
+      disconnect_service: 'Ontkoppel dienst',
       connected: 'Gekoppeld',
       pending_connection: 'Openstaand koppelverzoek...',
       pending_disconnect: 'Openstaand ontkoppelverzoek...',
@@ -1029,23 +1029,23 @@ I18n.translations.nl = {
     search: 'Zoek diensten...',
   },
   invite_request: {
-    info: 'Een koppelings uitnodiging zal een email versturen aan alle geselecteerde contact personen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> Jira ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
+    info: 'Een koppelingsuitnodiging zal een e-mail versturen aan alle geselecteerde contactpersonen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> Jira-ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
     selectIdp: 'Zoek en selecteer een instelling...',
     selectSpDisabled: 'Selecteer eerst een instelling',
     selectSp: 'Zoek en selecteer nu een dienst...',
     idp: 'Instelling',
     sp: 'Dienst',
-    contactPersons: 'Selecteer naar welke contact personen van {{name}} de uitnodiging zal worden versuurd.',
-    sourcePersons: 'Contact personen uit {{source}}',
-    additionalPersons: 'Extra contact personen',
+    contactPersons: 'Selecteer naar welke contactpersonen van {{name}} de uitnodiging zal worden versuurd.',
+    sourcePersons: 'Contactpersonen uit {{source}}',
+    additionalPersons: 'Extra contactpersonen',
     selectContact: 'Selecteer',
     sendRequest: 'Verstuur',
     reset: 'Reset',
     message: 'Een - optioneel - bericht voor de uitgenodigden.',
     jiraFlash:
-      'Een Jira ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogged in het commentaar van {{jiraKey}}.',
+      'Een Jira-ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogd in het commentaar van {{jiraKey}}.',
     resend:
-      "Ticket is aangemaakt op {{date}} en emails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'.",
+      "Ticket is aangemaakt op {{date}} en e-mails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'.",
   },
   profile: {
     title: 'Profiel',
@@ -1073,7 +1073,7 @@ I18n.translations.nl = {
       },
       ROLE_DASHBOARD_SUPER_USER: {
         name: 'Dashboard supergebruiker',
-        description: 'Je bent een super gebruiker binnen het dashboard',
+        description: 'Je bent een superuser binnen het dashboard',
       },
     },
     attribute_map: {
@@ -1095,7 +1095,7 @@ I18n.translations.nl = {
       },
       displayName: {
         name: 'Weergavenaam',
-        description: 'weergave naam zoals getoond in applicaties',
+        description: 'weergavenaam zoals getoond in applicaties',
       },
       'Shib-InetOrgPerson-mail': {
         name: 'E-mailadres',
@@ -1121,7 +1121,7 @@ I18n.translations.nl = {
       'Shib-preferredLanguage': {
         name: 'Voorkeurstaal',
         description:
-          'een tweeletterige afkorting van de voorkeurstaal volgens de ISO 639 taalafkortings codetabel; geen subcodes',
+          'een tweeletterige afkorting van de voorkeurstaal volgens de ISO 639 taalafkortingscodetabel; geen subcodes',
       },
       schacHomeOrganization: {
         name: 'Organisatie',
@@ -1154,10 +1154,6 @@ I18n.translations.nl = {
         name: 'Studielinknummer',
         description: 'studielinknummer van student zoals geregistreerd bij www.studielink.nl',
       },
-      'Shib-nlDigitalAuthorIdentifier': {
-        name: 'DAI',
-        description: 'Digital Author Identifier (DAI)',
-      },
       'Shib-userStatus': {
         name: 'Gebruikersstatus',
         description: 'Status van deze gebruiker in SURFconext',
@@ -1169,10 +1165,6 @@ I18n.translations.nl = {
       'name-id': {
         name: 'Identifier',
         description: 'Status van deze account in SURFconext',
-      },
-      'Shib-voName': {
-        name: 'Naam Virtuele Organisatie',
-        description: 'De naam van de Virtuele Organisatie waarvoor je bent ingelogd.',
       },
       'Shib-user': {
         name: 'Identifier',

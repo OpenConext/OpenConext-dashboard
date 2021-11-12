@@ -47,7 +47,7 @@ public class MailBox {
         List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("title", "Uitnodiging voor een nieuwe SURFconext koppeling");
+        variables.put("title", "Uitnodiging voor een nieuwe SURFconext-koppeling");
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
@@ -55,7 +55,7 @@ public class MailBox {
                 .filter(ContactPerson::isSabContact).map(cp -> cp.getName()).collect(Collectors.joining(", ")));
         variables.put("metaDataType", StringUtils.isEmpty(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         String html = this.mailTemplate("invite_request_nl.html", variables);
-        String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
+        String subject = String.format("Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
         try {
             sendMail(html, subject, to, cc, true, emailFrom);
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class MailBox {
     public void sendInviteMailReminder(Action action, String comments) {
         String jiraKey = action.getJiraKey().orElseThrow(() -> new IllegalArgumentException("No jirKey in the ticket"));
         Map<String, Object> variables = new HashMap<>();
-        variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext koppeling");
+        variables.put("title", "Herinnering voor de uitnodiging voor een nieuwe SURFconext-koppeling");
         variables.put("action", action);
         if (StringUtils.hasText(comments)) {
             variables.put("comments", HtmlUtils.htmlEscape(comments).replaceAll("\n", "<br/>"));
@@ -103,7 +103,7 @@ public class MailBox {
         variables.put("metaDataType", StringUtils.isEmpty(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
         String html = this.mailTemplate("resend_invite_request_nl.html", variables);
-        String subject = String.format("Uitnodiging voor een nieuwe SURFconext koppeling met %s (ticket %s)", action.getSpName(), jiraKey);
+        String subject = String.format("Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)", action.getSpName(), jiraKey);
 
         try {
             sendMail(html, subject, emails, Collections.emptyList(), true, emailFrom);
@@ -113,9 +113,9 @@ public class MailBox {
     }
 
     public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String spEntityID, String type, String comments, String emailContactPerson) {
-        String emailSubject = "Nieuwe SURFconext koppeling";
+        String emailSubject = "Nieuwe SURFconext-koppeling";
         Map<String, Object> variables = new HashMap<>();
-        variables.put("title", "Nieuwe SURFconext koppeling");
+        variables.put("title", "Nieuwe SURFconext-koppeling");
         variables.put("idpName", idpName);
         variables.put("spName", spName);
         variables.put("spEntityID", spEntityID);
