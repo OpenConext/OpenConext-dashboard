@@ -29,7 +29,7 @@ export default function ServicesOverview({ connected = false }) {
 
     const filteredApps = apps.payload.apps
       .filter((app) => app.state === idpState)
-      .filter((app) => !(currentUser.guest && app.idpVisiblyOnly))
+      .filter((app) => !(currentUser.guest && app.idpVisibleOnly))
       .filter((app) => !connected || app.connected)
 
     setApps(filteredApps)
