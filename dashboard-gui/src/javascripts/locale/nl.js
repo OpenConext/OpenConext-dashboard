@@ -34,7 +34,7 @@ I18n.translations.nl = {
     loginRequired: 'Login voor meer informatie',
     super_user_switch: 'Switch identiteit',
     welcome_txt:
-      'Welkom bij het SURFconext dashboard. Op deze pagina zie je welke diensten er op SURFconext gekoppeld zijn: als je instelling dat ook toestaat, kun je op die diensten met je instellingsaccount inloggen. Na inloggen op dit dashboard (rechtsbovenin) zie je informatie meer gericht op je instelling. Klik hier voor meer informatie over het dashboard.',
+      'Je vindt hier alle op SURFconext aangesloten diensten. Log in voor informatie toegesneden op jouw instelling.',
   },
   confirmation_dialog: {
     title: 'Bevestig',
