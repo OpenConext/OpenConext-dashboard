@@ -34,7 +34,7 @@ I18n.translations.en = {
     loginRequired: 'Please login for more information',
     super_user_switch: 'Switch identity',
     welcome_txt:
-      "Here you will find all the services connected to SURFconext. Log in for information tailored to your institution.",
+      'Here you will find all the services connected to SURFconext. Log in for information tailored to your institution.',
   },
   confirmation_dialog: {
     title: 'Please confirm',
