@@ -250,12 +250,12 @@ I18n.translations.en = {
     has_license_surfmarket_html:
       'License available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     has_license_sp_html:
-      'A license for \'<a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a>\' can be acquired from \'{{organisation}}\' who is the the Vendor of this service.',
+      'A license for <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> can be acquired from {{organisation}}, the supplier of this service.',
     has_license_sp_html_no_service_url:
-      "A license for '{{serviceName}}' can be acquired from '{{organisation}}' who is the Vendor of this service.",
+      'A license for '{{serviceName}}' can be acquired from {{organisation}}, the supplier of this service.',
     no_license_html:
       'Your institution has no valid license available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
-    not_needed_html: 'This Service does not require a license.',
+    not_needed_html: 'This service does not require a license.',
     unknown_license: 'It is unknown whether a license is required or not.',
     no_license_description_html:
       '' +

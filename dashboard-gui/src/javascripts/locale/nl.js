@@ -247,15 +247,15 @@ I18n.translations.nl = {
   license_info_panel: {
     title: 'Licentie-informatie',
     has_license_surfmarket_html:
-      'Licentie beschikbaar via \'<a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
+      'Licentie beschikbaar via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     has_license_sp_html:
-      'Een licentie voor \'<a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a>\' kan via de aanbieder van deze dienst \'{{organisation}}\' worden afgesloten.',
+      'Een licentie voor <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
     has_license_sp_html_no_service_url:
-      "Een licentie voor '{{serviceName}}' kan via de aanbieder van deze dienst '{{organisation}}' worden afgesloten.",
+      'Een licentie voor {{serviceName}} kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
     no_license_html:
-      'Jouw instelling heeft voor deze service geen licentie via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
+      'Jouw instelling heeft voor deze dienst geen licentie via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     not_needed_html: 'Voor deze dienst is geen licentie nodig',
-    unknown_license: 'Het is onbekend welke licentie voor deze service geldt.',
+    unknown_license: 'Het is onbekend welke licentie voor deze dienst geldt.',
     no_license_description_html:
       '' +
       '<ul>' +
