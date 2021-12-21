@@ -252,7 +252,7 @@ I18n.translations.en = {
     has_license_sp_html:
       'A license for <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> can be acquired from {{organisation}}, the supplier of this service.',
     has_license_sp_html_no_service_url:
-      'A license for '{{serviceName}}' can be acquired from {{organisation}}, the supplier of this service.',
+      'A license for {{serviceName}} can be acquired from {{organisation}}, the supplier of this service.',
     no_license_html:
       'Your institution has no valid license available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
     not_needed_html: 'This service does not require a license.',
