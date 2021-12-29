@@ -287,11 +287,11 @@ public class JiraClientImpl implements JiraClient {
             sb.append(" AND key = \"" + jiraFilter.getKey() + "\"");
         }
         if (jiraFilter.getFrom() != null) {
-            String from = DateTimeFormatter.ofPattern("YYYY-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getFrom()));
+            String from = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getFrom()));
             sb.append(" AND created >= \"" + from + "\"");
         }
         if (jiraFilter.getTo() != null) {
-            String to = DateTimeFormatter.ofPattern("YYYY-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getTo()));
+            String to = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault()).format(Instant.ofEpochSecond(jiraFilter.getTo()));
             sb.append(" AND created <= \"" + to + "\"");
         }
         if (StringUtils.hasText(jiraFilter.getSortBy())) {
@@ -347,7 +347,7 @@ public class JiraClientImpl implements JiraClient {
 
     private String dueDate() {
         LocalDate localDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return localDate.plusWeeks(this.dueDateWeeks).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        return localDate.plusWeeks(this.dueDateWeeks).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
 }
