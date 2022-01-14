@@ -56,6 +56,7 @@ import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_NlEduPersonOrgUnit;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_NlEduPersonStudyBranch;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_NlStudielinkNummer;
+import static dashboard.shibboleth.ShibbolethHeader.Shib_OrgUnit;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_PreferredLanguage;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_SURFEckid;
 import static dashboard.shibboleth.ShibbolethHeader.Shib_SchacHomeOrganizationType;
@@ -87,6 +88,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .put("urn:mace:dir:attribute-def:sn", Shib_SurName)
                 .put("urn:mace:dir:attribute-def:givenName", Shib_GivenName)
                 .put("urn:mace:dir:attribute-def:cn", Shib_CommonName)
+                .put("urn:mace:dir:attribute-def:ou", Shib_OrgUnit)
                 .put("urn:mace:dir:attribute-def:eduPersonAffiliation", Shib_EduPersonAffiliation)
                 .put("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", Shib_EduPersonScopedAffiliation)
                 .put("urn:mace:dir:attribute-def:eduPersonTargetedID", Shib_EduPersonTargetedID)

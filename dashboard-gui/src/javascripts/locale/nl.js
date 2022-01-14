@@ -1093,6 +1093,10 @@ I18n.translations.nl = {
         name: 'Volledige persoonsnaam',
         description: 'volledige persoonsnaam',
       },
+      'Shib-orgUnit': {
+        name: 'Organisatieonderdeel',
+        description: 'afdelings- of onderdeelnaam',
+      },
       displayName: {
         name: 'Weergavenaam',
         description: 'weergavenaam zoals getoond in applicaties',

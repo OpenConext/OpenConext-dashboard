@@ -1090,6 +1090,10 @@ I18n.translations.en = {
         name: 'Full Name',
         description: 'your full name',
       },
+      'Shib-orgUnit': {
+        name: 'Organizational Unit',
+        description: 'department or unit name',
+      },
       displayName: {
         name: 'Display Name',
         description: 'display name as shown in applications',

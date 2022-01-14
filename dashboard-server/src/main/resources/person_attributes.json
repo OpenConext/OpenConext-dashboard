@@ -59,6 +59,16 @@
       "en": "your e-mailaddress as known within your organization"
     }
   },
+  "urn:mace:dir:attribute-def:ou": {
+    "Name": {
+      "nl": "Organisatieonderdeel",
+      "en": "Organizational Unit"
+    },
+    "Description": {
+      "nl": "afdelings- of onderdeelnaam",
+      "en": "department or unit name"
+    }
+  },
   "urn:mace:dir:attribute-def:eduPersonAffiliation": {
     "Name": {
       "nl": "Relatie",

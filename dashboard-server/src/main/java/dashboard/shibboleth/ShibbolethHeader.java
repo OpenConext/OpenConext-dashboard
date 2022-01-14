@@ -16,6 +16,7 @@ public enum ShibbolethHeader {
     Shib_SurName("Shib-surName"),
     Shib_GivenName("Shib-givenName"),
     Shib_CommonName("Shib-commonName"),
+    Shib_OrgUnit("Shib-orgUnit"),
     Shib_EduPersonAffiliation("Shib-eduPersonAffiliation"),
     Shib_EduPersonScopedAffiliation("Shib-eduPersonScopedAffiliation"),
     Shib_EduPersonTargetedID("Shib-eduPersonTargetedID"),

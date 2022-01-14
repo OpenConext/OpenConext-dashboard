@@ -1094,6 +1094,10 @@ I18n.translations.pt = {
         name: 'Nome Completo',
         description: 'o seu nome completo',
       },
+      'Shib-orgUnit': {
+        name: 'Organizational Unit',
+        description: 'department or unit name',
+      },
       displayName: {
         name: 'Nome a Apresentar',
         description: 'nome a apresentar nas aplicações',
