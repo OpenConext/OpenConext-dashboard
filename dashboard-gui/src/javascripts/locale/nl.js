@@ -1158,6 +1158,10 @@ I18n.translations.nl = {
         name: 'Studielinknummer',
         description: 'studielinknummer van student zoals geregistreerd bij www.studielink.nl',
       },
+      'Shib-nlDigitalAuthorIdentifier': {
+        name: 'DAI',
+        description: 'Digital Author Identifier (DAI)',
+      },
       'Shib-userStatus': {
         name: 'Gebruikersstatus',
         description: 'Status van deze gebruiker in SURFconext',
@@ -1169,6 +1173,10 @@ I18n.translations.nl = {
       'name-id': {
         name: 'Identifier',
         description: 'Status van deze account in SURFconext',
+      },
+      'Shib-voName': {
+        name: 'Virtuele organisatienaam',
+        description: 'De naam van de virtuele organisatie waarmee je bent geautoriseerd',
       },
       'Shib-user': {
         name: 'Identifier',
