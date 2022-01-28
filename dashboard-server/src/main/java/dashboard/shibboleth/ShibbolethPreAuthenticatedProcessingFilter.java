@@ -77,7 +77,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String defaultLoa;
     private List<String> loaLevels;
 
-    ShibbolethPreAuthenticatedProcessingFilter() {
+    ShibbolethPreAuthenticatedProcessingFilter(JiraClient jiraClient) {
+        this.jiraClient = jiraClient;
     }
 
     public ShibbolethPreAuthenticatedProcessingFilter(AuthenticationManager authenticationManager,

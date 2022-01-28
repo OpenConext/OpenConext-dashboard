@@ -1,14 +1,12 @@
 package dashboard.shibboleth;
 
 import com.google.common.collect.ImmutableList;
-import dashboard.domain.CoinAuthority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.JiraResponse;
+import dashboard.domain.*;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClient;
+import dashboard.service.impl.JiraClientMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,13 +37,11 @@ import static org.mockito.Mockito.when;
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     @InjectMocks
-    private ShibbolethPreAuthenticatedProcessingFilter subject = new ShibbolethPreAuthenticatedProcessingFilter();
+    private ShibbolethPreAuthenticatedProcessingFilter subject =
+            new ShibbolethPreAuthenticatedProcessingFilter(new JiraClientMock("idp"));
 
     @Mock
     private Manage manageMock;
-
-    @Mock
-    private JiraClient jiraClient;
 
     @Mock
     private Sab sab;
@@ -61,7 +57,6 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setManageConsentEnabled(true);
 
         when(sab.getRoles(anyString())).thenReturn(Optional.empty());
-        when(jiraClient.searchTasks(anyString(), any())).thenReturn(new JiraResponse(new ArrayList<>(), 0, 0, 1));
     }
 
     @Test
