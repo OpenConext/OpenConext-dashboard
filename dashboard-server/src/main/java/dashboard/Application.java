@@ -1,17 +1,5 @@
 package dashboard;
 
-import dashboard.shibboleth.mock.MockShibbolethFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
-import org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration;
-import org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.LocaleResolver;
 import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
 import dashboard.manage.UrlResourceManage;
@@ -27,21 +15,23 @@ import dashboard.service.impl.JiraClient;
 import dashboard.service.impl.JiraClientImpl;
 import dashboard.service.impl.JiraClientMock;
 import dashboard.service.impl.ServicesImpl;
+import dashboard.shibboleth.mock.MockShibbolethFilter;
 import dashboard.stats.Stats;
 import dashboard.stats.StatsImpl;
 import dashboard.stats.StatsMock;
-import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class,
-    TraceWebFilterAutoConfiguration.class, TraceRepositoryAutoConfiguration.class,
-    MetricFilterAutoConfiguration.class
-})
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class})
 public class Application {
 
     public static void main(String[] args) {
@@ -50,7 +40,7 @@ public class Application {
 
     @Bean
     public Services services(Manage manage, @Value("${guestidp.entityids}") String guestIdps) {
-        return new ServicesImpl(manage, Arrays.stream(guestIdps.split(",")).map(String::trim).collect(Collectors.toList()) );
+        return new ServicesImpl(manage, Arrays.stream(guestIdps.split(",")).map(String::trim).collect(Collectors.toList()));
     }
 
     @Bean
@@ -61,9 +51,9 @@ public class Application {
 
     @Bean
     public Manage manage(@Value("${dashboard.feature.manage}") boolean manageEnabled,
-                                             @Value("${manage.username}") String username,
-                                             @Value("${manage.password}") String password,
-                                             @Value("${manage.manageBaseUrl}") String manageBaseUrl) {
+                         @Value("${manage.username}") String username,
+                         @Value("${manage.password}") String password,
+                         @Value("${manage.manageBaseUrl}") String manageBaseUrl) {
         return manageEnabled ? new UrlResourceManage(username, password, manageBaseUrl) : new ClassPathResourceManage();
     }
 

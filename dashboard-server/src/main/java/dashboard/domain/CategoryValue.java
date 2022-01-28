@@ -16,7 +16,7 @@
 
 package dashboard.domain;
 
-import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.io.Serializable;
 
