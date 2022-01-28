@@ -1,9 +1,29 @@
 package dashboard.control;
 
+import com.google.common.collect.ImmutableMap;
+import dashboard.domain.CoinAuthority;
+import dashboard.domain.CoinUser;
+import dashboard.domain.Policy;
+import dashboard.domain.ServiceProvider;
+import dashboard.filter.SpringSecurityUtil;
+import dashboard.mail.MailBox;
+import dashboard.manage.EntityType;
+import dashboard.manage.Manage;
+import dashboard.pdp.PdpService;
+import dashboard.pdp.PolicyNameNotUniqueException;
+import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
@@ -11,30 +31,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
-import java.util.Optional;
-
-import com.google.common.collect.ImmutableMap;
-
-import dashboard.mail.MailBox;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import dashboard.domain.CoinAuthority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.Policy;
-import dashboard.domain.ServiceProvider;
-import dashboard.filter.SpringSecurityUtil;
-import dashboard.manage.EntityType;
-import dashboard.pdp.PdpService;
-import dashboard.pdp.PolicyNameNotUniqueException;
-import dashboard.manage.Manage;
-import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PoliciesControllerTest {
@@ -90,8 +86,8 @@ public class PoliciesControllerTest {
         when(manageMock.getServiceProvider("mockServiceProviderId", EntityType.saml20_sp, false)).thenReturn(Optional.of(new ServiceProvider(ImmutableMap.of("entityid", "mockServiceProviderId", "eid", 1L))));
 
         mockMvc.perform(post("/dashboard/api/policies")
-                .contentType(APPLICATION_JSON)
-                .content("{\"name\": \"duplicate\", \"serviceProviderId\": \"mockServiceProviderId\"}"))
+                        .contentType(APPLICATION_JSON)
+                        .content("{\"name\": \"duplicate\", \"serviceProviderId\": \"mockServiceProviderId\"}"))
                 .andExpect(status().isBadRequest());
     }
 

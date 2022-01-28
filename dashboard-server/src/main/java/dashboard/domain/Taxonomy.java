@@ -22,17 +22,17 @@ import java.util.List;
 
 public class Taxonomy {
 
-  private List<Category> categories;
+    private List<Category> categories;
 
-  public Taxonomy() {
-  }
+    public Taxonomy() {
+    }
 
-  public Taxonomy(List<Category> categories) {
-    this.categories = categories;
-  }
+    public Taxonomy(List<Category> categories) {
+        this.categories = categories;
+    }
 
-  public List<Category> getCategories() {
-    return categories;
-  }
+    public List<Category> getCategories() {
+        return categories;
+    }
 
 }

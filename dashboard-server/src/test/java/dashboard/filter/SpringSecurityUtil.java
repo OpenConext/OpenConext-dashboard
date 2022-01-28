@@ -28,37 +28,37 @@ import static org.junit.Assert.*;
 
 public class SpringSecurityUtil {
 
-  protected static void assertNoRoleIsGranted() {
-    CoinUser user = SpringSecurity.getCurrentUser();
-    assertEquals(0, user.getAuthorityEnums().size());
-  }
-
-  protected static void assertRoleIsGranted(CoinAuthority.Authority... expectedAuthorities) {
-    CoinUser user = SpringSecurity.getCurrentUser();
-    List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
-    assertEquals("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, expectedAuthorities.length, actualAuthorities.size());
-    assertTrue("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, actualAuthorities.containsAll(Arrays.asList(expectedAuthorities)));
-  }
-
-  protected static void assertRoleIsNotGranted(CoinAuthority.Authority... expectedAuthorities) {
-    CoinUser user = SpringSecurity.getCurrentUser();
-    List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
-    for (CoinAuthority.Authority expectedAuthority : expectedAuthorities) {
-      assertFalse("Role not to be expected: " + expectedAuthority, actualAuthorities.contains(expectedAuthorities));
+    protected static void assertNoRoleIsGranted() {
+        CoinUser user = SpringSecurity.getCurrentUser();
+        assertEquals(0, user.getAuthorityEnums().size());
     }
-  }
 
-  public static void setAuthentication(String theUsersUid) {
-    CoinUser coinUser = new CoinUser();
-    coinUser.setUid(theUsersUid);
+    protected static void assertRoleIsGranted(CoinAuthority.Authority... expectedAuthorities) {
+        CoinUser user = SpringSecurity.getCurrentUser();
+        List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
+        assertEquals("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, expectedAuthorities.length, actualAuthorities.size());
+        assertTrue("expected roles: " + Arrays.asList(expectedAuthorities) + ", actual roles: " + actualAuthorities, actualAuthorities.containsAll(Arrays.asList(expectedAuthorities)));
+    }
 
-    setAuthentication(coinUser);
-  }
+    protected static void assertRoleIsNotGranted(CoinAuthority.Authority... expectedAuthorities) {
+        CoinUser user = SpringSecurity.getCurrentUser();
+        List<CoinAuthority.Authority> actualAuthorities = user.getAuthorityEnums();
+        for (CoinAuthority.Authority expectedAuthority : expectedAuthorities) {
+            assertFalse("Role not to be expected: " + expectedAuthority, actualAuthorities.contains(expectedAuthorities));
+        }
+    }
 
-  public static void setAuthentication(CoinUser coinUser) {
-    TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
-    token.setAuthenticated(true);
+    public static void setAuthentication(String theUsersUid) {
+        CoinUser coinUser = new CoinUser();
+        coinUser.setUid(theUsersUid);
 
-    SecurityContextHolder.getContext().setAuthentication(token);
-  }
+        setAuthentication(coinUser);
+    }
+
+    public static void setAuthentication(CoinUser coinUser) {
+        TestingAuthenticationToken token = new TestingAuthenticationToken(coinUser, "");
+        token.setAuthenticated(true);
+
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
 }

@@ -1,12 +1,6 @@
 package dashboard.pdp;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimaps;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.google.common.collect.*;
 import dashboard.domain.Policy;
 import dashboard.domain.Policy.Attribute;
 import dashboard.domain.Policy.PolicyBuilder;
@@ -14,6 +8,8 @@ import dashboard.domain.Service;
 import dashboard.manage.EntityType;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,10 +22,10 @@ import static java.util.stream.Collectors.toList;
 public class PdpServiceMock implements PdpService {
 
     private static final List<Attribute> ALLOWED_ATTRIBUTES = ImmutableList.of(
-        new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganization", "Schac home organization"),
-        new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", "Schac home organization type"),
-        new Attribute("urn:mace:dir:attribute-def:eduPersonAffiliation", "Edu person affiliation"),
-        new Attribute("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", "Edu person scoped affiliation"));
+            new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganization", "Schac home organization"),
+            new Attribute("urn:mace:terena.org:attribute-def:schacHomeOrganizationType", "Schac home organization type"),
+            new Attribute("urn:mace:dir:attribute-def:eduPersonAffiliation", "Edu person affiliation"),
+            new Attribute("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", "Edu person scoped affiliation"));
 
     private final ListMultimap<Long, Policy> policies = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
@@ -92,15 +88,15 @@ public class PdpServiceMock implements PdpService {
 
         try {
             return PolicyBuilder.of(policy)
-                .withId(id)
-                .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-                .withCreated(String.valueOf(System.currentTimeMillis()))
-                .withActionsAllowed(true)
-                .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
-                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
-                    .map(Service::getName)
-                    .orElse("????"))
-                .build();
+                    .withId(id)
+                    .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+                    .withCreated(String.valueOf(System.currentTimeMillis()))
+                    .withActionsAllowed(true)
+                    .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
+                            .map(Service::getName)
+                            .orElse("????"))
+                    .build();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -109,17 +105,17 @@ public class PdpServiceMock implements PdpService {
     private Policy updatePolicy(Policy policy) {
         try {
             return PolicyBuilder.of(policy)
-                .withId(policy.getId())
-                .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-                .withCreated(String.valueOf(System.currentTimeMillis()))
-                .withActionsAllowed(true)
-                .withRevisionNbr(policy.getRevisionNbr() + 1)
-                .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-                .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
-                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
-                    .map(Service::getName)
-                    .orElse("????"))
-                .build();
+                    .withId(policy.getId())
+                    .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
+                    .withCreated(String.valueOf(System.currentTimeMillis()))
+                    .withActionsAllowed(true)
+                    .withRevisionNbr(policy.getRevisionNbr() + 1)
+                    .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
+                    .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
+                            .map(Service::getName)
+                            .orElse("????"))
+                    .build();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -15,20 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
-import static dashboard.shibboleth.ShibbolethHeader.Name_Id;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_DisplayName;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonAffiliation;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonPN;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonScopedAffiliation;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_Email;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_GivenName;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_SurName;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_SURFEckid;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_SchacPersonalUniqueCode;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_Uid;
+import static dashboard.shibboleth.ShibbolethHeader.*;
 
 public class MockShibbolethFilter extends GenericFilterBean {
 

@@ -138,7 +138,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        List<String> loaLevels = Arrays.stream(this.loaLevels.replaceAll("\"","").split(",")).map(String::trim).collect(Collectors.toList());
+        List<String> loaLevels = Arrays.stream(this.loaLevels.replaceAll("\"", "").split(",")).map(String::trim).collect(Collectors.toList());
         http
                 .logout()
                 .logoutUrl("/dashboard/api/logout")

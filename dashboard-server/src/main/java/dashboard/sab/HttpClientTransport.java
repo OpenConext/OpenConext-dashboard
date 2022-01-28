@@ -42,66 +42,66 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 @Component
 public class HttpClientTransport implements SabTransport {
 
-  private final HttpClient httpClient;
+    private final HttpClient httpClient;
 
-  private final UsernamePasswordCredentials samlCredentials;
-  private final UsernamePasswordCredentials restCredentials;
-  private final URI sabEndpoint;
-  private final URI restEndPoint;
+    private final UsernamePasswordCredentials samlCredentials;
+    private final UsernamePasswordCredentials restCredentials;
+    private final URI sabEndpoint;
+    private final URI restEndPoint;
 
-  @Autowired
-  public HttpClientTransport(@Value("${sab.username}") String sabUserName,
-                             @Value("${sab.password}") String sabPassword,
-                             @Value("${sab-rest.username}") String sabRestUserName,
-                             @Value("${sab-rest.password}") String sabRestPassword,
-                             @Value("${sab.endpoint}") URI sabEndpoint,
-                             @Value("${sab-rest.endpoint}") URI restEndPoint) {
+    @Autowired
+    public HttpClientTransport(@Value("${sab.username}") String sabUserName,
+                               @Value("${sab.password}") String sabPassword,
+                               @Value("${sab-rest.username}") String sabRestUserName,
+                               @Value("${sab-rest.password}") String sabRestPassword,
+                               @Value("${sab.endpoint}") URI sabEndpoint,
+                               @Value("${sab-rest.endpoint}") URI restEndPoint) {
 
-    this.samlCredentials = new UsernamePasswordCredentials(sabUserName, sabPassword);
-    this.restCredentials = new UsernamePasswordCredentials(sabRestUserName, sabRestPassword);
-    this.sabEndpoint = sabEndpoint;
-    this.restEndPoint = restEndPoint;
+        this.samlCredentials = new UsernamePasswordCredentials(sabUserName, sabPassword);
+        this.restCredentials = new UsernamePasswordCredentials(sabRestUserName, sabRestPassword);
+        this.sabEndpoint = sabEndpoint;
+        this.restEndPoint = restEndPoint;
 
-    RequestConfig requestConfig = RequestConfig.custom()
-        .setConnectTimeout(2000)
-        .setConnectionRequestTimeout(2000)
-        .setSocketTimeout(2000).build();
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(2000)
+                .setConnectionRequestTimeout(2000)
+                .setSocketTimeout(2000).build();
 
-    this.httpClient = HttpClients.custom()
-        .setDefaultRequestConfig(requestConfig)
-        .setConnectionManager(new PoolingHttpClientConnectionManager()).build();
-  }
-
-  @Override
-  public InputStream getResponse(String request) throws IOException {
-    HttpUriRequest httpRequest = RequestBuilder
-        .post()
-        .setUri(sabEndpoint)
-        .setEntity(new StringEntity(request)).build();
-
-    return handleRequest(httpRequest, samlCredentials);
-  }
-
-  @Override
-  public InputStream getRestResponse(String organisationAbbreviation, String role) throws IOException {
-    HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, URLEncoder.encode(organisationAbbreviation, "UTF-8"), URLEncoder.encode(role, "UTF-8")));
-    return handleRequest(httpGet, restCredentials);
-  }
-
-  private InputStream handleRequest(HttpUriRequest request, UsernamePasswordCredentials credentials) throws IOException {
-    request.addHeader(AUTHORIZATION, "Basic " + encodeUserPass(credentials));
-
-    HttpResponse response = httpClient.execute(request);
-
-    if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-      throw new IOException("Failed response: " + response.getStatusLine());
+        this.httpClient = HttpClients.custom()
+                .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(new PoolingHttpClientConnectionManager()).build();
     }
 
-    return response.getEntity().getContent();
-  }
+    @Override
+    public InputStream getResponse(String request) throws IOException {
+        HttpUriRequest httpRequest = RequestBuilder
+                .post()
+                .setUri(sabEndpoint)
+                .setEntity(new StringEntity(request)).build();
 
-  private String encodeUserPass(UsernamePasswordCredentials credentials) {
-    return new String(Base64.encodeBase64(format("%s:%s", credentials.getUserName(), credentials.getPassword()).getBytes()));
-  }
+        return handleRequest(httpRequest, samlCredentials);
+    }
+
+    @Override
+    public InputStream getRestResponse(String organisationAbbreviation, String role) throws IOException {
+        HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, URLEncoder.encode(organisationAbbreviation, "UTF-8"), URLEncoder.encode(role, "UTF-8")));
+        return handleRequest(httpGet, restCredentials);
+    }
+
+    private InputStream handleRequest(HttpUriRequest request, UsernamePasswordCredentials credentials) throws IOException {
+        request.addHeader(AUTHORIZATION, "Basic " + encodeUserPass(credentials));
+
+        HttpResponse response = httpClient.execute(request);
+
+        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            throw new IOException("Failed response: " + response.getStatusLine());
+        }
+
+        return response.getEntity().getContent();
+    }
+
+    private String encodeUserPass(UsernamePasswordCredentials credentials) {
+        return new String(Base64.encodeBase64(format("%s:%s", credentials.getUserName(), credentials.getPassword()).getBytes()));
+    }
 
 }

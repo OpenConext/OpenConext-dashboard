@@ -556,8 +556,8 @@ public class Service implements Comparable<Service>, Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-            .add("id", id)
-            .add("name", name).toString();
+                .add("id", id)
+                .add("name", name).toString();
     }
 
     public void setNameIds(List<String> nameIds) {

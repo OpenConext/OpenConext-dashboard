@@ -1,10 +1,6 @@
 package dashboard.control;
 
-import dashboard.domain.Action;
-import dashboard.domain.CoinAuthority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.Service;
+import dashboard.domain.*;
 import dashboard.filter.EnsureAccessToIdpFilter;
 import dashboard.filter.SpringSecurityUtil;
 import dashboard.manage.EntityType;
@@ -18,11 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.util.*;
@@ -33,9 +28,7 @@ import static dashboard.control.RestDataFixture.serviceWithSpEntityId;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -95,8 +88,8 @@ public class ServicesControllerTest {
         when(servicesMock.getServicesForIdp(IDP_ENTITY_ID, false, Locale.ENGLISH)).thenReturn(services);
 
         this.mockMvc.perform(get("/dashboard/api/services")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.payload.apps").isArray())
                 .andExpect(jsonPath("$.payload.apps[0].name").value(service.getName()));
@@ -110,9 +103,9 @@ public class ServicesControllerTest {
                 .thenReturn(Optional.of(service));
 
         this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
-                EntityType.saml20_sp)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        EntityType.saml20_sp)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.payload.name", is("service-name")))
                 .andExpect(jsonPath("$.payload.id", is(11)));
@@ -126,9 +119,9 @@ public class ServicesControllerTest {
                 .thenReturn(Optional.of(service));
 
         this.mockMvc.perform(get("/dashboard/api/services/detail?spId=" + 11L + "&entityType=" +
-                EntityType.saml20_sp)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        EntityType.saml20_sp)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.payload." + EnrichJson.FILTERED_USER_ATTRIBUTES).isArray());
     }
@@ -139,8 +132,8 @@ public class ServicesControllerTest {
                 .thenReturn(Optional.empty());
 
         this.mockMvc.perform(get("/dashboard/api/services/detail?spId=999&entityType=" + EntityType.saml20_sp)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
 
@@ -164,11 +157,11 @@ public class ServicesControllerTest {
                 .getArguments()[0]);
 
         this.mockMvc.perform(
-                post("/dashboard/api/services/connect")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-                        .param("spEntityId", SP_ENTITY_ID)
-                        .param("type", EntityType.saml20_sp.name()))
+                        post("/dashboard/api/services/connect")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+                                .param("spEntityId", SP_ENTITY_ID)
+                                .param("type", EntityType.saml20_sp.name()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
     }
@@ -180,11 +173,11 @@ public class ServicesControllerTest {
         when(actionsServiceMock.create(any(), any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
         this.mockMvc.perform(
-                post("/dashboard/api/services/disconnect")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("spEntityId", SP_ENTITY_ID)
-                        .param("type", EntityType.saml20_sp.name())
-                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        post("/dashboard/api/services/disconnect")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("spEntityId", SP_ENTITY_ID)
+                                .param("type", EntityType.saml20_sp.name())
+                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
     }
@@ -194,11 +187,11 @@ public class ServicesControllerTest {
         coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER));
 
         this.mockMvc.perform(
-                post("/dashboard/api/services/connect")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("spEntityId", SP_ENTITY_ID)
-                        .param("type", EntityType.saml20_sp.name())
-                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
+                        post("/dashboard/api/services/connect")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("spEntityId", SP_ENTITY_ID)
+                                .param("type", EntityType.saml20_sp.name())
+                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isForbidden());
     }
 
@@ -207,13 +200,13 @@ public class ServicesControllerTest {
         coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER));
 
         this.mockMvc.perform(
-                post("/dashboard/api/services/connect")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("spEntityId", SP_ENTITY_ID)
-                        .param("type", EntityType.saml20_sp.name())
-                        .param("type", EntityType.saml20_sp.name())
-                        .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-        )
+                        post("/dashboard/api/services/connect")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("spEntityId", SP_ENTITY_ID)
+                                .param("type", EntityType.saml20_sp.name())
+                                .param("type", EntityType.saml20_sp.name())
+                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
+                )
                 .andExpect(status().isForbidden());
     }
 

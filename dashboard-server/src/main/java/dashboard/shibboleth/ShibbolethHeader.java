@@ -38,9 +38,9 @@ public enum ShibbolethHeader {
 
     public static ShibbolethHeader findByValue(String value) {
         return Arrays.stream(values())
-            .filter(e -> e.getValue().equals(value))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("ShibbolethHeader not found for " + value));
+                .filter(e -> e.getValue().equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("ShibbolethHeader not found for " + value));
     }
 
     public String getValue() {

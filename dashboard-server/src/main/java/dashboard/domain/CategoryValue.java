@@ -16,45 +16,44 @@
 
 package dashboard.domain;
 
+import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.io.Serializable;
 
-import com.google.common.base.MoreObjects;
-
 public class CategoryValue implements Comparable<CategoryValue>, Serializable {
 
-  private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
-  private int count;
-  private String value;
+    private int count;
+    private String value;
 
-  public CategoryValue(String value) {
-    this.value = value;
-  }
+    public CategoryValue(String value) {
+        this.value = value;
+    }
 
-  public void setCount(int count) {
-    this.count = count;
-  }
+    public void setCount(int count) {
+        this.count = count;
+    }
 
-  public int getCount() {
-    return count;
-  }
+    public int getCount() {
+        return count;
+    }
 
-  public String getValue() {
-    return value;
-  }
+    public String getValue() {
+        return value;
+    }
 
-  @Override
-  public int compareTo(CategoryValue o) {
-    return new CompareToBuilder()
-      .append(this.value, o.value)
-      .toComparison();
-  }
+    @Override
+    public int compareTo(CategoryValue o) {
+        return new CompareToBuilder()
+                .append(this.value, o.value)
+                .toComparison();
+    }
 
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(CategoryValue.class)
-        .add("value", value).add("count", count).toString();
-  }
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(CategoryValue.class)
+                .add("value", value).add("count", count).toString();
+    }
 }

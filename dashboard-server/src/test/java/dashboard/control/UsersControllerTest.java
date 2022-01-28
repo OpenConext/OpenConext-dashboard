@@ -2,21 +2,6 @@ package dashboard.control;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.NestedServletException;
 import dashboard.domain.*;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.filter.EnsureAccessToIdpFilter;
@@ -25,26 +10,39 @@ import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.NestedServletException;
 
 import java.io.IOException;
 import java.util.*;
 
+import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
+import static dashboard.control.RestDataFixture.coinUser;
+import static dashboard.control.RestDataFixture.idp;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
-import static dashboard.control.RestDataFixture.coinUser;
-import static dashboard.control.RestDataFixture.idp;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UsersControllerTest {
@@ -70,17 +68,17 @@ public class UsersControllerTest {
         EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manage);
 
         mockMvc = standaloneSetup(controller)
-            .setMessageConverters(new GsonHttpMessageConverter(true))
-            .addFilter(ensureAccessToIdp, "/*")
-            .build();
+                .setMessageConverters(new GsonHttpMessageConverter(true))
+                .addFilter(ensureAccessToIdp, "/*")
+                .build();
 
         SpringSecurityUtil.setAuthentication(coinUser);
 
         when(manage.getIdentityProvider(anyString(), anyBoolean())).thenAnswer(answer -> Optional.of(idp((String) answer
-            .getArguments()[0])));
+                .getArguments()[0])));
         when(manage.getAllIdentityProviders()).thenReturn(ImmutableList.of(idp(BAR_IDP_ENTITY_ID), idp
-            (FOO_IDP_ENTITY_ID)));
-       when(services.getInstitutionalServicesForIdp("my-institution-id", Locale.ENGLISH)).thenReturn(singletonList(service()));
+                (FOO_IDP_ENTITY_ID)));
+        when(services.getInstitutionalServicesForIdp("my-institution-id", Locale.ENGLISH)).thenReturn(singletonList(service()));
 
         RequestAttributes requestAttributes = new ServletRequestAttributes(new MockHttpServletRequest());
         RequestContextHolder.setRequestAttributes(requestAttributes);
@@ -100,21 +98,21 @@ public class UsersControllerTest {
     @Test
     public void returnsCurrentUser() throws Exception {
         mockMvc.perform(get("/dashboard/api/users/me")
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.payload.attributeMap['name-id']").value(coinUser.getUid()))
-            .andExpect(jsonPath("$.payload.uid").value(coinUser.getUid()));
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.payload.attributeMap['name-id']").value(coinUser.getUid()))
+                .andExpect(jsonPath("$.payload.uid").value(coinUser.getUid()));
     }
 
     @Test
     public void returnsIdps() throws Exception {
-       coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
+        coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
 
         mockMvc.perform(get("/dashboard/api/users/super/idps")
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.payload.idps").exists())
-            .andExpect(jsonPath("$.payload.roles").exists());
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.payload.idps").exists())
+                .andExpect(jsonPath("$.payload.roles").exists());
     }
 
     @Test
@@ -122,19 +120,19 @@ public class UsersControllerTest {
         coinUser.setAuthorities(Collections.singleton(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
 
         mockMvc.perform(get("/dashboard/api/users/super/idps")
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isForbidden());
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isForbidden());
     }
 
     @Test
     public void thatIdpCanBeSwitchedToEmpty() throws Exception {
         coinUser.setAuthorities(Sets.newHashSet(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER), new
-            CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
+                CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
         coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name", 1L));
 
         mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp")
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isNoContent());
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isNoContent());
 
         assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_SUPER_USER)));
         assertThat(coinUser.getSwitchedToIdp(), is(Optional.empty()));
@@ -146,8 +144,8 @@ public class UsersControllerTest {
         coinUser.setSwitchedToIdp(new IdentityProvider("idp-id", "idp-institution-id", "idp-name", 1L));
 
         mockMvc.perform(get("/dashboard/api/users/me/switch-to-idp?idpId=" + BAR_IDP_ENTITY_ID)
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isNoContent());
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isNoContent());
 
         assertThat(coinUser.getAuthorities(), contains(new CoinAuthority(Authority.ROLE_DASHBOARD_ADMIN)));
         assertThat(coinUser.getSwitchedToIdp().get().getId(), is(BAR_IDP_ENTITY_ID));
@@ -156,17 +154,17 @@ public class UsersControllerTest {
     @Test
     public void thatIdpCanBeSwitched() throws Exception {
         mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", BAR_IDP_ENTITY_ID,
-            Authority.ROLE_DASHBOARD_ADMIN))
-            .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
-            .andExpect(status().isNoContent());
+                        Authority.ROLE_DASHBOARD_ADMIN))
+                        .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID))
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void cannotSwitchToIdpWithoutAccessToIt() throws Exception {
         try {
             mockMvc.perform(get(format("/dashboard/api/users/me/switch-to-idp?idpId=%s&role=%s", "no access",
-                Authority.ROLE_DASHBOARD_ADMIN))
-                .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID));
+                    Authority.ROLE_DASHBOARD_ADMIN))
+                    .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID));
             fail("expected SecurityException");
         } catch (NestedServletException e) {
             assertEquals(SecurityException.class, e.getRootCause().getClass());
@@ -181,9 +179,9 @@ public class UsersControllerTest {
         SpringSecurityUtil.setAuthentication(user);
 
         mockMvc.perform(get("/dashboard/api/users/me/serviceproviders"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.payload").isArray())
-            .andExpect(jsonPath("$.payload").isEmpty());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.payload").isArray())
+                .andExpect(jsonPath("$.payload").isEmpty());
     }
 
     @Test
@@ -202,10 +200,10 @@ public class UsersControllerTest {
 
 
         mockMvc.perform(get("/dashboard/api/users/me/serviceproviders"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.payload").isArray())
-            .andExpect(jsonPath("$.payload", hasSize(1)))
-            .andExpect(jsonPath("$.payload[0].institutionId", is("my-institution-id")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.payload").isArray())
+                .andExpect(jsonPath("$.payload", hasSize(1)))
+                .andExpect(jsonPath("$.payload[0].institutionId", is("my-institution-id")));
     }
 
     @Test
@@ -233,7 +231,7 @@ public class UsersControllerTest {
         service.setSpEntityId("spEntityId");
         servicesOfIdp.add(service);
 
-        when(services.getInstitutionalServicesForIdp(idp.getInstitutionId(),Locale.ENGLISH)).thenReturn(servicesOfIdp);
+        when(services.getInstitutionalServicesForIdp(idp.getInstitutionId(), Locale.ENGLISH)).thenReturn(servicesOfIdp);
 
         List<Change> changes = controller.getChanges(Locale.ENGLISH, settings, idp);
         assertEquals(2, changes.size());

@@ -25,29 +25,29 @@ import java.util.List;
 
 public class SabRoleHolder implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private final List<String> roles;
-  private final String organisation;
+    private final List<String> roles;
+    private final String organisation;
 
-  public SabRoleHolder(String organization, List<String> roles) {
-    this.organisation = organization;
-    this.roles = Collections.unmodifiableList(roles);
-  }
+    public SabRoleHolder(String organization, List<String> roles) {
+        this.organisation = organization;
+        this.roles = Collections.unmodifiableList(roles);
+    }
 
-  public String getOrganisation() {
-    return organisation;
-  }
+    public String getOrganisation() {
+        return organisation;
+    }
 
-  public List<String> getRoles() {
-    return roles;
-  }
+    public List<String> getRoles() {
+        return roles;
+    }
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-      .append("organisation", organisation)
-      .append("roles", roles)
-      .toString();
-  }
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("organisation", organisation)
+                .append("roles", roles)
+                .toString();
+    }
 }

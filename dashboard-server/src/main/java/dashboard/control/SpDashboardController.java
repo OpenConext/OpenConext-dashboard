@@ -1,12 +1,6 @@
 package dashboard.control;
 
-import dashboard.domain.Action;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.ContactPersonType;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.InviteRequest;
-import dashboard.domain.ServiceConnectionRequest;
-import dashboard.domain.ServiceProvider;
+import dashboard.domain.*;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
@@ -26,11 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 

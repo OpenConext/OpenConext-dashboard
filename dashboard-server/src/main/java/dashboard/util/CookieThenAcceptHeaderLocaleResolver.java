@@ -1,19 +1,14 @@
 package dashboard.util;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.common.collect.ImmutableList;
-
-import dashboard.manage.UrlResourceManage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 public class CookieThenAcceptHeaderLocaleResolver extends CookieLocaleResolver {
 

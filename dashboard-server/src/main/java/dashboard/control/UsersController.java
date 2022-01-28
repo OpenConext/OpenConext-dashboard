@@ -1,22 +1,7 @@
 package dashboard.control;
 
-import dashboard.domain.Action;
-import dashboard.domain.Change;
+import dashboard.domain.*;
 import dashboard.domain.CoinAuthority.Authority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.Consent;
-import dashboard.domain.ConsentType;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.InviteRequest;
-import dashboard.domain.JiraFilter;
-import dashboard.domain.LoaLevelChange;
-import dashboard.domain.Provider;
-import dashboard.domain.ResendInviteRequest;
-import dashboard.domain.Service;
-import dashboard.domain.ServiceProvider;
-import dashboard.domain.Settings;
-import dashboard.domain.UpdateInviteRequest;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
@@ -32,27 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -310,9 +280,9 @@ public class UsersController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/surfsecureid", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateSurfSecureId(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                                      @RequestBody LoaLevelChange loaLevelChange) throws IOException {
+                                                                   @RequestBody LoaLevelChange loaLevelChange) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin() ) {
+        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin()) {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

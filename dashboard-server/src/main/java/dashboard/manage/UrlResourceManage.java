@@ -1,6 +1,5 @@
 package dashboard.manage;
 
-import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.domain.ServiceProvider;
 import dashboard.util.SpringSecurity;
@@ -14,11 +13,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -161,14 +156,14 @@ public class UrlResourceManage implements Manage {
     @Override
     public List<ServiceProvider> getLinkedServiceProviders(String idpId) {
         String query = linkedQuery.replace("@@entityid@@", idpId);
-        return rawSearchProviders(query, EntityType.saml20_sp,  EntityType.oidc10_rp);
+        return rawSearchProviders(query, EntityType.saml20_sp, EntityType.oidc10_rp);
     }
 
     @Override
     public List<ServiceProvider> getByEntityIdin(List<String> entityIds) {
         String split = entityIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.joining(","));
         String query = findByEntityIdIn.replace("@@entityids@@", split);
-        return rawSearchProviders(query, EntityType.saml20_sp,  EntityType.oidc10_rp);
+        return rawSearchProviders(query, EntityType.saml20_sp, EntityType.oidc10_rp);
     }
 
     private List<ServiceProvider> rawSearchProviders(String query, EntityType... types) {
@@ -272,7 +267,7 @@ public class UrlResourceManage implements Manage {
             body.put("user", SpringSecurity.getCurrentUser().getDisplayName());
             body.put("userUrn", SpringSecurity.getCurrentUser().getUid());
 
-            ResponseEntity<byte[]> responseEntity = restTemplate.exchange (url, HttpMethod.PUT,
+            ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
                 return "success";

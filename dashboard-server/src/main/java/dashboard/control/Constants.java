@@ -1,12 +1,12 @@
 package dashboard.control;
 
+import dashboard.domain.CoinUser;
+import dashboard.domain.IdentityProvider;
+import dashboard.util.SpringSecurity;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.codec.Base64;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.util.SpringSecurity;
 
 public interface Constants {
 

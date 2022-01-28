@@ -16,14 +16,13 @@
 
 package dashboard.domain;
 
-import java.io.Serializable;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 import dashboard.sab.SabPerson;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
 
 /**
  *
@@ -31,101 +30,102 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XStreamAlias("ContactPerson")
 public class ContactPerson implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @XStreamAlias("Name")
-  private String name;
+    @XStreamAlias("Name")
+    private String name;
 
-  @XStreamAlias("EmailAddress")
-  private String emailAddress;
+    @XStreamAlias("EmailAddress")
+    private String emailAddress;
 
-  @XStreamAlias("TelephoneNumber")
-  private String telephoneNumber;
+    @XStreamAlias("TelephoneNumber")
+    private String telephoneNumber;
 
-  @XStreamAlias("contactType")
-  @XStreamAsAttribute
-  private ContactPersonType contactPersonType;
+    @XStreamAlias("contactType")
+    @XStreamAsAttribute
+    private ContactPersonType contactPersonType;
 
-  @XStreamAsAttribute
-  private boolean sirtfiSecurityContact;
+    @XStreamAsAttribute
+    private boolean sirtfiSecurityContact;
 
-  @XStreamAsAttribute
-  private boolean sabContact;
+    @XStreamAsAttribute
+    private boolean sabContact;
 
-  public ContactPerson(String name, String emailAddress, String telephoneNumber, ContactPersonType contactPersonType,
-                       boolean isSirtfiSecurityContact, boolean sabContact) {
-    this.name = name;
-    this.emailAddress = emailAddress;
-    this.telephoneNumber = telephoneNumber;
-    this.contactPersonType = contactPersonType;
-    this.sirtfiSecurityContact = isSirtfiSecurityContact;
-    this.sabContact = sabContact;
-  }
+    public ContactPerson(String name, String emailAddress, String telephoneNumber, ContactPersonType contactPersonType,
+                         boolean isSirtfiSecurityContact, boolean sabContact) {
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.telephoneNumber = telephoneNumber;
+        this.contactPersonType = contactPersonType;
+        this.sirtfiSecurityContact = isSirtfiSecurityContact;
+        this.sabContact = sabContact;
+    }
 
-  public ContactPerson(SabPerson sabPerson) {
-    this.name = sabPerson.fullname();
-    this.emailAddress = sabPerson.getEmail();
-    this.contactPersonType = ContactPersonType.administrative;
-    this.sirtfiSecurityContact = false;
-    this.sabContact = true;
-  }
+    public ContactPerson(SabPerson sabPerson) {
+        this.name = sabPerson.fullname();
+        this.emailAddress = sabPerson.getEmail();
+        this.contactPersonType = ContactPersonType.administrative;
+        this.sirtfiSecurityContact = false;
+        this.sabContact = true;
+    }
 
-  public ContactPerson() {
-  }
+    public ContactPerson() {
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getEmailAddress() {
-    return emailAddress;
-  }
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
-  }
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
-  public ContactPersonType getContactPersonType() {
-    return contactPersonType;
-  }
+    public ContactPersonType getContactPersonType() {
+        return contactPersonType;
+    }
 
-  public void setContactPersonType(ContactPersonType contactPersonType) {
-    this.contactPersonType = contactPersonType;
-  }
+    public void setContactPersonType(ContactPersonType contactPersonType) {
+        this.contactPersonType = contactPersonType;
+    }
 
-  public boolean isSirtfiSecurityContact() {
-    return sirtfiSecurityContact;
-  }
+    public boolean isSirtfiSecurityContact() {
+        return sirtfiSecurityContact;
+    }
 
-  public void setSirtfiSecurityContact(boolean sirtfiSecurityContact) {
-    this.sirtfiSecurityContact = sirtfiSecurityContact;
-  }
+    public void setSirtfiSecurityContact(boolean sirtfiSecurityContact) {
+        this.sirtfiSecurityContact = sirtfiSecurityContact;
+    }
 
-  public boolean isSabContact() {
-    return sabContact;
-  }
+    public boolean isSabContact() {
+        return sabContact;
+    }
 
-  public void setSabContact(boolean sabContact) {
-    this.sabContact = sabContact;
-  }
+    public void setSabContact(boolean sabContact) {
+        this.sabContact = sabContact;
+    }
 
-  public String getTelephoneNumber() {
-    return telephoneNumber;
-  }
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
 
-  public void setTelephoneNumber(String telephoneNumber) {
-    this.telephoneNumber = telephoneNumber;
-  }
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("name", name)
-        .append("email", emailAddress)
-        .append("type", contactPersonType)
-        .toString();
-  }
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("name", name)
+                .append("email", emailAddress)
+                .append("type", contactPersonType)
+                .toString();
+    }
 
 }

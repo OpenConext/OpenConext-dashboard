@@ -2,7 +2,6 @@ package dashboard.control;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
 import dashboard.domain.Category;
 import dashboard.domain.CategoryValue;
 import org.junit.Before;

@@ -1,12 +1,11 @@
 package dashboard.stats;
 
 import com.google.common.collect.ImmutableList;
+import dashboard.control.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
-import dashboard.control.Constants;
-
 
 import java.util.List;
 import java.util.Optional;

@@ -18,7 +18,7 @@ public interface Services {
                                            Locale locale) throws IOException;
 
     Optional<Service> getServiceById(String idpEntityId, Long spId, EntityType entityType,
-                                           Locale locale) throws IOException;
+                                     Locale locale) throws IOException;
 
     List<Service> getInstitutionalServicesForIdp(String institutionId, Locale locale) throws IOException;
 

@@ -18,85 +18,85 @@
  */
 package dashboard.domain;
 
-import java.io.Serializable;
-
 import com.google.common.base.MoreObjects;
+
+import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class InstitutionIdentityProvider implements Serializable {
 
-  private String id;
-  private String name;
-  private String nameNl;
-  private String institutionId;
-  private String state;
-  private String logoUrl;
+    private String id;
+    private String name;
+    private String nameNl;
+    private String institutionId;
+    private String state;
+    private String logoUrl;
 
-  public InstitutionIdentityProvider() {
-  }
-
-
-  public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId, String state, String logoUrl) {
-    this.id = id;
-    this.name = name;
-    this.nameNl = nameNl;
-    this.institutionId = institutionId;
-    this.logoUrl = logoUrl;
-    this.state = state;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getInstitutionId() {
-    return institutionId;
-  }
-
-  public void setInstitutionId(String institutionId) {
-    this.institutionId = institutionId;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public String getLogoUrl() {
-    return logoUrl;
-  }
-
-  public void setLogoUrl(String logoUrl) {
-    this.logoUrl = logoUrl;
-  }
-
-  public String getNameNl() {
-    return nameNl;
-  }
-
-  public void setNameNl(String nameNl) {
-    this.nameNl = nameNl;
-  }
+    public InstitutionIdentityProvider() {
+    }
 
 
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
-  }
+    public InstitutionIdentityProvider(String id, String name, String nameNl, String institutionId, String state, String logoUrl) {
+        this.id = id;
+        this.name = name;
+        this.nameNl = nameNl;
+        this.institutionId = institutionId;
+        this.logoUrl = logoUrl;
+        this.state = state;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getInstitutionId() {
+        return institutionId;
+    }
+
+    public void setInstitutionId(String institutionId) {
+        this.institutionId = institutionId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getNameNl() {
+        return nameNl;
+    }
+
+    public void setNameNl(String nameNl) {
+        this.nameNl = nameNl;
+    }
+
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
+    }
 
 }

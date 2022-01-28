@@ -1,20 +1,16 @@
 package dashboard.service.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static dashboard.domain.Action.Type.*;
-import static dashboard.domain.Action.Type.UNLINKREQUEST;
-import static dashboard.domain.Action.Type.CHANGE;
+import com.google.common.base.MoreObjects;
+import dashboard.domain.Action;
+import dashboard.domain.Change;
+import dashboard.domain.Settings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.google.common.base.MoreObjects;
-
-import dashboard.domain.Action;
-import dashboard.domain.Change;
-import dashboard.domain.LicenseStatus;
-import dashboard.domain.Settings;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static dashboard.domain.Action.Type.*;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 
@@ -51,7 +47,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
                     append(action.getIdpId()).
                     append(" to SP ").
                     append(action.getSpId());
-        }else if (UNLINKREQUEST.equals(action.getType())) {
+        } else if (UNLINKREQUEST.equals(action.getType())) {
             description.append("Request: terminate a connection").append("\n");
             summary.
                     append("Disconnect IdP ").

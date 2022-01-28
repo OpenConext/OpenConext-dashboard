@@ -15,17 +15,18 @@
  */
 package dashboard.domain;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
-
-import org.apache.commons.lang3.builder.CompareToBuilder;
 
 public class Action {
 
     public enum Type {
         LINKREQUEST, UNLINKREQUEST, CHANGE, LINKINVITE;
     }
+
     private String jiraKey;
     private String userName;
     private String userEmail;

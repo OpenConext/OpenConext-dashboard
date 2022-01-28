@@ -15,15 +15,7 @@
  */
 package dashboard.service.impl;
 
-import dashboard.domain.Action;
-import dashboard.domain.Change;
-import dashboard.domain.ContactPerson;
-import dashboard.domain.ContactPersonType;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.JiraFilter;
-import dashboard.domain.JiraResponse;
-import dashboard.domain.Provider;
-import dashboard.domain.ServiceProvider;
+import dashboard.domain.*;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
@@ -38,16 +30,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -246,7 +231,7 @@ public class ActionsServiceImpl implements ActionsService {
                     return contactPersons.stream()
                             .filter(cp -> contactPersonType.equals(cp.getContactPersonType()))
                             .map(ContactPerson::getEmailAddress).
-                                    collect(toList());
+                            collect(toList());
                 }
             }
             return null;

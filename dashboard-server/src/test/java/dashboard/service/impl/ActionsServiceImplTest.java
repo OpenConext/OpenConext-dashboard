@@ -3,26 +3,22 @@ package dashboard.service.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dashboard.domain.*;
+import dashboard.manage.EntityType;
+import dashboard.manage.Manage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import dashboard.manage.EntityType;
-import dashboard.manage.Manage;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -61,7 +57,7 @@ public class ActionsServiceImplTest {
         when(manageMock.getServiceProvider("sp", EntityType.oidc10_rp, true)).thenReturn(Optional.empty());
         when(manageMock.getServiceProvider("sp", EntityType.single_tenant_template, true)).thenReturn(Optional.empty());
 
-        when(jiraClientMock.searchTasks(anyString(), Matchers.any(JiraFilter.class))).thenReturn(result);
+        when(jiraClientMock.searchTasks(anyString(), any(JiraFilter.class))).thenReturn(result);
 
         JiraResponse response = service.searchTasks("idp", new JiraFilter());
         List<Action> actions = response.getIssues();

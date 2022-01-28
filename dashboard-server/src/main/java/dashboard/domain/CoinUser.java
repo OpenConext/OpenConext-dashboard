@@ -16,30 +16,18 @@
 
 package dashboard.domain;
 
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_MEMBER;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import org.springframework.util.StringUtils;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.shibboleth.ShibbolethHeader;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static dashboard.domain.CoinAuthority.Authority.*;
 
 @SuppressWarnings("serial")
 public class CoinUser implements UserDetails {
@@ -155,9 +143,13 @@ public class CoinUser implements UserDetails {
     }
 
 
-    public String getGivenName() { return givenName; }
+    public String getGivenName() {
+        return givenName;
+    }
 
-    public void setGivenName(String givenName) { this.givenName = givenName; }
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
 
     /**
      * @return schac home organization of the user

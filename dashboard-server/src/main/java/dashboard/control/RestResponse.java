@@ -7,23 +7,23 @@ import java.util.Locale;
  */
 public class RestResponse<T> {
 
-  private T payload;
-  private String language;
+    private T payload;
+    private String language;
 
-  public static <T> RestResponse<T> of(Locale locale, T payload) {
-    return new RestResponse<T>(locale, payload);
-  }
+    public static <T> RestResponse<T> of(Locale locale, T payload) {
+        return new RestResponse<T>(locale, payload);
+    }
 
-  private RestResponse(Locale locale, T payload) {
-    this.payload = payload;
-    this.language = locale.getLanguage();
-  }
+    private RestResponse(Locale locale, T payload) {
+        this.payload = payload;
+        this.language = locale.getLanguage();
+    }
 
-  public T getPayload() {
-    return payload;
-  }
+    public T getPayload() {
+        return payload;
+    }
 
-  public String getLanguage() {
-    return language;
-  }
+    public String getLanguage() {
+        return language;
+    }
 }

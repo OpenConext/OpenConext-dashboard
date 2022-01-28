@@ -14,9 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 
 public interface Manage {
 
@@ -184,5 +182,5 @@ public interface Manage {
         return result;
     }
 
-    String connectWithoutInteraction( String idpId, String spId, String type);
+    String connectWithoutInteraction(String idpId, String spId, String type);
 }

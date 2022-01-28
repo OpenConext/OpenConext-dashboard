@@ -22,35 +22,33 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SabResponseParserTest {
 
-  @Test
-  public void testParse() throws IOException {
-    InputStream stream = this.getClass().getResourceAsStream("/response.xml");
+    @Test
+    public void testParse() throws IOException {
+        InputStream stream = this.getClass().getResourceAsStream("/response.xml");
 
-    SabRoleHolder srh = new SabResponseParser().parse(stream);
+        SabRoleHolder srh = new SabResponseParser().parse(stream);
 
-    assertEquals("SURFNET", srh.getOrganisation());
-    assertTrue("roles should contain Infraverantwoordelijke", srh.getRoles().contains("Infraverantwoordelijke"));
-    assertEquals("roles should count 9", 9, srh.getRoles().size());
-  }
+        assertEquals("SURFNET", srh.getOrganisation());
+        assertTrue("roles should contain Infraverantwoordelijke", srh.getRoles().contains("Infraverantwoordelijke"));
+        assertEquals("roles should count 9", 9, srh.getRoles().size());
+    }
 
-  @Test
-  public void nameIdNotFoundShouldNotThrowException() throws IOException {
-    InputStream stream = this.getClass().getResourceAsStream("/response-nameidnotfound.xml");
+    @Test
+    public void nameIdNotFoundShouldNotThrowException() throws IOException {
+        InputStream stream = this.getClass().getResourceAsStream("/response-nameidnotfound.xml");
 
-    SabRoleHolder srh = new SabResponseParser().parse(stream);
-    assertNotNull(srh);
-    assertEquals(0, srh.getRoles().size());
-  }
+        SabRoleHolder srh = new SabResponseParser().parse(stream);
+        assertNotNull(srh);
+        assertEquals(0, srh.getRoles().size());
+    }
 
-  @Test(expected = IOException.class)
-  public void blockedByAclShouldThrowException() throws IOException {
-    InputStream stream = this.getClass().getResourceAsStream("/response-aclblocked.xml");
-    new SabResponseParser().parse(stream);
-  }
+    @Test(expected = IOException.class)
+    public void blockedByAclShouldThrowException() throws IOException {
+        InputStream stream = this.getClass().getResourceAsStream("/response-aclblocked.xml");
+        new SabResponseParser().parse(stream);
+    }
 }

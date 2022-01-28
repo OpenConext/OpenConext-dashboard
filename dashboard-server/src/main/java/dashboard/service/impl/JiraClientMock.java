@@ -16,17 +16,15 @@
 package dashboard.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import dashboard.domain.Action;
+import dashboard.domain.Change;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dashboard.domain.Action;
-import dashboard.domain.Change;
 
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 

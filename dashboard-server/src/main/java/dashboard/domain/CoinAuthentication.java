@@ -5,21 +5,21 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 @SuppressWarnings("serial")
 public class CoinAuthentication extends PreAuthenticatedAuthenticationToken {
 
-  private CoinUser coinUser;
+    private CoinUser coinUser;
 
-  public CoinAuthentication(CoinUser coinUser) {
-    super(coinUser, "N/A", coinUser.getAuthorities());
-    this.coinUser = coinUser;
-  }
+    public CoinAuthentication(CoinUser coinUser) {
+        super(coinUser, "N/A", coinUser.getAuthorities());
+        this.coinUser = coinUser;
+    }
 
 
-  @Override
-  public Object getCredentials() {
-    return null;
-  }
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
 
-  @Override
-  public Object getPrincipal() {
-    return coinUser;
-  }
+    @Override
+    public Object getPrincipal() {
+        return coinUser;
+    }
 }

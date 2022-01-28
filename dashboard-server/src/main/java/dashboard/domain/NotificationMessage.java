@@ -25,26 +25,26 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class NotificationMessage implements Serializable {
 
-  private List<String> messageKeys = new ArrayList<>();
-  private List<Service> arguments = new ArrayList<>();
+    private List<String> messageKeys = new ArrayList<>();
+    private List<Service> arguments = new ArrayList<>();
 
-  public NotificationMessage() {
-    super();
-  }
+    public NotificationMessage() {
+        super();
+    }
 
-  public List<String> getMessageKeys() {
-    return messageKeys;
-  }
+    public List<String> getMessageKeys() {
+        return messageKeys;
+    }
 
-  public void addMessageKey(String messageKey) {
-    this.messageKeys.add(messageKey);
-  }
+    public void addMessageKey(String messageKey) {
+        this.messageKeys.add(messageKey);
+    }
 
-  public List<Service> getArguments() {
-    return arguments;
-  }
+    public List<Service> getArguments() {
+        return arguments;
+    }
 
-  public void addArguments(List<Service> arguments) {
-    this.arguments.addAll(arguments);
-  }
+    public void addArguments(List<Service> arguments) {
+        this.arguments.addAll(arguments);
+    }
 }

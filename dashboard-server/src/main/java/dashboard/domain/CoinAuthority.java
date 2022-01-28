@@ -16,11 +16,10 @@
 
 package dashboard.domain;
 
-import java.util.EnumSet;
-
 import com.google.common.base.MoreObjects;
-
 import org.springframework.security.core.GrantedAuthority;
+
+import java.util.EnumSet;
 
 /**
  * Simple implementation of a {@link GrantedAuthority}
@@ -28,54 +27,54 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressWarnings("serial")
 public class CoinAuthority implements GrantedAuthority {
 
-  private final Authority authority;
+    private final Authority authority;
 
-  public enum Authority {
-    ROLE_DASHBOARD_ADMIN,
-    ROLE_DASHBOARD_VIEWER,
-    ROLE_DASHBOARD_MEMBER,
-    ROLE_DASHBOARD_GUEST,
-    ROLE_DASHBOARD_SUPER_USER;
+    public enum Authority {
+        ROLE_DASHBOARD_ADMIN,
+        ROLE_DASHBOARD_VIEWER,
+        ROLE_DASHBOARD_MEMBER,
+        ROLE_DASHBOARD_GUEST,
+        ROLE_DASHBOARD_SUPER_USER;
 
-    private static final EnumSet<Authority> dashboardAuthorities =
-            EnumSet.of(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_GUEST, ROLE_DASHBOARD_MEMBER, ROLE_DASHBOARD_SUPER_USER, ROLE_DASHBOARD_VIEWER);
+        private static final EnumSet<Authority> dashboardAuthorities =
+                EnumSet.of(ROLE_DASHBOARD_ADMIN, ROLE_DASHBOARD_GUEST, ROLE_DASHBOARD_MEMBER, ROLE_DASHBOARD_SUPER_USER, ROLE_DASHBOARD_VIEWER);
 
-    public boolean isDashboardAuthority() {
-      return dashboardAuthorities.contains(this);
+        public boolean isDashboardAuthority() {
+            return dashboardAuthorities.contains(this);
+        }
+
     }
 
-  }
+    public CoinAuthority(Authority authority) {
+        this.authority = authority;
+    }
 
-  public CoinAuthority(Authority authority) {
-    this.authority = authority;
-  }
+    @Override
+    public String getAuthority() {
+        return authority.name();
+    }
 
-  @Override
-  public String getAuthority() {
-    return authority.name();
-  }
+    public Authority getEnumAuthority() {
+        return authority;
+    }
 
-  public Authority getEnumAuthority() {
-    return authority;
-  }
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("authority", authority)
+                .toString();
+    }
 
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("authority", authority)
-      .toString();
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+        CoinAuthority that = (CoinAuthority) o;
+        return authority == that.authority;
+    }
 
-    CoinAuthority that = (CoinAuthority) o;
-    return authority == that.authority;
-  }
-
-  @Override
-  public int hashCode() {
-    return authority != null ? authority.hashCode() : 0;
-  }
+    @Override
+    public int hashCode() {
+        return authority != null ? authority.hashCode() : 0;
+    }
 }

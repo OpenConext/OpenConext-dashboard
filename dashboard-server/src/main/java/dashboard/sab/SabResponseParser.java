@@ -46,10 +46,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static javax.xml.transform.OutputKeys.ENCODING;
-import static javax.xml.transform.OutputKeys.INDENT;
-import static javax.xml.transform.OutputKeys.METHOD;
-import static javax.xml.transform.OutputKeys.OMIT_XML_DECLARATION;
+import static javax.xml.transform.OutputKeys.*;
 
 /**
  * XPath parser for SAB responses.

@@ -1,21 +1,21 @@
 package dashboard.shibboleth;
 
 import com.google.common.collect.ImmutableList;
+import dashboard.domain.CoinAuthority;
+import dashboard.domain.CoinUser;
+import dashboard.domain.IdentityProvider;
 import dashboard.domain.JiraResponse;
+import dashboard.manage.Manage;
+import dashboard.sab.Sab;
+import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
-import dashboard.domain.CoinAuthority;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.manage.Manage;
-import dashboard.sab.Sab;
-import dashboard.sab.SabRoleHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -23,22 +23,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import static dashboard.domain.CoinAuthority.Authority.*;
+import static dashboard.shibboleth.ShibbolethHeader.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_SUPER_USER;
-import static dashboard.domain.CoinAuthority.Authority.ROLE_DASHBOARD_VIEWER;
-import static dashboard.shibboleth.ShibbolethHeader.Name_Id;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_Authenticating_Authority;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_EduPersonEntitlement;
-import static dashboard.shibboleth.ShibbolethHeader.Shib_MemberOf;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
@@ -66,7 +61,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setManageConsentEnabled(true);
 
         when(sab.getRoles(anyString())).thenReturn(Optional.empty());
-        when(jiraClient.searchTasks(anyString(), anyObject())).thenReturn(new JiraResponse(new ArrayList<>(), 0, 0, 1));
+        when(jiraClient.searchTasks(anyString(), any())).thenReturn(new JiraResponse(new ArrayList<>(), 0, 0, 1));
     }
 
     @Test

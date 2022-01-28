@@ -48,7 +48,9 @@ public class SabPerson {
         return uid;
     }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
     public List<SabRole> getRoles() {
         return roles;

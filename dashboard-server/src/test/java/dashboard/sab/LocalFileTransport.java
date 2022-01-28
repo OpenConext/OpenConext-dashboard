@@ -21,21 +21,21 @@ import java.io.InputStream;
 
 public class LocalFileTransport implements SabTransport {
 
-  private String filename;
-  private final String restFileName;
+    private String filename;
+    private final String restFileName;
 
-  public LocalFileTransport(String filename, String restFileName) {
-    this.filename = filename;
-    this.restFileName = restFileName;
-  }
+    public LocalFileTransport(String filename, String restFileName) {
+        this.filename = filename;
+        this.restFileName = restFileName;
+    }
 
-  @Override
-  public InputStream getResponse(String request) throws IOException {
-    return this.getClass().getResourceAsStream(filename);
-  }
+    @Override
+    public InputStream getResponse(String request) throws IOException {
+        return this.getClass().getResourceAsStream(filename);
+    }
 
-  @Override
-  public InputStream getRestResponse(String organisationAbbreviation, String role) {
-    return this.getClass().getResourceAsStream(restFileName);
-  }
+    @Override
+    public InputStream getRestResponse(String organisationAbbreviation, String role) {
+        return this.getClass().getResourceAsStream(restFileName);
+    }
 }

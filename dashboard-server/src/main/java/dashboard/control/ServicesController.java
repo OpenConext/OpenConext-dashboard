@@ -63,8 +63,8 @@ public class ServicesController extends BaseController {
         //ensure we make the values unique
         return groupedCategories.entrySet().stream().map(entry -> {
             List<CategoryValue> categoryValues = entry.getValue().stream().map(cat -> cat.getValues().stream().map
-                    (CategoryValue::getValue)).flatMap(Function.identity()).collect(toSet()).stream().map
-                    (CategoryValue::new)
+                            (CategoryValue::getValue)).flatMap(Function.identity()).collect(toSet()).stream().map
+                            (CategoryValue::new)
                     .collect(toList());
             return new Category(entry.getKey(), "type_of_service", categoryValues);
         }).collect(toList());
