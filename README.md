@@ -15,10 +15,10 @@ The OpenConext dashboard is the module that can be used by people managing an Id
 
 ### [System Requirements](#system_requirements)
 
-- Java 8
+- Java 11
 - Maven 3
 - NodeJS v14.17.3 (best managed with `nvm`, current version in [.nvmrc](dashboard-gui/.nvmrc)
-- yarn 1.1.0
+- yarn
 
 ## [Building and running](#building_and_running)
 
