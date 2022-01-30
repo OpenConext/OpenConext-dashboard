@@ -37,6 +37,7 @@ public class CoinUser implements UserDetails {
     private String givenName;
     private String surName;
     private String schacHomeOrganization;
+
     private IdentityProvider currentIdp;
     private IdentityProvider switchedToIdp;
     private List<IdentityProvider> institutionIdps = new ArrayList<>();
@@ -342,6 +343,10 @@ public class CoinUser implements UserDetails {
 
     public void setInvitationRequestEntities(Set<String> invitationRequestEntities) {
         this.invitationRequestEntities = invitationRequestEntities;
+    }
+
+    public IdentityProvider getCurrentIdp() {
+        return currentIdp;
     }
 
     @Override

@@ -4,5 +4,6 @@
 
   <logger name="dashboard" level="DEBUG" />
   <logger name="org.springframework" level="INFO" />
+  <logger name="org.springframework.security" level="TRACE" />
 
 </configuration>

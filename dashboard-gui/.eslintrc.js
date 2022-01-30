@@ -27,7 +27,7 @@ module.exports = {
   },
   rules: {
     'react/prop-types': 0,
-    'prettier/prettier': 'error',
+    'prettier/prettier': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     'react/no-unescaped-entities': 'warn',

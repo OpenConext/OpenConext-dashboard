@@ -402,8 +402,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   // Filter by search query
   const filteredApps = apps
     .filter((app) => {
-      return [...Object.values(app.descriptions), ...Object.values(app.names)].some(
-        (name) => name.toLowerCase().indexOf(searchQuery) > -1 || app.spEntityId.toLowerCase().indexOf(searchQuery) > -1
+      return [...Object.values(app.descriptions), ...Object.values(app.names)]
+          .filter(name => !isEmpty(name))
+          .some(name => name.toLowerCase().indexOf(searchQuery) > -1 ||
+              app.spEntityId.toLowerCase().indexOf(searchQuery) > -1
       )
     })
     .filter((app) => {

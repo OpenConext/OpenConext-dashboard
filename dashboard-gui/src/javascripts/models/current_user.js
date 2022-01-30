@@ -35,7 +35,6 @@ class CurrentUser {
     if (this.superUser && this.switchedToIdp) {
       return this.switchedToIdp
     }
-
     return this.switchedToIdp || this.currentIdp
   }
 
