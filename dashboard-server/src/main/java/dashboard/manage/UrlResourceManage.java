@@ -43,12 +43,11 @@ public class UrlResourceManage implements Manage {
             String username,
             String password,
             String manageBaseUrl) {
-        String basicAuth = "Basic " + new String(Base64.getEncoder().encode((username + ":" + password).getBytes()));
         this.manageBaseUrl = manageBaseUrl;
 
         this.httpHeaders = new HttpHeaders();
         this.httpHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
-        this.httpHeaders.add(HttpHeaders.AUTHORIZATION, basicAuth);
+        this.httpHeaders.setBasicAuth(username, password);
 
         SimpleClientHttpRequestFactory requestFactory = (SimpleClientHttpRequestFactory) restTemplate
                 .getRequestFactory();
