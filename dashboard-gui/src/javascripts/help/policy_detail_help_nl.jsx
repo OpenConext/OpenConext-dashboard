@@ -9,8 +9,8 @@ class PolicyDetailHelpNl extends React.Component {
 
         <p>
           Autorisatieregels definiëren of een gebruiker toegang heeft tot een bepaalde dienst. De keuze wordt gemaakt op
-          basis van de attributen die zijn vrijgegeven door de instelling die tijdens het inloggen de gebruiker heeft
-          geauthentiseerd..
+          basis van de attributen die zijn vrijgegeven door de instelling die de gebruiker heeft
+          geauthenticeerd.
         </p>
 
         <h2>Toegang</h2>
@@ -18,9 +18,9 @@ class PolicyDetailHelpNl extends React.Component {
         <p>Wij raden aan om voor een 'Permit' regel te kiezen in plaats van een 'Deny'.</p>
 
         <p>
-          Het algoritme wat gebruikt wordt om te bepalen of iemand toegang heeft tot een dienst op basis van een
-          autorisatieregel is 'first-applicable'. Dit betekent dat de eerste match van een regel het resultaat - 'Deny'
-          of 'Permit' - bepaald.
+          Het algoritme dat gebruikt wordt om te bepalen of iemand toegang heeft tot een dienst op basis van een
+          autorisatieregel is 'first-applicable'. Dit betekent dat de eerste match van een regel het resultaat bepaalt: 'Deny'
+          of 'Permit'.
         </p>
 
         <p>
@@ -39,7 +39,7 @@ class PolicyDetailHelpNl extends React.Component {
 
         <p>
           De instelling bepaalt voor welke instelling deze autorisatieregel van toepassing is. De instelling in deze
-          context is de 'Identity Provider' die de gebruiker heeft geauthentiseerd. Je kan 0 of meer instellingen
+          context is de 'Identity Provider' die de gebruiker heeft geauthenticeerd. Je kan 0 of meer instellingen
           koppelen aan een autorisatieregel.
         </p>
         <br />
@@ -53,7 +53,7 @@ class PolicyDetailHelpNl extends React.Component {
         <h2>Dienst</h2>
 
         <p>
-          De dienst bepaalt voor welke dienst deze autorisatieregel van toepassing is. Je kan enkel 1 dienst koppelen
+          De dienst bepaalt voor welke dienst deze autorisatieregel van toepassing is. Je kunt precies 1 dienst koppelen
           aan een autorisatieregel.
         </p>
 
@@ -80,8 +80,7 @@ class PolicyDetailHelpNl extends React.Component {
 
         <p>
           Let op als je het attribuut <em>urn:collab:group:surfteams.nl</em> kiest. De waarde(s) van dit attribuut
-          moeten de geldige en volledige ID zijn van een groep. Neem contact op met de verantwoordelijke product manager
-          als je twijfelt over de juiste waarde.
+          moeten de geldige en volledige ID zijn van een groep zoals weergegeven in SURFconext Teams.
         </p>
       </div>
     )

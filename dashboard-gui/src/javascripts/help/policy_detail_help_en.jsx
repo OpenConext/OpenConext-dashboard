@@ -18,7 +18,7 @@ class PolicyDetailHelpEn extends React.Component {
 
         <p>
           The algorithm we use to determine if someone is allowed access based on the rules in the policy is
-          'first-applicable'. This means that the first rule which holds true is the rule determining the result - e.g.
+          'first-applicable'. This means that the first rule which holds true is the rule determining the result - i.e.
           Deny or Permit.
         </p>
 
@@ -75,8 +75,7 @@ class PolicyDetailHelpEn extends React.Component {
 
         <p>
           Special care must be taken when you choose <em>urn:collab:group:surfteams.nl</em> as a required attribute. The
-          value must be the fully qualified group name where the user is a member of. Please consult the responsible
-          technical product manager how to retrieve the fully qualified name of a certain group / team.
+          value must be the fully qualified group name where the user is a member of, as displayed in SURFconext Teams.
         </p>
       </div>
     )

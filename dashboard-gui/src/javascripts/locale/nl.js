@@ -423,7 +423,7 @@ I18n.translations.nl = {
     minimal_consent: 'Toon informatiescherm (vraag de gebruiker niet expliciet om toestemming)',
     default_consent: 'Vraag de gebruiker expliciet om toestemming (consent) voor het vrijgeven van attributen',
     consent_value: 'Type toestemming',
-    consent_value_tooltip: 'Het type toestemming bepaald hoe en of de gebruiker voor toestemming wordt gevraagd.',
+    consent_value_tooltip: 'Het type toestemming bepaalt hoe en of de gebruiker voor toestemming wordt gevraagd.',
     explanationNl: 'Nederlands bericht',
     explanationNl_tooltip:
       'Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers',
