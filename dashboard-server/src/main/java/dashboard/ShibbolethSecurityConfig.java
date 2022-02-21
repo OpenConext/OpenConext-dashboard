@@ -97,7 +97,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${loa_values_supported}")
     private String loaLevels;
 
-
     @Bean
     public FilterRegistrationBean mockShibbolethFilter() {
         FilterRegistrationBean shibFilter = new FilterRegistrationBean();

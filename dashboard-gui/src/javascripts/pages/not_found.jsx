@@ -2,6 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
+import {login} from "../utils/utils";
 
 class NotFound extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class NotFound extends React.Component {
             {currentUser.guest && (
               <li>
                 <span>{I18n.t('not_found.reasonLoginPre')}</span>
-                <a href={`/login?redirect_url=${encodeURIComponent(window.location.href)}`}>Login</a>
+                <a href="/login" onClick={e => login(e)}>Login</a>
                 <span>{I18n.t('not_found.reasonLoginPost')}</span>
               </li>
             )}

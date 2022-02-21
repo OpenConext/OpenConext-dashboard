@@ -11,13 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RestController
 public class LoginController {
 
     @Value("${mailBaseUrl}")
     private String mailBaseUrl;
+
+    @Value("${loa_values_supported}")
+    private String loaLevels;
 
     @RequestMapping(value = "/startSSO")
     public void login(HttpServletResponse response, @RequestParam("redirect_url") String redirectUrl) throws IOException {
@@ -29,10 +35,29 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login")
-    public void start(HttpServletRequest request, HttpServletResponse response, @RequestParam("redirect_url") String redirectUrl)
+    public void start(HttpServletRequest request, HttpServletResponse response,
+                      @RequestParam("redirect_url") String redirectUrl,
+                      @RequestParam(value = "loa", required = false) Integer loa)
             throws IOException, ServletException {
         SecurityContextHolder.clearContext();
         request.logout();
-        response.sendRedirect("/startSSO?redirect_url=" + redirectUrl);
+        //We could do this client side, but one extra redirect is not a problem
+        String target = "/startSSO?redirect_url=" + redirectUrl;
+        String shibbolethLogin = String.format("/Shibboleth.sso/Login?target=%s%s",
+                URLEncoder.encode(target, Charset.defaultCharset()),
+                convertLoa(loa));
+        response.sendRedirect(shibbolethLogin);
+    }
+
+    private String convertLoa(Integer loa) {
+        if (loa == null) {
+            return "";
+        }
+        String loaLevel = Arrays.stream(this.loaLevels.replaceAll("\"", "").split(","))
+                .map(String::trim)
+                .collect(Collectors.toList())
+                .get(loa - 2);
+        return String.format("&authnContextClassRef=%s", URLEncoder.encode(loaLevel, Charset.defaultCharset()));
+
     }
 }

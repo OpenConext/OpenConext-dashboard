@@ -14,6 +14,7 @@ import Flash from '../components/flash'
 import surfLogo from '../../images/SURF.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import {login} from "../utils/utils";
 
 const UserIndicator = ({ user }) => {
   const givenNameCharacter = user.givenName ? user.givenName[0] : ''
@@ -60,7 +61,7 @@ class Header extends React.Component {
 
             <div className="meta">
               {currentUser.guest && (
-                <a className="login" href={`/login?redirect_url=${encodeURIComponent(window.location.href)}`}>
+                <a className="login" href="/login" onClick={e => login(e)}>
                   Login
                 </a>
               )}

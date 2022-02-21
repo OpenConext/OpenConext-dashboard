@@ -2,16 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import I18n from 'i18n-js'
 import stopEvent from '../utils/stop'
+import Cookies from 'js-cookie'
 
 class Welcome extends React.Component {
+
   constructor() {
     super()
     this.state = { show: true }
   }
 
+  componentDidMount() {
+    const showWelcomeBanner = Cookies.get('show_welcome_banner');
+    this.setState({show: !showWelcomeBanner});
+  }
+
   close = (e) => {
     stopEvent(e)
     this.setState({ show: !this.state.show })
+    Cookies.set('show_welcome_banner', 'true', { secure: window.location.protocol.startsWith("https"), expires: 365 })
   }
 
   render() {

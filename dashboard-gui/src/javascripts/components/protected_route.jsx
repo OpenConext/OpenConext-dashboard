@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import CurrentUser from '../models/current_user'
+import {login} from "../utils/utils";
 
 export function ProtectedRoute({ component, currentUser, ...rest }) {
   if (!currentUser.guest) {
     return <Route exact component={component} {...rest} />
   }
-  window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`
+  login();
 }
 
 export function SuperUserProtectedRoute({ component, currentUser, ...rest }) {
