@@ -265,8 +265,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         return spMatches || idpMatches
       }).length
   })
+  if (!currentUser.guest) {
+    facets.push(strongAuthenticationFacet)
+  }
 
-  facets.push(strongAuthenticationFacet)
   const attributeFacet = {
     name: I18n.t('facets.static.arp.name'),
     tooltip: I18n.t('facets.static.arp.tooltip'),
@@ -327,7 +329,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         return value.searchValue === consent.type
       }).length
   })
-  facets.push(typeConsentFacet)
+  if (!currentUser.guest) {
+    facets.push(typeConsentFacet)
+  }
+
 
   if (currentUser.superUser) {
     facets.push({
@@ -400,12 +405,14 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   facets = facets.concat(preparedRemoteFacets)
 
   // Filter by search query
+  const searchQueryLower = searchQuery.toLowerCase().trim();
+  const searchQueryList = searchQueryLower.split(" ");
   const filteredApps = apps
     .filter((app) => {
       return [...Object.values(app.descriptions), ...Object.values(app.names)]
           .filter(name => !isEmpty(name))
-          .some(name => name.toLowerCase().indexOf(searchQuery) > -1 ||
-              app.spEntityId.toLowerCase().indexOf(searchQuery) > -1
+          .some(name => searchQueryList.every(q => name.toLowerCase().indexOf(q) > -1)  ||
+              app.spEntityId.toLowerCase().indexOf(searchQueryLower) > -1
       )
     })
     .filter((app) => {
