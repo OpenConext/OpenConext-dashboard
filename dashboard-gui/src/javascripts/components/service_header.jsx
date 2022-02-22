@@ -30,6 +30,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
 
   const refresh = () => {
+    //TODO where is this called, can't we not just null the action?
     fetchJira()
     // onSubmit()
     history.replace(`/apps/${app.id}/${type}`)
