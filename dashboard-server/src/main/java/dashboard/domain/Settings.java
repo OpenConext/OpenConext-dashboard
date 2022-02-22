@@ -8,7 +8,6 @@ public class Settings {
     private String keywordsNl;
     private String keywordsEn;
     private String keywordsPt;
-    private String logoUrl;
     private String displayNamesEn;
     private String displayNamesNl;
     private String displayNamesPt;
@@ -70,14 +69,6 @@ public class Settings {
 
     public void setKeywordsEn(String keywordsEn) {
         this.keywordsEn = keywordsEn;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
     }
 
     public String getDisplayNamesEn() {
@@ -287,7 +278,6 @@ public class Settings {
                 ", keywordsNl='" + keywordsNl + '\'' +
                 ", keywordsEn='" + keywordsEn + '\'' +
                 ", keywordsPt='" + keywordsPt + '\'' +
-                ", logoUrl='" + logoUrl + '\'' +
                 ", displayNamesEn='" + displayNamesEn + '\'' +
                 ", displayNamesNl='" + displayNamesNl + '\'' +
                 ", displayNamesPt='" + displayNamesPt + '\'' +

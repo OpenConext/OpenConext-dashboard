@@ -61,7 +61,6 @@ export default function Tickets() {
   ]
 
   const visibleActions = actions.slice((page - 1) * pageCount, page * pageCount)
-
   return (
     <div className="tickets">
       <Helmet title={I18n.t('history.header')} />
@@ -138,12 +137,20 @@ function Action({ action, currentUser, showStatus }) {
   const type = action.typeMetaData || 'saml20_sp'
   const renderViewInvitation = linkInviteAwaitingInput && currentUser.dashboardAdmin
   const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo)
+  let name
+  if (action.spName === 'Information unavailable' && isEmpty(action.spId)) {
+    name = action.idpName
+  } else if (action.spName === 'Information unavailable' && !isEmpty(action.spId)) {
+    name =  action.spId
+  } else {
+    name = action.spName
+  }
 
   return (
     <div className="ticket">
       <div className="ticket-content">
         <div className="title-and-status">
-          <h4>{action.spName === 'Information unavailable' ? action.spId : action.spName}</h4>
+          <h4>{name}</h4>
           {showStatus && <div className="status-badge">{I18n.t(`history.statuses.${action.status}`)}</div>}
         </div>
         {action.personalMessage && (

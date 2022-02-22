@@ -18,6 +18,7 @@ class EditMyIdp extends React.Component {
     super(props)
     const { currentUser } = context
     const currentIdp = currentUser.getCurrentIdp()
+
     this.state = {
       serviceProviderSettings: [],
       keywordsEn: currentIdp.keywords.en || '',

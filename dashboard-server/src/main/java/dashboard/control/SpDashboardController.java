@@ -111,9 +111,6 @@ public class SpDashboardController extends BaseController {
         String token = new String(decoded, Charset.defaultCharset());
         String user = token.split(":")[0];
         String password = token.split(":")[1];
-        if (!user.equals(spApiUsername) || !password.equals(spApiPassword)) {
-            return true;
-        }
-        return false;
+        return !user.equals(spApiUsername) || !password.equals(spApiPassword);
     }
 }

@@ -54,14 +54,12 @@ class App extends React.Component {
             <main id="main-content">
               <Switch>
                 <Route exact path="/" render={() => <Redirect to={nonGuest ? '/apps/connected' : 'apps/all'} />} />
-
-                <Route path="/apps/:id/:type" component={ServiceDetail} />
                 <ProtectedRoute
-                  currentUser={currentUser}
-                  path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                  component={ServiceDetail}
+                    currentUser={currentUser}
+                    path="/apps/:id/:type/:activePanel/:jiraKey/:action"
+                    component={ServiceDetail}
                 />
-
+                <Route path="/apps/:id/:type" component={ServiceDetail} />
                 <Route
                   exact
                   path="/apps/:id/:type"

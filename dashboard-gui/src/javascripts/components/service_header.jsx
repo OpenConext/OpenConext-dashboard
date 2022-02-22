@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
 import { CurrentUserContext } from '../App'
 import { searchJira } from '../api'
 import I18n from 'i18n-js'
@@ -17,6 +17,7 @@ import { getBackPath } from '../utils/back_path'
 export default function ServiceHeader({ app, policies, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext)
   const params = useParams()
+  const history = useHistory()
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [showDenyModal, setShowDenyModal] = useState(false)
@@ -30,7 +31,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
 
   const refresh = () => {
     fetchJira()
-    onSubmit()
+    // onSubmit()
+    history.replace(`/apps/${app.id}/${type}`)
   }
 
   const jiraFilter = {
@@ -213,18 +215,20 @@ function JiraActionMessage({ action, app }) {
         app: app.name,
         jiraKey: params.jiraKey,
       })
+    } else if (!params.jiraKey) {
+      return I18n.t('apps.detail.outstandingIssue', {
+        jiraKey: action.jiraKey,
+        type: I18n.t('history.action_types_name.' + action.type),
+        status: I18n.t('history.statuses.' + action.status),
+      })
     }
-
-    return I18n.t('apps.detail.outstandingIssue', {
-      jiraKey: action.jiraKey,
-      type: I18n.t('history.action_types_name.' + action.type),
-      status: I18n.t('history.statuses.' + action.status),
-    })
+    return null;
   }
   const message = determineMessage()
-  return (
-    <div className="action-message">
+  return (<>
+      {message && <div className="action-message">
       <div className="container" dangerouslySetInnerHTML={{ __html: message }} />
-    </div>
+    </div>}
+      </>
   )
 }

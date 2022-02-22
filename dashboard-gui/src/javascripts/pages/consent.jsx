@@ -16,9 +16,9 @@ export default function Consent({ app }) {
 
   async function fetchDisableConsent() {
     const response = await disableConsent()
-    const consent = response.find((dc) => dc.spEntityId === app.spEntityId) || {
+    const consent = response.find(dc => dc.spEntityId === app.spEntityId) || {
       spEntityId: app.spEntityId,
-      type: 'DEFAULT_CONSENT',
+      type: 'MINIMAL_CONSENT',
       explanationNl: '',
       explanationEn: '',
       typeMetaData: app.entityType,
@@ -53,8 +53,7 @@ export default function Consent({ app }) {
   if (!consent) {
     return null
   }
-
-  const msgAllowed = consent.type !== 'no_consent'
+  const msgAllowed = consent.type.toLowerCase() !== 'no_consent'
 
   return (
     <div>

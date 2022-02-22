@@ -230,8 +230,7 @@ public class UsersController extends BaseController {
     @RequestMapping("/me/switch-to-idp")
     public ResponseEntity<Void> currentIdp(
             @RequestParam(value = "idpId", required = false) String switchToIdp,
-            @RequestParam(value = "role", required = false) String role,
-            HttpServletResponse response) {
+            @RequestParam(value = "role", required = false) String role) {
 
         if (isNullOrEmpty(switchToIdp)) {
             SpringSecurity.clearSwitchedIdp();
@@ -413,8 +412,6 @@ public class UsersController extends BaseController {
 
         this.diff(changes, idpId, idp.isDisplayStatsInDashboard(), settings.isDisplayStatsInDashboard(),
                 "coin:display_stats_in_dashboard");
-
-        this.diff(changes, idpId, idp.getLogoUrl(), settings.getLogoUrl(), "logo:0:url");
 
         this.diff(changes, idpId, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");
 
