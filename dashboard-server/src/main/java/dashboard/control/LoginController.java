@@ -14,16 +14,23 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 public class LoginController {
 
-    @Value("${mailBaseUrl}")
-    private String mailBaseUrl;
 
-    @Value("${loa_values_supported}")
-    private String loaLevels;
+    private final String mailBaseUrl;
+    private final List<String> loaLevels;
+
+    public LoginController(@Value("${mailBaseUrl}") String mailBaseUrl,
+                           @Value("${loa_values_supported}") String loaLevels) {
+        this.mailBaseUrl = mailBaseUrl;
+        this.loaLevels = Arrays.stream(loaLevels.replaceAll("\"", "").split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+    }
 
     @RequestMapping(value = "/startSSO")
     public void login(HttpServletResponse response, @RequestParam("redirect_url") String redirectUrl) throws IOException {
@@ -53,11 +60,11 @@ public class LoginController {
         if (loa == null) {
             return "";
         }
-        String loaLevel = Arrays.stream(this.loaLevels.replaceAll("\"", "").split(","))
-                .map(String::trim)
-                .collect(Collectors.toList())
-                .get(loa - 2);
-        return String.format("&authnContextClassRef=%s", URLEncoder.encode(loaLevel, Charset.defaultCharset()));
+        String res = loaLevels.stream()
+                .filter(loaLevel -> Integer.valueOf(loaLevel.substring(loaLevel.length() - 1)).equals(loa))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Not a valid loa level: " + loa));
+        return String.format("&authnContextClassRef=%s", URLEncoder.encode(res, Charset.defaultCharset()));
 
     }
 }
