@@ -40,6 +40,20 @@ class LoginControllerTest extends AbstractTest {
     }
 
     @Test
+    void loginInvalidLoa() {
+        given()
+                .when()
+                .redirects().follow(false)
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .queryParam("redirect_url", "http://localhost/redirect")
+                .queryParam("loa", "nope")
+                .get("/login")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
     void startSSO() {
         String redirectUrl = "http://localhost:3000/redirect";
         Headers headers = given()
