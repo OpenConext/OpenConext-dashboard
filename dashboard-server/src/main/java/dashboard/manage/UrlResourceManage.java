@@ -5,6 +5,7 @@ import dashboard.domain.ServiceProvider;
 import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -254,24 +255,24 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public String connectWithoutInteraction(String idpId, String spId, String type) {
-        String url;
+    public void connectWithoutInteraction(String idpId, String spId, String type) {
+        String url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction";
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("idpId", idpId);
+        bodyMap.put("spId", spId);
+        bodyMap.put("spType", type);
+        bodyMap.put("user", SpringSecurity.getCurrentUser().getDisplayName());
+        bodyMap.put("userUrn", SpringSecurity.getCurrentUser().getUid());
 
-        try {
-            url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction/";
-            Map<String, String> body = new HashMap<>();
-            body.put("idpId", idpId);
-            body.put("spId", spId);
-            body.put("spType", type);
-            body.put("user", SpringSecurity.getCurrentUser().getDisplayName());
-            body.put("userUrn", SpringSecurity.getCurrentUser().getUid());
+        //Fire and forget. An exception will be thrown by the restTemplate if the return is not 20X
+        restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(bodyMap, this.httpHeaders), byte[].class);
+    }
 
-            ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
-                    new HttpEntity<>(body, this.httpHeaders), byte[].class);
-            return responseEntity.getStatusCode().is2xxSuccessful() ? "success" : "failure";
-        } catch (Exception e) {
-            LOG.error("Exception in Manage connectWithoutInteraction", e);
-            throw new IllegalArgumentException(e.getMessage());
-        }
+    @Override
+    public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
+        String url = manageBaseUrl + "/manage/api/internal/change-requests";
+        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(changeRequest, this.httpHeaders), new ParameterizedTypeReference<Map<String, Object>>() {{
+        }});
+        return responseEntity.getBody();
     }
 }

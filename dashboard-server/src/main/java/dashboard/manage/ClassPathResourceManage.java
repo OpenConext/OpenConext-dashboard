@@ -148,14 +148,14 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public String connectWithoutInteraction(String idpId, String spId, String type) {
-        try {
-            IdentityProvider identityProvider = getIdentityProvider(idpId, false).orElseThrow
-                    (RuntimeException::new);
-            identityProvider.addAllowedEntityId(spId);
-            return "success";
-        } catch (Exception e) {
-            return "failure";
-        }
+    public void connectWithoutInteraction(String idpId, String spId, String type) {
+        IdentityProvider identityProvider = getIdentityProvider(idpId, false).orElseThrow
+                (RuntimeException::new);
+        identityProvider.addAllowedEntityId(spId);
+    }
+
+    @Override
+    public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
+        return Collections.singletonMap("id", UUID.randomUUID().toString());
     }
 }

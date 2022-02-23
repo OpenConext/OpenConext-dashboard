@@ -97,24 +97,6 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${loa_values_supported}")
     private String loaLevels;
 
-    @Bean
-    public FilterRegistrationBean mockShibbolethFilter() {
-        FilterRegistrationBean shibFilter = new FilterRegistrationBean();
-        if (!shibbolethEnabled) {
-            shibFilter.setFilter(new MockShibbolethFilter());
-        } else {
-            shibFilter.setFilter(new GenericFilterBean() {
-                @Override
-                public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
-                        IOException, ServletException {
-                    chain.doFilter(request, response);
-                }
-            });
-        }
-        shibFilter.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
-        return shibFilter;
-    }
-
     /*
      * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
      * for a quick overview of the differences between the three configure overrides
@@ -161,6 +143,10 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/dashboard/api/**")
                 .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
                 .anyRequest().authenticated();
+            if (!shibbolethEnabled) {
+                http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
+                http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
+            }
     }
 
     @Override

@@ -106,8 +106,8 @@ public class UsersController extends BaseController {
                             "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
-            } catch (IllegalArgumentException e) {
-                //Something went wrong in Manage
+            } catch (Exception e) {
+                LOG.error("Something went wrong in Manage", e);
                 actionsService.comment(jiraKey,
                         "The connection could not be made automatically due to an error in Manage: " + e.getMessage());
                 throw e;

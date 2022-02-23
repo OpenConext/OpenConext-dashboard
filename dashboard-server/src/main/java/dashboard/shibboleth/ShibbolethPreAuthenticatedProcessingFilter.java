@@ -9,6 +9,7 @@ import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.util.CollectionUtils;
@@ -59,6 +60,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .put("urn:mace:surf.nl:attribute-def:eckid", Shib_SURFEckid)
                 .build();
     }
+
 
     private String organization;
 
@@ -148,6 +150,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setSurName(getFirstShibHeaderValue(Shib_SurName, request).orElse(null));
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
+        coinUser.setCurrentLoaLevel(getFirstShibHeaderValue(Shib_AuthnContext_Class, request).map(this::convertLoaLevel).orElse(1));
         setUserConfigurationData(coinUser);
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
@@ -295,6 +298,16 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(String.format("The Idp('%s') is not present in the list " +
                         "of Idp's returned by the CsaClient", idpId)));
+    }
+
+    private int convertLoaLevel(String shibAuthnContextClass) {
+        if (!StringUtils.hasText(shibAuthnContextClass)) {
+            return 1;
+        }
+        if (shibAuthnContextClass.trim().endsWith("Password")) {
+            return 1;
+        }
+        return Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
     }
 
     public void setDashboardAdmin(String dashboardAdmin) {

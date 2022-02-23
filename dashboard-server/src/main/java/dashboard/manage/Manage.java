@@ -182,5 +182,9 @@ public interface Manage {
         return result;
     }
 
-    String connectWithoutInteraction(String idpId, String spId, String type);
+    void connectWithoutInteraction(String idpId, String spId, String type);
+
+    Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
+
+
 }

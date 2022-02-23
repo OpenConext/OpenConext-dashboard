@@ -187,10 +187,9 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
-        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
+        manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
-        boolean success = resp.equals("success");
-        savedAction = savedAction.unbuild().rejected(!success).build();
+        savedAction = savedAction.unbuild().rejected(false).build();
         if (!savedAction.isRejected()) {
             List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke")
                     .stream().map(SabPerson::getEmail).collect(toList());

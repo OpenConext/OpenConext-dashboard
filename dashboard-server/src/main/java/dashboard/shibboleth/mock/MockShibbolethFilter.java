@@ -1,5 +1,6 @@
 package dashboard.shibboleth.mock;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -9,6 +10,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -24,17 +27,18 @@ public class MockShibbolethFilter extends GenericFilterBean {
     public String role = "admin";//"admin";
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+    public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
-        if (((HttpServletRequest) request).getRequestURI().endsWith("startSSO")) {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String requestURI = request.getRequestURI();
+        if (requestURI.endsWith("startSSO")) {
             role = "admin";
         }
         if ("none".equals(role)) {
             chain.doFilter(request, response);
 
         } else {
-            HttpServletRequest req = (HttpServletRequest) request;
-            SetHeader wrapper = new SetHeader(req);
+            SetHeader wrapper = new SetHeader(request);
             wrapper.setHeader(Name_Id.getValue(), role);
             wrapper.setHeader(Shib_Uid.getValue(), role);
             wrapper.setHeader(Shib_Authenticating_Authority.getValue(), idp);
@@ -51,6 +55,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
                     "urn:mace:terena.org:tcs:eduPersonScopedAffiliation");
             wrapper.setHeader(Shib_SURFEckid.getValue(), "some surf eckid value");
             wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
+            wrapper.setHeader(Shib_AuthnContext_Class.getValue(), "urn:oasis:names:tc:SAML:2.0:ac:classes:Password");
 
             switch (role) {
                 case "super":
@@ -64,6 +69,10 @@ public class MockShibbolethFilter extends GenericFilterBean {
                     break;
                 default:
                     //nothing
+            }
+            if (requestURI.endsWith("Shibboleth.sso/Login")) {
+                String authnContextClassRef = request.getParameter("authnContextClassRef");
+                wrapper.setHeader(Shib_AuthnContext_Class.getValue(), URLDecoder.decode(authnContextClassRef, Charset.defaultCharset()));
             }
             chain.doFilter(wrapper, response);
         }
