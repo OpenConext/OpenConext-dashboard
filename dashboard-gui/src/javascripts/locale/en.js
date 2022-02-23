@@ -175,6 +175,7 @@ I18n.translations.en = {
       outstandingIssue:
         'There is already a ticket with reference {{jiraKey}} of type {{type}} and status {{status}} for this Service.',
       inviteAlreadyProcessed: 'The invite for ticket {{jiraKey}} has already been {{action}}.',
+      inviteBeingProcessed: 'The invite for ticket {{jiraKey}} is pending to be processed.',
       outstandingIssueLink:
         ' Go to the <a class="link" href="{{link}}">{{linkName}}</a> section to approve / deny the invitation.',
       approved: 'approved',

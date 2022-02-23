@@ -16,11 +16,12 @@ export default function DisconnectModal({ isOpen, onClose, app, currentUser, onS
       const action = await removeConnection(app, comments)
       setAction(action)
       setDone(true)
+      onSubmit()
     } catch {
       setFailed(true)
     }
 
-    onSubmit()
+
   }
 
   if (!currentUser.dashboardAdmin) {

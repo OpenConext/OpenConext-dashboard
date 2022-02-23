@@ -189,7 +189,8 @@ public class ActionsServiceImpl implements ActionsService {
 
         String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
-        savedAction = savedAction.unbuild().rejected(!resp.equals("success")).build();
+        boolean success = resp.equals("success");
+        savedAction = savedAction.unbuild().rejected(!success).build();
         if (!savedAction.isRejected()) {
             List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke")
                     .stream().map(SabPerson::getEmail).collect(toList());
@@ -256,6 +257,11 @@ public class ActionsServiceImpl implements ActionsService {
             transitionId = validTransitions.get(JiraClient.RESOLVED);
             jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
         }
+    }
+
+    @Override
+    public void comment(String key, String comment) {
+        jiraClient.comment(key, comment);
     }
 
     @Override

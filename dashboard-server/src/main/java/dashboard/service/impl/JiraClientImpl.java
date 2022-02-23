@@ -253,8 +253,7 @@ public class JiraClientImpl implements JiraClient {
         final Map<String, Map<String, Object>> body = new HashMap<>();
         body.put("fields", singletonMap("customfield_" + this.optionalMessageCustomField(), optionalMessage));
         HttpEntity<Object> requestEntity = new HttpEntity<>(body, defaultHeaders);
-        ResponseEntity<Map> exchange = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Map.class);
-        System.out.println(exchange);
+        restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Map.class);
     }
 
     String buildQueryForIdp(String idp, JiraFilter jiraFilter) {

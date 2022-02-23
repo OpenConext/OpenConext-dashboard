@@ -80,10 +80,10 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
         setAction(action)
       }
+      onSubmit()
     } catch {
       setFailed(true)
     }
-    onSubmit()
   }
 
   if (failed) {

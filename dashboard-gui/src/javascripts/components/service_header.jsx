@@ -30,10 +30,9 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
 
   const refresh = () => {
-    //TODO where is this called, can't we not just null the action?
     fetchJira()
-    // onSubmit()
-    history.replace(`/apps/${app.id}/${type}`)
+    onSubmit()
+    history.replace(`/apps/${app.id}/${app.entityType}`)
   }
 
   const jiraFilter = {
@@ -206,11 +205,18 @@ function JiraActionMessage({ action, app }) {
 
   function determineMessage() {
     if (params.jiraKey && action.status !== 'Awaiting Input') {
-      const i18nParam = action.status === 'Closed' ? 'denied' : 'approved'
-      return I18n.t('apps.detail.inviteAlreadyProcessed', {
-        jiraKey: action.jiraKey,
-        action: I18n.t(`apps.detail.${i18nParam}`),
-      })
+      if (action.status === 'To Do') {
+        return I18n.t('apps.detail.inviteBeingProcessed', {
+          jiraKey: action.jiraKey
+        })
+
+      } else {
+        const i18nParam = action.status === 'Closed' ? 'denied' : 'approved'
+        return I18n.t('apps.detail.inviteAlreadyProcessed', {
+          jiraKey: action.jiraKey,
+          action: I18n.t(`apps.detail.${i18nParam}`),
+        })
+      }
     } else if (params.jiraKey && app.connected) {
       return I18n.t('how_to_connect_panel.invite_action_collision', {
         app: app.name,

@@ -50,7 +50,6 @@ public class Action {
     private String status;
     private String resolution;
 
-    private String subject;
     private Service service;
     private Settings settings;
     private Consent consent;
@@ -83,6 +82,7 @@ public class Action {
         this.settings = builder.settings;
         this.consent = builder.consent;
         this.rejected = builder.rejected;
+        this.loaLevel = builder.loaLevel;
     }
 
     public Optional<String> getJiraKey() {
@@ -161,10 +161,6 @@ public class Action {
         return connectWithoutInteraction;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
     public Service getService() {
         return service;
     }
@@ -213,7 +209,6 @@ public class Action {
                 ", updateDate=" + updateDate +
                 ", type=" + type +
                 ", status='" + status + '\'' +
-                ", subject='" + subject + '\'' +
                 ", service=" + service +
                 ", settings=" + settings +
                 ", consent=" + consent +
@@ -233,7 +228,6 @@ public class Action {
         result = prime * result + ((spId == null) ? 0 : spId.hashCode());
         result = prime * result + ((spName == null) ? 0 : spName.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((subject == null) ? 0 : subject.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
         result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -288,11 +282,6 @@ public class Action {
             if (other.status != null)
                 return false;
         } else if (!status.equals(other.status))
-            return false;
-        if (subject == null) {
-            if (other.subject != null)
-                return false;
-        } else if (!subject.equals(other.subject))
             return false;
         if (type != other.type)
             return false;

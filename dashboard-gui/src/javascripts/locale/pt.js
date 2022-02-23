@@ -173,6 +173,7 @@ I18n.translations.pt = {
       outstandingIssue:
         'Já existe um pedido de serviço excepcional {{jiraKey}} do tipo {{type}} e estado {{status}} para este Serviço.',
       inviteAlreadyProcessed: 'O convite para o pedido de serviço {{jiraKey}} já foi {{action}}.',
+      inviteBeingProcessed: 'The invite for ticket {{jiraKey}} is pending to be processed.',
       outstandingIssueLink:
         ' Aceda à seção <a class="link" href="{{link}}">{{linkName}}</a>  para aprovar / recusar o convite.',
       approved: 'aprovado',

@@ -19,9 +19,9 @@ import static dashboard.shibboleth.ShibbolethHeader.*;
 
 public class MockShibbolethFilter extends GenericFilterBean {
 
-    public static final String idp = "https://localhost.surf.id"; //"https://idp.surfnet.nl"; //"https://idp.surf.nl"
+    public static final String idp = "https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
 
-    public String role = "admin";//"super";
+    public String role = "admin";//"admin";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,

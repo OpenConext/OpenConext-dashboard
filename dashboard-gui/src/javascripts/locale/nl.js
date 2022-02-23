@@ -175,6 +175,7 @@ I18n.translations.nl = {
       outstandingIssue:
         'Er is al een openstaand ticket {{jiraKey}} van het type {{type}} en status {{status}} voor deze dienst.',
       inviteAlreadyProcessed: 'De uitnodiging voor ticket {{jiraKey}} is reeds {{action}}.',
+      inviteBeingProcessed: 'De uitnodiging voor ticket {{jiraKey}} is wachtende om opgepakt te worden..',
       outstandingIssueLink:
         ' Ga naar de <a class="link" href="{{link}}">{{linkName}}</a> sectie om de uitnodiging te accepteren of weigeren.',
       approved: 'goedgekeurd',

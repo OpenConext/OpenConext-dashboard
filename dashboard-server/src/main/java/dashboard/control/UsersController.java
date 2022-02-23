@@ -20,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -97,17 +96,25 @@ public class UsersController extends BaseController {
         if (StringUtils.hasText(comment)) {
             commentWithUser = commentWithUser.concat(" User comment: ").concat(comment);
         }
+        String jiraKey = updateInviteRequest.getJiraKey();
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
-            boolean connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
-            updateInviteRequest.setConnectWithoutInteraction(true);
-            if (connected) {
-                commentWithUser = commentWithUser.concat("\n" +
-                        "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
+            try {
+                boolean connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
+                updateInviteRequest.setConnectWithoutInteraction(true);
+                if (connected) {
+                    commentWithUser = commentWithUser.concat("\n" +
+                            "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
+                }
+                actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
+            } catch (IllegalArgumentException e) {
+                //Something went wrong in Manage
+                actionsService.comment(jiraKey,
+                        "The connection could not be made automatically due to an error in Manage: " + e.getMessage());
+                throw e;
             }
-            actionsService.approveInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser, connected);
 
         } else {
-            actionsService.rejectInviteRequest(updateInviteRequest.getJiraKey(), commentWithUser);
+            actionsService.rejectInviteRequest(jiraKey, commentWithUser);
         }
         return ResponseEntity.ok(createRestResponse(updateInviteRequest));
     }

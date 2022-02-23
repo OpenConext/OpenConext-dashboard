@@ -36,4 +36,6 @@ public interface ActionsService {
     void approveInviteRequest(String jiraKey, String comment, boolean transitionToResolved);
 
     void updateOptionalMessage(String jiraKey, String optionalMessage);
+
+    void comment(String key, String comment);
 }

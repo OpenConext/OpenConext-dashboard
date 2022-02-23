@@ -154,7 +154,7 @@ function Action({ action, currentUser, showStatus }) {
           {showStatus && <div className="status-badge">{I18n.t(`history.statuses.${action.status}`)}</div>}
         </div>
         {action.personalMessage && (
-          <p dangerouslySetInnerHTML={{ __html: action.personalMessage.replace(/\n/g, '<br>') }} />
+          <p className="personal-message" dangerouslySetInnerHTML={{ __html: action.personalMessage.replace(/\n/g, '<br>') }} />
         )}
         <div className="actions">
           {action.spEid && (

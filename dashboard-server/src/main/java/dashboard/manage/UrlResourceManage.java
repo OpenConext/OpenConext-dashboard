@@ -268,12 +268,10 @@ public class UrlResourceManage implements Manage {
 
             ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
                     new HttpEntity<>(body, this.httpHeaders), byte[].class);
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                return "success";
-            }
+            return responseEntity.getStatusCode().is2xxSuccessful() ? "success" : "failure";
         } catch (Exception e) {
             LOG.error("Exception in Manage connectWithoutInteraction", e);
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return "failure";
     }
 }
