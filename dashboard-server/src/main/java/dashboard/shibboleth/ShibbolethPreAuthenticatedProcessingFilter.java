@@ -9,7 +9,6 @@ import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.util.CollectionUtils;
@@ -307,7 +306,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         if (shibAuthnContextClass.trim().endsWith("Password")) {
             return 1;
         }
-        return Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+        try {
+            return Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+        } catch (NumberFormatException e) {
+            return 1;
+        }
     }
 
     public void setDashboardAdmin(String dashboardAdmin) {
