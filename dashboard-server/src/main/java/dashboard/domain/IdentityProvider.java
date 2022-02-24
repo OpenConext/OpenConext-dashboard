@@ -15,6 +15,7 @@
  */
 package dashboard.domain;
 
+import dashboard.manage.EntityType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -130,5 +131,10 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public boolean isDisplayStatsInDashboard() {
         return displayStatsInDashboard;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.saml20_idp;
     }
 }

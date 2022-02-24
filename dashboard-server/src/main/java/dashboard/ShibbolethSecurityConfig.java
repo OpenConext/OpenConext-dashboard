@@ -7,6 +7,7 @@ import dashboard.service.impl.JiraClient;
 import dashboard.shibboleth.ShibbolethPreAuthenticatedProcessingFilter;
 import dashboard.shibboleth.ShibbolethUserDetailService;
 import dashboard.shibboleth.mock.MockShibbolethFilter;
+import dashboard.shibboleth.mock.ShibbolethSSOFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

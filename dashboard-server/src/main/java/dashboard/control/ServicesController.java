@@ -250,6 +250,7 @@ public class ServicesController extends BaseController {
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
+                manage.createConnectionRequests(idpEntityId, spEntityId, EntityType.valueOf(typeMetaData), comments);
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }
         }

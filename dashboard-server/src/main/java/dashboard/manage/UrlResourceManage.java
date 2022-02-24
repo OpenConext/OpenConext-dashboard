@@ -271,8 +271,15 @@ public class UrlResourceManage implements Manage {
     @Override
     public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
         String url = manageBaseUrl + "/manage/api/internal/change-requests";
-        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(changeRequest, this.httpHeaders), new ParameterizedTypeReference<Map<String, Object>>() {{
+        HttpEntity<ChangeRequest> requestEntity = new HttpEntity<>(changeRequest, this.httpHeaders);
+        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {{
         }});
         return responseEntity.getBody();
+    }
+
+    @Override
+    public void createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, true);
+        changeRequests.forEach(this::createChangeRequests);
     }
 }

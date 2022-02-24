@@ -158,4 +158,9 @@ public class ClassPathResourceManage implements Manage {
     public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
         return Collections.singletonMap("id", UUID.randomUUID().toString());
     }
+
+    @Override
+    public void createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+        //nope
+    }
 }

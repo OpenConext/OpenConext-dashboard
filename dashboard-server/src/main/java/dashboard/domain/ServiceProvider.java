@@ -48,7 +48,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private String entityCategories3;
     private boolean idpVisibleOnly;
     private boolean policyEnforcementDecisionRequired;
-    private EntityType entityType;
     private DashboardConnectOption dashboardConnectOption;
     private boolean aansluitovereenkomstRefused;
     private boolean hidden;
@@ -283,7 +282,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
                 ", eulaURL='" + eulaURL + '\'' +
                 ", idpVisibleOnly=" + idpVisibleOnly +
                 ", policyEnforcementDecisionRequired=" + policyEnforcementDecisionRequired +
-                ", entityType=" + entityType +
+                ", entityType=" + getEntityType() +
                 ", arp=" + arp +
                 ", urls=" + urls +
                 '}';
@@ -351,14 +350,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public List<String> getNameIds() {
         return nameIds;
-    }
-
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
-    }
-
-    public EntityType getEntityType() {
-        return entityType;
     }
 
     public void setDashboardConnectOption(DashboardConnectOption dashboardConnectOption) {
