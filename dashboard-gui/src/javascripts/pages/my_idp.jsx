@@ -39,7 +39,7 @@ export default function MyIdp() {
       <Breadcrumbs items={breadcrumbs} />
       <div className="header">
         <div className="container">
-          {currentIdp.logoUrl ? <img src={currentIdp.logoUrl} alt={currentIdp.logoUrl} /> : null}
+          {currentIdp.logoUrl ? <img src={currentIdp.logoUrl} alt="logo" /> : null}
           <h1>{currentIdp.names[I18n.locale]}</h1>
         </div>
       </div>
@@ -271,7 +271,7 @@ function GeneralInformation({ idp, isDashboardAdmin }) {
           </tr>
           <tr className="logo-url">
             <td>{I18n.t('my_idp.logo_url')}</td>
-            <td>{idp.logoUrl ? <img src={idp.logoUrl} alt={idp.logoUrl} /> : null}</td>
+            <td>{idp.logoUrl ? <img src={idp.logoUrl} alt="logo" /> : null}</td>
             <td></td>
           </tr>
         </tbody>

@@ -122,7 +122,7 @@ function InstitutionTable({ institutions }) {
                 .map((institution) => (
                   <div key={institution.id} className="institution">
                     {institution.logoUrl ? (
-                      <img src={institution.logoUrl} alt={institution.name} />
+                      <img src={institution.logoUrl} alt="" />
                     ) : (
                       <div className="logo-placeholder" />
                     )}
