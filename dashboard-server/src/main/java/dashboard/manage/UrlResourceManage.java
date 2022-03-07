@@ -256,7 +256,7 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public void connectWithoutInteraction(String idpId, String spId, String type) {
+    public void connectWithoutInteraction(String idpId, String spId, String type, Optional<String> loaLevel) {
         String url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction";
         Map<String, String> bodyMap = new HashMap<>();
         bodyMap.put("idpId", idpId);
@@ -264,6 +264,7 @@ public class UrlResourceManage implements Manage {
         bodyMap.put("spType", type);
         bodyMap.put("user", SpringSecurity.getCurrentUser().getDisplayName());
         bodyMap.put("userUrn", SpringSecurity.getCurrentUser().getUid());
+        loaLevel.ifPresent(loa -> bodyMap.put("loaLevel", loa));
 
         //Fire and forget. An exception will be thrown by the restTemplate if the return is not 20X
         restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(bodyMap, this.httpHeaders), byte[].class);

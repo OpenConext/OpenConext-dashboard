@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import dashboard.domain.Action;
 import dashboard.domain.Change;
 import dashboard.domain.Settings;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,8 +22,9 @@ class JiraTicketSummaryAndDescriptionBuilder {
 
         final StringBuilder summary = new StringBuilder();
 
-        if (StringUtils.hasText(action.getManageUrl())) {
-            description.append("A change request in manage has been created to merge this user request.\nSee: " + action.getManageUrl() + "\n\n");
+        if (!CollectionUtils.isEmpty(action.getManageUrls())) {
+            description.append("A change request in manage has been created to merge this user request.See:\n" +
+                    String.join("\n", action.getManageUrls()) + "\n\n");
         }
 
         if (action.getType().equals(CHANGE)) {

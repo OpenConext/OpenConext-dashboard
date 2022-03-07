@@ -64,6 +64,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
         const action = await updateInviteRequest({
           status: 'ACCEPTED',
           comment: comments,
+          loaLevel: loaLevel,
           jiraKey: existingJiraAction.jiraKey,
           spEntityId: app.spEntityId,
           typeMetaData: app.entityType,

@@ -181,7 +181,7 @@ public interface Manage {
         return result;
     }
 
-    void connectWithoutInteraction(String idpId, String spId, String type);
+    void connectWithoutInteraction(String idpId, String spId, String type, Optional<String> loaLevel);
 
     Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
 

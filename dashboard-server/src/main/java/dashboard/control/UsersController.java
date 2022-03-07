@@ -53,7 +53,7 @@ public class UsersController extends BaseController {
 
     @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
     @PostMapping("/inviteRequest")
-    public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) throws IOException, MessagingException {
+    public ResponseEntity<RestResponse<Object>> inviteRequest(@RequestBody InviteRequest inviteRequest) {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         String spEntityId = inviteRequest.getSpEntityId();
 
@@ -61,13 +61,14 @@ public class UsersController extends BaseController {
                 .map(cp -> cp.getName() + "<" + cp.getEmailAddress() + ">")
                 .collect(Collectors.joining(", "));
         String emailTo = inviteRequest.getContactPersons().stream()
-                .map(cp -> cp.getEmailAddress())
+                .map(ContactPerson::getEmailAddress)
                 .collect(Collectors.joining(", "));
 
         String body = "Invite request initiated by dashboard super user. Mails sent to: " + emails + ".";
         if (inviteRequest.isContainsMessage()) {
             body = body + " The invitation message from the SURFconext super user:\n" + inviteRequest.getMessage();
         }
+
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -121,9 +122,33 @@ public class UsersController extends BaseController {
 
     private boolean automaticallyCreateConnection(Locale locale, UpdateInviteRequest updateInviteRequest) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
+        Optional<Service> serviceOptional = this.automaticallyCreateConnectionAllowed(currentUser, locale, updateInviteRequest);
+
+        if (serviceOptional.isPresent()) {
+            Service service = serviceOptional.get();
+            Action action = Action.builder()
+                    .userEmail(currentUser.getEmail())
+                    .userName(currentUser.getFriendlyName())
+                    .body(updateInviteRequest.getComment())
+                    .idpId(currentUser.getIdp().getId())
+                    .spId(updateInviteRequest.getSpEntityId())
+                    .typeMetaData(updateInviteRequest.getTypeMetaData())
+                    .connectWithoutInteraction(true)
+                    .shouldSendEmail(service.sendsEmailWithoutInteraction())
+                    .service(service)
+                    .type(Action.Type.LINKREQUEST).build();
+
+            actionsService.connectWithoutInteraction(action, Optional.of(updateInviteRequest.getLoaLevel()));
+            return true;
+        }
+        return false;
+    }
+
+    private Optional<Service> automaticallyCreateConnectionAllowed(CoinUser currentUser, Locale locale, UpdateInviteRequest updateInviteRequest) throws IOException {
+
         String idpEntityId = currentUser.getIdp().getId();
         if (isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
-            return false;
+            return Optional.empty();
         }
         String spEntityId = updateInviteRequest.getSpEntityId();
 
@@ -134,26 +159,11 @@ public class UsersController extends BaseController {
             Service service = optional.get();
 
             boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getInstitutionId());
-            boolean connectWithoutInteraction = idpAndSpShareInstitution || service.connectsWithoutInteraction();
-
-            if (connectWithoutInteraction) {
-                Action action = Action.builder()
-                        .userEmail(currentUser.getEmail())
-                        .userName(currentUser.getFriendlyName())
-                        .body(updateInviteRequest.getComment())
-                        .idpId(idpEntityId)
-                        .spId(spEntityId)
-                        .typeMetaData(updateInviteRequest.getTypeMetaData())
-                        .connectWithoutInteraction(true)
-                        .shouldSendEmail(service.sendsEmailWithoutInteraction())
-                        .service(service)
-                        .type(Action.Type.LINKREQUEST).build();
-
-                actionsService.connectWithoutInteraction(action);
-                return true;
+            if (idpAndSpShareInstitution || service.connectsWithoutInteraction()) {
+                return optional;
             }
         }
-        return false;
+        return Optional.empty();
     }
 
     @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")

@@ -21,8 +21,9 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Optional;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode
@@ -60,7 +61,7 @@ public class Action {
     private Settings settings;
     private Consent consent;
     private String loaLevel;
-    private String manageUrl;
+    private List<String> manageUrls;
 
     private boolean rejected;
 
@@ -90,7 +91,7 @@ public class Action {
         this.consent = builder.consent;
         this.rejected = builder.rejected;
         this.loaLevel = builder.loaLevel;
-        this.manageUrl = builder.manageUrl;
+        this.manageUrls = builder.manageUrls;
     }
 
     /**
@@ -104,6 +105,13 @@ public class Action {
 
     public Builder unbuild() {
         return new Builder(this);
+    }
+
+    public void addManageUrl(String manageUrl) {
+        if (this.manageUrls == null) {
+            manageUrls = new ArrayList<>();
+        }
+        manageUrls.add(manageUrl);
     }
 
     public static Builder builder() {
@@ -137,7 +145,7 @@ public class Action {
         private Consent consent;
         private boolean rejected;
         private String loaLevel;
-        private String manageUrl;
+        private List<String> manageUrls;
 
         private Builder() {
         }
@@ -168,7 +176,7 @@ public class Action {
             this.consent = action.consent;
             this.rejected = action.rejected;
             this.loaLevel = action.loaLevel;
-            this.manageUrl = action.manageUrl;
+            this.manageUrls = action.manageUrls;
         }
 
         public Builder requestDate(ZonedDateTime requestDate) {
@@ -291,8 +299,8 @@ public class Action {
             return this;
         }
 
-        public Builder manageUrl(String manageUrl) {
-            this.manageUrl = manageUrl;
+        public Builder manageUrls(List<String> manageUrls) {
+            this.manageUrls = manageUrls;
             return this;
         }
 

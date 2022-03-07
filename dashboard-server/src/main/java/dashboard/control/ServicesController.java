@@ -196,12 +196,8 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "type") String type,
                                                         @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
                                                         Locale locale) throws IOException {
-        if (StringUtils.hasText(loaLevel)) {
-            comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a higher then default LoA level: " + loaLevel;
-        }
-
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale,
-                Optional.ofNullable(emailContactPerson), Optional.ofNullable(loaLevel))
+                Optional.ofNullable(emailContactPerson), Optional.ofNullable(StringUtils.hasText(loaLevel) ? loaLevel : null))
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
@@ -253,18 +249,21 @@ public class ServicesController extends BaseController {
                     .connectWithoutInteraction(connectWithoutInteraction)
                     .shouldSendEmail(service.sendsEmailWithoutInteraction())
                     .service(service)
-                    .manageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), identityProvider.getInternalId()))
                     .type(jiraType).build();
 
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
-                return Optional.of(actionsService.connectWithoutInteraction(action));
+                return Optional.of(actionsService.connectWithoutInteraction(action, loaLevel));
             } else {
+                List<String> metaDataIdentifiers;
                 if (jiraType.equals(Action.Type.LINKREQUEST)) {
-                    manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
+                    metaDataIdentifiers = manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
                 } else {
-                    manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
+                    metaDataIdentifiers = manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
                 }
-
+                metaDataIdentifiers.forEach(identifier -> {
+                    String entityType = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : typeMetaData;
+                    action.addManageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, entityType, identifier));
+                });
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }
         }

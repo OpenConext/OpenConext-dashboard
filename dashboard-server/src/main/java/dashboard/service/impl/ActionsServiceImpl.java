@@ -184,10 +184,10 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
-    public Action connectWithoutInteraction(Action action) {
+    public Action connectWithoutInteraction(Action action, Optional<String> loaLevel) {
         Action savedAction = addNames(action);
 
-        manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
+        manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData(), loaLevel);
 
         savedAction = savedAction.unbuild().rejected(false).build();
         if (!savedAction.isRejected()) {
