@@ -185,9 +185,9 @@ public interface Manage {
 
     Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
 
-    List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel);
+    List<String> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel);
 
-    List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note);
+    List<String> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note);
 
     default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, String note, boolean add) {
         if (source.isAllowedAll()) {
@@ -206,8 +206,7 @@ public interface Manage {
 
     }
 
-    default List<ChangeRequest> allowedEntityChangeRequest(String idpEntityId, String spEntityId, EntityType spEntityType, String note, boolean add) {
-        IdentityProvider identityProvider = getIdentityProvider(idpEntityId, false).orElseThrow(IllegalArgumentException::new);
+    default List<ChangeRequest> allowedEntityChangeRequest(IdentityProvider identityProvider, String spEntityId, EntityType spEntityType, String note, boolean add) {
         ServiceProvider serviceProvider = getServiceProvider(spEntityId, spEntityType, false).orElseThrow(IllegalArgumentException::new);
         List<ChangeRequest> changeRequests = new ArrayList<>();
         changeRequestForAllowedEntity(identityProvider, serviceProvider, note, add).ifPresent(changeRequests::add);

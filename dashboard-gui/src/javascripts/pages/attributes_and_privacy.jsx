@@ -13,7 +13,7 @@ export default function AttributesAndPrivacy({ app }) {
   return (
     <div className="app-detail-content attributes-privacy">
       <h2>{I18n.t('attributes_policy_panel.title')}</h2>
-      <p>{I18n.t('attributes_policy_panel.subtitle', { name: app.name })}</p>
+      {!app.arp.noArp && <p>{I18n.t('attributes_policy_panel.subtitle', { name: app.name })}</p>}
       <AttributeReleasePolicy app={app} />
       {app.manipulationNotes && <ManipulationNotes app={app} />}
 

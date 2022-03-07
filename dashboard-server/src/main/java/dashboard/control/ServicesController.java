@@ -7,6 +7,7 @@ import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,9 @@ public class ServicesController extends BaseController {
 
     @Autowired
     private ActionsService actionsService;
+
+    @Value("${manage.manageBaseUrl}")
+    private String manageBaseUrl;
 
     @RequestMapping
     public RestResponse<Map<String, Object>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
@@ -196,7 +200,8 @@ public class ServicesController extends BaseController {
             comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a higher then default LoA level: " + loaLevel;
         }
 
-        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale, Optional.ofNullable(emailContactPerson), Optional.ofNullable(loaLevel))
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale,
+                Optional.ofNullable(emailContactPerson), Optional.ofNullable(loaLevel))
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
@@ -235,6 +240,8 @@ public class ServicesController extends BaseController {
             boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getInstitutionId());
             boolean connectWithoutInteraction = idpAndSpShareInstitution || service.connectsWithoutInteraction();
 
+            IdentityProvider identityProvider = manage.getIdentityProvider(idpEntityId, false).orElseThrow(IllegalArgumentException::new);
+
             Action action = Action.builder()
                     .userEmail(currentUser.getEmail())
                     .userName(currentUser.getFriendlyName())
@@ -246,12 +253,18 @@ public class ServicesController extends BaseController {
                     .connectWithoutInteraction(connectWithoutInteraction)
                     .shouldSendEmail(service.sendsEmailWithoutInteraction())
                     .service(service)
+                    .manageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), identityProvider.getInternalId()))
                     .type(jiraType).build();
 
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
-                manage.createConnectionRequests(idpEntityId, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
+                if (jiraType.equals(Action.Type.LINKREQUEST)) {
+                    manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
+                } else {
+                    manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
+                }
+
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }
         }

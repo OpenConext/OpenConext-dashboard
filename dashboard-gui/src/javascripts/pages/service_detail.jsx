@@ -71,7 +71,8 @@ export default function ServiceDetail() {
           active={
             pathElements.includes('about') ||
             pathElements.includes('overview') ||
-            pathElements.includes('how_to_connect')
+            pathElements.includes('how_to_connect') ||
+            pathElements[pathElements.length-1] === ''
           }
           to={`/apps/${id}/${type}/about`}
         >

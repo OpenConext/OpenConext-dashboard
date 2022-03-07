@@ -279,16 +279,49 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
-        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, true);
+    public List<String> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, true);
+        loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, note, changeRequests, loa, true));
         changeRequests.forEach(this::createChangeRequests);
         return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
     }
 
     @Override
-    public List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
-        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, false);
+    public List<String> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, false);
+        configureStepupEntity(identityProvider, spEntityId, note, changeRequests, null, false);
         changeRequests.forEach(this::createChangeRequests);
         return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
     }
+
+    private void configureStepupEntity(IdentityProvider identityProvider, String spEntityId, String note, List<ChangeRequest> changeRequests, String loa, boolean add) {
+        List<Map<String, String>> stepupEntities = identityProvider.getStepupEntities();
+        if (!add && stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
+            return;
+        }
+        if (add) {
+            Map<String, String> stepupEntity = new HashMap<>();
+            stepupEntity.put("name", spEntityId);
+            stepupEntity.put("level", loa);
+            stepupEntities.add(stepupEntity);
+        } else {
+            stepupEntities = stepupEntities.stream().filter(map -> !map.get("name").equals(spEntityId)).collect(Collectors.toList());
+        }
+
+        Optional<ChangeRequest> optionalChangeRequest = changeRequests.stream()
+                .filter(changeRequest -> changeRequest.getMetaDataId().equals(identityProvider.getInternalId()))
+                .findFirst();
+
+        if (optionalChangeRequest.isPresent()) {
+            ChangeRequest changeRequest = optionalChangeRequest.get();
+            changeRequest.getPathUpdates().put("stepupEntities", stepupEntities);
+        } else {
+            Map<String, Object> pathUpdates = new HashMap<>();
+            pathUpdates.put("stepupEntities", stepupEntities);
+            Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+            ChangeRequest changeRequest = new ChangeRequest(identityProvider.getInternalId(), EntityType.saml20_idp.name(), note, pathUpdates, auditData);
+            changeRequests.add(changeRequest);
+        }
+    }
+
 }

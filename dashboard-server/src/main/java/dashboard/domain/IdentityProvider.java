@@ -38,6 +38,7 @@ public class IdentityProvider extends Provider implements Serializable {
     private boolean displayAdminEmailsInDashboard;
     private boolean displayStatsInDashboard;
     private List<Map<String, String>> stepupEntities;
+    private List<Map<String, String>> mfaEntities;
 
     public IdentityProvider() {
     }
@@ -73,6 +74,7 @@ public class IdentityProvider extends Provider implements Serializable {
         displayStatsInDashboard = booleanValue(metaData.get("coin:display_stats_in_dashboard"));
 
         this.stepupEntities = (List<Map<String, String>>) metaData.getOrDefault("stepupEntities", new ArrayList<>());
+        this.mfaEntities = (List<Map<String, String>>) metaData.getOrDefault("mfaEntities", new ArrayList<>());
     }
 
     public String getInstitutionId() {
@@ -111,6 +113,10 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public List<Map<String, String>> getStepupEntities() {
         return stepupEntities;
+    }
+
+    public List<Map<String, String>> getMfaEntities() {
+        return mfaEntities;
     }
 
     @Override
