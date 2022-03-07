@@ -29,7 +29,7 @@ public class GsonHttpMessageConverterTest {
     public void testWrite() throws Exception {
         MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
         converter.write(RestResponse.of(Locale.ENGLISH, RestDataFixture.coinUser("foo", "2", "3")), MediaType.APPLICATION_JSON, outputMessage);
-        JsonElement jsonElement = new JsonParser().parse(outputMessage.getBodyAsString());
+        JsonElement jsonElement = JsonParser.parseString(outputMessage.getBodyAsString());
         String actual = jsonElement.getAsJsonObject().getAsJsonObject("payload").getAsJsonPrimitive("uid").getAsString();
         assertEquals("foo", actual);
     }

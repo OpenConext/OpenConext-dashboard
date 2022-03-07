@@ -16,6 +16,7 @@
 package dashboard.domain;
 
 import com.google.common.base.MoreObjects;
+import dashboard.manage.EntityType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.util.CollectionUtils;
@@ -31,8 +32,11 @@ import java.util.stream.IntStream;
 public abstract class Provider implements Comparable<Provider>, Serializable {
 
     private String id;
+    private String internalId;
     private Long eid;
     private String state;
+    private EntityType entityType;
+
     /**
      * Name of the Provider. SURFfederatie knows only 1 value, SURFconext supports a value per language.
      * This name field can be used for sorting
@@ -60,6 +64,7 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     }
 
     public Provider(Map<String, Object> metaData) {
+        this.internalId = (String) metaData.get("internalId");
         this.id = (String) metaData.get("entityid");
         this.eid = ((Number) metaData.get("eid")).longValue();
         this.state = (String) metaData.get("state");
@@ -277,6 +282,19 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     public void setState(String state) {
         this.state = state;
     }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
+    }
+
+    public String getInternalId() {
+        return internalId;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
 
     protected boolean booleanValue(Object metadataValue) {
         return metadataValue != null && (metadataValue.equals("1") || (metadataValue instanceof Boolean && (boolean) metadataValue));

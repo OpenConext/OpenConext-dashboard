@@ -7,6 +7,7 @@ class CurrentUser {
     this.dashboardAdmin = rawUser.dashboardAdmin
     this.dashboardViewer = rawUser.dashboardViewer
     this.dashboardMember = rawUser.dashboardMember
+    this.currentLoaLevel = rawUser.currentLoaLevel
     this.displayName = rawUser.displayName
     this.givenName = rawUser.givenName
     this.surName = rawUser.surName

@@ -25,6 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/dashboard/api/services", produces = APPLICATION_JSON_VALUE)
+@SuppressWarnings("unchecked")
 public class ServicesController extends BaseController {
 
     @Autowired
@@ -195,7 +196,7 @@ public class ServicesController extends BaseController {
             comments += System.lineSeparator() + "IMPORTANT: The SCV has requested a higher then default LoA level: " + loaLevel;
         }
 
-        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale, StringUtils.hasText(emailContactPerson) ? Optional.of(emailContactPerson) : Optional.empty())
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale, Optional.ofNullable(emailContactPerson), Optional.ofNullable(loaLevel))
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
@@ -209,13 +210,13 @@ public class ServicesController extends BaseController {
                                                            @RequestParam(value = "type") String type,
                                                            Locale locale) throws IOException {
 
-        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale, Optional.empty())
+        return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale, Optional.empty(), Optional.empty())
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
     }
 
     private Optional<Action> createAction(String idpEntityId, String comments, String spEntityId, String typeMetaData, Action.Type
-            jiraType, Locale locale, Optional<String> emailContactPersonOptional) throws IOException {
+            jiraType, Locale locale, Optional<String> emailContactPersonOptional, Optional<String> loaLevel) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             return Optional.empty();
@@ -250,6 +251,7 @@ public class ServicesController extends BaseController {
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
                 return Optional.of(actionsService.connectWithoutInteraction(action));
             } else {
+                manage.createConnectionRequests(idpEntityId, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
                 return Optional.of(actionsService.create(action, Collections.emptyList()));
             }
         }

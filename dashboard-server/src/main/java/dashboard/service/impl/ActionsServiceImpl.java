@@ -101,7 +101,7 @@ public class ActionsServiceImpl implements ActionsService {
 
     private Map<String, ServiceProvider> serviceProviders(List<Action> issues, EntityType entityType) {
         Set<String> entityIds = issues.stream()
-                .filter(action -> StringUtils.isEmpty(action.getTypeMetaData()) || action.getTypeMetaData().equals(entityType.name()))
+                .filter(action -> !StringUtils.hasText(action.getTypeMetaData()) || action.getTypeMetaData().equals(entityType.name()))
                 .map(Action::getSpId)
                 .filter(StringUtils::hasText)
                 .collect(Collectors.toSet());
@@ -154,7 +154,7 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     private Optional<String> matchingGroup(Pattern pattern, String input) {
-        if (StringUtils.isEmpty(input)) {
+        if (!StringUtils.hasText(input)) {
             return Optional.empty();
         }
         Matcher matcher = pattern.matcher(input);
@@ -187,10 +187,9 @@ public class ActionsServiceImpl implements ActionsService {
     public Action connectWithoutInteraction(Action action) {
         Action savedAction = addNames(action);
 
-        String resp = manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
+        manage.connectWithoutInteraction(savedAction.getIdpId(), savedAction.getSpId(), savedAction.getTypeMetaData());
 
-        boolean success = resp.equals("success");
-        savedAction = savedAction.unbuild().rejected(!success).build();
+        savedAction = savedAction.unbuild().rejected(false).build();
         if (!savedAction.isRejected()) {
             List<String> idpEmails = sabClient.getSabEmailsForOrganization(action.getIdpId(), "SURFconextverantwoordelijke")
                     .stream().map(SabPerson::getEmail).collect(toList());
@@ -206,8 +205,8 @@ public class ActionsServiceImpl implements ActionsService {
             }
             Optional<ServiceProvider> serviceProvider = manage.getServiceProvider(action.getSpId(), EntityType.valueOf(action.getTypeMetaData()), true);
             List<String> spEmails = spEmails(serviceProvider);
-            LOG.info("{} emails 'automatic connection made' to SP contact persons {}", action.shouldSendEmail() ? "Sending " : "Not sending ", spEmails);
-            if (!CollectionUtils.isEmpty(spEmails) && action.shouldSendEmail()) {
+            LOG.info("{} emails 'automatic connection made' to SP contact persons {}", action.isShouldSendEmail() ? "Sending " : "Not sending ", spEmails);
+            if (!CollectionUtils.isEmpty(spEmails) && action.isShouldSendEmail()) {
                 mailBox.sendDashboardConnectWithoutInteractionEmail(spEmails,
                         savedAction.getIdpName(),
                         savedAction.getSpName(),
@@ -275,7 +274,7 @@ public class ActionsServiceImpl implements ActionsService {
         }
         String subject = String.format(
                 "[Services (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
-                getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey().orElse("???"));
+                getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey());
         try {
             mailBox.sendAdministrativeMail(action.toString(), subject);
         } catch (Exception e) {

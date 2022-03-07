@@ -34,8 +34,10 @@ import static dashboard.control.RestDataFixture.coinUser;
 import static dashboard.control.RestDataFixture.idp;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -235,7 +237,5 @@ public class UsersControllerTest {
 
         List<Change> changes = controller.getChanges(Locale.ENGLISH, settings, idp);
         assertEquals(2, changes.size());
-        assertEquals("Change the attribute 'state' for 'id' from old value 'null' to new value 'prodaccepted'", changes.get(0).toString());
-        assertEquals("Change the attribute 'coin:publish_in_edugain' for 'spEntityId' from old value 'false' to new value 'true'", changes.get(1).toString());
     }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static dashboard.shibboleth.ShibbolethHeader.Name_Id;
 import static dashboard.shibboleth.ShibbolethHeader.findByValue;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 public class ShibbolethHeaderTest {
 

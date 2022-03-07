@@ -15,6 +15,7 @@
  */
 package dashboard.domain;
 
+import dashboard.manage.EntityType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class IdentityProvider extends Provider implements Serializable {
 
     private String institutionId;
@@ -130,5 +131,10 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public boolean isDisplayStatsInDashboard() {
         return displayStatsInDashboard;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.saml20_idp;
     }
 }

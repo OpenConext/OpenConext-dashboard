@@ -106,8 +106,8 @@ public class UsersController extends BaseController {
                             "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
-            } catch (IllegalArgumentException e) {
-                //Something went wrong in Manage
+            } catch (Exception e) {
+                LOG.error("Something went wrong in Manage", e);
                 actionsService.comment(jiraKey,
                         "The connection could not be made automatically due to an error in Manage: " + e.getMessage());
                 throw e;
@@ -164,7 +164,7 @@ public class UsersController extends BaseController {
         Action action = actionsService.searchTasks(resendInviteRequest.getIdpId(), jiraFilter).getIssues().stream().findAny()
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Jira issue with key %s for IdP %s not found.", resendInviteRequest.getJiraKey(), resendInviteRequest.getIdpId())));
         String emailTo = action.getEmailTo();
-        if (StringUtils.isEmpty(emailTo)) {
+        if (!StringUtils.hasText(emailTo)) {
             throw new IllegalArgumentException(String.format("There are no emails set on issue %s", resendInviteRequest.getJiraKey()));
         }
         mailbox.sendInviteMailReminder(action, resendInviteRequest.getComments());
@@ -352,8 +352,8 @@ public class UsersController extends BaseController {
 
         if (!previousConsentOptional.isPresent()
                 && consent.getType().equals(ConsentType.DEFAULT_CONSENT)
-                && StringUtils.isEmpty(consent.getExplanationEn())
-                && StringUtils.isEmpty(consent.getExplanationEn())) {
+                && !StringUtils.hasText(consent.getExplanationEn())
+                && !StringUtils.hasText(consent.getExplanationEn())) {
             return changes;
         }
         Consent previousConsent = previousConsentOptional.orElse(new Consent());

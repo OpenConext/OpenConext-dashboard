@@ -3,19 +3,18 @@ package dashboard.manage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.domain.*;
+import dashboard.util.SpringSecurity;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
 
+@SuppressWarnings("unchecked")
 public interface Manage {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -94,9 +93,8 @@ public interface Manage {
 
     default <T extends Provider> Map<String, T> parseProviders(Resource resource, Function<Map<String, Object>, T>
             provider) throws IOException {
-        List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new
-                TypeReference<List<Map<String, Object>>>() {
-                });
+        List<Map<String, Object>> providers = objectMapper.readValue(resource.getInputStream(), new TypeReference<>() {
+        });
 
         Map<String, T> result = providers.stream()
                 .map(this::transformManageMetadata).map(provider).collect(toSet()).stream().collect(toMap(Provider::getId,
@@ -107,6 +105,7 @@ public interface Manage {
     default Map<String, Object> transformManageMetadata(Map<String, Object> metadata) {
         Map<String, Object> data = (Map<String, Object>) metadata.get("data");
         Map<String, Object> result = new HashMap<>();
+        result.put("internalId", metadata.get("_id"));
         data.entrySet().forEach(entry -> {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -182,5 +181,38 @@ public interface Manage {
         return result;
     }
 
-    String connectWithoutInteraction(String idpId, String spId, String type);
+    void connectWithoutInteraction(String idpId, String spId, String type);
+
+    Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
+
+    List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel);
+
+    List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note);
+
+    default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, String note, boolean add) {
+        if (source.isAllowedAll()) {
+            return Optional.empty();
+        }
+        Map<String, Object> pathUpdates = new HashMap<>();
+        Set<String> allowedEntityIds = source.getAllowedEntityIds();
+        if (add) {
+            allowedEntityIds.add(target.getId());
+        } else {
+            allowedEntityIds.remove(target.getId());
+        }
+        pathUpdates.put("allowedEntities", allowedEntityIds.stream().map(allowedEntity -> Map.of("name", allowedEntity)).collect(Collectors.toList()));
+        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+        return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), note, pathUpdates, auditData));
+
+    }
+
+    default List<ChangeRequest> allowedEntityChangeRequest(String idpEntityId, String spEntityId, EntityType spEntityType, String note, boolean add) {
+        IdentityProvider identityProvider = getIdentityProvider(idpEntityId, false).orElseThrow(IllegalArgumentException::new);
+        ServiceProvider serviceProvider = getServiceProvider(spEntityId, spEntityType, false).orElseThrow(IllegalArgumentException::new);
+        List<ChangeRequest> changeRequests = new ArrayList<>();
+        changeRequestForAllowedEntity(identityProvider, serviceProvider, note, add).ifPresent(changeRequests::add);
+        changeRequestForAllowedEntity(serviceProvider, identityProvider, note, add).ifPresent(changeRequests::add);
+        return changeRequests;
+    }
+
 }

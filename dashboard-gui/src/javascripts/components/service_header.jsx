@@ -13,6 +13,7 @@ import LicenseInfoText from '../components/license_info_text'
 import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.svg'
 import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
 import { getBackPath } from '../utils/back_path'
+import StepUpModal from "./step_up_modal";
 
 export default function ServiceHeader({ app, policies, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -21,6 +22,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [showDenyModal, setShowDenyModal] = useState(false)
+  const [showStepUpModal, setShowStepUpModal] = useState(false)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
@@ -64,6 +66,14 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   useEffect(() => {
     fetchJira()
   }, [])
+
+  const checkLoaLevel = callback => {
+    if (currentUser.currentLoaLevel === 1) {
+      setShowStepUpModal(true)
+    } else {
+      callback();
+    }
+  }
 
   return (
     <>
@@ -113,7 +123,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="g-button"
-                      onClick={() => setShowDisconnectModal(true)}
+                      onClick={() => checkLoaLevel(() => setShowDisconnectModal(true))}
                     >
                       <FontAwesomeIcon icon={faCheck} />
                       {I18n.t('apps.detail.connected')}
@@ -123,7 +133,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="c-button"
-                      onClick={() => setShowConnectModal(true)}
+                      onClick={() => checkLoaLevel(() => setShowConnectModal(true))}
                     >
                       {I18n.t('apps.detail.connect_service')}
                     </button>
@@ -133,14 +143,14 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       <button
                         disabled={!canConnectOrDisconnect}
                         className="g-button"
-                        onClick={() => setShowConnectModal(true)}
+                        onClick={() => checkLoaLevel(() => setShowConnectModal(true))}
                       >
                         {I18n.t('apps.detail.approve_invite')}
                       </button>
                       <button
                         disabled={!canConnectOrDisconnect}
                         className="red-button deny-invite"
-                        onClick={() => setShowDenyModal(true)}
+                        onClick={() => checkLoaLevel(() => setShowDenyModal(true))}
                       >
                         {I18n.t('apps.detail.deny_invite')}
                       </button>
@@ -190,6 +200,12 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
           isOpen={showDenyModal}
           onSubmit={refresh}
           onClose={() => setShowDenyModal(false)}
+        />
+        <StepUpModal
+            app={app}
+            currentUser={currentUser}
+            isOpen={showStepUpModal}
+            onClose={() => setShowStepUpModal(false)}
         />
       </div>
     </>

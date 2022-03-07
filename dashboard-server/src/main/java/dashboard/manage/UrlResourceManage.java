@@ -5,6 +5,7 @@ import dashboard.domain.ServiceProvider;
 import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unchecked")
 public class UrlResourceManage implements Manage {
     private final static Logger LOG = LoggerFactory.getLogger(UrlResourceManage.class);
 
@@ -90,7 +92,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
-        if (StringUtils.isEmpty(spEntityId)) {
+        if (!StringUtils.hasText(spEntityId)) {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", spEntityId);
@@ -114,7 +116,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<IdentityProvider> getIdentityProvider(String idpEntityId, boolean searchRevisions) {
-        if (StringUtils.isEmpty(idpEntityId)) {
+        if (!StringUtils.hasText(idpEntityId)) {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", idpEntityId);
@@ -254,24 +256,39 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public String connectWithoutInteraction(String idpId, String spId, String type) {
-        String url;
+    public void connectWithoutInteraction(String idpId, String spId, String type) {
+        String url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction";
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("idpId", idpId);
+        bodyMap.put("spId", spId);
+        bodyMap.put("spType", type);
+        bodyMap.put("user", SpringSecurity.getCurrentUser().getDisplayName());
+        bodyMap.put("userUrn", SpringSecurity.getCurrentUser().getUid());
 
-        try {
-            url = manageBaseUrl + "/manage/api/internal/connectWithoutInteraction/";
-            Map<String, String> body = new HashMap<>();
-            body.put("idpId", idpId);
-            body.put("spId", spId);
-            body.put("spType", type);
-            body.put("user", SpringSecurity.getCurrentUser().getDisplayName());
-            body.put("userUrn", SpringSecurity.getCurrentUser().getUid());
+        //Fire and forget. An exception will be thrown by the restTemplate if the return is not 20X
+        restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(bodyMap, this.httpHeaders), byte[].class);
+    }
 
-            ResponseEntity<byte[]> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
-                    new HttpEntity<>(body, this.httpHeaders), byte[].class);
-            return responseEntity.getStatusCode().is2xxSuccessful() ? "success" : "failure";
-        } catch (Exception e) {
-            LOG.error("Exception in Manage connectWithoutInteraction", e);
-            throw new IllegalArgumentException(e.getMessage());
-        }
+    @Override
+    public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
+        String url = manageBaseUrl + "/manage/api/internal/change-requests";
+        HttpEntity<ChangeRequest> requestEntity = new HttpEntity<>(changeRequest, this.httpHeaders);
+        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {
+        });
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, true);
+        changeRequests.forEach(this::createChangeRequests);
+        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, false);
+        changeRequests.forEach(this::createChangeRequests);
+        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
     }
 }

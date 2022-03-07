@@ -42,7 +42,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login")
-    public void start(HttpServletRequest request, HttpServletResponse response,
+    public void start(HttpServletRequest request,
+                      HttpServletResponse response,
                       @RequestParam("redirect_url") String redirectUrl,
                       @RequestParam(value = "loa", required = false) Integer loa)
             throws IOException, ServletException {

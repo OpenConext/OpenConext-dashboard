@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
-import org.springframework.security.crypto.codec.Base64;
+
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -72,7 +72,7 @@ public class JiraClientImpl implements JiraClient {
 
         this.defaultHeaders = new HttpHeaders();
         this.defaultHeaders.setContentType(MediaType.APPLICATION_JSON);
-        byte[] encoded = Base64.encode((username + ":" + password).getBytes());
+        byte[] encoded = Base64.getEncoder().encode((username + ":" + password).getBytes());
         this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
         this.restTemplate = new RestTemplate();
         this.environment = baseUrl.contains("test") ? "test" : "prod";
@@ -126,7 +126,7 @@ public class JiraClientImpl implements JiraClient {
         } catch (HttpClientErrorException e) {
             LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e
                     .getResponseBodyAsString());
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

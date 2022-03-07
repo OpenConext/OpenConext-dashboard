@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class SabClient implements Sab {
 
         try (InputStream is = sabTransport.getResponse(requestBody)) {
             SabRoleHolder sabRoleHolder = sabResponseParser.parse(is);
-            return CollectionUtils.isEmpty(sabRoleHolder.getRoles()) && StringUtils.isEmpty(sabRoleHolder.getOrganisation()) ? Optional.empty() : Optional.of(sabRoleHolder);
+            return CollectionUtils.isEmpty(sabRoleHolder.getRoles()) && !StringUtils.hasText(sabRoleHolder.getOrganisation()) ? Optional.empty() : Optional.of(sabRoleHolder);
         } catch (IOException e) {
             LOG.warn("Skipping SAB entitlement, SAB request got IOException: {}", e.getMessage());
             return Optional.empty();
@@ -72,7 +73,7 @@ public class SabClient implements Sab {
     @SuppressWarnings("unchecked")
     public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role) {
         try (InputStream inputStream = sabTransport.getRestResponse(organisationAbbreviation, role)) {
-            String json = IOUtils.toString(inputStream);
+            String json = IOUtils.toString(inputStream, Charset.defaultCharset());
 
             LOG.debug("SAB results 'getPersonsInRoleForOrganization' for {} {} is {}", organisationAbbreviation, role, json);
 
@@ -117,7 +118,7 @@ public class SabClient implements Sab {
             String issueInstant = XML_DATE_TIME_FORMAT.print(new Date().getTime());
             return MessageFormat.format(template, messageId, issueInstant, userId);
         } catch (IOException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

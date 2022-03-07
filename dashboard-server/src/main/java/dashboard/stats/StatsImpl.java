@@ -13,6 +13,7 @@ import java.util.Optional;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+@SuppressWarnings("unchecked")
 public class StatsImpl implements Stats, Constants {
 
     private RestTemplate restTemplate;

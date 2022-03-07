@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -23,22 +24,22 @@ public class UrlResourceManageTest {
 
     @Before
     public void before() throws Exception {
-        String spResponse = IOUtils.toString(new ClassPathResource("manage/service-providers.json").getInputStream());
+        String spResponse = IOUtils.toString(new ClassPathResource("manage/service-providers.json").getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/saml20_sp")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(spResponse)));
 
-        String idpResponse = IOUtils.toString(new ClassPathResource("manage/identity-providers.json").getInputStream());
+        String idpResponse = IOUtils.toString(new ClassPathResource("manage/identity-providers.json").getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/saml20_idp")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(idpResponse)));
 
         String singleTenantTemplateResponse = IOUtils.toString(new ClassPathResource("manage/single-tenants.json")
-                .getInputStream());
+                .getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/single_tenant_template")).willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(singleTenantTemplateResponse)));
 
         String rpTemplateResponse = IOUtils.toString(new ClassPathResource("manage/relying-parties.json")
-                .getInputStream());
+                .getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/oidc10_rp")).willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(rpTemplateResponse)));

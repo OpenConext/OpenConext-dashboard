@@ -5,6 +5,7 @@ import java.util.Arrays;
 public enum ShibbolethHeader {
 
     Shib_Authenticating_Authority("Shib-Authenticating-Authority"),
+    Shib_AuthnContext_Class("Shib-AuthnContext-Class"),
 
     Name_Id("name-id"),
     Shib_Uid("uid"),

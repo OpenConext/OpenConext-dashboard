@@ -1,11 +1,12 @@
 package dashboard.shibboleth;
 
 import com.google.common.collect.ImmutableList;
-import dashboard.domain.*;
+import dashboard.domain.CoinAuthority;
+import dashboard.domain.CoinUser;
+import dashboard.domain.IdentityProvider;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
 import dashboard.sab.SabRoleHolder;
-import dashboard.service.impl.JiraClient;
 import dashboard.service.impl.JiraClientMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -25,10 +25,9 @@ import static dashboard.domain.CoinAuthority.Authority.*;
 import static dashboard.shibboleth.ShibbolethHeader.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

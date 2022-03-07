@@ -147,13 +147,7 @@ public class ServicesControllerTest {
     public void thatALinkRequestCanBeMade() throws Exception {
         coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-        Action expectedAction = Action.builder()
-                .type(Action.Type.LINKREQUEST)
-                .userName(coinUser.getUsername())
-                .spId(SP_ENTITY_ID)
-                .idpId(IDP_ENTITY_ID).build();
-
-        when(actionsServiceMock.create(expectedAction, Collections.emptyList())).thenAnswer(invocation -> invocation
+        when(actionsServiceMock.create(any(Action.class), anyList())).thenAnswer(invocation -> invocation
                 .getArguments()[0]);
 
         this.mockMvc.perform(

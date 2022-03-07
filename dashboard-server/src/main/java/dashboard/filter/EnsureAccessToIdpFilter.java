@@ -18,7 +18,7 @@ import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 
 public class EnsureAccessToIdpFilter extends GenericFilterBean {
 
-    private Manage manage;
+    private final Manage manage;
 
     public EnsureAccessToIdpFilter(Manage manage) {
         this.manage = manage;

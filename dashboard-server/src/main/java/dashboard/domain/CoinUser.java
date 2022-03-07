@@ -40,6 +40,7 @@ public class CoinUser implements UserDetails {
 
     private IdentityProvider currentIdp;
     private IdentityProvider switchedToIdp;
+    private int currentLoaLevel;
     private List<IdentityProvider> institutionIdps = new ArrayList<>();
     private String institutionId;
     private String email;
@@ -347,6 +348,14 @@ public class CoinUser implements UserDetails {
 
     public IdentityProvider getCurrentIdp() {
         return currentIdp;
+    }
+
+    public int getCurrentLoaLevel() {
+        return currentLoaLevel;
+    }
+
+    public void setCurrentLoaLevel(int currentLoaLevel) {
+        this.currentLoaLevel = currentLoaLevel;
     }
 
     @Override

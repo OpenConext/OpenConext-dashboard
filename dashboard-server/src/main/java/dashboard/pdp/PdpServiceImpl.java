@@ -131,7 +131,7 @@ public class PdpServiceImpl implements PdpService, Constants {
             }
 
             LOG.error("Response error: {} {}:\n {}", sce.getStatusCode(), sce.getStatusText(), sce.getResponseBodyAsString());
-            throw Throwables.propagate(sce);
+            throw new RuntimeException(sce);
         }
     }
 
@@ -194,7 +194,7 @@ public class PdpServiceImpl implements PdpService, Constants {
             return makeRequest.get();
         } catch (HttpStatusCodeException sce) {
             LOG.error("Response error: {} {}:\n {}", sce.getStatusCode(), sce.getStatusText(), sce.getResponseBodyAsString());
-            throw Throwables.propagate(sce);
+            throw new RuntimeException(sce);
         }
     }
 
