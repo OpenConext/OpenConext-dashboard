@@ -1190,4 +1190,10 @@ I18n.translations.pt = {
       },
     },
   },
+  stepup :{
+    title: 'SURF Secure ID Step up',
+    info: 'In order to perform this action it is required to add a second factor to your authentication. When you proceed you will redirected to add this second factor and then you will return here again.',
+    cancel: 'Cancel',
+    go: 'Proceed'
+  }
 }

@@ -1193,4 +1193,11 @@ I18n.translations.nl = {
       },
     },
   },
+  stepup :{
+    title: 'SURF Secure ID Step up',
+    info: 'Om deze actie uit te voeren is het nodig om een tweede factor toe te voegen aan je authenticatie. Wanneer je doorgaat, wordt je doorgestuurd om deze tweede factor toe te voegen en daarna keer je hier weer terug.',
+    cancel: 'Annuleren',
+    go: 'Doorgaan'
+  }
+
 }
