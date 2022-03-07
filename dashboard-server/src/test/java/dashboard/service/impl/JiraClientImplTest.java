@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class JiraClientImplTest {
 
     @Test
     public void getTasks() throws IOException {
-        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/tasks.json").getInputStream());
+        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/tasks.json").getInputStream(), Charset.defaultCharset());
 
         stubFor(post(urlPathEqualTo("/search")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(jiraResponse)));
@@ -41,7 +42,7 @@ public class JiraClientImplTest {
 
     @Test
     public void getTasksRejected() throws IOException {
-        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/rejected_task.json").getInputStream());
+        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/rejected_task.json").getInputStream(), Charset.defaultCharset());
 
         stubFor(post(urlPathEqualTo("/search")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(jiraResponse)));

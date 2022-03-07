@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class IdentityProvider extends Provider implements Serializable {
 
     private String institutionId;

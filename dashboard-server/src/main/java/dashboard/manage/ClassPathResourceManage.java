@@ -160,7 +160,12 @@ public class ClassPathResourceManage implements Manage {
     }
 
     @Override
-    public void createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
-        //nope
+    public List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+        return Collections.emptyList();
     }
 }

@@ -92,7 +92,7 @@ public class SabResponseParser {
             roles = extractRoles(xpath, document);
             return new SabRoleHolder(organisation, roles);
         } catch (XPathExpressionException | ParserConfigurationException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         } catch (SAXException e) {
             throw new IOException(e);
         }

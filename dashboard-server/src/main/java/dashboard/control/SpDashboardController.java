@@ -96,7 +96,7 @@ public class SpDashboardController extends BaseController {
         InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, String.valueOf(sp.getEid()), idpName, spName, contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);
 
-        return ResponseEntity.ok(Collections.singletonMap("jiraKey", action.getJiraKey().get()));
+        return ResponseEntity.ok(Collections.singletonMap("jiraKey", action.getJiraKey()));
     }
 
     private boolean invalidUser(HttpServletRequest request) {

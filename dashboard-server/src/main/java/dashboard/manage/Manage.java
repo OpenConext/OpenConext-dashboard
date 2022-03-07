@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
 
+@SuppressWarnings("unchecked")
 public interface Manage {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -184,9 +185,9 @@ public interface Manage {
 
     Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
 
-    void createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note);
+    List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel);
 
-    //Map<String, Object> deactivateConnectionRequests(String idpEntityId, String spEntityId);
+    List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note);
 
     default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, String note, boolean add) {
         if (source.isAllowedAll()) {

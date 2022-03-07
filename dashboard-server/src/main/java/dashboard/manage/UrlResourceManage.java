@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unchecked")
 public class UrlResourceManage implements Manage {
     private final static Logger LOG = LoggerFactory.getLogger(UrlResourceManage.class);
 
@@ -91,7 +92,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<ServiceProvider> getServiceProvider(String spEntityId, EntityType type, boolean searchRevisions) {
-        if (StringUtils.isEmpty(spEntityId)) {
+        if (!StringUtils.hasText(spEntityId)) {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", spEntityId);
@@ -115,7 +116,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public Optional<IdentityProvider> getIdentityProvider(String idpEntityId, boolean searchRevisions) {
-        if (StringUtils.isEmpty(idpEntityId)) {
+        if (!StringUtils.hasText(idpEntityId)) {
             return Optional.empty();
         }
         String body = bodyForEntity.replace("@@entityid@@", idpEntityId);
@@ -272,14 +273,22 @@ public class UrlResourceManage implements Manage {
     public Map<String, Object> createChangeRequests(ChangeRequest changeRequest) {
         String url = manageBaseUrl + "/manage/api/internal/change-requests";
         HttpEntity<ChangeRequest> requestEntity = new HttpEntity<>(changeRequest, this.httpHeaders);
-        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {{
-        }});
+        ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {
+        });
         return responseEntity.getBody();
     }
 
     @Override
-    public void createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+    public List<String> createConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
         List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, true);
         changeRequests.forEach(this::createChangeRequests);
+        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> deactivateConnectionRequests(String idpEntityId, String spEntityId, EntityType entityType, String note) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(idpEntityId, spEntityId, entityType, note, false);
+        changeRequests.forEach(this::createChangeRequests);
+        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
     }
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
 import static dashboard.shibboleth.ShibbolethHeader.*;
 
+@SuppressWarnings("unchecked")
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"

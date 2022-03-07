@@ -15,12 +15,18 @@
  */
 package dashboard.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
 
+@Getter
+@EqualsAndHashCode
+@ToString
 public class Action {
 
     public enum Type {
@@ -54,6 +60,7 @@ public class Action {
     private Settings settings;
     private Consent consent;
     private String loaLevel;
+    private String manageUrl;
 
     private boolean rejected;
 
@@ -83,106 +90,7 @@ public class Action {
         this.consent = builder.consent;
         this.rejected = builder.rejected;
         this.loaLevel = builder.loaLevel;
-    }
-
-    public Optional<String> getJiraKey() {
-        return Optional.ofNullable(jiraKey);
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getPersonalMessage() {
-        return personalMessage;
-    }
-
-    public String getEmailContactPerson() {
-        return emailContactPerson;
-    }
-
-    public String getIdpId() {
-        return idpId;
-    }
-
-    public String getSpId() {
-        return spId;
-    }
-
-    public String getIdpName() {
-        return idpName;
-    }
-
-    public Long getSpEid() {
-        return spEid;
-    }
-
-    public String getTypeMetaData() {
-        return typeMetaData;
-    }
-
-    public ZonedDateTime getRequestDate() {
-        return requestDate;
-    }
-
-    public ZonedDateTime getUpdateDate() {
-        return updateDate;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getResolution() {
-        return resolution;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public String getEmailTo() {
-        return emailTo;
-    }
-
-    public boolean shouldSendEmail() {
-        return shouldSendEmail;
-    }
-
-    public boolean connectWithoutInteraction() {
-        return connectWithoutInteraction;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public String getSpName() {
-        return spName;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public boolean isRejected() {
-        return rejected;
-    }
-
-    public Consent getConsent() {
-        return consent;
-    }
-
-    public String getLoaLevel() {
-        return loaLevel;
+        this.manageUrl = builder.manageUrl;
     }
 
     /**
@@ -192,110 +100,6 @@ public class Action {
         return (a1, a2) -> new CompareToBuilder()
                 .append(a1.getRequestDate(), a2.getRequestDate())
                 .toComparison();
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" +
-                "jiraKey='" + jiraKey + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", body='" + body + '\'' +
-                ", idpId='" + idpId + '\'' +
-                ", spId='" + spId + '\'' +
-                ", idpName='" + idpName + '\'' +
-                ", spName='" + spName + '\'' +
-                ", requestDate=" + requestDate +
-                ", updateDate=" + updateDate +
-                ", type=" + type +
-                ", status='" + status + '\'' +
-                ", service=" + service +
-                ", settings=" + settings +
-                ", consent=" + consent +
-                ", rejected=" + rejected +
-                '}';
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((body == null) ? 0 : body.hashCode());
-        result = prime * result + ((idpId == null) ? 0 : idpId.hashCode());
-        result = prime * result + ((idpName == null) ? 0 : idpName.hashCode());
-        result = prime * result + ((jiraKey == null) ? 0 : jiraKey.hashCode());
-        result = prime * result + ((requestDate == null) ? 0 : requestDate.hashCode());
-        result = prime * result + ((spId == null) ? 0 : spId.hashCode());
-        result = prime * result + ((spName == null) ? 0 : spName.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
-        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Action other = (Action) obj;
-        if (body == null) {
-            if (other.body != null)
-                return false;
-        } else if (!body.equals(other.body))
-            return false;
-        if (idpId == null) {
-            if (other.idpId != null)
-                return false;
-        } else if (!idpId.equals(other.idpId))
-            return false;
-        if (idpName == null) {
-            if (other.idpName != null)
-                return false;
-        } else if (!idpName.equals(other.idpName))
-            return false;
-        if (jiraKey == null) {
-            if (other.jiraKey != null)
-                return false;
-        } else if (!jiraKey.equals(other.jiraKey))
-            return false;
-        if (requestDate == null) {
-            if (other.requestDate != null)
-                return false;
-        } else if (!requestDate.equals(other.requestDate))
-            return false;
-        if (spId == null) {
-            if (other.spId != null)
-                return false;
-        } else if (!spId.equals(other.spId))
-            return false;
-        if (spName == null) {
-            if (other.spName != null)
-                return false;
-        } else if (!spName.equals(other.spName))
-            return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
-            return false;
-        if (type != other.type)
-            return false;
-        if (userEmail == null) {
-            if (other.userEmail != null)
-                return false;
-        } else if (!userEmail.equals(other.userEmail))
-            return false;
-        if (userName == null) {
-            if (other.userName != null)
-                return false;
-        } else if (!userName.equals(other.userName))
-            return false;
-        return true;
     }
 
     public Builder unbuild() {
@@ -333,6 +137,7 @@ public class Action {
         private Consent consent;
         private boolean rejected;
         private String loaLevel;
+        private String manageUrl;
 
         private Builder() {
         }
@@ -363,6 +168,7 @@ public class Action {
             this.consent = action.consent;
             this.rejected = action.rejected;
             this.loaLevel = action.loaLevel;
+            this.manageUrl = action.manageUrl;
         }
 
         public Builder requestDate(ZonedDateTime requestDate) {
@@ -482,6 +288,11 @@ public class Action {
 
         public Builder loaLevel(String loaLevel) {
             this.loaLevel = loaLevel;
+            return this;
+        }
+
+        public Builder manageUrl(String manageUrl) {
+            this.manageUrl = manageUrl;
             return this;
         }
 
