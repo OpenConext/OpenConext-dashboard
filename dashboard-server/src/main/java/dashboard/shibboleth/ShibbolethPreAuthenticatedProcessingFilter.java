@@ -77,6 +77,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String supportedLanguages;
     private String defaultLoa;
     private List<String> loaLevels;
+    private String surfSecureIdIdp;
 
     ShibbolethPreAuthenticatedProcessingFilter(JiraClient jiraClient) {
         this.jiraClient = jiraClient;
@@ -97,7 +98,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String supportedLanguages,
                                                       String organization,
                                                       String defaultLoa,
-                                                      List<String> loaLevels) {
+                                                      List<String> loaLevels,
+                                                      String surfSecureIdIdp) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
@@ -114,6 +116,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.organization = organization;
         this.defaultLoa = defaultLoa;
         this.loaLevels = loaLevels;
+        this.surfSecureIdIdp = surfSecureIdIdp;
     }
 
     @Override
@@ -149,7 +152,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setSurName(getFirstShibHeaderValue(Shib_SurName, request).orElse(null));
         coinUser.setEmail(getFirstShibHeaderValue(Shib_Email, request).orElse(null));
         coinUser.setSchacHomeOrganization(getFirstShibHeaderValue(Shib_HomeOrg, request).orElse(null));
-        coinUser.setCurrentLoaLevel(getFirstShibHeaderValue(Shib_AuthnContext_Class, request).map(this::convertLoaLevel).orElse(1));
+        String identityProvider = getFirstShibHeaderValue(Shib_Identity_Provider, request).orElseThrow(() -> new IllegalArgumentException("Missing request shib header: " + Shib_Identity_Provider.getValue()));
+        coinUser.setCurrentLoaLevel(getFirstShibHeaderValue(Shib_AuthnContext_Class, request).map(shibAuthnContextClass -> this.convertLoaLevel(shibAuthnContextClass, identityProvider)).orElse(1));
         setUserConfigurationData(coinUser);
 
         Map<ShibbolethHeader, List<String>> attributes = shibHeaders.values().stream()
@@ -299,7 +303,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                         "of Idp's returned by the CsaClient", idpId)));
     }
 
-    private int convertLoaLevel(String shibAuthnContextClass) {
+    private int convertLoaLevel(String shibAuthnContextClass, String identityProvider) {
         if (!StringUtils.hasText(shibAuthnContextClass)) {
             return 1;
         }
@@ -307,7 +311,11 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             return 1;
         }
         try {
-            return Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+            int loaLevel = Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+            if (loaLevel > 1 && !surfSecureIdIdp.equalsIgnoreCase(identityProvider)) {
+                throw new IllegalArgumentException(String.format("Expected %s value to be %s, actual %s", Shib_Identity_Provider.getValue(), surfSecureIdIdp, identityProvider));
+            }
+            return loaLevel;
         } catch (NumberFormatException e) {
             return 1;
         }

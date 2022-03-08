@@ -6,6 +6,7 @@ public enum ShibbolethHeader {
 
     Shib_Authenticating_Authority("Shib-Authenticating-Authority"),
     Shib_AuthnContext_Class("Shib-AuthnContext-Class"),
+    Shib_Identity_Provider("Shib-Identity-Provider"),
 
     Name_Id("name-id"),
     Shib_Uid("uid"),

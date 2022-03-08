@@ -24,8 +24,13 @@ import static dashboard.shibboleth.ShibbolethHeader.*;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
-
     public String role = "admin";//"admin";
+
+    private final String surfSecureIdIdp;
+
+    public MockShibbolethFilter(String surfSecureIdIdp) {
+        this.surfSecureIdIdp = surfSecureIdIdp;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException,
@@ -57,6 +62,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
             wrapper.setHeader(Shib_SURFEckid.getValue(), "some surf eckid value");
             wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
             wrapper.setHeader(Shib_AuthnContext_Class.getValue(), "urn:oasis:names:tc:SAML:2.0:ac:classes:Password");
+            wrapper.setHeader(Shib_Identity_Provider.getValue(), "https://engine.test2.surfconext.nl/authentication/idp/metadata");
 
             switch (role) {
                 case "super":
@@ -74,6 +80,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
             if (requestURI.endsWith("Shibboleth.sso/Login")) {
                 String authnContextClassRef = request.getParameter("authnContextClassRef");
                 wrapper.setHeader(Shib_AuthnContext_Class.getValue(), URLDecoder.decode(authnContextClassRef, Charset.defaultCharset()));
+                wrapper.setHeader(Shib_Identity_Provider.getValue(), surfSecureIdIdp);
             }
             chain.doFilter(wrapper, response);
         }

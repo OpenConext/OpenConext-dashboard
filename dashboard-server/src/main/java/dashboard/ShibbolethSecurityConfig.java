@@ -98,6 +98,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${loa_values_supported}")
     private String loaLevels;
 
+    @Value("${surf_secure_id_idp}")
+    private String surfSecureIdIdp;
+
     /*
      * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
      * for a quick overview of the differences between the three configure overrides
@@ -133,7 +136,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization,
-                                defaultLoa, loaLevels),
+                                defaultLoa, loaLevels, surfSecureIdIdp),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
@@ -145,7 +148,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
                 .anyRequest().authenticated();
             if (!shibbolethEnabled) {
-                http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
+                http.addFilterBefore(new MockShibbolethFilter(surfSecureIdIdp), ShibbolethPreAuthenticatedProcessingFilter.class);
                 http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
             }
     }

@@ -2,6 +2,9 @@ package dashboard.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
+
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -18,5 +21,9 @@ public class UpdateInviteRequest {
     private String spEntityId;
     private String typeMetaData;
     private boolean connectWithoutInteraction;
+
+    public Optional<String> getOptionalLoaLevel() {
+     return StringUtils.hasText(loaLevel) ? Optional.of(loaLevel) : Optional.empty();
+    }
 
 }

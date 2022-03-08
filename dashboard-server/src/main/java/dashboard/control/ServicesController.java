@@ -196,6 +196,8 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "type") String type,
                                                         @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
                                                         Locale locale) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        int currentLoaLevel = currentUser.getCurrentLoaLevel();
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale,
                 Optional.ofNullable(emailContactPerson), Optional.ofNullable(StringUtils.hasText(loaLevel) ? loaLevel : null))
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))

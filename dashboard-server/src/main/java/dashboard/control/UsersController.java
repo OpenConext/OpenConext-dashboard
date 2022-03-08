@@ -3,6 +3,7 @@ package dashboard.control;
 import dashboard.domain.*;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.mail.MailBox;
+import dashboard.manage.ChangeRequest;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
@@ -11,6 +12,7 @@ import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,9 @@ public class UsersController extends BaseController {
 
     @Autowired
     private MailBox mailbox;
+
+    @Value("${manage.manageBaseUrl}")
+    private String manageBaseUrl;
 
     private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
@@ -101,10 +106,22 @@ public class UsersController extends BaseController {
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
             try {
                 boolean connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
-                updateInviteRequest.setConnectWithoutInteraction(true);
                 if (connected) {
+                    updateInviteRequest.setConnectWithoutInteraction(true);
                     commentWithUser = commentWithUser.concat("\n" +
                             "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
+                } else {
+                    IdentityProvider identityProvider = currentUser.getCurrentIdp();
+                    EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
+                    List<String> metaDataIdentifiers = manage.createConnectionRequests(identityProvider, updateInviteRequest.getSpEntityId(), entityType, commentWithUser, updateInviteRequest.getOptionalLoaLevel());
+                    commentWithUser = commentWithUser.concat("\n" +
+                            "To create the connection in Manage a change request is made:\n");
+                    //lambda cann only deal with final variables
+                    for (int i = 0; i < metaDataIdentifiers.size(); i++) {
+                        String identifier = metaDataIdentifiers.get(i);
+                        String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
+                        commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
+                    }
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
             } catch (Exception e) {
@@ -138,7 +155,7 @@ public class UsersController extends BaseController {
                     .service(service)
                     .type(Action.Type.LINKREQUEST).build();
 
-            actionsService.connectWithoutInteraction(action, Optional.of(updateInviteRequest.getLoaLevel()));
+            actionsService.connectWithoutInteraction(action, updateInviteRequest.getOptionalLoaLevel());
             return true;
         }
         return false;
@@ -158,7 +175,8 @@ public class UsersController extends BaseController {
         if (optional.isPresent()) {
             Service service = optional.get();
 
-            boolean idpAndSpShareInstitution = (service.getInstitutionId() != null) && service.getInstitutionId().equals(currentUser.getIdp().getInstitutionId());
+            String institutionId = service.getInstitutionId();
+            boolean idpAndSpShareInstitution = (institutionId != null) && institutionId.equals(currentUser.getIdp().getInstitutionId());
             if (idpAndSpShareInstitution || service.connectsWithoutInteraction()) {
                 return optional;
             }
@@ -272,13 +290,21 @@ public class UsersController extends BaseController {
         }
 
         IdentityProvider idp = currentUser.getIdp();
-        Optional<Consent> previousConsent = idp.getDisableConsent().stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
+        List<Consent> disableConsent = idp.getDisableConsent();
+        Optional<Consent> previousConsent = disableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
         String idIdp = idp.getId();
 
         List<Change> changes = getChanges(idIdp, previousConsent, consent);
         if (changes.isEmpty()) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
+        //TODOxxx - need to transform consent to manage format
+        Map<String, Object> pathUpdates = new HashMap<>();
+        pathUpdates.put("disableConsent", disableConsentTransformed);
+        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        manage.createChangeRequests(changeRequest);
+
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -286,6 +312,7 @@ public class UsersController extends BaseController {
                 .spId(consent.getSpEntityId())
                 .typeMetaData(consent.getTypeMetaData())
                 .consent(consent)
+                .manageUrls()
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action, changes);

@@ -247,7 +247,7 @@ public class ActionsServiceImpl implements ActionsService {
     @Override
     public void approveInviteRequest(String jiraKey, String comment, boolean transitionToResolved) {
         Map<String, String> validTransitions = jiraClient.validTransitions(jiraKey);
-        String transitionId = transitionToResolved ? validTransitions.get(JiraClient.RESOLVED) : validTransitions.get(JiraClient.ANSWER_AUTOMATICALLY);
+        String transitionId =  validTransitions.get(transitionToResolved ? JiraClient.RESOLVED : JiraClient.ANSWER_AUTOMATICALLY);
         jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
         // There is no comment option in the Answer Automatically screen, so we need to do this after the transition
         jiraClient.comment(jiraKey, comment);
