@@ -27,6 +27,7 @@ public class RestDataFixture {
     public static CoinUser coinUser(String uid, String... idpIds) {
         CoinUser coinUser = new CoinUser();
         coinUser.setUid(uid);
+        coinUser.setCurrentLoaLevel(3);
         coinUser.addAttribute(Name_Id, singletonList(uid));
         for (String idp : idpIds) {
             coinUser.addInstitutionIdp(new IdentityProvider(idp, "institution id", "name", 1L));

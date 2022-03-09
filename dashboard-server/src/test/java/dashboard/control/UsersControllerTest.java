@@ -220,6 +220,6 @@ public class UsersControllerTest {
         settings.setStateType(StateType.prodaccepted);
 
         Map<String, Object> pathUpdates = controller.getPathUpdates(settings, idp);
-        assertEquals(2, pathUpdates.size());
+        assertEquals(1, pathUpdates.size());
     }
 }
