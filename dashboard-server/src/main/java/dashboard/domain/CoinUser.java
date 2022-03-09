@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.shibboleth.ShibbolethHeader;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 import static dashboard.domain.CoinAuthority.Authority.*;
 
 @SuppressWarnings("serial")
+@ToString
 public class CoinUser implements UserDetails {
 
     private String uid;
@@ -356,21 +358,6 @@ public class CoinUser implements UserDetails {
 
     public void setCurrentLoaLevel(int currentLoaLevel) {
         this.currentLoaLevel = currentLoaLevel;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("uid", uid)
-                .add("displayName", displayName)
-                .add("schacHomeOrganization", schacHomeOrganization)
-                .add("idp", currentIdp)
-                .add("institutionIdps", institutionIdps)
-                .add("institutionId", institutionId)
-                .add("email", email)
-                .add("grantedAuthorities", grantedAuthorities)
-                .add("attributeMap", attributeMap)
-                .add("switchedToIdp", switchedToIdp).toString();
     }
 
 }

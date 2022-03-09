@@ -147,7 +147,7 @@ public class ServicesControllerTest {
     public void thatALinkRequestCanBeMade() throws Exception {
         coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-        when(actionsServiceMock.create(any(Action.class), anyList())).thenAnswer(invocation -> invocation
+        when(actionsServiceMock.create(any(Action.class))).thenAnswer(invocation -> invocation
                 .getArguments()[0]);
 
         this.mockMvc.perform(
@@ -164,7 +164,7 @@ public class ServicesControllerTest {
     public void thatADisconnectRequestCanBeMade() throws Exception {
         coinUser.addAuthority(new CoinAuthority(CoinAuthority.Authority.ROLE_DASHBOARD_ADMIN));
 
-        when(actionsServiceMock.create(any(), any())).thenAnswer(invocation -> invocation.getArguments()[0]);
+        when(actionsServiceMock.create(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
 
         this.mockMvc.perform(
                         post("/dashboard/api/services/disconnect")

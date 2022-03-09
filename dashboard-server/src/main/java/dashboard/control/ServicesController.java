@@ -6,6 +6,8 @@ import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/dashboard/api/services", produces = APPLICATION_JSON_VALUE)
 @SuppressWarnings("unchecked")
 public class ServicesController extends BaseController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ServicesController.class);
 
     @Autowired
     private Services services;
@@ -197,7 +201,10 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
                                                         Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        int currentLoaLevel = currentUser.getCurrentLoaLevel();
+        if (currentUser.getCurrentLoaLevel() < 2) {
+            LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.LINKREQUEST, locale,
                 Optional.ofNullable(emailContactPerson), Optional.ofNullable(StringUtils.hasText(loaLevel) ? loaLevel : null))
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
@@ -213,6 +220,11 @@ public class ServicesController extends BaseController {
                                                            @RequestParam(value = "type") String type,
                                                            Locale locale) throws IOException {
 
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.getCurrentLoaLevel() < 2) {
+            LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return createAction(idpEntityId, comments, spEntityId, type, Action.Type.UNLINKREQUEST, locale, Optional.empty(), Optional.empty())
                 .map(action -> ResponseEntity.ok(createRestResponse(action)))
                 .orElse(new ResponseEntity<>(HttpStatus.FORBIDDEN));
@@ -266,7 +278,7 @@ public class ServicesController extends BaseController {
                     String entityType = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : typeMetaData;
                     action.addManageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, entityType, identifier));
                 });
-                return Optional.of(actionsService.create(action, Collections.emptyList()));
+                return Optional.of(actionsService.create(action));
             }
         }
 

@@ -85,7 +85,7 @@ public class UsersController extends BaseController {
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
 
-        action = actionsService.create(action, Collections.emptyList());
+        action = actionsService.create(action);
         mailbox.sendInviteMail(inviteRequest, action);
 
         return ResponseEntity.ok(createRestResponse(action));
@@ -288,7 +288,10 @@ public class UsersController extends BaseController {
             LOG.warn("Consent endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
+        if (currentUser.getCurrentLoaLevel() < 2) {
+            LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         IdentityProvider idp = currentUser.getIdp();
         List<Consent> disableConsent = idp.getDisableConsent();
         Optional<Consent> previousConsent = disableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
@@ -298,8 +301,28 @@ public class UsersController extends BaseController {
         if (changes.isEmpty()) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
-        //TODOxxx - need to transform consent to manage format
         Map<String, Object> pathUpdates = new HashMap<>();
+        List<Map<String, String>> disableConsentTransformed = disableConsent.stream().map(c -> Map.of(
+                "name", c.getSpEntityId(),
+                "type", c.getType().name().toLowerCase(),
+                "explanation:en", c.getExplanationEn(),
+                "explanation:nl", c.getExplanationNl()
+        )).collect(toList());
+        if (previousConsent.isPresent()) {
+            disableConsentTransformed.stream().filter(c -> c.get("name").equals(consent.getSpEntityId())).findFirst()
+                    .ifPresent(c -> {
+                        c.put("type", consent.getType().name().toLowerCase());
+                        c.put("explanation:en", consent.getExplanationEn());
+                        c.put("explanation:nl", consent.getExplanationNl());
+                    });
+        } else {
+            disableConsentTransformed.add(Map.of(
+                    "name", consent.getSpEntityId(),
+                    "type", consent.getType().name().toLowerCase(),
+                    "explanation:en", consent.getExplanationEn(),
+                    "explanation:nl", consent.getExplanationNl()
+            ));
+        }
         pathUpdates.put("disableConsent", disableConsentTransformed);
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
         ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
@@ -312,10 +335,10 @@ public class UsersController extends BaseController {
                 .spId(consent.getSpEntityId())
                 .typeMetaData(consent.getTypeMetaData())
                 .consent(consent)
-                .manageUrls()
+                .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
-        action = actionsService.create(action, changes);
+        action = actionsService.create(action);
 
         return ResponseEntity.ok(createRestResponse(action));
     }
@@ -339,6 +362,7 @@ public class UsersController extends BaseController {
         if (changes.isEmpty()) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
+        //TODO create change request
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -347,7 +371,7 @@ public class UsersController extends BaseController {
                 .loaLevel(loaLevelChange.getLoaLevel())
                 .type(Action.Type.CHANGE).build();
 
-        action = actionsService.create(action, changes);
+        action = actionsService.create(action);
 
         return ResponseEntity.ok(createRestResponse(action));
 
@@ -378,8 +402,8 @@ public class UsersController extends BaseController {
                 .settings(settings)
                 .typeMetaData(settings.getTypeMetaData())
                 .type(Action.Type.CHANGE).build();
-
-        action = actionsService.create(action, changes);
+        //TODO create change request
+        action = actionsService.create(action);
 
         return ResponseEntity.ok(createRestResponse(action));
     }
@@ -388,7 +412,7 @@ public class UsersController extends BaseController {
         List<Change> changes = new ArrayList<>();
 
         if (!previousConsentOptional.isPresent()
-                && consent.getType().equals(ConsentType.DEFAULT_CONSENT)
+                && consent.getType().equals(ConsentType.MINIMAL_CONSENT)
                 && !StringUtils.hasText(consent.getExplanationEn())
                 && !StringUtils.hasText(consent.getExplanationEn())) {
             return changes;

@@ -56,7 +56,7 @@ public class JiraClientMock implements JiraClient {
     }
 
     @Override
-    public String create(final Action action, List<Change> changes) {
+    public String create(final Action action) {
         String key = generateKey();
 
         repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody())

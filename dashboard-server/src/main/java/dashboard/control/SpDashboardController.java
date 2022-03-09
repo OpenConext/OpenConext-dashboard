@@ -90,8 +90,8 @@ public class SpDashboardController extends BaseController {
                 .idpId(idpEntityId)
                 .spId(spEntityId)
                 .type(Action.Type.LINKINVITE).build();
-
-        action = actionsService.create(action, Collections.emptyList());
+        //TODO create change request
+        action = actionsService.create(action);
 
         InviteRequest inviteRequest = new InviteRequest(serviceConnectionRequest, String.valueOf(sp.getEid()), idpName, spName, contactPersons);
         mailbox.sendInviteMail(inviteRequest, action);

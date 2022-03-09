@@ -3,7 +3,7 @@ import I18n from 'i18n-js'
 import ConnectModalContainer from './connect_modal_container'
 import {login} from "../utils/utils";
 
-export default function StepUpModal({app, currentUser, isOpen, onClose, requiredLoaLevel = 2}) {
+export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2}) {
     return (
         <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
             <div className="connect-modal-header">

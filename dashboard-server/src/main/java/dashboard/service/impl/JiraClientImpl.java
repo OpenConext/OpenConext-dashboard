@@ -85,7 +85,7 @@ public class JiraClientImpl implements JiraClient {
 
     @Override
     @SuppressWarnings("unchecked")
-    public String create(final Action action, List<Change> changes) {
+    public String create(final Action action) {
         Map<String, Object> fields = new HashMap<>();
         fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));
@@ -103,7 +103,7 @@ public class JiraClientImpl implements JiraClient {
         }
         fields.put("issuetype", ImmutableMap.of("id", actionToIssueIdentifier(action.getType())));
 
-        SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action, changes);
+        SummaryAndDescription summaryAndDescription = JiraTicketSummaryAndDescriptionBuilder.build(action);
         fields.put("summary", summaryAndDescription.summary);
         fields.put("description", summaryAndDescription.description);
         fields.put("duedate", dueDate());

@@ -28,7 +28,7 @@ public interface ActionsService {
 
     JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
 
-    Action create(Action action, List<Change> changes);
+    Action create(Action action);
 
     Action connectWithoutInteraction(Action action, Optional<String> loaLevel) throws IOException;
 

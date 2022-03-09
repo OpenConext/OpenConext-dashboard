@@ -31,7 +31,7 @@ public interface JiraClient {
     String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
     String RESOLVED = "To Resolved";
 
-    String create(Action action, List<Change> changes) throws IllegalStateException;
+    String create(Action action) throws IllegalStateException;
 
     JiraResponse searchTasks(String idp, JiraFilter jiraFilter);
 

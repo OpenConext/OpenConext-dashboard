@@ -7,9 +7,11 @@ import ReactTooltip from 'react-tooltip'
 import { consentTypes } from '../utils/utils'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
+import StepUpModal from "../components/step_up_modal";
 
 export default function Consent({ app }) {
   const [consent, setConsent] = useState(null)
+  const [showStepUpModal, setShowStepUpModal] = useState(false)
   const { currentUser } = useContext(CurrentUserContext)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const subTitle2 = isDashboardAdmin ? 'subtitle2' : 'subtitle2Viewer'
@@ -25,6 +27,14 @@ export default function Consent({ app }) {
     }
 
     setConsent(consent)
+  }
+
+  const checkLoaLevel = callback => {
+    if (currentUser.currentLoaLevel === 1) {
+      setShowStepUpModal(true)
+    } else {
+      callback();
+    }
   }
 
   function onSave(e) {
@@ -125,12 +135,18 @@ export default function Consent({ app }) {
           )}
 
           {isDashboardAdmin && (
-            <button className="c-button save" onClick={(e) => onSave(e)}>
+            <button className="c-button save"
+                    onClick={e => checkLoaLevel(() => onSave(e))}>
               {I18n.t('consent_panel.save')}
             </button>
           )}
         </section>
       </div>
+      <StepUpModal
+          app={app}
+          isOpen={showStepUpModal}
+          onClose={() => setShowStepUpModal(false)}
+      />
     </div>
   )
 }

@@ -203,7 +203,6 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
         />
         <StepUpModal
             app={app}
-            currentUser={currentUser}
             isOpen={showStepUpModal}
             onClose={() => setShowStepUpModal(false)}
         />

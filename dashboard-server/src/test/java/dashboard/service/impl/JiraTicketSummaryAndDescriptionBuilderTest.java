@@ -22,7 +22,7 @@ public class JiraTicketSummaryAndDescriptionBuilderTest {
 
         Action action = Action.builder().type(Action.Type.LINKREQUEST).body("my remarks").service(service).build();
 
-        SummaryAndDescription summaryAndDescription = build(action, Collections.emptyList());
+        SummaryAndDescription summaryAndDescription = build(action);
 
         assertThat(summaryAndDescription.description, containsString("Remark from user: my remarks"));
     }

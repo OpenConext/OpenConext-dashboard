@@ -5,6 +5,7 @@ import dashboard.domain.Action;
 import dashboard.domain.Change;
 import dashboard.domain.Settings;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,10 +16,10 @@ import static dashboard.domain.Action.Type.*;
 
 class JiraTicketSummaryAndDescriptionBuilder {
 
-    static SummaryAndDescription build(final Action action, List<Change> changes) {
+    static SummaryAndDescription build(final Action action) {
         checkNotNull(action);
 
-        StringBuilder description = new StringBuilder();
+        final StringBuilder description = new StringBuilder();
 
         final StringBuilder summary = new StringBuilder();
 
@@ -28,12 +29,8 @@ class JiraTicketSummaryAndDescriptionBuilder {
         }
 
         if (action.getType().equals(CHANGE)) {
-            description.append("Please update the following settings: \n");
-            changes.forEach(change -> description.append(change.toString()).append("\n"));
-            description.append("\n");
-
             Settings settings = action.getSettings();
-            if (settings != null) {
+            if (settings != null && StringUtils.hasText(settings.getComments())) {
                 description.append("Additional comments: ").append(settings.getComments()).append("\n");
             }
             description.append("\n");

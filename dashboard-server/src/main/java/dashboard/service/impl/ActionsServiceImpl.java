@@ -166,8 +166,8 @@ public class ActionsServiceImpl implements ActionsService {
     }
 
     @Override
-    public Action create(Action action, List<Change> changes) {
-        String jiraKey = jiraClient.create(action, changes);
+    public Action create(Action action) {
+        String jiraKey = jiraClient.create(action);
         Action savedAction = addNames(action).unbuild().jiraKey(jiraKey).build();
 
         sendAdministrationEmail(savedAction);
