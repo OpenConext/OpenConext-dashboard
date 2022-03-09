@@ -56,6 +56,7 @@ public class CoinUser implements UserDetails {
     private boolean guest;
     private String defaultLoa;
     private List<String> loaLevels;
+    private List<String> authnContextLevels;
     private Set<String> invitationRequestEntities = new HashSet<>();
 
     @Override
@@ -338,6 +339,14 @@ public class CoinUser implements UserDetails {
 
     public void setLoaLevels(List<String> loaLevels) {
         this.loaLevels = loaLevels;
+    }
+
+    public List<String> getAuthnContextLevels() {
+        return authnContextLevels;
+    }
+
+    public void setAuthnContextLevels(List<String> authnContextLevels) {
+        this.authnContextLevels = authnContextLevels;
     }
 
     public Set<String> getInvitationRequestEntities() {

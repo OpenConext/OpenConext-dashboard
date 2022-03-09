@@ -7,7 +7,7 @@ import ReactTooltip from 'react-tooltip'
 import { consentTypes } from '../utils/utils'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
-import StepUpModal from "../components/step_up_modal";
+import StepUpModal from "../components/step_up_modal"
 
 export default function Consent({ app }) {
   const [consent, setConsent] = useState(null)

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Helmet from 'react-helmet'
 import moment from 'moment'
 import I18n from 'i18n-js'
@@ -11,11 +11,15 @@ import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
 import groupBy from 'lodash.groupby'
-import { isEmpty } from '../utils/utils'
+import {isEmpty, login} from '../utils/utils'
+import StepUpModal from "../components/step_up_modal";
+import stopEvent from "../utils/stop";
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
   const [roles, setRoles] = useState({})
+  const [showStepUpModal, setShowStepUpModal] = useState(false)
+
   const breadcrumbs = [
     { link: '/apps/connected', text: 'Home' },
     { link: `/my-idp`, text: I18n.t('navigation.my_idp') },
@@ -45,15 +49,21 @@ export default function MyIdp() {
       </div>
       <div className="container content">
         {Object.keys(roles).length > 0 && <RolesTable roles={roles} />}
-        <GeneralInformation idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
-        <Settings idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
-        <ContactPersons idp={currentIdp} isDashboardAdmin={isDashboardAdmin} />
+        <GeneralInformation idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser} showModal={setShowStepUpModal}/>
+        <Settings idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser} showModal={setShowStepUpModal}/>
+        <ContactPersons idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser} showModal={setShowStepUpModal}/>
       </div>
+      <StepUpModal
+          app={currentIdp}
+          location={`${window.location.href}/edit`}
+          isOpen={showStepUpModal}
+          onClose={() => setShowStepUpModal(false)}
+      />
     </div>
   )
 }
 
-function ContactPersons({ idp, isDashboardAdmin }) {
+function ContactPersons({ idp, isDashboardAdmin, currentUser, showModal }) {
   if (!idp.contactPersons || idp.contactPersons.length === 0) {
     return null
   }
@@ -76,7 +86,7 @@ function ContactPersons({ idp, isDashboardAdmin }) {
       <div className="header-with-button">
         <h2>{I18n.t('my_idp.contact')}</h2>
 
-        {isDashboardAdmin && <EditIdpButton />}
+        {isDashboardAdmin && <EditIdpButton currentUser={currentUser} showModal={showModal}/>}
       </div>
       <div className="contact-persons-grid">
         {contactPersons.map((contactPerson, i) => (
@@ -95,12 +105,12 @@ function Badge({ enabled }) {
   )
 }
 
-function Settings({ idp, isDashboardAdmin }) {
+function Settings({ idp, isDashboardAdmin, currentUser, showModal }) {
   return (
     <div className="settings">
       <div className="header-with-button">
         <h2>{I18n.t('my_idp.settings')}</h2>
-        {isDashboardAdmin && <EditIdpButton />}
+        {isDashboardAdmin && <EditIdpButton currentUser={currentUser} showModal={showModal}/>}
       </div>
       <table>
         <tbody>
@@ -178,12 +188,12 @@ function Tooltip({ id, text }) {
   )
 }
 
-function GeneralInformation({ idp, isDashboardAdmin }) {
+function GeneralInformation({ idp, isDashboardAdmin, currentUser, showModal }) {
   return (
     <div className="general-information">
       <div className="header-with-button">
         <h2>{I18n.t('my_idp.general_information')}</h2>
-        {isDashboardAdmin && <EditIdpButton />}
+        {isDashboardAdmin && <EditIdpButton currentUser={currentUser} showModal={showModal}/>}
       </div>
       <table>
         <thead>
@@ -280,11 +290,19 @@ function GeneralInformation({ idp, isDashboardAdmin }) {
   )
 }
 
-function EditIdpButton() {
+const EditIdpButton = ({currentUser, showModal}) => {
+  const history = useHistory()
   return (
-    <Link className="c-button" to={'/my-idp/edit'}>
-      {I18n.t('my_idp.edit')}
-    </Link>
+      <a className="c-button" href="/my-idp/edit" onClick={e => {
+        stopEvent(e)
+        if (currentUser.currentLoaLevel === 1) {
+          showModal(true)
+        } else {
+          history.replace("/my-idp/edit")
+        }
+      }}>
+        {I18n.t('my_idp.edit')}
+      </a>
   )
 }
 

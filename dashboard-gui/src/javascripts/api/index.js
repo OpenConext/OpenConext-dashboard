@@ -326,6 +326,15 @@ export function surfSecureIdChangeRequest(data) {
   })
 }
 
+export function mfaChangeRequest(data) {
+  return postJson('/users/me/mfa', data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+
 export function disableConsent() {
   return fetchJson('/users/disableConsent')
 }

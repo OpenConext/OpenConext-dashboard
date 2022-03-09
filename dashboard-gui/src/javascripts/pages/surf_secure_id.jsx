@@ -6,6 +6,7 @@ import SelectWrapper from '../components/select_wrapper'
 import { surfSecureIdChangeRequest } from '../api'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
+import StepUpModal from "../components/step_up_modal"
 
 export default function SurfSecureID({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -13,14 +14,14 @@ export default function SurfSecureID({ app }) {
   const initialLoaLevel = app.minimalLoaLevel || (stepEntity && stepEntity.level) || ''
 
   const [loaLevel, setLoaLevel] = useState(initialLoaLevel)
-
+  const [showStepUpModal, setShowStepUpModal] = useState(false)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const appHasLoaLevel = !isEmpty(app.minimalLoaLevel)
   const highestLoaLevel = stepEntity && stepEntity.level.endsWith('loa3')
   const loaLevelEquals = stepEntity && stepEntity.level === loaLevel
 
   let options = []
-  if (isEmpty(loaLevel)) {
+  if (isEmpty(stepEntity)) {
     options.push({ value: '', display: I18n.t('consent_panel.defaultLoa') })
   }
   options = options.concat(
@@ -29,6 +30,15 @@ export default function SurfSecureID({ app }) {
       display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).toLowerCase()}`),
     }))
   )
+
+  const checkLoaLevel = callback => {
+    if (currentUser.currentLoaLevel === 1) {
+      setShowStepUpModal(true)
+    } else {
+      callback();
+    }
+  }
+
   function saveRequest(e) {
     stopEvent(e)
 
@@ -74,13 +84,18 @@ export default function SurfSecureID({ app }) {
             <button
               className={`c-button save ${loaLevelEquals ? 'disabled' : ''}`}
               disabled={loaLevelEquals}
-              onClick={(e) => saveRequest(e)}
-            >
+              onClick={e => checkLoaLevel(() => saveRequest(e))}>
               {I18n.t('consent_panel.save')}
             </button>
           )}
         </section>
       </div>
+      <StepUpModal
+          app={app}
+          isOpen={showStepUpModal}
+          onClose={() => setShowStepUpModal(false)}
+          requiredLoaLevel={3}
+      />
     </div>
   )
 }

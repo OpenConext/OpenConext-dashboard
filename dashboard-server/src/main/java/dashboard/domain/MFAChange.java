@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class LoaLevelChange {
+public class MFAChange {
 
     private String entityId;
-    private String loaLevel;
+    private String authnContextLevel;
     private String entityType;
 
 }

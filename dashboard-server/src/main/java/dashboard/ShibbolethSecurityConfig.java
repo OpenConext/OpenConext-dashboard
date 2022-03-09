@@ -98,6 +98,10 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${loa_values_supported}")
     private String loaLevels;
 
+    @Value("${authn_context_levels}")
+    private String authnContextLevels;
+
+
     @Value("${surf_secure_id_idp}")
     private String surfSecureIdIdp;
 
@@ -124,6 +128,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         List<String> loaLevels = Arrays.stream(this.loaLevels.replaceAll("\"", "").split(",")).map(String::trim).collect(Collectors.toList());
+        List<String> authnContextLevels = Arrays.stream(this.authnContextLevels.replaceAll("\"", "").split(",")).map(String::trim).collect(Collectors.toList());
         http
                 .logout()
                 .logoutUrl("/dashboard/api/logout")
@@ -136,7 +141,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization,
-                                defaultLoa, loaLevels, surfSecureIdIdp),
+                                defaultLoa, loaLevels, authnContextLevels, surfSecureIdIdp),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)

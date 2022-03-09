@@ -61,6 +61,7 @@ public class Action {
     private Settings settings;
     private Consent consent;
     private String loaLevel;
+    private String mfaLevel;
     private List<String> manageUrls;
 
     private boolean rejected;
@@ -91,6 +92,7 @@ public class Action {
         this.consent = builder.consent;
         this.rejected = builder.rejected;
         this.loaLevel = builder.loaLevel;
+        this.mfaLevel = builder.mfaLevel;
         this.manageUrls = builder.manageUrls;
     }
 
@@ -145,6 +147,7 @@ public class Action {
         private Consent consent;
         private boolean rejected;
         private String loaLevel;
+        private String mfaLevel;
         private List<String> manageUrls;
 
         private Builder() {
@@ -176,6 +179,7 @@ public class Action {
             this.consent = action.consent;
             this.rejected = action.rejected;
             this.loaLevel = action.loaLevel;
+            this.mfaLevel = action.mfaLevel;
             this.manageUrls = action.manageUrls;
         }
 
@@ -296,6 +300,11 @@ public class Action {
 
         public Builder loaLevel(String loaLevel) {
             this.loaLevel = loaLevel;
+            return this;
+        }
+
+        public Builder mfaLevel(String mfaLevel) {
+            this.mfaLevel = mfaLevel;
             return this;
         }
 

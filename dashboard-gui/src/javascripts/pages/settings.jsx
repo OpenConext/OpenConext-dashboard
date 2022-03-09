@@ -3,6 +3,7 @@ import I18n from 'i18n-js'
 import { Redirect, Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
 import Consent from './consent'
 import SurfSecureID from './surf_secure_id'
+import MFA from './mfa'
 import AuthorizationPolicyDetail from './authorization_policy_detail'
 import AuthorizationPolicyOverview from './authorization_policy_overview'
 import AuthorizationPolicyRevisions from './authorization_policy_revisions'
@@ -13,6 +14,7 @@ export default function Settings({
   isAllowedToMaintainPolicies,
   showConsent,
   showSsid,
+  showMfa,
   onPolicyChange,
   isViewerOrAdmin,
 }) {
@@ -28,8 +30,9 @@ export default function Settings({
       return `${location.pathname}/authorization_policies`
     } else if (showSsid) {
       return `${location.pathname}/surf_secure_id`
+    } else if (showMfa) {
+      return `${location.pathname}/mfa`
     }
-
     return `/apps/${app.id}/${type}/about`
   }
 
@@ -55,6 +58,14 @@ export default function Settings({
           >
             {I18n.t('apps.settings.menu.surf_secure_id')}
           </Link>
+        )}
+        {showMfa && (
+            <Link
+                className={currentPath === 'mfa' ? 'active' : ''}
+                to={`/apps/${app.id}/${type}/settings/mfa`}
+            >
+              {I18n.t('apps.settings.menu.mfa')}
+            </Link>
         )}
       </div>
       <div className="settings-content-container">
@@ -83,6 +94,11 @@ export default function Settings({
             <Route path={`${path}/surf_secure_id`}>
               <SurfSecureID app={app} />
             </Route>
+          )}
+          {showMfa && (
+              <Route path={`${path}/mfa`}>
+                <MFA app={app} />
+              </Route>
           )}
           <Route path={path} render={() => <Redirect to={getDefaultPath()} />} />
         </Switch>

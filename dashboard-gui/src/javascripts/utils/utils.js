@@ -18,8 +18,8 @@ export function isEmpty(obj) {
 
 export const consentTypes = ['DEFAULT_CONSENT', 'MINIMAL_CONSENT', 'NO_CONSENT']
 
-export function login(e, loaLevel=null) {
+export function login(e, loaLevel=null, location=window.location.href) {
     stopEvent(e);
     const loaLevelQueryPart = loaLevel ? `&loa=${loaLevel}` : ""
-    window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}${loaLevelQueryPart}`
+    window.location.href = `/login?redirect_url=${encodeURIComponent(location)}${loaLevelQueryPart}`
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -32,6 +33,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping(value = "/dashboard/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@SuppressWarnings("unchecked")
 public class UsersController extends BaseController {
 
     @Autowired
@@ -117,8 +119,7 @@ public class UsersController extends BaseController {
                     commentWithUser = commentWithUser.concat("\n" +
                             "To create the connection in Manage a change request is made:\n");
                     //lambda cann only deal with final variables
-                    for (int i = 0; i < metaDataIdentifiers.size(); i++) {
-                        String identifier = metaDataIdentifiers.get(i);
+                    for (String identifier : metaDataIdentifiers) {
                         String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
                         commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
                     }
@@ -295,10 +296,14 @@ public class UsersController extends BaseController {
         IdentityProvider idp = currentUser.getIdp();
         List<Consent> disableConsent = idp.getDisableConsent();
         Optional<Consent> previousConsent = disableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
-        String idIdp = idp.getId();
 
-        List<Change> changes = getChanges(idIdp, previousConsent, consent);
-        if (changes.isEmpty()) {
+        if ((!previousConsent.isPresent()
+                && consent.getType().equals(ConsentType.MINIMAL_CONSENT)
+                && !StringUtils.hasText(consent.getExplanationEn())
+                && !StringUtils.hasText(consent.getExplanationNl())) ||
+                previousConsent.map(c -> c.getType().equals(consent.getType()) &&
+                        Objects.equals(c.getExplanationEn(), consent.getExplanationEn()) &&
+                        Objects.equals(c.getExplanationNl(), consent.getExplanationNl())).orElse(Boolean.FALSE)) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
         Map<String, Object> pathUpdates = new HashMap<>();
@@ -352,23 +357,103 @@ public class UsersController extends BaseController {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Optional<ServiceProvider> serviceProviderOptional = this.manage.getServiceProvider(loaLevelChange.getEntityId(), EntityType.valueOf(loaLevelChange.getEntityType()), false);
-        ServiceProvider serviceProvider = serviceProviderOptional.orElseThrow(IllegalArgumentException::new);
+        if (currentUser.getCurrentLoaLevel() < 3) {
+            LOG.warn("SURFsecureID endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        ServiceProvider serviceProvider = this.manage.getServiceProvider(loaLevelChange.getEntityId(), EntityType.valueOf(loaLevelChange.getEntityType()), false)
+                .orElseThrow(IllegalArgumentException::new);
         String minimalLoaLevel = serviceProvider.getMinimalLoaLevel();
+        if (StringUtils.hasText(minimalLoaLevel)) {
+            LOG.warn("SURF secure ID endpoint is not allowed for SP that already has a loa-level {}", serviceProvider);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         IdentityProvider idp = currentUser.getIdp();
+        //Need to make a copy otherwise the state of the currentUser is changed
+        List<Map<String, String>> stepupEntities = idp.getStepupEntities().stream().map(HashMap::new).collect(toList());
+        Optional<Map<String, String>> previousLoa = stepupEntities.stream()
+                .filter(entity -> entity.get("name").equals(loaLevelChange.getEntityId()))
+                .findFirst();
 
-        List<Change> changes = getChanges(idp.getId(), minimalLoaLevel, loaLevelChange.getLoaLevel());
-
-        if (changes.isEmpty()) {
+        if ((!previousLoa.isPresent() && !StringUtils.hasText(loaLevelChange.getLoaLevel())) ||
+                previousLoa.map(loa -> loa.get("level").equals(loaLevelChange.getLoaLevel())).orElse(Boolean.FALSE)) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
-        //TODO create change request
+
+        Map<String, Object> pathUpdates = new HashMap<>();
+        if (previousLoa.isPresent()) {
+            previousLoa.get().put("level", loaLevelChange.getLoaLevel());
+        } else {
+            stepupEntities.add(Map.of(
+                    "name", loaLevelChange.getEntityId(),
+                    "level", loaLevelChange.getLoaLevel()
+            ));
+        }
+        pathUpdates.put("stepupEntities", stepupEntities);
+        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        manage.createChangeRequests(changeRequest);
+
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
                 .idpId(idpEntityId)
                 .spId(loaLevelChange.getEntityId())
                 .loaLevel(loaLevelChange.getLoaLevel())
+                .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
+                .type(Action.Type.CHANGE).build();
+
+        action = actionsService.create(action);
+
+        return ResponseEntity.ok(createRestResponse(action));
+
+    }
+
+    @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_SUPER_USER')")
+    @RequestMapping(value = "/me/mfa", method = RequestMethod.POST)
+    public ResponseEntity<RestResponse<Object>> updateMFA(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
+                                                          @RequestBody MFAChange mfaChange) throws IOException {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin()) {
+            LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (currentUser.getCurrentLoaLevel() < 3) {
+            LOG.warn("MFA endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        IdentityProvider idp = currentUser.getIdp();
+        List<Map<String, String>> mfaEntities = idp.getMfaEntities().stream().map(HashMap::new).collect(toList());
+        Optional<Map<String, String>> previousMfa = mfaEntities.stream()
+                .filter(entity -> entity.get("name").equals(mfaChange.getEntityId()))
+                .findFirst();
+
+        if ((!previousMfa.isPresent() && !StringUtils.hasText(mfaChange.getAuthnContextLevel())) ||
+                previousMfa.map(mfa -> mfa.get("level").equals(mfaChange.getAuthnContextLevel())).orElse(Boolean.FALSE)) {
+            return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
+        }
+
+        Map<String, Object> pathUpdates = new HashMap<>();
+        if (previousMfa.isPresent()) {
+            previousMfa.get().put("level", mfaChange.getAuthnContextLevel());
+        } else {
+            mfaEntities.add(Map.of(
+                    "name", mfaChange.getEntityId(),
+                    "level",mfaChange.getAuthnContextLevel()
+            ));
+        }
+        pathUpdates.put("mfaEntities", mfaEntities);
+        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        manage.createChangeRequests(changeRequest);
+
+        Action action = Action.builder()
+                .userEmail(currentUser.getEmail())
+                .userName(currentUser.getFriendlyName())
+                .idpId(idpEntityId)
+                .spId(mfaChange.getEntityId())
+                .mfaLevel(mfaChange.getAuthnContextLevel())
+                .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action);
@@ -406,35 +491,6 @@ public class UsersController extends BaseController {
         action = actionsService.create(action);
 
         return ResponseEntity.ok(createRestResponse(action));
-    }
-
-    protected List<Change> getChanges(String idpId, Optional<Consent> previousConsentOptional, Consent consent) throws IOException {
-        List<Change> changes = new ArrayList<>();
-
-        if (!previousConsentOptional.isPresent()
-                && consent.getType().equals(ConsentType.MINIMAL_CONSENT)
-                && !StringUtils.hasText(consent.getExplanationEn())
-                && !StringUtils.hasText(consent.getExplanationEn())) {
-            return changes;
-        }
-        Consent previousConsent = previousConsentOptional.orElse(new Consent());
-
-        this.diff(changes, idpId, previousConsent.getSpEntityId(), consent.getSpEntityId(), "consent:sp:name");
-        this.diff(changes, idpId, previousConsent.getExplanationEn(), consent.getExplanationEn(), "consent:explanation:en");
-        this.diff(changes, idpId, previousConsent.getExplanationNl(), consent.getExplanationNl(), "consent:explanation:nl");
-        this.diff(changes, idpId, previousConsent.getType(), consent.getType(), "consent:type");
-
-        return changes;
-    }
-
-    protected List<Change> getChanges(String idpId, String previousMinimalLoaLevel, String newMinimalLoaLevel) throws IOException {
-        List<Change> changes = new ArrayList<>();
-
-        if (StringUtils.hasText(previousMinimalLoaLevel) && previousMinimalLoaLevel.equals(newMinimalLoaLevel)) {
-            return changes;
-        }
-        this.diff(changes, idpId, previousMinimalLoaLevel, newMinimalLoaLevel, "coin:stepup:requireloa");
-        return changes;
     }
 
     protected List<Change> getChanges(Locale locale, Settings settings, IdentityProvider idp) throws IOException {

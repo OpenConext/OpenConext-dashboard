@@ -3,7 +3,7 @@ import I18n from 'i18n-js'
 import ConnectModalContainer from './connect_modal_container'
 import {login} from "../utils/utils";
 
-export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2}) {
+export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2, location=window.location.href}) {
     return (
         <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
             <div className="connect-modal-header">
@@ -16,7 +16,7 @@ export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2}
                 <button className="c-button white" onClick={onClose}>
                     {I18n.t('stepup.cancel')}
                 </button>
-                <button className="c-button" onClick={e => login(e, requiredLoaLevel)}>
+                <button className="c-button" onClick={e => login(e, requiredLoaLevel, location)}>
                     {I18n.t('stepup.go')}
                 </button>
             </div>

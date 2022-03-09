@@ -60,6 +60,7 @@ export default function ServiceDetail() {
   const isViewerOrAdmin = currentUser.dashboardAdmin || currentUser.dashboardViewer || currentUser.superUser
 
   const showSsid = app.connected && !currentUser.guest && !currentUser.dashboardMember
+  const showMfa = app.connected && !currentUser.guest && !currentUser.dashboardMember
 
   return (
     <div className="app-detail">
@@ -91,7 +92,7 @@ export default function ServiceDetail() {
             {I18n.t('apps.tabs.statistics')}
           </Tab>
         )}
-        {app.connected && (isViewerOrAdmin || showConsent || showSsid) && (
+        {app.connected && (isViewerOrAdmin || showConsent || showSsid || showMfa) && (
           <Tab active={pathElements.includes('settings')} to={`/apps/${id}/${type}/settings`}>
             {I18n.t('apps.tabs.settings')}
           </Tab>
@@ -99,7 +100,7 @@ export default function ServiceDetail() {
       </TabBar>
       <div className="container">
         <Switch>
-          {app.connected && (isViewerOrAdmin || showConsent || showSsid) && (
+          {app.connected && (isViewerOrAdmin || showConsent || showSsid || showMfa) && (
             <Route path={`${path}/settings`}>
               <Settings
                 app={app}
@@ -108,6 +109,7 @@ export default function ServiceDetail() {
                 isAllowedToMaintainPolicies={isAllowedToMaintainPolicies}
                 showConsent={showConsent}
                 showSsid={showSsid}
+                showMfa={showMfa}
                 onPolicyChange={() => fetchApp()}
               />
             </Route>

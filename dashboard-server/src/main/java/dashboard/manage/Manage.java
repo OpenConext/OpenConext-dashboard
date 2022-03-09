@@ -170,6 +170,11 @@ public interface Manage {
                     result.put("stepupEntities", stepupEntities);
                     break;
                 }
+                case "mfaEntities": {
+                    List<Map<String, String>> mfaEntities = (List<Map<String, String>>) value;
+                    result.put("mfaEntities", mfaEntities);
+                    break;
+                }
                 case "allowedResourceServers": {
                     List<Map<String, String>> allowedResourceServers = (List<Map<String, String>>) value;
                     result.put("allowedResourceServers", allowedResourceServers.stream().map(rs -> rs.get("name")).collect(toList()));

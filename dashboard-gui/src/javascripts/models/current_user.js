@@ -25,6 +25,7 @@ class CurrentUser {
     this.organization = rawUser.organization
     this.guest = rawUser.guest
     this.loaLevels = rawUser.loaLevels
+    this.authnContextLevels = rawUser.authnContextLevels
     this.defaultLoa = rawUser.defaultLoa
     this.email = rawUser.email
   }

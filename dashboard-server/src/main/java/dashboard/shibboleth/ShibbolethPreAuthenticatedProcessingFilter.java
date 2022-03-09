@@ -77,6 +77,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String supportedLanguages;
     private String defaultLoa;
     private List<String> loaLevels;
+    private List<String> authnContextLevels;
     private String surfSecureIdIdp;
 
     ShibbolethPreAuthenticatedProcessingFilter(JiraClient jiraClient) {
@@ -99,6 +100,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String organization,
                                                       String defaultLoa,
                                                       List<String> loaLevels,
+                                                      List<String> authnContextLevels,
                                                       String surfSecureIdIdp) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
@@ -116,6 +118,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.organization = organization;
         this.defaultLoa = defaultLoa;
         this.loaLevels = loaLevels;
+        this.authnContextLevels = authnContextLevels;
         this.surfSecureIdIdp = surfSecureIdIdp;
     }
 
@@ -235,6 +238,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setOrganization(this.organization);
         coinUser.setDefaultLoa(this.defaultLoa);
         coinUser.setLoaLevels(this.loaLevels);
+        coinUser.setAuthnContextLevels(this.authnContextLevels);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {
