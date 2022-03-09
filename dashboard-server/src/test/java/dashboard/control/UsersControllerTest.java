@@ -219,23 +219,7 @@ public class UsersControllerTest {
         Settings settings = new Settings();
         settings.setStateType(StateType.prodaccepted);
 
-        List<ServiceProviderSettings> serviceProviderSettings = new ArrayList<>();
-        ServiceProviderSettings serviceProviderSetting = new ServiceProviderSettings();
-        serviceProviderSetting.setPublishedInEdugain(true);
-        serviceProviderSetting.setSpEntityId("spEntityId");
-        serviceProviderSettings.add(serviceProviderSetting);
-
-        settings.setServiceProviderSettings(serviceProviderSettings);
-
-        List<Service> servicesOfIdp = new ArrayList<>();
-
-        Service service = new Service();
-        service.setSpEntityId("spEntityId");
-        servicesOfIdp.add(service);
-
-        when(services.getInstitutionalServicesForIdp(idp.getInstitutionId(), Locale.ENGLISH)).thenReturn(servicesOfIdp);
-
-        List<Change> changes = controller.getChanges(Locale.ENGLISH, settings, idp);
-        assertEquals(2, changes.size());
+        Map<String, Object> pathUpdates = controller.getPathUpdates(settings, idp);
+        assertEquals(2, pathUpdates.size());
     }
 }

@@ -11,7 +11,7 @@ import set from 'lodash.set'
 import cloneDeep from 'lodash.clonedeep'
 import stopEvent from '../utils/stop'
 
-const contactPersonTypes = ['administrative', 'support', 'technical']
+const contactPersonTypes = ['administrative', 'support', 'technical', 'billing']
 
 class EditMyIdp extends React.Component {
   constructor(props, context) {
@@ -46,16 +46,6 @@ class EditMyIdp extends React.Component {
         contactPersonType: contactPerson.contactPersonType,
         telephoneNumber: contactPerson.telephoneNumber || '',
       })),
-      serviceFilters: {
-        state: {
-          name: I18n.t('my_idp.state'),
-          tooltip: I18n.t('service_filter.state.tooltip'),
-          values: [
-            { name: I18n.t('my_idp.prodaccepted'), count: 0, checked: false, search: 'prodaccepted' },
-            { name: I18n.t('my_idp.testaccepted'), count: 0, checked: false, search: 'testaccepted' },
-          ],
-        },
-      },
       showInstitution: true,
       search: '',
     }
@@ -63,11 +53,7 @@ class EditMyIdp extends React.Component {
 
   componentDidMount() {
     getInstitutionServiceProviders().then((data) => {
-      const serviceFilters = { ...this.state.serviceFilters }
-      serviceFilters.state.values.forEach(
-        (val) => (val.count = data.payload.filter((sp) => sp.state === val.search).length)
-      )
-      this.setState({ serviceProviderSettings: data.payload, serviceFilters: serviceFilters })
+      this.setState({ serviceProviderSettings: data.payload})
     })
   }
 
@@ -347,7 +333,7 @@ class EditMyIdp extends React.Component {
             <tr>
               <td>{I18n.t('my_idp.state')}</td>
               <td>
-                <select value={this.state.stateType} onBlur={(e) => this.setState({ stateType: e.target.value })}>
+                <select value={this.state.stateType} onChange={(e) => this.setState({ stateType: e.target.value })}>
                   <option value="prodaccepted">{I18n.t('my_idp.prodaccepted')}</option>
                 </select>
               </td>
@@ -451,7 +437,7 @@ class EditMyIdp extends React.Component {
           <select
             className="contact-person-type"
             value={contactPerson.contactPersonType}
-            onBlur={changeFunction.bind(this, 'contactPersonType', i, service)}
+            onChange={changeFunction.bind(this, 'contactPersonType', i, service)}
           >
             {contactPersonTypes.map((type) => (
               <option key={type} value={type}>
@@ -470,14 +456,6 @@ class EditMyIdp extends React.Component {
     return (
       <li key={contactPersonType} dangerouslySetInnerHTML={{ __html: `${tooltipPerson}${tooltipPersonDescription}` }} />
     )
-  }
-
-  onServiceFilterChange(key, index) {
-    return (e) => {
-      const serviceFilters = { ...this.state.serviceFilters }
-      serviceFilters[key].values[index].checked = e.target.checked
-      this.setState({ serviceFilters: serviceFilters })
-    }
   }
 
   saveRequest(e) {

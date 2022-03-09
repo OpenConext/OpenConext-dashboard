@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -140,6 +139,7 @@ public class UsersController extends BaseController {
 
     private boolean automaticallyCreateConnection(Locale locale, UpdateInviteRequest updateInviteRequest) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         Optional<Service> serviceOptional = this.automaticallyCreateConnectionAllowed(currentUser, locale, updateInviteRequest);
 
         if (serviceOptional.isPresent()) {
@@ -148,7 +148,7 @@ public class UsersController extends BaseController {
                     .userEmail(currentUser.getEmail())
                     .userName(currentUser.getFriendlyName())
                     .body(updateInviteRequest.getComment())
-                    .idpId(currentUser.getIdp().getId())
+                    .idpId(idp.getId())
                     .spId(updateInviteRequest.getSpEntityId())
                     .typeMetaData(updateInviteRequest.getTypeMetaData())
                     .connectWithoutInteraction(true)
@@ -163,9 +163,9 @@ public class UsersController extends BaseController {
     }
 
     private Optional<Service> automaticallyCreateConnectionAllowed(CoinUser currentUser, Locale locale, UpdateInviteRequest updateInviteRequest) throws IOException {
-
-        String idpEntityId = currentUser.getIdp().getId();
-        if (isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
+        String idpEntityId = idp.getId();
+        if (isNullOrEmpty(idp.getInstitutionId())) {
             return Optional.empty();
         }
         String spEntityId = updateInviteRequest.getSpEntityId();
@@ -177,7 +177,7 @@ public class UsersController extends BaseController {
             Service service = optional.get();
 
             String institutionId = service.getInstitutionId();
-            boolean idpAndSpShareInstitution = (institutionId != null) && institutionId.equals(currentUser.getIdp().getInstitutionId());
+            boolean idpAndSpShareInstitution = (institutionId != null) && institutionId.equals(idp.getInstitutionId());
             if (idpAndSpShareInstitution || service.connectsWithoutInteraction()) {
                 return optional;
             }
@@ -207,7 +207,8 @@ public class UsersController extends BaseController {
         if (currentUser.isGuest()) {
             return Collections.emptyList();
         }
-        String id = currentUser.getIdp().getId();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
+        String id = idp.getId();
         return manage.getIdentityProvider(id, false)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("IdP %s not found", id)))
                 .getDisableConsent();
@@ -243,7 +244,7 @@ public class UsersController extends BaseController {
         List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        IdentityProvider idp = currentUser.getIdp();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         boolean eraseMails = currentUser.isGuest() || (currentUser.isDashboardMember() && !idp.isDisplayAdminEmailsInDashboard());
         if (eraseMails) {
             usersServices = usersServices.stream().map(service -> ServicesController.eraseMailsFromService(service)).collect(toList());
@@ -293,7 +294,7 @@ public class UsersController extends BaseController {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        IdentityProvider idp = currentUser.getIdp();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         List<Consent> disableConsent = idp.getDisableConsent();
         Optional<Consent> previousConsent = disableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
 
@@ -368,7 +369,7 @@ public class UsersController extends BaseController {
             LOG.warn("SURF secure ID endpoint is not allowed for SP that already has a loa-level {}", serviceProvider);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        IdentityProvider idp = currentUser.getIdp();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         //Need to make a copy otherwise the state of the currentUser is changed
         List<Map<String, String>> stepupEntities = idp.getStepupEntities().stream().map(HashMap::new).collect(toList());
         Optional<Map<String, String>> previousLoa = stepupEntities.stream()
@@ -422,7 +423,7 @@ public class UsersController extends BaseController {
             LOG.warn("MFA endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        IdentityProvider idp = currentUser.getIdp();
+        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         List<Map<String, String>> mfaEntities = idp.getMfaEntities().stream().map(HashMap::new).collect(toList());
         Optional<Map<String, String>> previousMfa = mfaEntities.stream()
                 .filter(entity -> entity.get("name").equals(mfaChange.getEntityId()))
@@ -439,7 +440,7 @@ public class UsersController extends BaseController {
         } else {
             mfaEntities.add(Map.of(
                     "name", mfaChange.getEntityId(),
-                    "level",mfaChange.getAuthnContextLevel()
+                    "level", mfaChange.getAuthnContextLevel()
             ));
         }
         pathUpdates.put("mfaEntities", mfaEntities);
@@ -465,20 +466,25 @@ public class UsersController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/settings", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                               Locale locale,
                                                                @RequestBody Settings settings) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             LOG.warn("Settings endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
+        if (currentUser.getCurrentLoaLevel() < 2) {
+            LOG.warn("Settings endpoint is not allowed without LOA level 2, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
 
-        List<Change> changes = getChanges(locale, settings, idp);
-        if (changes.isEmpty()) {
+        Map<String, Object> pathUpdates = getPathUpdates(settings, idp);
+        if (pathUpdates.isEmpty()) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
+        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
@@ -486,91 +492,65 @@ public class UsersController extends BaseController {
                 .idpId(idpEntityId)
                 .settings(settings)
                 .typeMetaData(settings.getTypeMetaData())
+                .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
-        //TODO create change request
+
         action = actionsService.create(action);
 
         return ResponseEntity.ok(createRestResponse(action));
     }
 
-    protected List<Change> getChanges(Locale locale, Settings settings, IdentityProvider idp) throws IOException {
-        List<Change> changes = new ArrayList<>();
+    protected Map<String, Object> getPathUpdates(Settings settings, IdentityProvider idp) throws IOException {
+        Map<String, Object> pathUpdates = new HashMap<>();
 
-        String idpId = idp.getId();
+        this.diff(pathUpdates, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
+        this.diff(pathUpdates, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
+        this.diff(pathUpdates, idp.getKeywords().get("pt"), settings.getKeywordsPt(), "keywords:pt");
 
-        this.diff(changes, idpId, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
-        this.diff(changes, idpId, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
-        this.diff(changes, idpId, idp.getKeywords().get("pt"), settings.getKeywordsPt(), "keywords:pt");
+        this.diff(pathUpdates, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "OrganizationURL:en");
+        this.diff(pathUpdates, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "OrganizationURL:nl");
+        this.diff(pathUpdates, idp.getHomeUrls().get("pt"), settings.getOrganisationUrlPt(), "OrganizationURL:pt");
 
-        this.diff(changes, idpId, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "organisationURL:en");
-        this.diff(changes, idpId, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "organisationURL:nl");
-        this.diff(changes, idpId, idp.getHomeUrls().get("pt"), settings.getOrganisationUrlPt(), "organisationURL:pt");
+        this.diff(pathUpdates, idp.getOrganisationDisplayNames().get("en"), settings.getOrganisationDisplayNameEn(), "OrganizationDisplayName:en");
+        this.diff(pathUpdates, idp.getOrganisationDisplayNames().get("nl"), settings.getOrganisationDisplayNameNl(), "OrganizationDisplayName:nl");
+        this.diff(pathUpdates, idp.getOrganisationDisplayNames().get("pt"), settings.getOrganisationDisplayNamePt(), "OrganizationDisplayName:pt");
 
-        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("en"), settings.getOrganisationDisplayNameEn(), "organisationDisplayName:en");
-        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("nl"), settings.getOrganisationDisplayNameNl(), "organisationDisplayName:nl");
-        this.diff(changes, idpId, idp.getOrganisationDisplayNames().get("pt"), settings.getOrganisationDisplayNamePt(), "organisationDisplayName:pt");
+        this.diff(pathUpdates, idp.getOrganisationNames().get("en"), settings.getOrganisationNameEn(), "OrganizationName:en");
+        this.diff(pathUpdates, idp.getOrganisationNames().get("nl"), settings.getOrganisationNameNl(), "OrganizationName:nl");
+        this.diff(pathUpdates, idp.getOrganisationNames().get("pt"), settings.getOrganisationNamePt(), "OrganizationName:pt");
 
-        this.diff(changes, idpId, idp.getOrganisationNames().get("en"), settings.getOrganisationNameEn(), "organisationName:en");
-        this.diff(changes, idpId, idp.getOrganisationNames().get("nl"), settings.getOrganisationNameNl(), "organisationName:nl");
-        this.diff(changes, idpId, idp.getOrganisationNames().get("pt"), settings.getOrganisationNamePt(), "organisationName:pt");
+        this.diff(pathUpdates, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
+        this.diff(pathUpdates, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");
+        this.diff(pathUpdates, idp.getDescriptions().get("pt"), settings.getDescriptionsPt(), "description:pt");
 
-        this.diff(changes, idpId, idp.getDescriptions().get("en"), settings.getDescriptionsEn(), "description:en");
-        this.diff(changes, idpId, idp.getDescriptions().get("nl"), settings.getDescriptionsNl(), "description:nl");
-        this.diff(changes, idpId, idp.getDescriptions().get("pt"), settings.getDescriptionsPt(), "description:pt");
+        this.diff(pathUpdates, idp.getDisplayNames().get("en"), settings.getDisplayNamesEn(), "displayName:en");
+        this.diff(pathUpdates, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
+        this.diff(pathUpdates, idp.getDisplayNames().get("pt"), settings.getDisplayNamesPt(), "displayName:pt");
 
-        this.diff(changes, idpId, idp.getDisplayNames().get("en"), settings.getDisplayNamesEn(), "displayName:en");
-        this.diff(changes, idpId, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
-        this.diff(changes, idpId, idp.getDisplayNames().get("pt"), settings.getDisplayNamesPt(), "displayName:pt");
-
-        this.diff(changes, idpId, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
+        this.diff(pathUpdates, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
                 "coin:publish_in_edugain");
 
-        this.diff(changes, idpId, idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically(),
-                "coin:entity_categories:1 - http://refeds.org/category/research-and-scholarship");
+        if (changed(idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically())) {
+            pathUpdates.put("metaDataFields.coin:entity_categories:1", "http://refeds.org/category/research-and-scholarship");
+        }
 
-        this.diff(changes, idpId, idp.isAllowMaintainersToManageAuthzRules(), settings.isAllowMaintainersToManageAuthzRules(),
+        this.diff(pathUpdates, idp.isAllowMaintainersToManageAuthzRules(), settings.isAllowMaintainersToManageAuthzRules(),
                 "coin:allow_maintainers_to_manage_authz_rules");
 
-        this.diff(changes, idpId, idp.isDisplayAdminEmailsInDashboard(), settings.isDisplayAdminEmailsInDashboard(),
+        this.diff(pathUpdates, idp.isDisplayAdminEmailsInDashboard(), settings.isDisplayAdminEmailsInDashboard(),
                 "coin:display_admin_emails_in_dashboard");
 
-        this.diff(changes, idpId, idp.isDisplayStatsInDashboard(), settings.isDisplayStatsInDashboard(),
+        this.diff(pathUpdates, idp.isDisplayStatsInDashboard(), settings.isDisplayStatsInDashboard(),
                 "coin:display_stats_in_dashboard");
 
-        this.diff(changes, idpId, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");
+        this.diff(pathUpdates, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");
 
-        diffContactPersons(changes, idpId, idp.getContactPersons(), settings.getContactPersons());
+        diffContactPersons(pathUpdates, idp.getContactPersons(), settings.getContactPersons());
 
-        List<Service> serviceProviders = this.getServiceProvidersForCurrentUser(locale);
-
-        settings.getServiceProviderSettings().forEach(sp -> {
-            Optional<Service> first = serviceProviders.stream()
-                    .filter(service -> service.getSpEntityId().equals(sp.getSpEntityId()))
-                    .findFirst();
-            first.ifPresent(service -> {
-                String id = service.getSpEntityId();
-
-                diff(changes, id, service.getDescriptions().get("en"), sp.getDescriptionEn(), "description:en");
-                diff(changes, id, service.getDescriptions().get("nl"), sp.getDescriptionNl(), "description:nl");
-                diff(changes, id, service.getDescriptions().get("pt"), sp.getDescriptionPt(), "description:pt");
-
-                diff(changes, id, service.getDisplayNames().get("en"), sp.getDisplayNameEn(), "displayName:en");
-                diff(changes, id, service.getDisplayNames().get("nl"), sp.getDisplayNameNl(), "displayName:nl");
-                diff(changes, id, service.getDisplayNames().get("pt"), sp.getDisplayNamePt(), "displayName:pt");
-
-                diff(changes, id, service.isPublishedInEdugain(), sp.isPublishedInEdugain(), "coin:publish_in_edugain");
-                diff(changes, id, service.isGuestEnabled(), sp.isHasGuestEnabled(), "Guest Login Enabled");
-                diff(changes, id, service.isNoConsentRequired(), sp.isNoConsentRequired(), "coin:no_consent_required");
-
-                diff(changes, idpId, service.getState(), sp.getStateType() != null ? sp.getStateType().name() : null, "state");
-
-                diffContactPersons(changes, id, service.getContactPersons(), sp.getContactPersons());
-            });
-        });
-        return changes;
+        return pathUpdates;
     }
 
-    private void diffContactPersons(List<Change> changes, String id, List<ContactPerson> contactPersons,
+    private void diffContactPersons(Map<String, Object> pathUpdates, List<ContactPerson> contactPersons,
                                     List<ContactPerson> newContactPersons) {
         if (CollectionUtils.isEmpty(contactPersons) && CollectionUtils.isEmpty(newContactPersons)) {
             return;
@@ -579,20 +559,26 @@ public class UsersController extends BaseController {
             ContactPerson contactPerson = contactPersons.get(i);
             if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
                 ContactPerson newContactPerson = newContactPersons.get(i);
-                diff(changes, id, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
-                diff(changes, id, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(),
+                List<String> names = Arrays.asList(contactPerson.getName().split(" "));
+                List<String> newNames = Arrays.asList(newContactPerson.getName().split(" "));
+
+                diff(pathUpdates, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
+                diff(pathUpdates, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(),
                         "contacts:" + i + ":emailAddress");
-                diff(changes, id, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(),
+                diff(pathUpdates, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(),
                         "contacts:" + i + ":telephoneNumber");
-                diff(changes, id, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(),
+                diff(pathUpdates, contactPerson.getContactPersonType(), newContactPerson.getContactPersonType(),
                         "contacts:" + i + ":contactType");
             }
         }
     }
 
-    private void diff(List<Change> changes, String id, Object oldValue, Object newValue, String attributeName) {
+    private void diff(Map<String, Object> pathUpdates, Object oldValue, Object newValue, String attributeName) {
         if (changed(oldValue, newValue)) {
-            changes.add(new Change(id, attributeName, String.format("%s", oldValue), String.format("%s", newValue)));
+            if (newValue instanceof String) {
+                newValue = StringUtils.hasText((String) newValue) ? newValue : null;
+            }
+            pathUpdates.put(String.format("metaDataFields.%s", attributeName), newValue);
         }
     }
 
