@@ -186,7 +186,6 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(Name_Id.getValue(), "uid");
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
-        request.addHeader(Shib_Identity_Provider.getValue(), "https://idp");
         return request;
     }
 
