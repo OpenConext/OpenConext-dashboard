@@ -22,7 +22,8 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
   const [autoFormat, setAutoFormat] = useState(false)
 
   async function fetchPolicy() {
-    if (params.id === 'new') {
+    const policyId = params.policyId;
+    if (policyId === 'new') {
       const res = await getNewPolicy()
       const policy = res.payload
       policy.serviceProviderId = app.spEntityId
@@ -30,7 +31,7 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
       policy.active = false
       setPolicy(policy)
     } else {
-      const res = await getPolicy(params.id)
+      const res = await getPolicy(policyId)
       setPolicy(res.payload)
     }
   }

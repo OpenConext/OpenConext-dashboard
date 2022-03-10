@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "downloadjs-next": "^1.5.7",
+    "github-markdown-css": "^5.1.0",
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {

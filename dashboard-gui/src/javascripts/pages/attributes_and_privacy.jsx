@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
 import { privacyProperties } from '../utils/privacy'
 import { marked } from 'marked'
+import 'github-markdown-css/github-markdown.css'
 
 export default function AttributesAndPrivacy({ app }) {
   const hasPrivacyInfo = privacyProperties.some((prop) => app.privacyInfo[prop])
@@ -181,7 +182,7 @@ function ManipulationNotes({ app }) {
   return (
     <div className="manipulation-notes">
       <p className="title">{I18n.t('attributes_policy_panel.arp.manipulation')}</p>
-      <section className="notes" dangerouslySetInnerHTML={{ __html: notes }} />
+      <section className="notes markdown-body" dangerouslySetInnerHTML={{ __html: notes }} />
     </div>
   )
 }

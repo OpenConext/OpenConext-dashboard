@@ -134,6 +134,7 @@ public class ServicesController extends BaseController {
                     return new String[]{
                             String.valueOf(service.getId()),
                             stripBreakingWhitespace(service.getName()),
+                            stripBreakingWhitespace(service.getOrganisation()),
                             service.getSpEntityId(),
                             stripBreakingWhitespace(service.getDescription()),
                             service.getAppUrl(),
@@ -149,7 +150,7 @@ public class ServicesController extends BaseController {
                 });
 
         Stream<String[]> headers = Stream.<String[]>of(new String[]{
-                "id", "name", "entityID", "description", "app-url", "wiki-url", "support-mail",
+                "id", "name", "organisation-name","entityID", "description", "app-url", "wiki-url", "support-mail",
                 "connected", "licenseStatus",
                 "publishedInEdugain", "singleTenant", "strongAuthentication",
                 "arpEnabled", "arpAttributes"});

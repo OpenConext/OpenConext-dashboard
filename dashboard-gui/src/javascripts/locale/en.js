@@ -188,6 +188,7 @@ I18n.translations.en = {
       institutions: 'Institutions',
       provided_information: '{{organisation}} provided the following information',
       connect_service: 'Connect this service',
+      connect_service_single_tenant: 'Request this service',
       disconnect_service: 'Disconnect this service',
       connected: 'Connected',
       pending_connection: 'Pending connection request...',

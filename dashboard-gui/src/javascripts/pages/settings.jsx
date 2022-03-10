@@ -76,12 +76,12 @@ export default function Settings({
             </Route>
           )}
           {isAllowedToMaintainPolicies && (
-            <Route path={`${path}/authorization_policies/:id/revisions`}>
+            <Route path={`${path}/authorization_policies/:policyId/revisions`}>
               <AuthorizationPolicyRevisions app={app} type={type} />
             </Route>
           )}
           {isAllowedToMaintainPolicies && (
-            <Route path={`${path}/authorization_policies/:id`}>
+            <Route path={`${path}/authorization_policies/:policyId`}>
               <AuthorizationPolicyDetail app={app} type={type} onPolicyChange={onPolicyChange} />
             </Route>
           )}

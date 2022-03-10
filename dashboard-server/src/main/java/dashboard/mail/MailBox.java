@@ -52,26 +52,26 @@ public class MailBox {
         variables.put("metaDataType", !StringUtils.hasText(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
         String html = this.mailTemplate("invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
-        try {
-            sendMail(html, subject, to, cc, true, emailFrom);
-        } catch (Exception e) {
-            //anti-pattern but we don't want to crash because of mail problems
-        }
+        sendMail(html, subject, to, cc, true, emailFrom);
     }
 
     public void sendAdministrativeMail(String body, String subject) throws MessagingException, IOException {
         sendMail(body, subject, administrativeEmails, Collections.emptyList(), false, emailFrom);
     }
 
-    private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml, String emailFrom) throws MessagingException, IOException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, false);
-        helper.setSubject(subject);
-        helper.setTo(to.toArray(new String[]{}));
-        helper.setCc(cc.toArray(new String[]{}));
-        setText(html, helper, inHtml);
-        helper.setFrom(emailFrom);
-        doSendMail(message);
+    private void sendMail(String html, String subject, List<String> to, List<String> cc, boolean inHtml, String emailFrom) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, false);
+            helper.setSubject(subject);
+            helper.setTo(to.toArray(new String[]{}));
+            helper.setCc(cc.toArray(new String[]{}));
+            setText(html, helper, inHtml);
+            helper.setFrom(emailFrom);
+            doSendMail(message);
+        } catch (Exception e) {
+            //anti-pattern but we don't want to crash because of mail problems
+        }
     }
 
     protected void setText(String html, MimeMessageHelper helper, boolean isHtml) throws MessagingException, IOException {
@@ -100,12 +100,7 @@ public class MailBox {
         List<String> emails = Stream.of(action.getEmailTo().split(",")).map(String::trim).collect(toList());
         String html = this.mailTemplate("resend_invite_request_nl.html", variables);
         String subject = String.format("Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)", action.getSpName(), jiraKey);
-
-        try {
-            sendMail(html, subject, emails, Collections.emptyList(), true, emailFrom);
-        } catch (Exception e) {
-            //anti-pattern but we don't want to crash because of mail problems
-        }
+        sendMail(html, subject, emails, Collections.emptyList(), true, emailFrom);
     }
 
     public void sendDashboardConnectWithoutInteractionEmail(List<String> emails, String idpName, String spName, String spEntityID, String type, String comments, String emailContactPerson) {
@@ -120,10 +115,6 @@ public class MailBox {
         variables.put("emailContactPerson", emailContactPerson);
         variables.put("hasEmailContactPerson", StringUtils.hasText(emailContactPerson));
         String html = mailTemplate("new_connection_without_interaction_" + type + "_nl.html", variables);
-        try {
-            sendMail(html, emailSubject, emails, Collections.emptyList(), true, emailFrom);
-        } catch (Exception e) {
-            //anti-pattern but we don't want to crash because of mail problems
-        }
+        sendMail(html, emailSubject, emails, Collections.emptyList(), true, emailFrom);
     }
 }

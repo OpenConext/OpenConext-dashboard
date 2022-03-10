@@ -7,7 +7,7 @@ import Helmet from 'react-helmet'
 import CurrentUser from './models/current_user'
 import Header from './components/header'
 import Footer from './components/footer'
-import { ProtectedRoute, SuperUserProtectedRoute } from './components/protected_route'
+import { SuperUserProtectedRoute } from './components/protected_route'
 
 import Dummy from './pages/dummy'
 import Profile from './pages/profile'
@@ -54,11 +54,6 @@ class App extends React.Component {
             <main id="main-content">
               <Switch>
                 <Route exact path="/" render={() => <Redirect to={nonGuest ? '/apps/connected' : 'apps/all'} />} />
-                <ProtectedRoute
-                    currentUser={currentUser}
-                    path="/apps/:id/:type/:activePanel/:jiraKey/:action"
-                    component={ServiceDetail}
-                />
                 <Route path="/apps/:id/:type" component={ServiceDetail} />
                 <Route
                   exact

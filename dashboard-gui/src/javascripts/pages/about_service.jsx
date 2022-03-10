@@ -62,6 +62,15 @@ export default function AboutService({ app, type }) {
               </div>
             </div>
           )}
+          {app.entityType === 'single_tenant_template' && (
+              <div className="single-tenant-info">
+                <h3>{I18n.t('overview_panel.single_tenant_service')}</h3>
+                <p className="explanation" dangerouslySetInnerHTML={{
+                      __html: I18n.t('overview_panel.single_tenant_service_html', { name: app.name }),
+                    }}
+                />
+              </div>
+          )}
         </div>
         <div className="right-side">
           <div className="links">
@@ -97,9 +106,9 @@ export default function AboutService({ app, type }) {
           )}
         </div>
       </div>
-      <div className="institutions">
+      {app.entityType !== 'single_tenant_template' && <div className="institutions">
         <InstitutionTable institutions={institutions} />
-      </div>
+      </div>}
     </div>
   )
 }

@@ -11,7 +11,7 @@ export default function AuthorizationPolicyRevisions({ app, type }) {
   const params = useParams()
 
   async function fetchRevisions() {
-    const res = await getPolicyRevisions(params.id)
+    const res = await getPolicyRevisions(params.policyId)
     setRevisions(res.payload.sort((rev1, rev2) => rev2.revisionNbr - rev1.revisionNbr))
   }
 

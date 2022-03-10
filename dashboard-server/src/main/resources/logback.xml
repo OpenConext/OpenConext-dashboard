@@ -3,7 +3,7 @@
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <logger name="dashboard" level="DEBUG" />
-  <logger name="org.springframework" level="INFO" />
-  <logger name="org.springframework.security" level="TRACE" />
+  <logger name="org.springframework" level="WARN" />
+  <logger name="org.springframework.security" level="WARN" />
 
 </configuration>

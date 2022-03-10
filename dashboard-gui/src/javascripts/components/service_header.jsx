@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {useHistory, useParams} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import { CurrentUserContext } from '../App'
 import { searchJira } from '../api'
 import I18n from 'i18n-js'
@@ -14,10 +14,10 @@ import { ReactComponent as LoaIcon } from '../../images/business-deal-handshake.
 import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
 import { getBackPath } from '../utils/back_path'
 import StepUpModal from "./step_up_modal";
+import {login} from "../utils/utils";
 
 export default function ServiceHeader({ app, policies, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext)
-  const params = useParams()
   const history = useHistory()
   const [showConnectModal, setShowConnectModal] = useState(false)
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
@@ -36,14 +36,16 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
     onSubmit()
     history.replace(`/apps/${app.id}/${app.entityType}`)
   }
-
+  const paths = window.location.href.split("/");
+  const optionalJiraKey = paths[paths.length - 2]
+  const jiraKey = optionalJiraKey && optionalJiraKey.startsWith("CXT") ? optionalJiraKey : null;
   const jiraFilter = {
     maxResults: 1,
     startAt: 0,
     spEntityId: app.spEntityId,
-    statuses: params.jiraKey ? [] : ['To Do', 'In Progress', 'Awaiting Input'],
+    statuses: jiraKey ? [] : ['To Do', 'In Progress', 'Awaiting Input'],
     types: ['LINKREQUEST', 'UNLINKREQUEST', 'LINKINVITE'],
-    key: params.jiraKey || null,
+    key: jiraKey,
   }
 
   async function fetchJira() {
@@ -60,6 +62,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
       } else {
         setJiraAction(null)
       }
+    } else if (jiraKey) {
+      login(null, 2)
     }
   }
 
@@ -77,7 +81,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
 
   return (
     <>
-      <JiraActionMessage action={jiraAction} app={app} />
+      <JiraActionMessage action={jiraAction} app={app} jiraKey={jiraKey}/>
       <div className="mod-service-header">
         <div className="container">
           <div className="header-wrapper">
@@ -135,7 +139,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       className="c-button"
                       onClick={() => checkLoaLevel(() => setShowConnectModal(true))}
                     >
-                      {I18n.t('apps.detail.connect_service')}
+                      {I18n.t(`apps.detail.${app.entityType === 'single_tenant_template' ? 'connect_service_single_tenant':'connect_service'}`)}
                     </button>
                   )}
                   {!pendingAction && !app.connected && hasInvite && (
@@ -211,15 +215,13 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   )
 }
 
-function JiraActionMessage({ action, app }) {
-  const params = useParams()
-
+function JiraActionMessage({ action, app, jiraKey }) {
   if (!action) {
     return null
   }
 
   function determineMessage() {
-    if (params.jiraKey && action.status !== 'Awaiting Input') {
+    if (jiraKey && action.status !== 'Awaiting Input') {
       if (action.status === 'To Do') {
         return I18n.t('apps.detail.inviteBeingProcessed', {
           jiraKey: action.jiraKey
@@ -232,12 +234,12 @@ function JiraActionMessage({ action, app }) {
           action: I18n.t(`apps.detail.${i18nParam}`),
         })
       }
-    } else if (params.jiraKey && app.connected) {
+    } else if (jiraKey && app.connected) {
       return I18n.t('how_to_connect_panel.invite_action_collision', {
         app: app.name,
-        jiraKey: params.jiraKey,
+        jiraKey: jiraKey,
       })
-    } else if (!params.jiraKey) {
+    } else if (!jiraKey) {
       return I18n.t('apps.detail.outstandingIssue', {
         jiraKey: action.jiraKey,
         type: I18n.t('history.action_types_name.' + action.type),
