@@ -122,9 +122,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null && LOG.isDebugEnabled()) {
+        if (headerNames != null && LOG.isTraceEnabled()) {
             ArrayList<String> list = Collections.list(headerNames);
-            LOG.debug("Received headers {}", list.stream().collect(toMap(
+            LOG.trace("Received headers {}", list.stream().collect(toMap(
                     name -> name,
                     name -> {
                         Enumeration<String> headers = request.getHeaders(name);
@@ -307,7 +307,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         if (!StringUtils.hasText(shibAuthnContextClass)) {
             return 1;
         }
-        if (shibAuthnContextClass.trim().endsWith("Password")) {
+        if (shibAuthnContextClass.trim().toLowerCase().endsWith("password")) {
             return 1;
         }
         try {

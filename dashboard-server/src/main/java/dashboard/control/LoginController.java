@@ -2,6 +2,7 @@ package dashboard.control;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,14 +24,14 @@ public class LoginController {
 
 
     private final String mailBaseUrl;
-    private final List<String> loaLevels;
+    private final Map<Integer, String> loaLevels;
 
     public LoginController(@Value("${mailBaseUrl}") String mailBaseUrl,
                            @Value("${loa_values_supported}") String loaLevels) {
         this.mailBaseUrl = mailBaseUrl;
         this.loaLevels = Arrays.stream(loaLevels.replaceAll("\"", "").split(","))
                 .map(String::trim)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(level -> Integer.valueOf(level.substring(level.length() - 1)), level -> level));
     }
 
     @RequestMapping(value = "/startSSO")
@@ -61,11 +63,11 @@ public class LoginController {
         if (loa == null) {
             return "";
         }
-        String res = loaLevels.stream()
-                .filter(loaLevel -> Integer.valueOf(loaLevel.substring(loaLevel.length() - 1)).equals(loa))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Not a valid loa level: " + loa));
-        return String.format("&authnContextClassRef=%s", URLEncoder.encode(res, Charset.defaultCharset()));
+        String loaLevel = loaLevels.get(loa);
+        if (!StringUtils.hasText(loaLevel)) {
+            throw new IllegalArgumentException("Not a valid loa level: " + loa);
+        }
+        return String.format("&authnContextClassRef=%s", URLEncoder.encode(loaLevel, Charset.defaultCharset()));
 
     }
 }

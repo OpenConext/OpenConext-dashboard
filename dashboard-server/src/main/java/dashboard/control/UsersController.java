@@ -550,6 +550,14 @@ public class UsersController extends BaseController {
         return pathUpdates;
     }
 
+    private String givenName(List<String> names) {
+        return names.get(0);
+    }
+
+    private String surName(List<String> names) {
+        return names.size() > 1 ? String.join(" ", names.subList(1, names.size())) : "";
+    }
+
     private void diffContactPersons(Map<String, Object> pathUpdates, List<ContactPerson> contactPersons,
                                     List<ContactPerson> newContactPersons) {
         if (CollectionUtils.isEmpty(contactPersons) && CollectionUtils.isEmpty(newContactPersons)) {
@@ -560,9 +568,14 @@ public class UsersController extends BaseController {
             if (newContactPersons != null && newContactPersons.size() >= (i + 1)) {
                 ContactPerson newContactPerson = newContactPersons.get(i);
                 List<String> names = Arrays.asList(contactPerson.getName().split(" "));
+                String givenName = givenName(names);
+                String surName = surName(names);
                 List<String> newNames = Arrays.asList(newContactPerson.getName().split(" "));
+                String newGivenName = givenName(newNames);
+                String newSurName = surName(newNames);
 
-                diff(pathUpdates, contactPerson.getName(), newContactPerson.getName(), "contacts:" + i + ":name");
+                diff(pathUpdates, givenName, newGivenName, "contacts:" + i + ":givenName");
+                diff(pathUpdates, surName, newSurName, "contacts:" + i + ":surName");
                 diff(pathUpdates, contactPerson.getEmailAddress(), newContactPerson.getEmailAddress(),
                         "contacts:" + i + ":emailAddress");
                 diff(pathUpdates, contactPerson.getTelephoneNumber(), newContactPerson.getTelephoneNumber(),
