@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
 import { privacyProperties } from '../utils/privacy'
-import marked from 'marked'
+import { marked } from 'marked'
 
 export default function AttributesAndPrivacy({ app }) {
   const hasPrivacyInfo = privacyProperties.some((prop) => app.privacyInfo[prop])
