@@ -120,6 +120,12 @@ I18n.translations.en = {
           'SURFsecureID second factor authentication is required.<br>For more information see the <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">wiki</a>.',
         none: 'None',
       },
+      mfa: {
+        name: 'MFA enabled',
+        tooltip:
+            'Multi factor authentication by the IdP is required.<br>For more information see the <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">wiki</a>.',
+        none: 'None',
+      },
       attribute_manipulation: {
         name: 'Custom attribute manipulation script',
         yes: 'Yes',
@@ -1205,6 +1211,12 @@ I18n.translations.en = {
     defaultAuthnContextLevel: 'Do not force MFA at my IdP for this service',
     multipleauthn: 'Multi-factor on ADFS or Azure AD',
     mfa: 'Generic multi-factor (REFEDS MFA)',
+    transparent_authn_context: "Transparent Authn context",
+    mobileonefactorcontract: "Mobile one factor",
+    multipleauthn_short: 'Microsoft IdP',
+    mfa_short: 'Generic IdP',
+    transparent_authn_context_short: "Transparent",
+    mobileonefactorcontract_short: "Mobile"
   },
 
 }

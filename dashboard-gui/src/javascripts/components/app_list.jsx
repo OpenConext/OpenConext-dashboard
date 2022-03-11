@@ -158,6 +158,7 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
       return sourceFacetValues.length === 0 || sourceFacetValues.indexOf(app.interfedSource) > -1
     }.bind(this),
   })
+
   const entityCategoryFacet = {
     name: I18n.t('facets.static.entity_category.name'),
     tooltip: I18n.t('facets.static.entity_category.tooltip'),
@@ -225,8 +226,8 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
           app.entityCategories3 === value.searchValue
       ).length
   })
-
   facets.push(entityCategoryFacet)
+
   const strongAuthenticationFacet = {
     name: I18n.t('facets.static.strong_authentication.name'),
     tooltip: I18n.t('facets.static.strong_authentication.tooltip'),
@@ -267,6 +268,39 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   })
   if (!currentUser.guest) {
     facets.push(strongAuthenticationFacet)
+    const mfaEntities = currentUser.currentIdp.mfaEntities
+    facets.push({
+      name: I18n.t('facets.static.mfa.name'),
+      tooltip: I18n.t('facets.static.mfa.tooltip'),
+      searchValue: 'mfa',
+      values: [
+        {
+          value: I18n.t('mfa_panel.mfa_short'),
+          searchValue: 'https://refeds.org/profile/mfa',
+          count: apps => apps.filter(app => mfaEntities.some(entity => entity.name === app.spEntityId &&
+              entity.level === 'https://refeds.org/profile/mfa')).length
+        },
+        {
+          value: I18n.t('mfa_panel.multipleauthn_short'),
+          searchValue: 'http://schemas.microsoft.com/claims/multipleauthn',
+          count: apps => apps.filter(app => mfaEntities.some(entity => entity.name === app.spEntityId &&
+              entity.level === 'http://schemas.microsoft.com/claims/multipleauthn')).length
+        },
+        {
+          value: I18n.t('facets.static.mfa.none'),
+          searchValue: 'NONE',
+          count: apps => apps.filter(app => !mfaEntities.some(entity => entity.name === app.spEntityId)).length
+        }
+      ],
+      filterApp: function (app) {
+        const mfaFacetValues = activeFacets['mfa'] || []
+        if (mfaFacetValues.indexOf('NONE') > -1) {
+          return !mfaEntities.some(entity => entity.name === app.spEntityId)
+        }
+        return mfaFacetValues.length === 0 || mfaEntities.some(entity => entity.name === app.spEntityId &&
+            mfaFacetValues.indexOf(entity.level) > -1)
+      }.bind(this),
+    })
   }
 
   const attributeFacet = {
