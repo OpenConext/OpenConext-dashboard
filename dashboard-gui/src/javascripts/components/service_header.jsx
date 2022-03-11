@@ -27,10 +27,10 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
   const pendingAction = jiraAction && (jiraAction.status === 'To Do' || jiraAction.status === 'In Progress')
-  const connectedButJiraNotResolved = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && app.connected
-  const notConnectedButJiraNotResolved = jiraAction && jiraAction.type === 'UNLINKREQUEST' && !app.connected
-  const pendingConnectionJira = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && !app.connected
-  const pendingUnlinkAction = jiraAction && jiraAction.type === 'UNLINKREQUEST' && app.connected
+  const connectedButJiraNotResolved = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && app.connected && !hasInvite
+  const notConnectedButJiraNotResolved = jiraAction && jiraAction.type === 'UNLINKREQUEST' && !app.connected && !hasInvite
+  const pendingConnectionJira = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && !app.connected && !hasInvite
+  const pendingUnlinkAction = jiraAction && jiraAction.type === 'UNLINKREQUEST' && app.connected && !hasInvite
   const currentIdp = currentUser.getCurrentIdp()
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
