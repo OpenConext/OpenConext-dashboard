@@ -16,6 +16,8 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
   const isAllowedToMaintainPolicies =
     currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
 
+  const isPolicyActive = policy => app.policyEnforcementDecisionRequired && policy.active
+
   async function fetchPolicies() {
     try {
       const res = await getPolicies()
@@ -80,8 +82,8 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
               )}
             </div>
             <div className="policy-actions">
-              <div className={`active-state ${policy.active && 'active'}`}>
-                {I18n.t(`policies.overview.${policy.active ? 'active' : 'inactive'}`)}
+              <div className={`active-state ${isPolicyActive(policy) && 'active'}`}>
+                {I18n.t(`policies.overview.${isPolicyActive(policy) ? 'active' : 'inactive'}`)}
               </div>
               {isAllowedToMaintainPolicies && (
                 <div>
