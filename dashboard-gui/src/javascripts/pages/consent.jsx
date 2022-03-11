@@ -30,7 +30,7 @@ export default function Consent({ app }) {
   }
 
   const checkLoaLevel = callback => {
-    if (currentUser.currentLoaLevel === 1) {
+    if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
       setShowStepUpModal(true)
     } else {
       callback();

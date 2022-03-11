@@ -45,6 +45,9 @@ public class ServicesController extends BaseController {
     @Value("${manage.manageBaseUrl}")
     private String manageBaseUrl;
 
+    @Value("${dashboard.feature.stepup}")
+    private boolean dashboardStepupEnabled;
+
     @RequestMapping
     public RestResponse<Map<String, Object>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
             throws IOException {
@@ -202,7 +205,7 @@ public class ServicesController extends BaseController {
                                                         @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
                                                         Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.getCurrentLoaLevel() < 2) {
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -222,7 +225,7 @@ public class ServicesController extends BaseController {
                                                            Locale locale) throws IOException {
 
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.getCurrentLoaLevel() < 2) {
+        if (currentUser.getCurrentLoaLevel() < 2  && dashboardStepupEnabled) {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

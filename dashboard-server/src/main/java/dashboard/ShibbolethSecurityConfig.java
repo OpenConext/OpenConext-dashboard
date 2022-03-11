@@ -101,6 +101,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${authn_context_levels}")
     private String authnContextLevels;
 
+    @Value("${dashboard.feature.stepup}")
+    private boolean dashboardStepupEnabled;
+
     /*
      * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
      * for a quick overview of the differences between the three configure overrides
@@ -136,7 +139,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, hideTabs, supportedLanguages, organization,
+                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled,dashboardStepupEnabled, hideTabs, supportedLanguages, organization,
                                 defaultLoa, loaLevels, authnContextLevels),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )

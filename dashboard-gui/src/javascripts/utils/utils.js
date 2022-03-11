@@ -1,4 +1,5 @@
 import stopEvent from "./stop";
+import {getCurrentUser} from "../models/current_user";
 
 export function isEmpty(obj) {
     if (obj === undefined || obj === null) {
@@ -20,6 +21,7 @@ export const consentTypes = ['DEFAULT_CONSENT', 'MINIMAL_CONSENT', 'NO_CONSENT']
 
 export function login(e, loaLevel=null, location=window.location.href) {
     stopEvent(e);
-    const loaLevelQueryPart = loaLevel ? `&loa=${loaLevel}` : ""
+    const currentUser = getCurrentUser();
+    const loaLevelQueryPart = (loaLevel && currentUser.dashboardStepupEnabled) ? `&loa=${loaLevel}` : ""
     window.location.href = `/login?redirect_url=${encodeURIComponent(location)}${loaLevelQueryPart}`
 }

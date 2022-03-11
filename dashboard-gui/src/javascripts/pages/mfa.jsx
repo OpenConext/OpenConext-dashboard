@@ -30,7 +30,7 @@ export default function MFA({app}) {
     )
 
     const checkLoaLevel = callback => {
-        if (currentUser.currentLoaLevel === 1) {
+        if (currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled) {
             setShowStepUpModal(true)
         } else {
             callback();

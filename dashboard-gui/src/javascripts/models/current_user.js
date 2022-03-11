@@ -28,6 +28,7 @@ class CurrentUser {
     this.authnContextLevels = rawUser.authnContextLevels
     this.defaultLoa = rawUser.defaultLoa
     this.email = rawUser.email
+    this.dashboardStepupEnabled = rawUser.dashboardStepupEnabled
   }
 
   getCurrentIdp() {

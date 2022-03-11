@@ -211,6 +211,6 @@ public class ServicesControllerTest {
         body.put("ids", asList(1, 2, 3));
         List<String[]> download = controller.download(body, Locale.ENGLISH);
         String[] row = download.get(1);
-        assertEquals("samenstellen.Of u mooi", row[3]);
+        assertEquals("samenstellen.Of u mooi", row[4]);
     }
 }

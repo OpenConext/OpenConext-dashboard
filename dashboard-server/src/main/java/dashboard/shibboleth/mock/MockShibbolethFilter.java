@@ -72,6 +72,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
             }
             if (requestURI.endsWith("Shibboleth.sso/Login")) {
                 String authnContextClassRef = request.getParameter("authnContextClassRef");
+                authnContextClassRef = StringUtils.hasText(authnContextClassRef) ? authnContextClassRef : "urn:oasis:names:tc:SAML:2.0:ac:classes:Password";
                 wrapper.setHeader(Shib_AuthnContext_Class.getValue(), URLDecoder.decode(authnContextClassRef, Charset.defaultCharset()));
             }
             chain.doFilter(wrapper, response);

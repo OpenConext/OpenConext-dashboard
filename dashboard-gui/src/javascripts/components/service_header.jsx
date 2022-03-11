@@ -72,7 +72,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   }, [])
 
   const checkLoaLevel = callback => {
-    if (currentUser.currentLoaLevel === 1) {
+    if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
       setShowStepUpModal(true)
     } else {
       callback();

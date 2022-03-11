@@ -50,11 +50,16 @@ public class UsersController extends BaseController {
     @Value("${manage.manageBaseUrl}")
     private String manageBaseUrl;
 
+    @Value("${dashboard.feature.stepup}")
+    private boolean dashboardStepupEnabled;
+
     private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
     @RequestMapping("/me")
     public RestResponse<CoinUser> me() {
-        return createRestResponse(SpringSecurity.getCurrentUser());
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        currentUser.setDashboardStepupEnabled(dashboardStepupEnabled);
+        return createRestResponse(currentUser);
     }
 
     @PreAuthorize("hasRole('DASHBOARD_SUPER_USER')")
@@ -290,7 +295,7 @@ public class UsersController extends BaseController {
             LOG.warn("Consent endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 2) {
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -358,7 +363,7 @@ public class UsersController extends BaseController {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 3) {
+        if (currentUser.getCurrentLoaLevel() < 3 && dashboardStepupEnabled) {
             LOG.warn("SURFsecureID endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -419,7 +424,7 @@ public class UsersController extends BaseController {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 3) {
+        if (currentUser.getCurrentLoaLevel() < 3 && dashboardStepupEnabled) {
             LOG.warn("MFA endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -472,7 +477,7 @@ public class UsersController extends BaseController {
             LOG.warn("Settings endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 2) {
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             LOG.warn("Settings endpoint is not allowed without LOA level 2, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

@@ -78,6 +78,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String defaultLoa;
     private List<String> loaLevels;
     private List<String> authnContextLevels;
+    private boolean dashboardStepupEnabled;
 
     ShibbolethPreAuthenticatedProcessingFilter(JiraClient jiraClient) {
         this.jiraClient = jiraClient;
@@ -94,6 +95,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String viewerSurfConextIdpRole,
                                                       boolean isManageConsentEnabled,
                                                       boolean isOidcEnabled,
+                                                      boolean dashboardStepupEnabled,
                                                       String hideTabs,
                                                       String supportedLanguages,
                                                       String organization,
@@ -235,6 +237,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setDefaultLoa(this.defaultLoa);
         coinUser.setLoaLevels(this.loaLevels);
         coinUser.setAuthnContextLevels(this.authnContextLevels);
+        coinUser.setDashboardStepupEnabled(this.dashboardStepupEnabled);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {

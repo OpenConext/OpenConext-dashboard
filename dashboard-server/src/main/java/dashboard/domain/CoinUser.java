@@ -47,6 +47,7 @@ public class CoinUser implements UserDetails {
     private String institutionId;
     private String email;
     private boolean manageConsentEnabled;
+    private boolean dashboardStepupEnabled;
     private Set<CoinAuthority> grantedAuthorities = new HashSet<>();
     private Map<ShibbolethHeader, List<String>> attributeMap = new HashMap<>();
     private String hideTabs;
@@ -369,4 +370,11 @@ public class CoinUser implements UserDetails {
         this.currentLoaLevel = currentLoaLevel;
     }
 
+    public boolean isDashboardStepupEnabled() {
+        return dashboardStepupEnabled;
+    }
+
+    public void setDashboardStepupEnabled(boolean dashboardStepupEnabled) {
+        this.dashboardStepupEnabled = dashboardStepupEnabled;
+    }
 }
