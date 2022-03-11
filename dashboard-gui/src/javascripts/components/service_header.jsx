@@ -30,6 +30,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const currentIdp = currentUser.getCurrentIdp()
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
+  const [loading, setLoading] = useState(true)
 
   const refresh = () => {
     fetchJira()
@@ -62,9 +63,11 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
       } else {
         setJiraAction(null)
       }
-    } else if (jiraKey) {
+    } else if ((currentUser.guest || currentUser.currentLoaLevel < 2) && jiraKey) {
       login(null, 2)
+      return
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -78,7 +81,9 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
       callback();
     }
   }
-
+  if (loading) {
+    return null
+  }
   return (
     <>
       <JiraActionMessage action={jiraAction} app={app} jiraKey={jiraKey}/>
