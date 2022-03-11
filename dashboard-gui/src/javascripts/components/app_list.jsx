@@ -269,6 +269,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   if (!currentUser.guest) {
     facets.push(strongAuthenticationFacet)
     const mfaEntities = currentUser.currentIdp.mfaEntities
+    const mfaLevels = [
+      'https://refeds.org/profile/mfa',
+      'http://schemas.microsoft.com/claims/multipleauthn'
+    ]
     facets.push({
       name: I18n.t('facets.static.mfa.name'),
       tooltip: I18n.t('facets.static.mfa.tooltip'),
@@ -276,15 +280,23 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
       values: [
         {
           value: I18n.t('mfa_panel.mfa_short'),
-          searchValue: 'https://refeds.org/profile/mfa',
+          searchValue: mfaLevels[0],
           count: apps => apps.filter(app => mfaEntities.some(entity => entity.name === app.spEntityId &&
-              entity.level === 'https://refeds.org/profile/mfa')).length
+              entity.level === mfaLevels[0])).length
         },
         {
           value: I18n.t('mfa_panel.multipleauthn_short'),
-          searchValue: 'http://schemas.microsoft.com/claims/multipleauthn',
+          searchValue: mfaLevels[1],
           count: apps => apps.filter(app => mfaEntities.some(entity => entity.name === app.spEntityId &&
-              entity.level === 'http://schemas.microsoft.com/claims/multipleauthn')).length
+              entity.level === mfaLevels[1])).length
+        },
+        {
+          value: I18n.t('facets.static.mfa.other'),
+          searchValue: 'OTHER',
+          count: apps => apps.filter(app => {
+            const hit = mfaEntities.find(entity => entity.name === app.spEntityId)
+            return hit && mfaLevels.indexOf(hit.level) === -1
+          }).length
         },
         {
           value: I18n.t('facets.static.mfa.none'),
@@ -294,6 +306,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
       ],
       filterApp: function (app) {
         const mfaFacetValues = activeFacets['mfa'] || []
+        if (mfaFacetValues.indexOf('OTHER') > -1) {
+          const hit = mfaEntities.find(entity => entity.name === app.spEntityId)
+          return hit && mfaLevels.indexOf(hit.level) === -1
+        }
         if (mfaFacetValues.indexOf('NONE') > -1) {
           return !mfaEntities.some(entity => entity.name === app.spEntityId)
         }

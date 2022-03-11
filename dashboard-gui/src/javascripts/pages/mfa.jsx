@@ -12,7 +12,6 @@ export default function MFA({app}) {
     const {currentUser} = useContext(CurrentUserContext)
     const mfaEntity = (currentUser.currentIdp.mfaEntities || []).find((e) => e.name === app.spEntityId)
     const initialAuthnContextLevel = mfaEntity && mfaEntity.level || ''
-
     const [authnContextLevel, setAuthnContextLevel] = useState(initialAuthnContextLevel)
     const [showStepUpModal, setShowStepUpModal] = useState(false)
     const isDashboardAdmin = currentUser.dashboardAdmin
@@ -22,12 +21,22 @@ export default function MFA({app}) {
     if (isEmpty(mfaEntity)) {
         options.push({value: '', display: I18n.t('mfa_panel.defaultAuthnContextLevel')})
     }
+
+    const getAuthContextValue = authContextLevel => {
+        const splitted = authContextLevel.split(/[\/|:]/)
+        const value = splitted[splitted.length - 1].toLowerCase();
+        return I18n.t(`mfa_panel.${value}`)
+    }
+
     options = options.concat(
         currentUser.authnContextLevels.map(level => ({
             value: level,
-            display: I18n.t(`mfa_panel.${level.substring(level.lastIndexOf("/") + 1)}`),
+            display: getAuthContextValue(level)
         }))
     )
+
+    const notAllowedAuthnContextLevel = !isEmpty(initialAuthnContextLevel)
+        && currentUser.authnContextLevels.indexOf(initialAuthnContextLevel) === -1
 
     const checkLoaLevel = callback => {
         if (currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled) {
@@ -67,6 +76,7 @@ export default function MFA({app}) {
             <div>
                 <section className="change-form">
                     <label htmlFor="authn_context_level">{I18n.t('mfa_panel.authn_context_level')}</label>
+                    {!notAllowedAuthnContextLevel &&
                     <SelectWrapper
                         defaultValue={authnContextLevel}
                         options={options}
@@ -74,15 +84,28 @@ export default function MFA({app}) {
                         inputId="authn_context_level"
                         isDisabled={!isDashboardAdmin}
                         handleChange={val => setAuthnContextLevel(val)}
-                    />
-                    {isDashboardAdmin && (
-                        <button
-                            className={`c-button save ${authnContextLevelEquals ? 'disabled' : ''}`}
-                            disabled={authnContextLevelEquals}
-                            onClick={e => checkLoaLevel(() => saveRequest(e))}>
-                            {I18n.t('consent_panel.save')}
-                        </button>
-                    )}
+                    />}
+                    {notAllowedAuthnContextLevel && <div className="not-allowed-mfa-change">
+                        <SelectWrapper
+                            defaultValue={initialAuthnContextLevel}
+                            options={[{
+                                value: initialAuthnContextLevel,
+                                display: getAuthContextValue(initialAuthnContextLevel)
+                            }]}
+                            multiple={false}
+                            inputId="authn_context_level"
+                            isDisabled={true}
+                        />
+                        <p dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.not_allowed')}}/>
+                    </div>}
+                    {(isDashboardAdmin && !notAllowedAuthnContextLevel) &&
+                    <button
+                        className={`c-button save ${authnContextLevelEquals ? 'disabled' : ''}`}
+                        disabled={authnContextLevelEquals}
+                        onClick={e => checkLoaLevel(() => saveRequest(e))}>
+                        {I18n.t('consent_panel.save')}
+                    </button>
+                    }
                 </section>
             </div>
             <StepUpModal

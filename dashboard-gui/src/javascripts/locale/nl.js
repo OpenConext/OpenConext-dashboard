@@ -125,6 +125,7 @@ I18n.translations.nl = {
         tooltip:
             'Multi factor authentication door de IdP is vereist.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
         none: 'Geen',
+        other: 'Anders'
       },
       attribute_manipulation: {
         name: 'Attribuut manipulatie script',
@@ -1223,9 +1224,7 @@ I18n.translations.nl = {
     mobileonefactorcontract: "Mobile one factor",
     multipleauthn_short: 'MFA Microsoft',
     mfa_short: 'MFA Generiek',
-    transparent_authn_context_short: "Transparent",
-    mobileonefactorcontract_short: "Mobiel"
-
+    not_allowed: "Je kan de MFA voor deze dienst niet aanpassen. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een andere MFA wenst voor deze service.."
   },
 
 }
