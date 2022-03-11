@@ -27,6 +27,10 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
   const pendingAction = jiraAction && (jiraAction.status === 'To Do' || jiraAction.status === 'In Progress')
+  const connectedButJiraNotResolved = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && app.connected
+  const notConnectedButJiraNotResolved = jiraAction && jiraAction.type === 'UNLINKREQUEST' && !app.connected
+  const pendingConnectionJira = jiraAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && !app.connected
+  const pendingUnlinkAction = jiraAction && jiraAction.type === 'UNLINKREQUEST' && app.connected
   const currentIdp = currentUser.getCurrentIdp()
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
@@ -118,17 +122,19 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
               </div>
               {!currentUser.guest && (
                 <div className="right">
-                  {pendingAction && !app.connected && (
-                    <button disabled className="c-button">
+                  {(connectedButJiraNotResolved || pendingConnectionJira) &&
+                    <button disabled
+                            className="c-button">
                       {I18n.t('apps.detail.pending_connection')}
                     </button>
-                  )}
-                  {pendingAction && app.connected && (
-                    <button disabled className="c-button">
+                  }
+                  {(notConnectedButJiraNotResolved || pendingUnlinkAction) &&
+                    <button disabled
+                            className="c-button">
                       {I18n.t('apps.detail.pending_disconnect')}
                     </button>
-                  )}
-                  {!pendingAction && app.connected && (
+                  }
+                  {(!pendingAction && app.connected) &&
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="g-button"
@@ -137,8 +143,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       <FontAwesomeIcon icon={faCheck} />
                       {I18n.t('apps.detail.connected')}
                     </button>
-                  )}
-                  {!pendingAction && !app.connected && !hasInvite && (
+                  }
+                  {(!pendingAction && !app.connected && !hasInvite) &&
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="c-button"
@@ -146,8 +152,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     >
                       {I18n.t(`apps.detail.${app.entityType === 'single_tenant_template' ? 'connect_service_single_tenant':'connect_service'}`)}
                     </button>
-                  )}
-                  {!pendingAction && !app.connected && hasInvite && (
+                  }
+                  {(!pendingAction && !app.connected && hasInvite) &&
                     <div className="approve-deny">
                       <button
                         disabled={!canConnectOrDisconnect}
@@ -164,8 +170,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                         {I18n.t('apps.detail.deny_invite')}
                       </button>
                     </div>
-                  )}
-                  {app.connected && (
+                  }
+                  {app.connected &&
                     <div className="connection-details">
                       {app.minimalLoaLevel && (
                         <div className="loa">
@@ -179,8 +185,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                           <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
                         </div>
                       )}
-                    </div>
-                  )}
+                    </div>}
                 </div>
               )}
             </div>
