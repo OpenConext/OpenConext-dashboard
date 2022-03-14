@@ -138,11 +138,17 @@ public interface Manage {
                                     .collect(toMap(
                                             e -> e.getKey(),
                                             e -> e.getValue().get(0).getOrDefault("motivation", "")));
+                            Map<String, String> sourcesMap = attributes.entrySet().stream()
+                                    .collect(toMap(
+                                            e -> e.getKey(),
+                                            e -> e.getValue().get(0).getOrDefault("source", "idp")));
                             result.put("attributes", attributesMap);
                             result.put("motivations", motivationsMap);
+                            result.put("sources", sourcesMap);
                         } else {
                             result.put("attributes", new HashMap<>());
                             result.put("motivations", new HashMap<>());
+                            result.put("sources", new HashMap<>());
                         }
                     }
                     break;

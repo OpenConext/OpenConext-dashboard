@@ -32,6 +32,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
     private static final List<String> nameIdFormats = Arrays.asList("NameIDFormat", "NameIDFormats:0", "NameIDFormats:1", "NameIDFormats:2");
 
     private Map<String, String> arpMotivations;
+    private Map<String, String> arpSources;
     private String applicationUrl;
     private String institutionId;
     private String eulaURL;
@@ -135,6 +136,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
         this.privacyInfo = this.buildPrivacyInfo(metaData);
         this.arpMotivations = (Map<String, String>) metaData.get("motivations");
+        this.arpSources = (Map<String, String>) metaData.get("sources");
         this.manipulationNotes = (String) metaData.get("manipulationNotes");
         this.manipulation = StringUtils.hasText((String) metaData.get("manipulation"));
         this.contractualBase = (String) metaData.getOrDefault("coin:contractual_base", "NA");
@@ -241,6 +243,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     public Map<String, String> getArpMotivations() {
         return arpMotivations;
+    }
+
+    public Map<String, String> getArpSources() {
+        return arpSources;
     }
 
     private void addUrl(String lang, String url) {

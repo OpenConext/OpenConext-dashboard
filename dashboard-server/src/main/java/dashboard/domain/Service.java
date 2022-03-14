@@ -72,6 +72,7 @@ public class Service implements Comparable<Service>, Serializable {
     private Map<String, String> names = new HashMap<>();
     private Map<String, String> organisations = new HashMap<>();
     private Map<String, String> motivations = new HashMap<>();
+    private Map<String, String> sources = new HashMap<>();
     private Map<String, String> descriptions = new HashMap<>();
     private Map<String, String> displayNames = new HashMap<>();
 
@@ -473,6 +474,14 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setMotivations(Map<String, String> motivations) {
         this.motivations = motivations;
+    }
+
+    public Map<String, String> getSources() {
+        return sources;
+    }
+
+    public void setSources(Map<String, String> sources) {
+        this.sources = sources;
     }
 
     public boolean isAansluitovereenkomstRefused() {

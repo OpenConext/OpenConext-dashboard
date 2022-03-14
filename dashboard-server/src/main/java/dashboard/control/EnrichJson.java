@@ -40,7 +40,6 @@ public class EnrichJson {
     private EnrichJson(boolean statsEnabled, CoinUser coinUser) {
         LOG.debug("Using {} for user {}", statsEnabled, coinUser.getDisplayName());
         this.currentUser = coinUser;
-        boolean statsEnabled1 = statsEnabled;
         Gson gson = GsonHttpMessageConverter.GSON_BUILDER.create();
 
         mapping.put(CoinUser.class, (coinUserJsonElement, payload) -> {

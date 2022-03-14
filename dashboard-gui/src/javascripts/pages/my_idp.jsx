@@ -14,6 +14,7 @@ import groupBy from 'lodash.groupby'
 import {isEmpty} from '../utils/utils'
 import StepUpModal from "../components/step_up_modal";
 import stopEvent from "../utils/stop";
+import Tooltip from "../components/tooltip"
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
@@ -173,17 +174,6 @@ function Settings({ idp, isDashboardAdmin, currentUser, showModal }) {
           </tr>
         </tbody>
       </table>
-    </div>
-  )
-}
-
-function Tooltip({ id, text }) {
-  return (
-    <div>
-      <FontAwesomeIcon icon={faQuestionCircle} data-tip data-for={id} />
-      <ReactTooltip id={id} type="info" class="tool-tip" effect="solid" multiline delayHide={250} clickable>
-        <span dangerouslySetInnerHTML={{ __html: text }} />
-      </ReactTooltip>
     </div>
   )
 }

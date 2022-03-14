@@ -13,11 +13,9 @@
 
     svg
       margin-left: 8px
+
       path
         color: $blue
-
-    thead
-      tr
 
     th
       border-bottom: 1px solid #c4cdd5
@@ -25,6 +23,8 @@
       color: #1e5db4
       @media(min-width: 768px)
         padding: 14px
+        .th-container
+          display: flex
 
     td
       min-width: 20%
@@ -35,11 +35,23 @@
         padding: 14px
       border-bottom: solid 1px #c4cdd5
 
+      .attribute-name
+        display: flex
+        flex-direction: column
+        .name-urn
+          font-style: italic
+          font-size: smaller
+          word-break: keep-all
+
     tr
       &:last-child
         td
           border-bottom: 0
 
+
+  .notes
+    background-color: $light-grey
+    padding: 10px 5px
 
   .privacy
     margin-top: 50px
