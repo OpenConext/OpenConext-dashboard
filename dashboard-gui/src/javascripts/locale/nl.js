@@ -327,7 +327,7 @@ I18n.translations.nl = {
     },
     aansluitovereenkomst: 'Aansluitovereenkomst',
     aansluitovereenkomstRefused:
-      '{{organisation}} heeft geweigerd om de \'SURFconext aansluitovereenkomst\' te tekenen. Lees meer over deze overeenkomst op de <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
+      '{{organisation}} heeft geweigerd om de SURFconext aansluitovereenkomst te tekenen. Lees meer over deze overeenkomst op de <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
     vendorInfo: 'Deze dienst wordt aangeboden door {{organisation}}. ',
     privacyInformation: 'Privacy-informatie',
     privacyInformationInfo: '{{organisation}} heeft geen privacy-informatie aangeleverd.',
@@ -529,7 +529,7 @@ I18n.translations.nl = {
     terms_title: 'Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:',
     wiki: 'wiki voor deze service',
     aansluitovereenkomst_accept:
-      "Ik bevestig dat ik instem met het activeren van een service die geweigerd heeft de 'SURFconext aansluitovereenkomst' te ondertekenen.",
+      "Ik stem in met het activeren van een dienst die geweigerd heeft de SURFconext aansluitovereenkomst te ondertekenen.",
     not_published_in_edugain_idp: 'eduGAIN-dienst',
     not_published_in_edugain_idp_info:
       "De dienst {{name}} kan niet worden gekoppeld omdat je instelling niet is gepubliceerd is in eduGAIN. Om je instelling te publiceren in eduGAIN kun je een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",

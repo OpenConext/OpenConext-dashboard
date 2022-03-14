@@ -326,9 +326,9 @@ I18n.translations.en = {
       'http://refedsorg/category/research-and-scholarship': 'Research and Scholarship',
       'http://clarineu/category/clarin-member': 'Clarin member',
     },
-    aansluitovereenkomst: 'Connection Policy',
+    aansluitovereenkomst: 'Connection agreement',
     aansluitovereenkomstRefused:
-      '{{organisation}} has refused to sign the \'SURFconext connection agreement\' with SURF. Read more about this policy on the <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
+      '{{organisation}} has refused to sign the SURFconext connection agreement with SURF. Read more about this policy on the <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
     vendorInfo: 'This service is offered by {{organisation}}.',
     privacyInformation: 'Privacy information',
     privacyInformationInfo: '{{organisation}} has not delivered any privacy information.',
@@ -524,7 +524,7 @@ I18n.translations.en = {
     terms_title: 'By requesting an activation you accept these terms',
     wiki: 'wiki for this service',
     aansluitovereenkomst_accept:
-      "I hereby certify that I agree with connecting to a service which has not signed the 'SURFconext aansluitovereenkomst'.",
+      "I agree with connecting a service which has not signed the SURFconext connection agreement.",
     not_published_in_edugain_idp: 'eduGAIN service',
     not_published_in_edugain_idp_info:
       "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
