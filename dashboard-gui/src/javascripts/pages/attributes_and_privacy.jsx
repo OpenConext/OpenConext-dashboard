@@ -29,13 +29,19 @@ function AttributeReleasePolicy({app, nameIdValue, currentUser}) {
     } else if (app.arp.noAttrArp && !nameIdValue) {
         return <p>{I18n.t('attributes_policy_panel.arp.noattr', {name: app.name})}</p>
     }
-    if (nameIdValue) {
-        const nameId = app.nameIds[0];
+    const nameId = app.nameIds[0];
+    if (nameIdValue && !app.filteredUserAttributes.some(attr => attr.name === nameId)) {
         app.filteredUserAttributes.push({
             name: nameId,
             filters: ["*"],
             userValues: []
         })
+        if (!app.motivations) {
+            app.motivations = {}
+        }
+        if (!app.sources) {
+            app.sources = {}
+        }
         app.motivations[nameId] = I18n.t('attributes_policy_panel.persistentMotivation')
         app.sources[nameId] = 'surf';
     }
