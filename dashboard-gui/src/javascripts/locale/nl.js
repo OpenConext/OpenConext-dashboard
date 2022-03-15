@@ -349,17 +349,16 @@ I18n.translations.nl = {
             noarp: "Alle attributen zullen worden uitgewisseld met {{name}}.",
             noattr: 'Er zullen geen attributen worden uitgewisseld met {{name}}.',
             manipulation:
-                "Voor deze Service Provider is er een aangepast attribuut manipulatie actief die de uitgegeven attributen wijzigt.",
-            manipulationNotes: ' De attribuut manipulatie voert het volgende uit:',
+                "Voor deze Service Provider is er een aangepaste attribuutmanipulatie actief die de uitgegeven attributen wijzigt.",
+            manipulationNotes: ' De attribuutmanipulatie voert het volgende uit:',
             resourceServers:
                 'Deze Service Provider is gekoppeld aan Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:',
         },
         attribute: 'Attribuut',
-        hint: 'De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling.',
-        subtitle: '{{name}} moet de volgende attributen ontvangen.',
+        subtitle: '{{name}} heeft de volgende attributen nodig.',
         title: 'Attributen',
         your_value: 'Jouw waardes',
-        your_values_tooltip: 'The values for these attributes as they are for your own account. This might not be representative for other accounts in your organization. Only values are shown for attributes that originate at your IdP.',
+        your_values_tooltip: 'De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling. Er worden alleen waarden getoond voor attributen die door jouw IdP geleverd moeten worden.',
         source: 'Bron',
         persistentMotivation: "Primaire identifier van de gebruiker",
         sources: {
@@ -367,23 +366,16 @@ I18n.translations.nl = {
             surf: 'SURFconext',
             voot: 'SURFconext Teams',
             eduid: 'eduID',
-            sab: 'SURF Autorisatie Management',
+            sab: 'SURF Autorisatie Beheer',
             ala: 'Je IdP',
             manage: 'SURFconext'
         },
-        sourceTooltip: "Welke instantie levert de waarden voor dit attribuut. Uw IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
-        filter: 'Voor dit attribuut zijn de volgende filters toegepast:',
+        sourceTooltip: "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
+        filter: 'Filter',
         filterTooltip: 'Voor dit attribuut is een filter toegepast dat de beschikbare waarden mogelijk beperkt',
         motivation: 'Doel',
         motivationTooltip:
-            'De kolom ‘doel’ bevat, voor zover beschikbaar, de uitleg van de leverancier waarom deze dit attribuut nodig heeft.',
-        no_attribute_value: '<geen waarde ontvangen>',
-        attribute_value_generated: '<wordt door SURFconext gegenereerd>',
-        filterInfo:
-            'Om te zorgen dat een leverancier alleen de voor de dienst noodzakelijke gegevens ontvangt, gebruikt SURFconext soms filters op de waardes van de IdP ontvangen attributen.',
-        warning: 'Let op:',
-        nameIdInfo:
-            "De identiteit van de gebruikers is doorgegeven als een NameID element van het type '%{type}' - <a href='https://support.surfconext.nl/uids' target='_blank'>gegenereerd door SURFconext</a>",
+            'Deze kolom bevat, voor zover beschikbaar, de uitleg van de leverancier waarom deze dit attribuut nodig heeft.',
         attributes: {
             "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified": "Persistente identifier",
             "urn:mace:dir:attribute-def:eduPersonTargetedID": "Unieke ID",
@@ -1258,7 +1250,7 @@ I18n.translations.nl = {
         subtitle2:
             'Je kan dan wel kiezen voor <span>Generieke multi-factor (REFEDS MFA)</span> wat een industrie standaard is of <span>Multi-factor op ADFS of Azure AD</span> wat specifiek is voor Microsoft producten.',
         subtitle3:
-            'Door een MFA-waarde te kiezen, kan je een extra bescherming aan deze service toevoegen door een tweede factor toe te voegen aan de login van de gebruiker op uw eigen IdP. Als je IdP een tweede factor niet ondersteunt, maar je wilt deze wel aan deze dienst toevoegen, overweeg dan om SURFSecureID te gebruiken.',
+            'Door een MFA-waarde te kiezen, kan je een extra bescherming aan deze service toevoegen door een tweede factor toe te voegen aan de login van de gebruiker op je eigen IdP. Als je IdP een tweede factor niet ondersteunt, maar je wilt deze wel aan deze dienst toevoegen, overweeg dan om SURFSecureID te gebruiken.',
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Dwing geen tweede factor af bij mijn IdP voor deze dienst',
         multipleauthn: 'Multi-factor op ADFS of Azure AD',
