@@ -7,7 +7,7 @@ import Tooltip from "../components/tooltip"
 import 'github-markdown-css/github-markdown.css'
 
 export default function AttributesAndPrivacy({app}) {
-    const { currentUser } = useContext(CurrentUserContext)
+    const {currentUser} = useContext(CurrentUserContext)
     const hasPrivacyInfo = privacyProperties.some((prop) => app.privacyInfo[prop])
     const nameIdValue = app.nameIds.filter((val) => val.includes('unspecified') || val.includes('persistent')).length
         ? true
@@ -66,12 +66,12 @@ function AttributeReleasePolicy({app, nameIdValue, currentUser}) {
                             <Tooltip id="motivation" text={I18n.t('attributes_policy_panel.motivationTooltip')}/>
                         </span>
                     </th>
-                    {!currentUser.guest && <th className="value">
-                        <span className={"th-container"}>
+                    <th className="value">
+                        {!currentUser.guest && <span className={"th-container"}>
                         {I18n.t('attributes_policy_panel.your_value')}
                             <Tooltip id="values" text={I18n.t('attributes_policy_panel.your_values_tooltip')}/>
-                            </span>
-                    </th>}
+                            </span>}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,8 +82,8 @@ function AttributeReleasePolicy({app, nameIdValue, currentUser}) {
                     })
                     .sort((a1, a2) => a1.description.localeCompare(a2.description))
                     .map((attribute) => (
-                    <Attribute app={app} attribute={attribute} currentUser={currentUser} key={attribute.name}/>
-                ))}
+                        <Attribute app={app} attribute={attribute} currentUser={currentUser} key={attribute.name}/>
+                    ))}
                 </tbody>
             </table>
         </div>
@@ -122,7 +122,7 @@ function Attribute({attribute, app, currentUser}) {
             <td>{app.motivations[name]}</td>
 
             <td>
-                {(!currentUser.guest && source === 'idp') &&    <ul>
+                {(!currentUser.guest && source === 'idp') && <ul>
                     {attribute.userValues.map((val) => <li key={val}>{val}</li>)}
                 </ul>}
             </td>
