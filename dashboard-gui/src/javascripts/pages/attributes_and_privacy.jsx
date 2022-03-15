@@ -80,7 +80,7 @@ function AttributeReleasePolicy({app, nameIdValue, currentUser}) {
                         attr.description = I18n.t('attributes_policy_panel.attributes')[attr.name]
                         return attr
                     })
-                    .sort((a1, a2) => a1.description.localeCompare(a2.description))
+                    .sort((a1, a2) => (a1.description || "").localeCompare((a2.description || "")))
                     .map((attribute) => (
                         <Attribute app={app} attribute={attribute} currentUser={currentUser} key={attribute.name}/>
                     ))}

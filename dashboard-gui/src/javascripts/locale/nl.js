@@ -408,7 +408,8 @@ I18n.translations.nl = {
             "urn:mace:surf.nl:attribute-def:surf-crm-id": "SURF CRM IdP identifier",
             "urn:mace:dir:attribute-def:isMemberOf": "Lidmaatschappen",
             "urn:mace:dir:attribute-def:uid": "Login at your IdP",
-            "urn:mace:dir:attribute-def:preferredLanguage": "Preferred language"
+            "urn:mace:dir:attribute-def:preferredLanguage": "Preferred language",
+            "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": "eduPerson organisatie"
         }
 
     },
