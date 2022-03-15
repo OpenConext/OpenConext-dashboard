@@ -189,11 +189,14 @@ function PrivacyProp({name, prop}) {
 
 function ManipulationNotes({app}) {
     const notes = app.manipulationNotes && marked(app.manipulationNotes).replace(/<a href/g, '<a target="_blank" href')
+    let title = I18n.t('attributes_policy_panel.arp.manipulation')
+    if (app.manipulationNotes) {
+        title += I18n.t('attributes_policy_panel.arp.manipulationNotes')
+    }
     return (
         <div className="manipulation-notes">
             <p className="title">
-                <span>{I18n.t('attributes_policy_panel.arp.manipulation')}</span>
-                {app.manipulationNotes && <span>{I18n.t('attributes_policy_panel.arp.manipulationNotes')}</span>}
+                <i className="fa fa-warning"/>{title}
             </p>
             {app.manipulationNotes &&
             <section className="notes markdown-body" dangerouslySetInnerHTML={{__html: notes}}/>}

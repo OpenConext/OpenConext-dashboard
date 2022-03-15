@@ -38,6 +38,7 @@
       .attribute-name
         display: flex
         flex-direction: column
+
         .name-urn
           font-style: italic
           font-size: smaller
@@ -48,10 +49,20 @@
         td
           border-bottom: 0
 
+  .manipulation-notes
+    p.title
+      display: flex
+      align-content: center
+      align-items: center
 
-  .notes
-    background-color: $light-grey
-    padding: 10px 5px
+    i.fa-warning
+      color: #fedb00
+      margin-right: 8px
+      font-size: larger
+
+    .notes
+      background-color: $light-grey
+      padding: 10px 5px
 
   .privacy
     margin-top: 50px

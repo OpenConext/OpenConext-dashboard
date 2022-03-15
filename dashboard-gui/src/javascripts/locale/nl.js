@@ -368,6 +368,7 @@ I18n.translations.nl = {
             eduid: 'eduID',
             sab: 'SURF Autorisatie Beheer',
             ala: 'Je IdP',
+            pseudo_email:'Je IdP',
             manage: 'SURFconext'
         },
         sourceTooltip: "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",

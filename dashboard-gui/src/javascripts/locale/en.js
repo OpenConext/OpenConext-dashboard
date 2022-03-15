@@ -374,6 +374,7 @@ I18n.translations.en = {
             eduid: 'eduID',
             sab: 'SURF Autorisatie Beheer',
             ala: 'Your IdP',
+            pseudo_email:'Your IdP',
             manage: 'SURFconext'
         },
         sourceTooltip: "Which authority supplies the values for this attribute. Your IdP only needs to provide the items marked with 'Your IdP'.",
