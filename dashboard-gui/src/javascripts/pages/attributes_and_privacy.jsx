@@ -16,7 +16,7 @@ export default function AttributesAndPrivacy({app}) {
         <div className="app-detail-content attributes-privacy">
             <h2>{I18n.t('attributes_policy_panel.title')}</h2>
             <AttributeReleasePolicy app={app} nameIdValue={nameIdValue} currentUser={currentUser}/>
-            {app.manipulation && <ManipulationNotes app={app}/>}
+            {(app.manipulation && !currentUser.guest) && <ManipulationNotes app={app}/>}
             {hasPrivacyInfo && <PrivacyInfo app={app}/>}
         </div>
     )
@@ -182,7 +182,7 @@ function PrivacyProp({name, prop}) {
 }
 
 function ManipulationNotes({app}) {
-    const notes = marked(app.manipulationNotes).replace(/<a href/g, '<a target="_blank" href')
+    const notes = app.manipulationNotes && marked(app.manipulationNotes).replace(/<a href/g, '<a target="_blank" href')
     return (
         <div className="manipulation-notes">
             <p className="title">
