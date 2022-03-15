@@ -1251,7 +1251,7 @@ I18n.translations.nl = {
         subtitle2:
             'Je kan dan wel kiezen voor <span>Generieke multi-factor (REFEDS MFA)</span> wat een industrie standaard is of <span>Multi-factor op ADFS of Azure AD</span> wat specifiek is voor Microsoft producten.',
         subtitle3:
-            'Door een MFA-waarde te kiezen, kan je een extra bescherming aan deze service toevoegen door een tweede factor toe te voegen aan de login van de gebruiker op je eigen IdP. Als je IdP een tweede factor niet ondersteunt, maar je wilt deze wel aan deze dienst toevoegen, overweeg dan om SURFSecureID te gebruiken.',
+            'Door een MFA-waarde te kiezen, kan je een extra bescherming aan deze service toevoegen door een tweede factor toe te voegen aan de login van de gebruiker op je eigen IdP. Als je IdP een tweede factor niet ondersteunt, maar je wilt deze wel aan deze dienst toevoegen, overweeg dan om SURFsecureID te gebruiken.',
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Dwing geen tweede factor af bij mijn IdP voor deze dienst',
         multipleauthn: 'Multi-factor op ADFS of Azure AD',
