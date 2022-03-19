@@ -339,6 +339,8 @@ I18n.translations.nl = {
                 'eduGAIN-dienst die zich akkoord heeft verklaard met de Data Protection Code of Conduct en valt in de Research & Scholarship entity category.',
             entree: 'Aangsloten op de Kennisnet Entree-federatie.',
             clarin: 'Onderdeel van de Clarin-onderzoeksfederatie.',
+            none: '{{organisation}} heeft de SURFconext aansluitovereenkomst niet willen tekenen.',
+            'edugain (community)': 'Dienst aangeboden door de internationale onderwijs- en onderzoeksgemeenschap via eduGAIN.'
         },
         contractualBaseWiki:
             ' Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a>.',
