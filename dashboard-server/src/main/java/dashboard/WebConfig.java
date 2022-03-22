@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +43,14 @@ public class WebConfig implements WebMvcConfigurer {
         localeResolver.setDefaultLocale(new Locale(language));
         localeResolver.setCookieMaxAge(315360000);
         return localeResolver;
+    }
+
+    @Bean
+    public HttpFirewall httpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        //We are converting the ISO8859-1 header value to UTF-8 so we can relax the allowed header values we accept
+        firewall.setAllowedHeaderValues(s -> true);
+        return firewall;
     }
 
 
