@@ -6,8 +6,9 @@
 
   table
     margin: 20px 0
-    border: 1px solid #c4cdd5
-    border-radius: 6px
+    box-shadow: 0 1px 0 2px #c3c3c3
+    border-radius: 8px
+
     border-collapse: separate
     width: 100%
 
@@ -19,12 +20,38 @@
 
     th
       border-bottom: 1px solid #c4cdd5
+      border-top-left-radius: 8px
+      border-top-right-radius: 8px
       padding: 6px
       color: #1e5db4
+      font-weight: 600
+      background-color: #f3f6f8
       @media(min-width: 768px)
         padding: 14px
         .th-container
           display: flex
+
+      &.attribute
+        width: 25%
+
+      &.source
+        width: 15%
+
+      &.filter
+        width: 15%
+
+      &.motivation
+        width: 20%
+
+      &.value
+        width: 25%
+
+      &.question
+        width: 50%
+
+      &.answer
+        width: 50%
+
 
     td
       min-width: 20%

@@ -154,7 +154,7 @@ function PrivacyTable({app}) {
             <thead>
             <tr>
                 <th className="question">{I18n.t('privacy_panel.question')}</th>
-                <th answer="question">{I18n.t('privacy_panel.answer')}</th>
+                <th className="answer">{I18n.t('privacy_panel.answer')}</th>
             </tr>
             </thead>
             <tbody>
