@@ -877,7 +877,7 @@ I18n.translations.nl = {
         edit_message: 'De volgende velden kunnen worden aangepast.',
         save: 'Maak wijzigingsverzoek aan',
         change_request_created:
-            'Wijzigingsverzoek ingediend bij het SURFconext-team. Het ticket nummer van het wijzigingsverzoek is {{jiraKey}}',
+            'Wijzigingsverzoek ingediend bij het SURFconext-team. Het ticketnummer van het wijzigingsverzoek is {{jiraKey}}',
         no_change_request_created: 'Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.',
         change_request_failed: 'Er ging iets mis bij het aanmaken van het wijzigingsverzoek.',
         comments: 'Opmerkingen',
@@ -1241,8 +1241,8 @@ I18n.translations.nl = {
         },
     },
     stepup: {
-        title: 'SURF Secure ID Step up',
-        info: 'Om deze actie uit te voeren is het nodig om een tweede factor toe te voegen aan je authenticatie. Wanneer je doorgaat, wordt je doorgestuurd om deze tweede factor toe te voegen en daarna keer je hier weer terug.',
+        title: 'Multi-factor-authenticatie benodigd',
+        info: 'Om deze actie uit te voeren is het nodig om een tweede factor toe te voegen aan je authenticatie. Wanneer je doorgaat, word je om je token gevraagd en  daarna keer je hier weer terug.',
         cancel: 'Annuleren',
         go: 'Doorgaan'
     },

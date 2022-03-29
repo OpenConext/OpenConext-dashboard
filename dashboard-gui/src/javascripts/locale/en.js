@@ -820,7 +820,7 @@ I18n.translations.en = {
         edit_message: 'You are able to edit the following fields.',
         save: 'Create change request',
         change_request_created:
-            'Change request sent to the SURF SURFconext-team. The ticket number of the change request is {{jiraKey}}',
+            'Change request sent to the SURFconext-team. The ticket number of the change request is {{jiraKey}}',
         no_change_request_created: 'No change request is created as you did not change anything.',
         change_request_failed: 'Failed to create your change request.',
         comments: 'Comments',
@@ -1232,8 +1232,8 @@ I18n.translations.en = {
         },
     },
     stepup: {
-        title: 'SURF Secure ID Step up',
-        info: 'In order to perform this action it is required to add a second factor to your authentication. When you proceed you will redirected to add this second factor and then you will return here again.',
+        title: 'Multi-factor authentication',
+        info: 'In order to perform this action it is required to add a second factor to your authentication. When you proceed you will be asked for your token and then you will return here again.',
         cancel: 'Cancel',
         go: 'Proceed'
     },
