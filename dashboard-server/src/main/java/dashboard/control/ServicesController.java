@@ -267,6 +267,7 @@ public class ServicesController extends BaseController {
                     .connectWithoutInteraction(connectWithoutInteraction)
                     .shouldSendEmail(service.sendsEmailWithoutInteraction())
                     .service(service)
+                    .loaLevel(loaLevel.orElse(null))
                     .type(jiraType).build();
 
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {

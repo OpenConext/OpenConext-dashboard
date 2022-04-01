@@ -107,7 +107,8 @@ function Attribute({attribute, app, currentUser}) {
     const renderFilters = attribute.filters.filter((flt) => flt !== '*')
 
     const name = attribute.name;
-    const source = app.sources[name];
+    const source = name === 'urn:mace:dir:attribute-def:eduPersonTargetedID' ? 'surf' : app.sources[name];
+
     return (
         <tr key={name}>
             <td>

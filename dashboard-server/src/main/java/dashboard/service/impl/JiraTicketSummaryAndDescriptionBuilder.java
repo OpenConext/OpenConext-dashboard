@@ -43,6 +43,13 @@ class JiraTicketSummaryAndDescriptionBuilder {
                     append(action.getIdpId()).
                     append(" to SP ").
                     append(action.getSpId());
+            if (action.getLoaLevel() != null) {
+                description
+                        .append("\n")
+                        .append("Note: the user has requested a higher LOA level then default, ")
+                        .append(action.getLoaLevel())
+                        .append("\n");
+            }
         } else if (LINKINVITE.equals(action.getType())) {
             description.append("Invite request: If the SCV accepts this invitation then create a new connection by clicking the link to manage in the comments").append("\n");
             summary.
