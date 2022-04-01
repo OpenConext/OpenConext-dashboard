@@ -388,7 +388,15 @@ public class UsersController extends BaseController {
 
         Map<String, Object> pathUpdates = new HashMap<>();
         if (previousLoa.isPresent()) {
-            previousLoa.get().put("level", loaLevelChange.getLoaLevel());
+            if (StringUtils.hasText(loaLevelChange.getLoaLevel())) {
+                previousLoa.get().put("level", loaLevelChange.getLoaLevel());
+            } else {
+                //downgrade to no loa
+                stepupEntities = stepupEntities.stream()
+                        .filter(entity -> !entity.get("name").equals(loaLevelChange.getEntityId()))
+                        .collect(toList());
+            }
+
         } else {
             stepupEntities.add(Map.of(
                     "name", loaLevelChange.getEntityId(),
