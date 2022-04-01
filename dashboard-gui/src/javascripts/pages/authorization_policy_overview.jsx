@@ -1,22 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import I18n from 'i18n-js'
 import { deletePolicy, getPolicies } from '../api'
 import { CurrentUserContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { setFlash } from '../utils/flash'
+import StepUpModal from "../components/step_up_modal";
 
 export default function AuthorizationPolicyOverview({ app, type, onPolicyChange }) {
+  const history = useHistory()
   const [policies, setPolicies] = useState([])
   const [unreachable, setUnreachable] = useState(false)
   const [loading, setLoading] = useState(true)
   const { currentUser } = useContext(CurrentUserContext)
+  const [showStepUpModal, setShowStepUpModal] = useState(false)
+  const [locationAfterStepup, setLocationAfterStepup] = useState(false)
+
 
   const isAllowedToMaintainPolicies =
     currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
 
   const isPolicyActive = policy => app.policyEnforcementDecisionRequired && policy.active
+
+  const checkLoaLevel = (theLocation, callback) => {
+    if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
+      setShowStepUpModal(true)
+
+      setLocationAfterStepup(theLocation)
+    } else {
+      callback();
+    }
+  }
 
   async function fetchPolicies() {
     try {
@@ -60,11 +75,12 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
     <div>
       <div className="policy-overview-header">
         <h2>{I18n.t('policies.overview.header')}</h2>
-        {isAllowedToMaintainPolicies && (
-          <Link to={`/apps/${app.id}/${type}/settings/authorization_policies/new`} className="c-button">
-            {I18n.t('policies.new_policy')}
-          </Link>
-        )}
+        {isAllowedToMaintainPolicies &&
+        <button className="c-button" onClick={() => checkLoaLevel(`${window.location.origin}/apps/${app.id}/${type}/settings/authorization_policies/new`,
+            () => history.replace(`/apps/${app.id}/${type}/settings/authorization_policies/new`))}>
+          {I18n.t('policies.new_policy')}
+        </button>
+        }
       </div>
 
       <div>
@@ -95,13 +111,14 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
               )}
               {isAllowedToMaintainPolicies && policy.actionsAllowed && (
                 <div className="policy-buttons">
-                  <Link
-                    to={`/apps/${app.id}/${type}/settings/authorization_policies/${policy.id}`}
-                    className="c-button"
-                  >
+                  <button type="button" className="c-button"
+                          onClick={() => checkLoaLevel(`${window.location.origin}/apps/${app.id}/${type}/settings/authorization_policies/${policy.id}`,
+                      () => history.replace(`/apps/${app.id}/${type}/settings/authorization_policies/${policy.id}`))}>
                     <FontAwesomeIcon icon={faPencilAlt} />
-                  </Link>
-                  <button type="button" className="c-button" onClick={() => handleDeletePolicy(policy)}>
+                  </button>
+                  <button type="button" className="c-button"
+                          onClick={() => checkLoaLevel(window.location.href,
+                              () => handleDeletePolicy(policy))}>
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
                 </div>
@@ -110,6 +127,12 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
           </div>
         ))}
       </div>
+      <StepUpModal
+          app={app}
+          location={locationAfterStepup}
+          isOpen={showStepUpModal}
+          onClose={() => setShowStepUpModal(false)}
+      />
     </div>
   )
 }

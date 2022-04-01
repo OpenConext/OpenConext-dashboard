@@ -11,12 +11,14 @@ import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.pdp.PdpService;
+import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +44,18 @@ public class PoliciesController extends BaseController {
 
     @Value("${dashboard.environment}")
     protected String environment;
+
     @Autowired
     private PdpService pdpService;
+
     @Autowired
     private Manage manage;
+
     @Autowired
     private MailBox mailBox;
+
+    @Value("${dashboard.feature.stepup}")
+    private boolean dashboardStepupEnabled;
 
     @RequestMapping(method = OPTIONS)
     public ResponseEntity<Void> options(HttpServletResponse response) {
@@ -65,6 +73,11 @@ public class PoliciesController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(method = POST)
     public ResponseEntity<RestResponse<Policy>> createPolicy(@RequestBody Policy policy) {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
+            LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return whenDashboardAdmin(() -> {
             LOG.debug("Create a policy: {}", policy);
             Optional<ServiceProvider> serviceProviderOptional = manage.getServiceProvider(policy.getServiceProviderId(), EntityType
@@ -85,6 +98,11 @@ public class PoliciesController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(method = PUT)
     public ResponseEntity<RestResponse<Policy>> updatePolicy(@RequestBody Policy policy) {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
+            LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return whenDashboardAdmin(() -> {
             LOG.debug("Update a policy: {}", policy);
             return createRestResponse(pdpService.update(policy));
@@ -106,6 +124,12 @@ public class PoliciesController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}", method = DELETE)
     public void delete(@PathVariable("id") Long id) {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
+            String msg = String.format("Consent endpoint requires LOA level 2 or higher, currentUser %s", currentUser);
+            LOG.warn(msg);
+            throw new AuthorizationServiceException(msg);
+        }
         whenDashboardAdmin(() -> createRestResponse(pdpService.delete(id)));
     }
 

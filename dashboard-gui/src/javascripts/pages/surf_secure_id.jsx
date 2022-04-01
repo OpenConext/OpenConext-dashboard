@@ -17,13 +17,11 @@ export default function SurfSecureID({ app }) {
   const [showStepUpModal, setShowStepUpModal] = useState(false)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const appHasLoaLevel = !isEmpty(app.minimalLoaLevel)
-  const highestLoaLevel = stepEntity && stepEntity.level.endsWith('loa3')
   const loaLevelEquals = stepEntity && stepEntity.level === loaLevel
 
   let options = []
-  if (isEmpty(stepEntity)) {
-    options.push({ value: '', display: I18n.t('consent_panel.defaultLoa') })
-  }
+  options.push({ value: '', display: I18n.t('consent_panel.defaultLoa') })
+
   options = options.concat(
     currentUser.loaLevels.map((t) => ({
       value: t,
@@ -67,9 +65,6 @@ export default function SurfSecureID({ app }) {
       {isDashboardAdmin && <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle3') }} />}
       <div className="mod-ssid-panel">
         {appHasLoaLevel && <p className="error">{I18n.t('ssid_panel.appHasLoaLevel')}</p>}
-        {highestLoaLevel && !appHasLoaLevel && (
-          <p className="error" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.highestLoaReached') }} />
-        )}
         <section className="change-form">
           <label htmlFor="loa-level">{I18n.t('consent_panel.loa_level')}</label>
           <SelectWrapper
@@ -77,10 +72,10 @@ export default function SurfSecureID({ app }) {
             options={options}
             multiple={false}
             inputId="loa-level"
-            isDisabled={highestLoaLevel || !isDashboardAdmin || appHasLoaLevel}
+            isDisabled={!isDashboardAdmin || appHasLoaLevel}
             handleChange={(val) => setLoaLevel(val)}
           />
-          {isDashboardAdmin && !highestLoaLevel && !appHasLoaLevel && (
+          {isDashboardAdmin && !appHasLoaLevel && (
             <button
               className={`c-button save ${loaLevelEquals ? 'disabled' : ''}`}
               disabled={loaLevelEquals}
