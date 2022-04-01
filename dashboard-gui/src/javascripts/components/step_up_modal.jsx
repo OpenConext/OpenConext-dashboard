@@ -3,7 +3,14 @@ import I18n from 'i18n-js'
 import ConnectModalContainer from './connect_modal_container'
 import {login} from "../utils/utils";
 
-export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2, location=window.location.href}) {
+export default function StepUpModal({app, isOpen, onClose, requiredLoaLevel = 2, location=window.location.href, queryParam=null}) {
+    if (queryParam) {
+        const locationWithParameter = new URL(location);
+        const params = new URLSearchParams(locationWithParameter.search);
+        params.append('afterStepup', queryParam);
+        locationWithParameter.search = params.toString();
+        location = locationWithParameter.toString()
+    }
     return (
         <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
             <div className="connect-modal-header">

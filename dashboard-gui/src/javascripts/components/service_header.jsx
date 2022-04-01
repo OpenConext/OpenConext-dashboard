@@ -23,6 +23,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const [showDisconnectModal, setShowDisconnectModal] = useState(false)
   const [showDenyModal, setShowDenyModal] = useState(false)
   const [showStepUpModal, setShowStepUpModal] = useState(false)
+  const [afterStepUpPath, setAfterStepUpPath] = useState(null)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
     jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
@@ -76,11 +77,21 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
 
   useEffect(() => {
     fetchJira()
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const afterStepup = urlSearchParams.get('afterStepup')
+    if (afterStepup === 'connect') {
+      setShowConnectModal(true)
+    } else if (afterStepup === 'disconnect') {
+      setShowDisconnectModal(true)
+    } else if (afterStepup === 'deny') {
+      setShowDenyModal(true)
+    }
   }, [])
 
-  const checkLoaLevel = callback => {
+  const checkLoaLevel = (afterStepUpPathParameter, callback) => {
     if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
       setShowStepUpModal(true)
+      setAfterStepUpPath(afterStepUpPathParameter)
     } else {
       callback();
     }
@@ -138,7 +149,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="g-button"
-                      onClick={() => checkLoaLevel(() => setShowDisconnectModal(true))}
+                      onClick={() => checkLoaLevel("disconnect",() => setShowDisconnectModal(true))}
                     >
                       <FontAwesomeIcon icon={faCheck} />
                       {I18n.t('apps.detail.connected')}
@@ -148,7 +159,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="c-button"
-                      onClick={() => checkLoaLevel(() => setShowConnectModal(true))}
+                      onClick={() => checkLoaLevel("connect",() => setShowConnectModal(true))}
                     >
                       {I18n.t(`apps.detail.${app.entityType === 'single_tenant_template' ? 'connect_service_single_tenant':'connect_service'}`)}
                     </button>
@@ -158,14 +169,14 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       <button
                         disabled={!canConnectOrDisconnect}
                         className="g-button"
-                        onClick={() => checkLoaLevel(() => setShowConnectModal(true))}
+                        onClick={() => checkLoaLevel("connect",() => setShowConnectModal(true))}
                       >
                         {I18n.t('apps.detail.approve_invite')}
                       </button>
                       <button
                         disabled={!canConnectOrDisconnect}
                         className="red-button deny-invite"
-                        onClick={() => checkLoaLevel(() => setShowDenyModal(true))}
+                        onClick={() => checkLoaLevel("deny",() => setShowDenyModal(true))}
                       >
                         {I18n.t('apps.detail.deny_invite')}
                       </button>
@@ -218,6 +229,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
         <StepUpModal
             app={app}
             isOpen={showStepUpModal}
+            queryParam={afterStepUpPath}
             onClose={() => setShowStepUpModal(false)}
         />
       </div>
