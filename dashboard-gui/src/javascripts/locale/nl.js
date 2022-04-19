@@ -498,7 +498,7 @@ I18n.translations.nl = {
         highestLoaReached:
             'Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service.',
         appHasLoaLevel:
-            'Er kan geen verzoek worden ingediend om het Loa level te wijzigen voor deze dient. Deze dienst heeft al een Loa level geconfigureerd dat wordt toegepast op alle instellingen.',
+            'Er kan geen verzoek worden ingediend om het LoA level te wijzigen voor deze dienst. Deze dienst heeft al een LoA level geconfigureerd dat wordt toegepast op alle instellingen.',
     },
     how_to_connect_panel: {
         accept: 'Ik bevestig dat ik de voorwaarden heb gelezen en deze in naam van mijn instelling accepteer.',
