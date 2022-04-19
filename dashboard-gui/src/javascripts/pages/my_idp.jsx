@@ -285,7 +285,7 @@ const EditIdpButton = ({currentUser, showModal}) => {
   return (
       <a className="c-button" href="/my-idp/edit" onClick={e => {
         stopEvent(e)
-        if (currentUser.currentLoaLevel === 1) {
+        if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
           showModal(true)
         } else {
           history.replace("/my-idp/edit")
