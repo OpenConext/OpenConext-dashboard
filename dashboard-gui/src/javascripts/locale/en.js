@@ -1240,11 +1240,11 @@ I18n.translations.en = {
     mfa_panel: {
         title: 'MFA',
         subtitle:
-            'With <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">MFA</a> you can enforce the MultiFactor Authentication of your own IdP for this service.',
+            'With <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">MFA</a> you can enforce the MultiFactor Authentication of your own IdP for this service if your IdP supports this.',
         subtitle2:
-            'You can either choose <span>Generic multi-factor (REFEDS MFA)</span> which is industry standardized or you can choose <span>Multi-factor on ADFS or Azure AD</span> which is specific for Microsoft products.',
+            'You can either choose <span>Generic multi-factor (REFEDS MFA)</span>, an international standard, you can choose <span>Multi-factor on ADFS or Azure AD</span> which is specific for Microsoft products.',
         subtitle3:
-            'By choosing a MFA value you can add additional protection to your service by adding a second factor to the user\'s login at your own IdP. If your IdP does not support a second factor, but you would like to add it to this service then consider using SURFsecureID.',
+            'If your IdP does not support requesting a second factor, then consider using SURFsecureID.',
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Do not force MFA at my IdP for this service',
         multipleauthn: 'Multi-factor on ADFS or Azure AD',
