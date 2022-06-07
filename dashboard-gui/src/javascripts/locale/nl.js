@@ -259,7 +259,7 @@ I18n.translations.nl = {
         has_license_surfmarket_html:
             'Licentie beschikbaar via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
         has_license_sp_html:
-            'Een licentie voor <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
+            'Een licentie voor <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> kan worden afgesloten via {{organisation}}, aanbieder van deze dienst.',
         has_license_sp_html_no_service_url:
             'Een licentie voor {{serviceName}} kan via de aanbieder van deze dienst {{organisation}} worden afgesloten.',
         no_license_html:
@@ -440,9 +440,9 @@ I18n.translations.nl = {
         cp_type_translate_support: 'Support',
     },
     privacy_panel: {
-        title: 'Privacy informatie',
+        title: 'Privacyinformatie',
         subtitle:
-            'SURF geeft leveranciers de kans informatie te delen die van belang is in het kader van de AVG. Indien beschikbaar, vind je deze informatie hieronder. Voor ontbrekende informatie kun je contact opnemen met de leverancier.',
+            'SURF geeft leveranciers de gelegenheid informatie te delen die van belang is in het kader van de AVG. Indien beschikbaar, vind je deze informatie hieronder. Voor ontbrekende informatie kun je contact opnemen met de leverancier.',
         subtitle2: 'De leverancier van de service {{name}} heeft SURF voorzien van de volgende informatie:',
         question: 'Vraag',
         answer: 'Antwoord',
