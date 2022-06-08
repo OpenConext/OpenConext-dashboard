@@ -235,7 +235,7 @@ public class JiraClientImpl implements JiraClient {
     public void transition(String key, String transitionId, Optional<String> resolutionOptional, Optional<String> commentOptional) {
         String url = baseUrl + "/issue/" + key + "/transitions";
         final Map<String, Map<String, Object>> body = new HashMap<>();
-        body.put("transition", singletonMap("id", transitionId));
+        body.put("transition", singletonMap("id", Integer.valueOf(transitionId)));
         commentOptional.ifPresent(comment -> {
             //{ "update": {"comment": [ { "add": {"body": "Testing."} }]},"fields": {}, "transition": { "id": "21" }}
             body.put("update", singletonMap("comment", singletonList(singletonMap("add", singletonMap("body", comment)))));

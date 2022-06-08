@@ -130,9 +130,10 @@ public class UsersController extends BaseController {
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
             } catch (Exception e) {
-                LOG.error("Something went wrong in Manage", e);
+                LOG.error("Something went wrong in remote API", e);
                 actionsService.comment(jiraKey,
-                        "The connection could not be made automatically due to an error in Manage: " + e.getMessage());
+                        "The connection could not be made automatically due to an error in remote API: " + e.getMessage() +
+                                ". Please contact the dashboard TPM to check the logs.");
                 throw e;
             }
 
