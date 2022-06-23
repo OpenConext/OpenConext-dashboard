@@ -974,8 +974,9 @@ I18n.translations.en = {
         statuses: {
             all: 'All tickets',
             'To Do': 'Open',
+            'Open': 'Open',
             'In Progress': 'In progress',
-            'Awaiting Input': 'Pending input',
+            'Waiting for customer': 'Pending input',
             Resolved: 'Resolved',
             Closed: 'Closed',
             undefined: 'Undefined',

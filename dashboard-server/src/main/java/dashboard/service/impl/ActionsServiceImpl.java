@@ -173,10 +173,16 @@ public class ActionsServiceImpl implements ActionsService {
         sendAdministrationEmail(savedAction);
 
         if (action.getType().equals(Action.Type.LINKINVITE)) {
-            String transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.START_PROGRESS);
+            Map<String, String> transitions = jiraClient.validTransitions(jiraKey);
+            String transitionId = transitions.get(JiraClient.DISPATCH);
             jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
 
-            transitionId = jiraClient.validTransitions(jiraKey).get(JiraClient.INPUT_NEEDED);
+            transitions = jiraClient.validTransitions(jiraKey);
+            transitionId = transitions.get(JiraClient.ACCEPT);
+            jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+
+            transitions = jiraClient.validTransitions(jiraKey);
+            transitionId = transitions.get(JiraClient.WAITING_FOR_CUSTOMER);
             jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.of("Waiting for approval of SCV."));
 
         }
@@ -247,15 +253,14 @@ public class ActionsServiceImpl implements ActionsService {
     @Override
     public void approveInviteRequest(String jiraKey, String comment, boolean transitionToResolved) {
         Map<String, String> validTransitions = jiraClient.validTransitions(jiraKey);
-        String transitionId =  validTransitions.get(transitionToResolved ? JiraClient.RESOLVED : JiraClient.ANSWER_AUTOMATICALLY);
+        String transitionId =  validTransitions.get(jiraClient.BACK_IN_PROGRESS);
         jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
-        // There is no comment option in the Answer Automatically screen, so we need to do this after the transition
+
+        validTransitions = jiraClient.validTransitions(jiraKey);
+        transitionId =  validTransitions.get(transitionToResolved ? JiraClient.RESOLVE : JiraClient.SUPPORT_LEVEL);
+        jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
+        // We need to do this after the transition
         jiraClient.comment(jiraKey, comment);
-        if (transitionToResolved) {
-            validTransitions = jiraClient.validTransitions(jiraKey);
-            transitionId = validTransitions.get(JiraClient.RESOLVED);
-            jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());
-        }
     }
 
     @Override

@@ -1030,8 +1030,9 @@ I18n.translations.nl = {
         statuses: {
             all: 'Alle tickets',
             'To Do': 'Open',
+            'Open': 'Open',
             'In Progress': 'Bezig',
-            'Awaiting Input': 'Wachtende op goedkeuring',
+            'Waiting for customer': 'Wachtende op goedkeuring',
             Resolved: 'Opgeleverd',
             Closed: 'Gesloten',
             undefined: 'Onbepaald',

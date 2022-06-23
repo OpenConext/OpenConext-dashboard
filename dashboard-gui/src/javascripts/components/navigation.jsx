@@ -31,7 +31,7 @@ class Navigation extends React.Component {
     const jiraFilter = {
       maxResults: 0,
       startAt: 0,
-      statuses: ['Awaiting Input'],
+      statuses: ['Waiting for customer'],
       types: ['LINKINVITE'],
     }
     searchJira(jiraFilter).then((data) => {

@@ -26,10 +26,12 @@ import java.util.Optional;
 
 public interface JiraClient {
 
-    String START_PROGRESS = "Start Progress";
-    String INPUT_NEEDED = "Input Needed";
-    String ANSWER_AUTOMATICALLY = "Answer (Automatically)";
-    String RESOLVED = "To Resolved";
+    String DISPATCH = "Dispatch";
+    String ACCEPT = "Accept";
+    String WAITING_FOR_CUSTOMER = "Waiting for customer";
+    String BACK_IN_PROGRESS = "Back in progress";
+    String SUPPORT_LEVEL = "Support level";
+    String RESOLVE = "Resolve";
 
     String create(Action action) throws IllegalStateException;
 

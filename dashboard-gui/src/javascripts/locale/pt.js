@@ -986,8 +986,9 @@ I18n.translations.pt = {
         statuses: {
             all: 'All tickets',
             'To Do': 'Abrir',
+            'Open': 'Abrir',
             'In Progress': 'Em progresso',
-            'Awaiting Input': 'Input pendente',
+            'Waiting for customer': 'Input pendente',
             Resolved: 'Resolvido',
             Closed: 'Fechado',
             undefined: 'Indefinido',

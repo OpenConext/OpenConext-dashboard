@@ -14,9 +14,9 @@ import { isEmpty } from '../utils/utils'
 import pagination from '../utils/pagination'
 
 const statusMap = {
-  todo: 'To Do',
+  todo: 'Open',
   in_progress: 'In Progress',
-  awaiting_input: 'Awaiting Input',
+  awaiting_input: 'Waiting for customer',
   resolved: 'Resolved',
   closed: 'Closed',
 }
@@ -133,7 +133,7 @@ function Pagination({ page, total: resultLength, onChange }) {
 }
 
 function Action({ action, currentUser, showStatus }) {
-  const linkInviteAwaitingInput = action.type === 'LINKINVITE' && action.status === 'Awaiting Input' && action.spId
+  const linkInviteAwaitingInput = action.type === 'LINKINVITE' && action.status === 'Waiting for customer' && action.spId
   const type = action.typeMetaData || 'saml20_sp'
   const renderViewInvitation = linkInviteAwaitingInput && currentUser.dashboardAdmin
   const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo)

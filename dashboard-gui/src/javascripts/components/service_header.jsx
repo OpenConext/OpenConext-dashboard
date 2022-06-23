@@ -26,8 +26,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const [afterStepUpPath, setAfterStepUpPath] = useState(null)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
-    jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Awaiting Input' && !app.connected
-  const pendingAction = jiraAction && (jiraAction.status === 'To Do' || jiraAction.status === 'In Progress')
+    jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Waiting for customer' && !app.connected
+  const pendingAction = jiraAction && (jiraAction.status === 'Open' || jiraAction.status === 'In Progress')
   const connectedButJiraNotResolved = pendingAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && app.connected && !hasInvite
   const notConnectedButJiraNotResolved = pendingAction && jiraAction.type === 'UNLINKREQUEST' && !app.connected && !hasInvite
   const pendingConnectionJira = pendingAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && !app.connected && !hasInvite
@@ -49,7 +49,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
     maxResults: 1,
     startAt: 0,
     spEntityId: app.spEntityId,
-    statuses: jiraKey ? [] : ['To Do', 'In Progress', 'Awaiting Input'],
+    statuses: jiraKey ? [] : ['Waiting for Acceptance', 'Open', 'In Progress', 'Waiting for customer'],
     types: ['LINKREQUEST', 'UNLINKREQUEST', 'LINKINVITE'],
     key: jiraKey,
   }
@@ -243,14 +243,14 @@ function JiraActionMessage({ action, app, jiraKey }) {
   }
 
   function determineMessage() {
-    if (jiraKey && action.status !== 'Awaiting Input') {
-      if (action.status === 'To Do') {
+    if (jiraKey && action.status !== 'Waiting for customer') {
+      if (action.status === 'Open' || action.status === 'In Progress') {
         return I18n.t('apps.detail.inviteBeingProcessed', {
           jiraKey: action.jiraKey
         })
 
       } else {
-        const i18nParam = action.status === 'Closed' ? 'denied' : 'approved'
+        const i18nParam = (action.status === 'Closed' || action.status === 'Resolved') ? 'denied' : 'approved'
         return I18n.t('apps.detail.inviteAlreadyProcessed', {
           jiraKey: action.jiraKey,
           action: I18n.t(`apps.detail.${i18nParam}`),
