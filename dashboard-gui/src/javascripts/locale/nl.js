@@ -551,8 +551,8 @@ I18n.translations.nl = {
         info_title: 'Verbinding activeren',
         jira_unreachable: 'Er is iets mis gegaan bij de aanvraag',
         jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.',
-        jira_down: 'Onderhoud',
-        jira_down_description: 'Vanwege onderhoud is het tot maandagochtend 27 juni niet mogelijk om koppelverzoeken te doen. Mocht je een dienst willen koppelen, stuur dan een bericht naar support@surfconext.nl',
+        jira_down: 'Jira-migratie voorkomt verzoeken',
+        jira_down_description: 'Maandagochtend 27 juni is de migratie afgerond en is alle functionaliteit weer beschikbaar. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> voor het maken van een wijziging.',
         license: 'licentie',
         license_info: 'de licentie-informatie',
         obtain_license: {

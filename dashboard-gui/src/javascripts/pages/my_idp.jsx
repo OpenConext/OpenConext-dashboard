@@ -283,13 +283,15 @@ function GeneralInformation({ idp, isDashboardAdmin, currentUser, showModal }) {
 const EditIdpButton = ({currentUser, showModal}) => {
   const history = useHistory()
   return (
-      <a className="c-button" href="/my-idp/edit" onClick={e => {
-        stopEvent(e)
-        if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
-          showModal(true)
-        } else {
-          history.replace("/my-idp/edit")
-        }
+      <a className={`c-button ${currentUser.jiraDown ? "disabled" : ""}`}
+         href="/my-idp/edit"
+         onClick={e => {
+            stopEvent(e)
+            if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
+              showModal(true)
+            } else {
+              history.replace("/my-idp/edit")
+            }
       }}>
         {I18n.t('my_idp.edit')}
       </a>

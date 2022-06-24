@@ -34,7 +34,7 @@ export default function DisconnectModal({ isOpen, onClose, app, currentUser, onS
           <div>
             <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
             <div className="connect-modal-body">
-              <p>{I18n.t('how_to_connect_panel.jira_down_description')} </p>
+              <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
             </div>
             <div className="buttons">
               <button className="c-button white" onClick={onClose}>
