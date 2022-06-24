@@ -7,6 +7,7 @@ import { surfSecureIdChangeRequest } from '../api'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
 import StepUpModal from "../components/step_up_modal"
+import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function SurfSecureID({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -15,6 +16,7 @@ export default function SurfSecureID({ app }) {
 
   const [loaLevel, setLoaLevel] = useState(initialLoaLevel)
   const [showStepUpModal, setShowStepUpModal] = useState(false)
+  const [showJiraDownModal, setShowJiraDownModal] = useState(false)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const appHasLoaLevel = !isEmpty(app.minimalLoaLevel)
   const loaLevelEquals = stepEntity && stepEntity.level === loaLevel
@@ -39,6 +41,11 @@ export default function SurfSecureID({ app }) {
 
   function saveRequest(e) {
     stopEvent(e)
+
+    if (currentUser.jiraDown) {
+        setShowJiraDownModal(true)
+        return
+    }
 
     surfSecureIdChangeRequest({ entityId: app.spEntityId, loaLevel: loaLevel, entityType: app.entityType })
       .then((res) => {
@@ -91,6 +98,20 @@ export default function SurfSecureID({ app }) {
           onClose={() => setShowStepUpModal(false)}
           requiredLoaLevel={3}
       />
+        <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+            <div>
+                <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+                <div className="connect-modal-body">
+                    <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
+                </div>
+                <div className="buttons">
+                    <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+                        {I18n.t('how_to_connect_panel.close')}
+                    </button>
+                </div>
+            </div>
+        </ConnectModalContainer>
+
     </div>
   )
 }

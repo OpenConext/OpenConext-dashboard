@@ -8,10 +8,12 @@ import { consentTypes } from '../utils/utils'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
 import StepUpModal from "../components/step_up_modal"
+import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function Consent({ app }) {
   const [consent, setConsent] = useState(null)
   const [showStepUpModal, setShowStepUpModal] = useState(false)
+  const [showJiraDownModal, setShowJiraDownModal] = useState(false)
   const { currentUser } = useContext(CurrentUserContext)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const subTitle2 = isDashboardAdmin ? 'subtitle2' : 'subtitle2Viewer'
@@ -39,6 +41,12 @@ export default function Consent({ app }) {
 
   function onSave(e) {
     stopEvent(e)
+
+    if (currentUser.jiraDown) {
+      setShowJiraDownModal(true)
+      return
+    }
+
     consentChangeRequest(consent)
       .then((res) => {
         res.json().then((action) => {
@@ -147,6 +155,20 @@ export default function Consent({ app }) {
           isOpen={showStepUpModal}
           onClose={() => setShowStepUpModal(false)}
       />
+      <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+        <div>
+          <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+          <div className="connect-modal-body">
+            <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
+          </div>
+          <div className="buttons">
+            <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+              {I18n.t('how_to_connect_panel.close')}
+            </button>
+          </div>
+        </div>
+      </ConnectModalContainer>
+
     </div>
   )
 }

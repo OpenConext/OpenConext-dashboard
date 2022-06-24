@@ -7,6 +7,7 @@ import {mfaChangeRequest} from '../api'
 import stopEvent from '../utils/stop'
 import {setFlash} from '../utils/flash'
 import StepUpModal from "../components/step_up_modal"
+import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function MFA({app}) {
     const {currentUser} = useContext(CurrentUserContext)
@@ -14,6 +15,7 @@ export default function MFA({app}) {
     const initialAuthnContextLevel = mfaEntity && mfaEntity.level || ''
     const [authnContextLevel, setAuthnContextLevel] = useState(initialAuthnContextLevel)
     const [showStepUpModal, setShowStepUpModal] = useState(false)
+    const [showJiraDownModal, setShowJiraDownModal] = useState(false)
     const isDashboardAdmin = currentUser.dashboardAdmin
     const authnContextLevelEquals = (!mfaEntity && authnContextLevel === initialAuthnContextLevel) || (mfaEntity && mfaEntity.level === authnContextLevel)
 
@@ -48,6 +50,11 @@ export default function MFA({app}) {
 
     function saveRequest(e) {
         stopEvent(e)
+
+        if (currentUser.jiraDown) {
+            setShowJiraDownModal(true)
+            return
+        }
 
         mfaChangeRequest({entityId: app.spEntityId, authnContextLevel: authnContextLevel, entityType: app.entityType})
             .then((res) => {
@@ -114,6 +121,20 @@ export default function MFA({app}) {
                 onClose={() => setShowStepUpModal(false)}
                 requiredLoaLevel={3}
             />
+            <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+                <div>
+                    <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+                    <div className="connect-modal-body">
+                        <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
+                    </div>
+                    <div className="buttons">
+                        <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+                            {I18n.t('how_to_connect_panel.close')}
+                        </button>
+                    </div>
+                </div>
+            </ConnectModalContainer>
+
         </div>
     )
 }

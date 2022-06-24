@@ -85,6 +85,7 @@ class Navigation extends React.Component {
           this.renderItem('/users/invite', 'invite_request', activeTab === '/users/invite')}
         {hideTabs.indexOf('tickets') === -1 &&
           !currentUser.guest &&
+          !currentUser.jiraDown &&
           !currentUser.dashboardMember &&
           this.renderItem('/tickets', 'history', activeTab.startsWith('/tickets'), awaitingInputTickets)}
       </ul>
