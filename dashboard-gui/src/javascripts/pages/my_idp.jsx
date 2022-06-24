@@ -15,6 +15,7 @@ import {isEmpty} from '../utils/utils'
 import StepUpModal from "../components/step_up_modal";
 import stopEvent from "../utils/stop";
 import Tooltip from "../components/tooltip"
+import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function MyIdp() {
   const { currentUser } = useContext(CurrentUserContext)
@@ -282,12 +283,17 @@ function GeneralInformation({ idp, isDashboardAdmin, currentUser, showModal }) {
 
 const EditIdpButton = ({currentUser, showModal}) => {
   const history = useHistory()
+  const [showJiraDownModal, setShowJiraDownModal] = useState(false)
+
   return (
-      <a className={`c-button ${currentUser.jiraDown ? "disabled" : ""}`}
+      <>
+      <a className="c-button"
          href="/my-idp/edit"
          onClick={e => {
             stopEvent(e)
-            if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
+           if (currentUser.jiraDown) {
+             setShowJiraDownModal(true)
+           } else if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
               showModal(true)
             } else {
               history.replace("/my-idp/edit")
@@ -295,7 +301,21 @@ const EditIdpButton = ({currentUser, showModal}) => {
       }}>
         {I18n.t('my_idp.edit')}
       </a>
-  )
+        <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+          <div>
+            <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+            <div className="connect-modal-body">
+              <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
+            </div>
+            <div className="buttons">
+              <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+                {I18n.t('how_to_connect_panel.close')}
+              </button>
+            </div>
+          </div>
+        </ConnectModalContainer>
+      </>
+)
 }
 
 function RolesTable({ roles }) {
