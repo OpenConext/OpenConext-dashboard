@@ -553,6 +553,7 @@ I18n.translations.nl = {
         jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.',
         jira_down: 'Onderhoud',
         jira_down_description: 'Vanwege onderhoud is het tot maandagochtend 27 juni niet mogelijk om koppelverzoeken te doen. Mocht je een dienst willen koppelen, stuur dan een bericht naar support@surfconext.nl',
+        license: 'licentie',
         license_info: 'de licentie-informatie',
         obtain_license: {
             after: ' aan te schaffen voor het gebruik van {{app}}.',
