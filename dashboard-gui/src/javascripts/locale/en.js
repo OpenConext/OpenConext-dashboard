@@ -545,8 +545,8 @@ I18n.translations.en = {
         info_title: 'Activate connection',
         jira_unreachable: 'Something went wrong with your request',
         jira_unreachable_description: 'It is currently not possible to do a request. Please try again later.',
-        jira_down: 'Jira migration prevents requests',
-        jira_down_description: 'It is currently not possible to do a request because of the migration of our Jira backend. This will be resolved shortly.',
+        jira_down: 'Maintenance',
+        jira_down_description: 'Due to maintenance, it is not possible to make pairing requests until Monday morning 27 June. If you want to link a service, please send a message to support@surfconext.nl',
         license: 'license',
         license_info: 'license information',
         obtain_license: {

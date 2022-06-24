@@ -554,8 +554,9 @@ I18n.translations.pt = {
         info_title: 'Ativar ligação',
         jira_unreachable: 'Algo falhou com o seu pedido',
         jira_unreachable_description: 'Não é possivel realizar um pedido neste momento. Tente novamente mais tarde.',
-        jira_down: 'A migração do Jira evita solicitações',
-        jira_down_description: 'Atualmente não é possível fazer uma solicitação por causa da migração do nosso backend Jira. Isso será resolvido em breve.',        license: 'licença',
+        jira_down: 'Manutenção',
+        jira_down_description: 'Devido a manutenção, não é possível fazer pedidos de emparelhamento até segunda-feira de manhã, 27 de junho. Se você deseja vincular um serviço, envie uma mensagem para support@surfconext.nl',
+        license: 'licença',
         license_info: 'informação de licença',
         obtain_license: {
             after: ' para usar {{app}}.',
