@@ -554,7 +554,8 @@ I18n.translations.pt = {
         info_title: 'Ativar ligação',
         jira_unreachable: 'Algo falhou com o seu pedido',
         jira_unreachable_description: 'Não é possivel realizar um pedido neste momento. Tente novamente mais tarde.',
-        license: 'licença',
+        jira_down: 'A migração do Jira evita solicitações',
+        jira_down_description: 'Atualmente não é possível fazer uma solicitação por causa da migração do nosso backend Jira. Isso será resolvido em breve.',        license: 'licença',
         license_info: 'informação de licença',
         obtain_license: {
             after: ' para usar {{app}}.',

@@ -72,6 +72,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private String adminSurfConextIdpRole;
     private String viewerSurfConextIdpRole;
     private boolean isManageConsentEnabled;
+    private boolean jiraDown;
     private boolean isOidcEnabled;
     private String hideTabs;
     private String supportedLanguages;
@@ -96,6 +97,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       boolean isManageConsentEnabled,
                                                       boolean isOidcEnabled,
                                                       boolean dashboardStepupEnabled,
+                                                      boolean jiraDown,
                                                       String hideTabs,
                                                       String supportedLanguages,
                                                       String organization,
@@ -113,6 +115,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
         this.isManageConsentEnabled = isManageConsentEnabled;
         this.isOidcEnabled = isOidcEnabled;
+        this.jiraDown = jiraDown;
         this.hideTabs = hideTabs;
         this.supportedLanguages = supportedLanguages;
         this.organization = organization;
@@ -238,6 +241,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setLoaLevels(this.loaLevels);
         coinUser.setAuthnContextLevels(this.authnContextLevels);
         coinUser.setDashboardStepupEnabled(this.dashboardStepupEnabled);
+        coinUser.setJiraDown(jiraDown);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {

@@ -3,7 +3,7 @@ import I18n from 'i18n-js'
 import ConnectModalContainer from './connect_modal_container'
 import { updateInviteRequest } from '../api'
 
-export default function DenyInviteModal({ isOpen, onClose, app, jiraAction, onSubmit }) {
+export default function DenyInviteModal({ isOpen, onClose, app, currentUser, jiraAction, onSubmit }) {
   const [comments, setComments] = useState('')
   const [failed, setFailed] = useState(false)
 
@@ -15,6 +15,24 @@ export default function DenyInviteModal({ isOpen, onClose, app, jiraAction, onSu
     } catch {
       setFailed(true)
     }
+  }
+
+  if (currentUser.jiraDown) {
+    return (
+        <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
+          <div>
+            <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+            <div className="connect-modal-body">
+              <p>{I18n.t('how_to_connect_panel.jira_down_description')} </p>
+            </div>
+            <div className="buttons">
+              <button className="c-button white" onClick={onClose}>
+                {I18n.t('how_to_connect_panel.close')}
+              </button>
+            </div>
+          </div>
+        </ConnectModalContainer>
+    )
   }
 
   if (failed) {

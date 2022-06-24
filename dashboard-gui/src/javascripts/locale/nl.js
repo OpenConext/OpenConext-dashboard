@@ -551,7 +551,8 @@ I18n.translations.nl = {
         info_title: 'Verbinding activeren',
         jira_unreachable: 'Er is iets mis gegaan bij de aanvraag',
         jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.',
-        license: 'licentie',
+        jira_down: 'Jira-migratie voorkomt verzoeken',
+        jira_down_description: 'Het is momenteel niet mogelijk om een verzoek te doen vanwege de migratie van onze Jira-backend. Dit wordt binnenkort opgelost.',        license: 'licentie',
         license_info: 'de licentie-informatie',
         obtain_license: {
             after: ' aan te schaffen voor het gebruik van {{app}}.',

@@ -54,6 +54,7 @@ public class CoinUser implements UserDetails {
     private String supportedLanguages;
     private String organization;
     private boolean oidcEnabled;
+    private boolean jiraDown;
     private boolean guest;
     private String defaultLoa;
     private List<String> loaLevels;
@@ -376,5 +377,13 @@ public class CoinUser implements UserDetails {
 
     public void setDashboardStepupEnabled(boolean dashboardStepupEnabled) {
         this.dashboardStepupEnabled = dashboardStepupEnabled;
+    }
+
+    public boolean isJiraDown() {
+        return jiraDown;
+    }
+
+    public void setJiraDown(boolean jiraDown) {
+        this.jiraDown = jiraDown;
     }
 }

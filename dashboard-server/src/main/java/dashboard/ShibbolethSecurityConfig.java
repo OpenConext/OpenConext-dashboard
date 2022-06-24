@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -29,12 +28,8 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,6 +77,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${dashboard.feature.oidc}")
     private boolean isOidcEnabled;
+
+    @Value("${dashboard.feature.jiraDown}")
+    private boolean jiraDown;
 
     @Value("${dashboard.hide_tabs}")
     private String hideTabs;
@@ -139,7 +137,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
-                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled,dashboardStepupEnabled, hideTabs, supportedLanguages, organization,
+                                viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, dashboardStepupEnabled, jiraDown, hideTabs, supportedLanguages, organization,
                                 defaultLoa, loaLevels, authnContextLevels),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
@@ -151,10 +149,10 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/dashboard/api/**")
                 .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
                 .anyRequest().authenticated();
-            if (!shibbolethEnabled) {
-                http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
-                http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
-            }
+        if (!shibbolethEnabled) {
+            http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
+            http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
+        }
     }
 
     @Override

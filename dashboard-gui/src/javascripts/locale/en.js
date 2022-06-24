@@ -545,6 +545,8 @@ I18n.translations.en = {
         info_title: 'Activate connection',
         jira_unreachable: 'Something went wrong with your request',
         jira_unreachable_description: 'It is currently not possible to do a request. Please try again later.',
+        jira_down: 'Jira migration prevents requests',
+        jira_down_description: 'It is currently not possible to do a request because of the migration of our Jira backend. This will be resolved shortly.',
         license: 'license',
         license_info: 'license information',
         obtain_license: {
