@@ -976,6 +976,7 @@ I18n.translations.en = {
             'To Do': 'Open',
             'Open': 'Open',
             'In Progress': 'In progress',
+            'On Hold': 'On Hold',
             'Waiting for customer': 'Pending input',
             Resolved: 'Resolved',
             Closed: 'Closed',

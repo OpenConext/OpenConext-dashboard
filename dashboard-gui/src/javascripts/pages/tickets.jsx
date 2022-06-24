@@ -16,6 +16,7 @@ import pagination from '../utils/pagination'
 const statusMap = {
   todo: 'Open',
   in_progress: 'In Progress',
+  on_hold: 'On Hold',
   awaiting_input: 'Waiting for customer',
   resolved: 'Resolved',
   closed: 'Closed',

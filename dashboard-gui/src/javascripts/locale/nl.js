@@ -976,7 +976,6 @@ I18n.translations.nl = {
         submit: 'Verstuur',
         update_policy: 'Bijwerken autorisatieregel',
     },
-
     revisions: {
         active: 'Actief',
         allAttributesMustMatch: 'Logische OF regel?',
@@ -1032,6 +1031,7 @@ I18n.translations.nl = {
             'To Do': 'Open',
             'Open': 'Open',
             'In Progress': 'Bezig',
+            'On Hold': 'In de wacht',
             'Waiting for customer': 'Wachtende op goedkeuring',
             Resolved: 'Opgeleverd',
             Closed: 'Gesloten',

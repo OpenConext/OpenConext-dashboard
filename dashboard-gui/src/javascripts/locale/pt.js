@@ -988,6 +988,7 @@ I18n.translations.pt = {
             'To Do': 'Abrir',
             'Open': 'Abrir',
             'In Progress': 'Em progresso',
+            'On Hold': 'Em espera',
             'Waiting for customer': 'Input pendente',
             Resolved: 'Resolvido',
             Closed: 'Fechado',
