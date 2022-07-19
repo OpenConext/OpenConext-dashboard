@@ -19,5 +19,8 @@ public class ChangeRequest implements Serializable {
     private Map<String, Object> pathUpdates;
     private Map<String, Object> auditData;
 
+    private boolean incrementalChange;
+
+    private PathUpdateType pathUpdateType;
 
 }

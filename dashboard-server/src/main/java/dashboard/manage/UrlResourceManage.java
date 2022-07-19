@@ -300,14 +300,9 @@ public class UrlResourceManage implements Manage {
         if (!add && stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
             return;
         }
-        if (add) {
-            Map<String, String> stepupEntity = new HashMap<>();
-            stepupEntity.put("name", spEntityId);
-            stepupEntity.put("level", loa);
-            stepupEntities.add(stepupEntity);
-        } else {
-            stepupEntities = stepupEntities.stream().filter(map -> !map.get("name").equals(spEntityId)).collect(Collectors.toList());
-        }
+        Map<String, Object> pathUpdates = Map.of("stepupEntities",
+                Map.of("name", spEntityId,
+                        "level", loa));
 
         Optional<ChangeRequest> optionalChangeRequest = changeRequests.stream()
                 .filter(changeRequest -> changeRequest.getMetaDataId().equals(identityProvider.getInternalId()))
@@ -315,12 +310,12 @@ public class UrlResourceManage implements Manage {
 
         if (optionalChangeRequest.isPresent()) {
             ChangeRequest changeRequest = optionalChangeRequest.get();
-            changeRequest.getPathUpdates().put("stepupEntities", stepupEntities);
+            changeRequest.getPathUpdates().put("stepupEntities", Map.of("name", spEntityId,
+                    "level", loa));
         } else {
-            Map<String, Object> pathUpdates = new HashMap<>();
-            pathUpdates.put("stepupEntities", stepupEntities);
             Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-            ChangeRequest changeRequest = new ChangeRequest(identityProvider.getInternalId(), EntityType.saml20_idp.name(), note, pathUpdates, auditData);
+            ChangeRequest changeRequest = new ChangeRequest(identityProvider.getInternalId(), EntityType.saml20_idp.name(),
+                    note, pathUpdates, auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
             changeRequests.add(changeRequest);
         }
     }

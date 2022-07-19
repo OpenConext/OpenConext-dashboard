@@ -6,6 +6,7 @@ import dashboard.mail.MailBox;
 import dashboard.manage.ChangeRequest;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
+import dashboard.manage.PathUpdateType;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
@@ -290,7 +291,7 @@ public class UsersController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/me/consent", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Object>> updateConsentSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                                      @RequestBody Consent consent) throws IOException {
+                                                                      @RequestBody Consent consent) {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             LOG.warn("Consent endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
@@ -301,8 +302,8 @@ public class UsersController extends BaseController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
-        List<Consent> disableConsent = idp.getDisableConsent();
-        Optional<Consent> previousConsent = disableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
+        List<Consent> currentDisableConsent = idp.getDisableConsent();
+        Optional<Consent> previousConsent = currentDisableConsent.stream().filter(c -> c.getSpEntityId().equals(consent.getSpEntityId())).findAny();
 
         if ((!previousConsent.isPresent()
                 && consent.getType().equals(ConsentType.MINIMAL_CONSENT)
@@ -313,31 +314,15 @@ public class UsersController extends BaseController {
                         Objects.equals(c.getExplanationNl(), consent.getExplanationNl())).orElse(Boolean.FALSE)) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
-        Map<String, Object> pathUpdates = new HashMap<>();
-        List<Map<String, String>> disableConsentTransformed = disableConsent.stream().map(c -> Map.of(
-                "name", c.getSpEntityId(),
-                "type", c.getType().name().toLowerCase(),
-                "explanation:en", c.getExplanationEn(),
-                "explanation:nl", c.getExplanationNl()
-        )).collect(toList());
-        if (previousConsent.isPresent()) {
-            disableConsentTransformed.stream().filter(c -> c.get("name").equals(consent.getSpEntityId())).findFirst()
-                    .ifPresent(c -> {
-                        c.put("type", consent.getType().name().toLowerCase());
-                        c.put("explanation:en", consent.getExplanationEn());
-                        c.put("explanation:nl", consent.getExplanationNl());
-                    });
-        } else {
-            disableConsentTransformed.add(Map.of(
-                    "name", consent.getSpEntityId(),
-                    "type", consent.getType().name().toLowerCase(),
-                    "explanation:en", consent.getExplanationEn(),
-                    "explanation:nl", consent.getExplanationNl()
-            ));
-        }
-        pathUpdates.put("disableConsent", disableConsentTransformed);
+        Map<String, Object> pathUpdates = Map.of("disableConsent", Map.of(
+                "name", consent.getSpEntityId(),
+                "type", consent.getType().name().toLowerCase(),
+                "explanation:en", consent.getExplanationEn(),
+                "explanation:nl", consent.getExplanationNl()
+        ));
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates,
+                auditData, true, previousConsent.isPresent() ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
         manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
@@ -377,8 +362,8 @@ public class UsersController extends BaseController {
         }
         IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
         //Need to make a copy otherwise the state of the currentUser is changed
-        List<Map<String, String>> stepupEntities = idp.getStepupEntities().stream().map(HashMap::new).collect(toList());
-        Optional<Map<String, String>> previousLoa = stepupEntities.stream()
+        List<Map<String, String>> currentStepupEntities = idp.getStepupEntities().stream().map(HashMap::new).collect(toList());
+        Optional<Map<String, String>> previousLoa = currentStepupEntities.stream()
                 .filter(entity -> entity.get("name").equals(loaLevelChange.getEntityId()))
                 .findFirst();
 
@@ -387,26 +372,14 @@ public class UsersController extends BaseController {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
 
-        Map<String, Object> pathUpdates = new HashMap<>();
-        if (previousLoa.isPresent()) {
-            if (StringUtils.hasText(loaLevelChange.getLoaLevel())) {
-                previousLoa.get().put("level", loaLevelChange.getLoaLevel());
-            } else {
-                //downgrade to no loa
-                stepupEntities = stepupEntities.stream()
-                        .filter(entity -> !entity.get("name").equals(loaLevelChange.getEntityId()))
-                        .collect(toList());
-            }
-
-        } else {
-            stepupEntities.add(Map.of(
-                    "name", loaLevelChange.getEntityId(),
-                    "level", loaLevelChange.getLoaLevel()
-            ));
-        }
-        pathUpdates.put("stepupEntities", stepupEntities);
+        Map<String, Object> pathUpdates = Map.of("stepupEntities",
+                Map.of("name", loaLevelChange.getEntityId(),
+                        "level", loaLevelChange.getLoaLevel()));
+        PathUpdateType pathUpdateType = (previousLoa.isPresent() && !StringUtils.hasText(loaLevelChange.getLoaLevel())) ?
+                PathUpdateType.REMOVAL : PathUpdateType.ADDITION;
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, true, pathUpdateType);
         manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
@@ -448,18 +421,13 @@ public class UsersController extends BaseController {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
 
-        Map<String, Object> pathUpdates = new HashMap<>();
-        if (previousMfa.isPresent()) {
-            previousMfa.get().put("level", mfaChange.getAuthnContextLevel());
-        } else {
-            mfaEntities.add(Map.of(
-                    "name", mfaChange.getEntityId(),
-                    "level", mfaChange.getAuthnContextLevel()
-            ));
-        }
-        pathUpdates.put("mfaEntities", mfaEntities);
+        Map<String, Object> pathUpdates = Map.of("mfaEntities", Map.of(
+                "name", mfaChange.getEntityId(),
+                "level", mfaChange.getAuthnContextLevel()
+        ));
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, true, PathUpdateType.ADDITION);
         manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
@@ -497,7 +465,8 @@ public class UsersController extends BaseController {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates, auditData);
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, false, null);
         manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()

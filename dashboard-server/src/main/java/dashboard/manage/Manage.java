@@ -204,16 +204,11 @@ public interface Manage {
         if (source.isAllowedAll()) {
             return Optional.empty();
         }
-        Map<String, Object> pathUpdates = new HashMap<>();
-        Set<String> allowedEntityIds = source.getAllowedEntityIds();
-        if (add) {
-            allowedEntityIds.add(target.getId());
-        } else {
-            allowedEntityIds.remove(target.getId());
-        }
-        pathUpdates.put("allowedEntities", allowedEntityIds.stream().map(allowedEntity -> Map.of("name", allowedEntity)).collect(Collectors.toList()));
+        Map<String, Object> pathUpdates = Map.of("allowedEntities", Map.of("name", target.getId()));
+
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), note, pathUpdates, auditData));
+        return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), note, pathUpdates,
+                auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL));
 
     }
 
