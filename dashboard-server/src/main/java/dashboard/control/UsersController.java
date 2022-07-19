@@ -322,7 +322,7 @@ public class UsersController extends BaseController {
         ));
         Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
         ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates,
-                auditData, true, previousConsent.isPresent() ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
+                auditData, true, PathUpdateType.ADDITION);
         manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
