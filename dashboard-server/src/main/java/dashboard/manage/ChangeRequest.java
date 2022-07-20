@@ -4,12 +4,12 @@ package dashboard.manage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Map;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class ChangeRequest implements Serializable {
 
@@ -23,7 +23,18 @@ public class ChangeRequest implements Serializable {
 
     private PathUpdateType pathUpdateType;
 
+    public ChangeRequest(String metaDataId, String type, Map<String, Object> pathUpdates, Map<String, Object> auditData, boolean incrementalChange, PathUpdateType pathUpdateType) {
+        this.metaDataId = metaDataId;
+        this.type = type;
+        this.note = auditData != null ? (String) auditData.get("notes") : null;
+        this.pathUpdates = pathUpdates;
+        this.auditData = auditData;
+        this.incrementalChange = incrementalChange;
+        this.pathUpdateType = pathUpdateType;
+    }
+
     public void setAuditData(Map<String, Object> auditData) {
         this.auditData = auditData;
+        this.note = (String) auditData.get("notes");
     }
 }

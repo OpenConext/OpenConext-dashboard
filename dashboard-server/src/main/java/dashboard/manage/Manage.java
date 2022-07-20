@@ -197,27 +197,26 @@ public interface Manage {
     Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
 
     List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
-                                          String note, Optional<String> loaLevel);
+                                          Optional<String> loaLevel);
 
-    List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
-                                                     String note);
+    List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType);
 
-    default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, String note, boolean add) {
+    default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, boolean add) {
         if (source.isAllowedAll()) {
             return Optional.empty();
         }
         Map<String, Object> pathUpdates = Map.of("allowedEntities", Map.of("name", target.getId()));
 
-        return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), note, pathUpdates,
+        return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), pathUpdates,
                 null, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL));
 
     }
 
-    default List<ChangeRequest> allowedEntityChangeRequest(IdentityProvider identityProvider, String spEntityId, EntityType spEntityType, String note, boolean add) {
+    default List<ChangeRequest> allowedEntityChangeRequest(IdentityProvider identityProvider, String spEntityId, EntityType spEntityType, boolean add) {
         ServiceProvider serviceProvider = getServiceProvider(spEntityId, spEntityType, false).orElseThrow(IllegalArgumentException::new);
         List<ChangeRequest> changeRequests = new ArrayList<>();
-        changeRequestForAllowedEntity(identityProvider, serviceProvider, note, add).ifPresent(changeRequests::add);
-        changeRequestForAllowedEntity(serviceProvider, identityProvider, note, add).ifPresent(changeRequests::add);
+        changeRequestForAllowedEntity(identityProvider, serviceProvider, add).ifPresent(changeRequests::add);
+        changeRequestForAllowedEntity(serviceProvider, identityProvider, add).ifPresent(changeRequests::add);
         return changeRequests;
     }
 

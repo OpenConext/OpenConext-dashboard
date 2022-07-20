@@ -118,7 +118,7 @@ public class UsersController extends BaseController {
                     IdentityProvider identityProvider = currentUser.getCurrentIdp();
                     EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
                     final List<ChangeRequest> changeRequests = manage.createConnectionRequests(identityProvider,
-                            updateInviteRequest.getSpEntityId(), entityType, commentWithUser, updateInviteRequest.getOptionalLoaLevel());
+                            updateInviteRequest.getSpEntityId(), entityType, updateInviteRequest.getOptionalLoaLevel());
                     commentWithUser = commentWithUser.concat("\n" +
                             "To create the connection in Manage a change request is made:\n");
                     //lambda cann only deal with final variables
@@ -335,7 +335,7 @@ public class UsersController extends BaseController {
         action = actionsService.create(action);
 
         Map<String, Object> auditData = AuditData.context("Update consent settings for SP " + consent.getSpEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates,
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), pathUpdates,
                 auditData, true, PathUpdateType.ADDITION);
         manage.createChangeRequests(changeRequest);
 
@@ -394,7 +394,7 @@ public class UsersController extends BaseController {
 
         String ctx = removal ? "Removed" : "Added";
         Map<String, Object> auditData = AuditData.context(ctx + " SURFsecureID settings for SP " + loaLevelChange.getEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
                 pathUpdates, auditData, true, pathUpdateType);
         manage.createChangeRequests(changeRequest);
 
@@ -442,7 +442,7 @@ public class UsersController extends BaseController {
         action = actionsService.create(action);
         String ctx = previousMfa.isPresent() ? "Changed" : "Added";
         Map<String, Object> auditData = AuditData.context(ctx + " MFA settings for SP " + mfaChange.getEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
                 pathUpdates, auditData, true, PathUpdateType.ADDITION);
         manage.createChangeRequests(changeRequest);
 
@@ -481,7 +481,7 @@ public class UsersController extends BaseController {
         action = actionsService.create(action);
 
         Map<String, Object> auditData = AuditData.context("Update metadata for IdP " + idpEntityId, action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
                 pathUpdates, auditData, false, null);
         manage.createChangeRequests(changeRequest);
 

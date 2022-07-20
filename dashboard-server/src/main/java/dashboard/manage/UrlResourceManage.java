@@ -281,20 +281,20 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
-                                                 String note, Optional<String> loaLevel) {
-        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, true);
-        loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, note, changeRequests, loa, true));
+                                                 Optional<String> loaLevel) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, true);
+        loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, changeRequests, loa, true));
         return changeRequests;
     }
 
     @Override
-    public List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note) {
-        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, false);
-        configureStepupEntity(identityProvider, spEntityId, note, changeRequests, null, false);
+    public List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType) {
+        List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, false);
+        configureStepupEntity(identityProvider, spEntityId, changeRequests, null, false);
         return changeRequests;
     }
 
-    private void configureStepupEntity(IdentityProvider identityProvider, String spEntityId, String note, List<ChangeRequest> changeRequests, String loa, boolean add) {
+    private void configureStepupEntity(IdentityProvider identityProvider, String spEntityId, List<ChangeRequest> changeRequests, String loa, boolean add) {
         List<Map<String, String>> stepupEntities = identityProvider.getStepupEntities();
         if (!add && stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
             return;
@@ -314,7 +314,7 @@ public class UrlResourceManage implements Manage {
         } else {
             Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
             ChangeRequest changeRequest = new ChangeRequest(identityProvider.getInternalId(), EntityType.saml20_idp.name(),
-                    note, pathUpdates, auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
+                    pathUpdates, auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
             changeRequests.add(changeRequest);
         }
     }

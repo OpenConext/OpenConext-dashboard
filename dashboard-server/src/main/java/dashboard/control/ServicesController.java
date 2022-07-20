@@ -277,9 +277,9 @@ public class ServicesController extends BaseController {
             } else {
                 List<ChangeRequest> changeRequests;
                 if (jiraType.equals(Action.Type.LINKREQUEST)) {
-                    changeRequests = manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
+                    changeRequests = manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), loaLevel);
                 } else {
-                    changeRequests = manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
+                    changeRequests = manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData));
                 }
                 changeRequests.forEach(changeRequest -> {
                     String metaDataId = changeRequest.getMetaDataId();
