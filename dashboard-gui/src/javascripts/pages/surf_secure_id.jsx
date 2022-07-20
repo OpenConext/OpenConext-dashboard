@@ -17,6 +17,7 @@ export default function SurfSecureID({ app }) {
   const [loaLevel, setLoaLevel] = useState(initialLoaLevel)
   const [showStepUpModal, setShowStepUpModal] = useState(false)
   const [showJiraDownModal, setShowJiraDownModal] = useState(false)
+  const [serverBusy, setServerBusy] = useState(false)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const appHasLoaLevel = !isEmpty(app.minimalLoaLevel)
   const loaLevelEquals = stepEntity && stepEntity.level === loaLevel
@@ -47,6 +48,7 @@ export default function SurfSecureID({ app }) {
         return
     }
 
+    setServerBusy(true)
     surfSecureIdChangeRequest({ entityId: app.spEntityId, loaLevel: loaLevel, entityType: app.entityType })
       .then((res) => {
         res.json().then((action) => {
@@ -55,11 +57,13 @@ export default function SurfSecureID({ app }) {
           } else {
             setFlash(I18n.t('my_idp.change_request_created', { jiraKey: action.payload.jiraKey }))
           }
+          setServerBusy(false)
           window.scrollTo(0, 0)
         })
       })
       .catch(() => {
         setFlash(I18n.t('my_idp.change_request_failed'), 'error')
+        setServerBusy(false)
         window.scrollTo(0, 0)
       })
   }
@@ -84,10 +88,11 @@ export default function SurfSecureID({ app }) {
           />
           {isDashboardAdmin && !appHasLoaLevel && (
             <button
-              className={`c-button save ${loaLevelEquals ? 'disabled' : ''}`}
-              disabled={loaLevelEquals}
+              className={`c-button save ${(loaLevelEquals || serverBusy) ? 'disabled' : ''}`}
+              disabled={loaLevelEquals || serverBusy}
               onClick={e => checkLoaLevel(() => saveRequest(e))}>
-              {I18n.t('consent_panel.save')}
+                {serverBusy && <div id="service-loader-id" className="loader"/>}
+                {I18n.t('consent_panel.save')}
             </button>
           )}
         </section>

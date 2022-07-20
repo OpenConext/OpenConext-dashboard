@@ -196,9 +196,11 @@ public interface Manage {
 
     Map<String, Object> createChangeRequests(ChangeRequest changeRequest);
 
-    List<String> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel);
+    List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
+                                          String note, Optional<String> loaLevel);
 
-    List<String> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note);
+    List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
+                                                     String note);
 
     default Optional<ChangeRequest> changeRequestForAllowedEntity(Provider source, Provider target, String note, boolean add) {
         if (source.isAllowedAll()) {
@@ -206,9 +208,8 @@ public interface Manage {
         }
         Map<String, Object> pathUpdates = Map.of("allowedEntities", Map.of("name", target.getId()));
 
-        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
         return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), note, pathUpdates,
-                auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL));
+                null, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL));
 
     }
 

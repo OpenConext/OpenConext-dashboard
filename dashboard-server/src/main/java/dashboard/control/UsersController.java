@@ -3,10 +3,7 @@ package dashboard.control;
 import dashboard.domain.*;
 import dashboard.domain.CoinAuthority.Authority;
 import dashboard.mail.MailBox;
-import dashboard.manage.ChangeRequest;
-import dashboard.manage.EntityType;
-import dashboard.manage.Manage;
-import dashboard.manage.PathUpdateType;
+import dashboard.manage.*;
 import dashboard.service.ActionsService;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
@@ -120,13 +117,18 @@ public class UsersController extends BaseController {
                 } else {
                     IdentityProvider identityProvider = currentUser.getCurrentIdp();
                     EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
-                    List<String> metaDataIdentifiers = manage.createConnectionRequests(identityProvider, updateInviteRequest.getSpEntityId(), entityType, commentWithUser, updateInviteRequest.getOptionalLoaLevel());
+                    final List<ChangeRequest> changeRequests = manage.createConnectionRequests(identityProvider,
+                            updateInviteRequest.getSpEntityId(), entityType, commentWithUser, updateInviteRequest.getOptionalLoaLevel());
                     commentWithUser = commentWithUser.concat("\n" +
                             "To create the connection in Manage a change request is made:\n");
                     //lambda cann only deal with final variables
-                    for (String identifier : metaDataIdentifiers) {
+                    for (ChangeRequest changeRequest : changeRequests) {
+                        String identifier = changeRequest.getMetaDataId();
                         String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
                         commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
+
+                        changeRequest.setAuditData(AuditData.context("Connect service %s" + updateInviteRequest.getSpEntityId(), jiraKey));
+                        manage.createChangeRequests(changeRequest);
                     }
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
@@ -320,11 +322,6 @@ public class UsersController extends BaseController {
                 "explanation:en", consent.getExplanationEn(),
                 "explanation:nl", consent.getExplanationNl()
         ));
-        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates,
-                auditData, true, PathUpdateType.ADDITION);
-        manage.createChangeRequests(changeRequest);
-
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -336,6 +333,11 @@ public class UsersController extends BaseController {
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action);
+
+        Map<String, Object> auditData = AuditData.context("Update consent settings for SP " + consent.getSpEntityId(), action.getJiraKey());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null, pathUpdates,
+                auditData, true, PathUpdateType.ADDITION);
+        manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
     }
@@ -375,12 +377,9 @@ public class UsersController extends BaseController {
         Map<String, Object> pathUpdates = Map.of("stepupEntities",
                 Map.of("name", loaLevelChange.getEntityId(),
                         "level", loaLevelChange.getLoaLevel()));
-        PathUpdateType pathUpdateType = (previousLoa.isPresent() && !StringUtils.hasText(loaLevelChange.getLoaLevel())) ?
+        boolean removal = previousLoa.isPresent() && !StringUtils.hasText(loaLevelChange.getLoaLevel());
+        PathUpdateType pathUpdateType = removal ?
                 PathUpdateType.REMOVAL : PathUpdateType.ADDITION;
-        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
-                pathUpdates, auditData, true, pathUpdateType);
-        manage.createChangeRequests(changeRequest);
 
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
@@ -392,6 +391,12 @@ public class UsersController extends BaseController {
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action);
+
+        String ctx = removal ? "Removed" : "Added";
+        Map<String, Object> auditData = AuditData.context(ctx + " SURFsecureID settings for SP " + loaLevelChange.getEntityId(), action.getJiraKey());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, true, pathUpdateType);
+        manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
 
@@ -425,11 +430,6 @@ public class UsersController extends BaseController {
                 "name", mfaChange.getEntityId(),
                 "level", mfaChange.getAuthnContextLevel()
         ));
-        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
-                pathUpdates, auditData, true, PathUpdateType.ADDITION);
-        manage.createChangeRequests(changeRequest);
-
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -440,6 +440,11 @@ public class UsersController extends BaseController {
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action);
+        String ctx = previousMfa.isPresent() ? "Changed" : "Added";
+        Map<String, Object> auditData = AuditData.context(ctx + " MFA settings for SP " + mfaChange.getEntityId(), action.getJiraKey());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, true, PathUpdateType.ADDITION);
+        manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
 
@@ -464,11 +469,6 @@ public class UsersController extends BaseController {
         if (pathUpdates.isEmpty()) {
             return ResponseEntity.ok(createRestResponse(Collections.singletonMap("no-changes", true)));
         }
-        Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
-                pathUpdates, auditData, false, null);
-        manage.createChangeRequests(changeRequest);
-
         Action action = Action.builder()
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
@@ -479,6 +479,11 @@ public class UsersController extends BaseController {
                 .type(Action.Type.CHANGE).build();
 
         action = actionsService.create(action);
+
+        Map<String, Object> auditData = AuditData.context("Update metadata for IdP " + idpEntityId, action.getJiraKey());
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), null,
+                pathUpdates, auditData, false, null);
+        manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
     }

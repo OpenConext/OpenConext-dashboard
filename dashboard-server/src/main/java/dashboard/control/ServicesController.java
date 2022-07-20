@@ -1,6 +1,8 @@
 package dashboard.control;
 
 import dashboard.domain.*;
+import dashboard.manage.AuditData;
+import dashboard.manage.ChangeRequest;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;
 import dashboard.service.ActionsService;
@@ -273,17 +275,25 @@ public class ServicesController extends BaseController {
             if (connectWithoutInteraction && Action.Type.LINKREQUEST.equals(jiraType)) {
                 return Optional.of(actionsService.connectWithoutInteraction(action, loaLevel));
             } else {
-                List<String> metaDataIdentifiers;
+                List<ChangeRequest> changeRequests;
                 if (jiraType.equals(Action.Type.LINKREQUEST)) {
-                    metaDataIdentifiers = manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
+                    changeRequests = manage.createConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments, loaLevel);
                 } else {
-                    metaDataIdentifiers = manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
+                    changeRequests = manage.deactivateConnectionRequests(identityProvider, spEntityId, EntityType.valueOf(typeMetaData), comments);
                 }
-                metaDataIdentifiers.forEach(identifier -> {
-                    String entityType = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : typeMetaData;
-                    action.addManageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, entityType, identifier));
+                changeRequests.forEach(changeRequest -> {
+                    String metaDataId = changeRequest.getMetaDataId();
+                    String entityType = metaDataId.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : typeMetaData;
+                    action.addManageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, entityType, metaDataId));
                 });
-                return Optional.of(actionsService.create(action));
+                Action jiraAction = actionsService.create(action);
+                //Chicken / egg problem. We need the Jira key in order to create change requests
+                changeRequests.forEach(changeRequest -> {
+                    String ctx = jiraType.equals(Action.Type.LINKREQUEST) ? "Connect":"Disconnect";
+                    changeRequest.setAuditData(AuditData.context(String.format("%s service %s", ctx, spEntityId), jiraAction.getJiraKey()));
+                    manage.createChangeRequests(changeRequest);
+                });
+                return Optional.of(jiraAction);
             }
         }
 

@@ -25,6 +25,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   const [comments, setComments] = useState('')
   const [action, setAction] = useState(null)
   const [failed, setFailed] = useState(false)
+  const [serverBusy, setServerBusy] = useState(false)
 
   const hasPrivacyInfo = privacyProperties.some((prop) => app.privacyInfo[prop])
   const connectAutomaticallyWithEmail = app.dashboardConnectOption === 'CONNECT_WITHOUT_INTERACTION_WITH_EMAIL'
@@ -58,6 +59,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   }
 
   async function submitForm() {
+    setServerBusy(true)
     try {
       if (hasInvite) {
         const action = await updateInviteRequest({
@@ -80,9 +82,11 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
         setAction(action)
       }
+      setServerBusy(false)
       onSubmit()
     } catch {
       setFailed(true)
+      setServerBusy(false)
     }
   }
 
@@ -362,7 +366,9 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
         <button className="c-button white" onClick={onClose}>
           {I18n.t('how_to_connect_panel.cancel')}
         </button>
-        <button disabled={!submitAllowed} className="c-button" onClick={submitForm}>
+        <button disabled={!submitAllowed || serverBusy}
+                className={`c-button ${(!submitAllowed || serverBusy) ? "disabled" : ""}`}
+                onClick={submitForm}>
           {I18n.t(`how_to_connect_panel.${actionName}`)}
         </button>
       </div>

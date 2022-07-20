@@ -14,6 +14,7 @@ export default function Consent({ app }) {
   const [consent, setConsent] = useState(null)
   const [showStepUpModal, setShowStepUpModal] = useState(false)
   const [showJiraDownModal, setShowJiraDownModal] = useState(false)
+  const [serverBusy, setServerBusy] = useState(false)
   const { currentUser } = useContext(CurrentUserContext)
   const isDashboardAdmin = currentUser.dashboardAdmin
   const subTitle2 = isDashboardAdmin ? 'subtitle2' : 'subtitle2Viewer'
@@ -46,7 +47,7 @@ export default function Consent({ app }) {
       setShowJiraDownModal(true)
       return
     }
-
+    setServerBusy(true)
     consentChangeRequest(consent)
       .then((res) => {
         res.json().then((action) => {
@@ -55,11 +56,13 @@ export default function Consent({ app }) {
           } else {
             setFlash(I18n.t('my_idp.change_request_created', { jiraKey: action.payload.jiraKey }))
           }
+          setServerBusy(false)
           window.scrollTo(0, 0)
         })
       })
       .catch(() => {
         setFlash(I18n.t('my_idp.change_request_failed'), 'error')
+        setServerBusy(false)
         window.scrollTo(0, 0)
       })
   }
@@ -143,8 +146,10 @@ export default function Consent({ app }) {
           )}
 
           {isDashboardAdmin && (
-            <button className="c-button save"
+            <button className={`c-button save ${serverBusy ? 'disabled' : ''}`}
+                    disabled={serverBusy}
                     onClick={e => checkLoaLevel(() => onSave(e))}>
+              {serverBusy && <div id="service-loader-id" className="loader"/>}
               {I18n.t('consent_panel.save')}
             </button>
           )}

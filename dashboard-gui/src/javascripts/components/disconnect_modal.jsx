@@ -10,14 +10,18 @@ export default function DisconnectModal({ isOpen, onClose, app, currentUser, onS
   const [failed, setFailed] = useState(false)
   const [action, setAction] = useState(null)
   const [done, setDone] = useState(false)
+  const [serverBusy, setServerBusy] = useState(false)
 
   async function handleDisconnect() {
+    setServerBusy(true)
     try {
       const action = await removeConnection(app, comments)
       setAction(action)
       setDone(true)
+      setServerBusy(false)
       onSubmit()
     } catch {
+      setServerBusy(false)
       setFailed(true)
     }
 
@@ -112,7 +116,9 @@ export default function DisconnectModal({ isOpen, onClose, app, currentUser, onS
         <button className="c-button white" onClick={onClose}>
           {I18n.t('how_to_connect_panel.cancel')}
         </button>
-        <button disabled={!checked} className="c-button" onClick={handleDisconnect}>
+        <button disabled={!checked || serverBusy}
+                className={`c-button ${(!checked || serverBusy) ? "disabled" : ""}`}
+                onClick={handleDisconnect}>
           {I18n.t('how_to_connect_panel.disconnect')}
         </button>
       </div>

@@ -23,4 +23,7 @@ public class ChangeRequest implements Serializable {
 
     private PathUpdateType pathUpdateType;
 
+    public void setAuditData(Map<String, Object> auditData) {
+        this.auditData = auditData;
+    }
 }

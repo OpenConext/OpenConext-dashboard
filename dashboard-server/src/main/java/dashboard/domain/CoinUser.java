@@ -243,7 +243,7 @@ public class CoinUser implements UserDetails {
      * @return Identifier of the IdentityProvider the user has logged in with
      */
     public IdentityProvider getIdp() {
-        return currentIdp;
+         return currentIdp;
     }
 
     public void setIdp(IdentityProvider idp) {

@@ -16,6 +16,7 @@ export default function MFA({app}) {
     const [authnContextLevel, setAuthnContextLevel] = useState(initialAuthnContextLevel)
     const [showStepUpModal, setShowStepUpModal] = useState(false)
     const [showJiraDownModal, setShowJiraDownModal] = useState(false)
+    const [serverBusy, setServerBusy] = useState(false)
     const isDashboardAdmin = currentUser.dashboardAdmin
     const authnContextLevelEquals = (!mfaEntity && authnContextLevel === initialAuthnContextLevel) || (mfaEntity && mfaEntity.level === authnContextLevel)
 
@@ -56,8 +57,10 @@ export default function MFA({app}) {
             return
         }
 
+        setServerBusy(true)
         mfaChangeRequest({entityId: app.spEntityId, authnContextLevel: authnContextLevel, entityType: app.entityType})
             .then((res) => {
+                setServerBusy(false)
                 res.json().then((action) => {
                     if (action.payload['no-changes']) {
                         setFlash(I18n.t('my_idp.no_change_request_created'), 'warning')
@@ -69,6 +72,7 @@ export default function MFA({app}) {
             })
             .catch(() => {
                 setFlash(I18n.t('my_idp.change_request_failed'), 'error')
+                setServerBusy(false)
                 window.scrollTo(0, 0)
             })
     }
@@ -107,9 +111,10 @@ export default function MFA({app}) {
                     </div>}
                     {(isDashboardAdmin && !notAllowedAuthnContextLevel) &&
                     <button
-                        className={`c-button save ${authnContextLevelEquals ? 'disabled' : ''}`}
-                        disabled={authnContextLevelEquals}
+                        className={`c-button save ${(serverBusy || authnContextLevelEquals) ? 'disabled' : ''}`}
+                        disabled={authnContextLevelEquals || serverBusy}
                         onClick={e => checkLoaLevel(() => saveRequest(e))}>
+                        {serverBusy && <div id="service-loader-id" className="loader"/>}
                         {I18n.t('consent_panel.save')}
                     </button>
                     }

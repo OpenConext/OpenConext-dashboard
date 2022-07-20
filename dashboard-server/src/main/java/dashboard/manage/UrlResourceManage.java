@@ -280,19 +280,18 @@ public class UrlResourceManage implements Manage {
     }
 
     @Override
-    public List<String> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note, Optional<String> loaLevel) {
+    public List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
+                                                 String note, Optional<String> loaLevel) {
         List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, true);
         loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, note, changeRequests, loa, true));
-        changeRequests.forEach(this::createChangeRequests);
-        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
+        return changeRequests;
     }
 
     @Override
-    public List<String> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note) {
+    public List<ChangeRequest> deactivateConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType, String note) {
         List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, note, false);
         configureStepupEntity(identityProvider, spEntityId, note, changeRequests, null, false);
-        changeRequests.forEach(this::createChangeRequests);
-        return changeRequests.stream().map(ChangeRequest::getMetaDataId).collect(Collectors.toList());
+        return changeRequests;
     }
 
     private void configureStepupEntity(IdentityProvider identityProvider, String spEntityId, String note, List<ChangeRequest> changeRequests, String loa, boolean add) {
