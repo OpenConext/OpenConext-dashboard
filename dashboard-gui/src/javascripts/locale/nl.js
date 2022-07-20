@@ -597,6 +597,7 @@ I18n.translations.nl = {
             subTitle: 'Als de aanbieder van de dienst vragen heeft, met wie kan hij/zij dan contact opnemen?',
             emailPlaceholder: 'Contactpersoon bij je instelling',
             invalidEmail: 'Foutief e-mailadres',
+            emailRequired: 'E-mailadres is verplicht',
             disclaimer: 'Ik wens dat de dienstaanbieder geen contactpersoon krijgt van mijn instelling.',
         },
     },

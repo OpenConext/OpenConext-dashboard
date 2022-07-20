@@ -25,11 +25,11 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   const [comments, setComments] = useState('')
   const [action, setAction] = useState(null)
   const [failed, setFailed] = useState(false)
+  const [initial, setInitial] = useState(true)
   const [serverBusy, setServerBusy] = useState(false)
 
   const hasPrivacyInfo = privacyProperties.some((prop) => app.privacyInfo[prop])
   const connectAutomaticallyWithEmail = app.dashboardConnectOption === 'CONNECT_WITHOUT_INTERACTION_WITH_EMAIL'
-  const inValidContactPersonEmail = !refusedShareContactPersonEmail && !validEmailRegExp.test(emailContactPerson)
   const currentIdp = currentUser.getCurrentIdp()
 
   const automaticallyConnect =
@@ -42,7 +42,6 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
       display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).toLowerCase()}`),
     }))
   )
-
   const validContactPersonEmail =
     !connectAutomaticallyWithEmail || refusedShareContactPersonEmail || validEmailRegExp.test(emailContactPerson)
 
@@ -50,7 +49,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
     acceptActivationTerms &&
     (!app.aansluitovereenkomstRefused || acceptedAansluitOvereenkomstRefused) &&
     currentUser.dashboardAdmin &&
-    validContactPersonEmail
+      (validContactPersonEmail || initial)
 
   let stepNumber = 1
 
@@ -59,6 +58,10 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   }
 
   async function submitForm() {
+    if (submitAllowed && !validContactPersonEmail) {
+      setInitial(false)
+      return
+    }
     setServerBusy(true)
     try {
       if (hasInvite) {
@@ -310,10 +313,15 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
                 onChange={(e) => setEmailContactPerson(e.target.value)}
                 placeholder={I18n.t('how_to_connect_panel.activate_with_email.emailPlaceholder')}
               />
-              {inValidContactPersonEmail && (
+              {(!initial && !validContactPersonEmail && !isEmpty(emailContactPerson)) && (
                 <div className="error">
                   <span>{I18n.t('how_to_connect_panel.activate_with_email.invalidEmail')}</span>
                 </div>
+              )}
+              {(!initial && !validContactPersonEmail && isEmpty(emailContactPerson)) && (
+                  <div className="error">
+                    <span>{I18n.t('how_to_connect_panel.activate_with_email.emailRequired')}</span>
+                  </div>
               )}
             </div>
             <label>

@@ -591,6 +591,7 @@ I18n.translations.en = {
                 'In case the service provider wants to contact someone at your institution about this connection, who can they contact?',
             emailPlaceholder: 'Contact person at your institution',
             invalidEmail: 'Invalid email',
+            emailRequired: 'Email required',
             disclaimer: 'I opt not to share any name with the service provider',
         },
     },
