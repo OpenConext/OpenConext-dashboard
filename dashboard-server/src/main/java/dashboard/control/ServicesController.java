@@ -290,7 +290,7 @@ public class ServicesController extends BaseController {
                 //Chicken / egg problem. We need the Jira key in order to create change requests
                 changeRequests.forEach(changeRequest -> {
                     String ctx = jiraType.equals(Action.Type.LINKREQUEST) ? "Connect":"Disconnect";
-                    changeRequest.setAuditData(AuditData.context(String.format("%s service %s", ctx, spEntityId), jiraAction.getJiraKey()));
+                    changeRequest.setAuditData(AuditData.context(String.format("%s SP %s", ctx, spEntityId), jiraAction.getJiraKey()));
                     manage.createChangeRequests(changeRequest);
                 });
                 return Optional.of(jiraAction);
