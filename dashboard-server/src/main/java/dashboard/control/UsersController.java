@@ -127,7 +127,8 @@ public class UsersController extends BaseController {
                         String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
                         commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
 
-                        changeRequest.setAuditData(AuditData.context("Connect service %s" + updateInviteRequest.getSpEntityId(), jiraKey));
+                        changeRequest.setAuditData(AuditData.context("Invite request accepted and connected SP " +
+                                updateInviteRequest.getSpEntityId(), jiraKey));
                         manage.createChangeRequests(changeRequest);
                     }
                 }

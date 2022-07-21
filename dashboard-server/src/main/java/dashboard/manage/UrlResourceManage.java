@@ -281,7 +281,7 @@ public class UrlResourceManage implements Manage {
 
     @Override
     public List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
-                                                 Optional<String> loaLevel) {
+                                                        Optional<String> loaLevel) {
         List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, true);
         loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, changeRequests, loa, true));
         return changeRequests;
@@ -312,7 +312,7 @@ public class UrlResourceManage implements Manage {
             changeRequest.getPathUpdates().put("stepupEntities", Map.of("name", spEntityId,
                     "level", loa));
         } else {
-            Map<String, Object> auditData = Collections.singletonMap("userName", SpringSecurity.getCurrentUser().getUid());
+            Map<String, Object> auditData = AuditData.context("Added stepup for SP " + spEntityId, null);
             ChangeRequest changeRequest = new ChangeRequest(identityProvider.getInternalId(), EntityType.saml20_idp.name(),
                     pathUpdates, auditData, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL);
             changeRequests.add(changeRequest);

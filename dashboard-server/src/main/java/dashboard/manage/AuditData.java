@@ -2,6 +2,7 @@ package dashboard.manage;
 
 import dashboard.domain.CoinUser;
 import dashboard.util.SpringSecurity;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class AuditData {
                 currentUser.getSurname(),
                 currentUser.getIdp().getName(),
                 now,
-                jiraKey
+                StringUtils.hasText(jiraKey) ? jiraKey : "No JIRA ticket"
         );
         return Map.of(
                 "user", currentUser.getUid(),
