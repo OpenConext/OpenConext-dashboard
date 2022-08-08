@@ -550,9 +550,9 @@ I18n.translations.nl = {
             'Je kunt de uitnodiging accepteren. We adviseren je om de checklist na te lopen en de specifieke informatie over deze service door te nemen voordat je een verbinding activeert.',
         info_title: 'Verbinding activeren',
         jira_unreachable: 'Er is iets mis gegaan bij de aanvraag',
-        jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer laten opnieuw.',
-        jira_down: 'Jira-migratie voorkomt verzoeken',
-        jira_down_description: 'Maandagochtend 27 juni is de migratie afgerond en is alle functionaliteit weer beschikbaar. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> voor het maken van een wijziging.',
+        jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer het later opnieuw.',
+        jira_down: 'Ticketsysteem is niet beschikbaar',
+        jira_down_description: 'Omdat het ticketsysteem niet beschikbaar is kan nu geen wijziging worden aangevraagd. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> voor het maken van een wijziging.',
         license: 'licentie',
         license_info: 'de licentie-informatie',
         obtain_license: {
