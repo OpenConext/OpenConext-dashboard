@@ -333,11 +333,14 @@ public class UsersController extends BaseController {
                 .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), pathUpdates,
+                null, true, PathUpdateType.ADDITION);
+
+        action.addChangeRequests(Collections.singletonList(changeRequest));
         action = actionsService.create(action);
 
         Map<String, Object> auditData = AuditData.context("Update consent settings for SP " + consent.getSpEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(), pathUpdates,
-                auditData, true, PathUpdateType.ADDITION);
+        changeRequest.setAuditData(auditData);
         manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
@@ -391,12 +394,14 @@ public class UsersController extends BaseController {
                 .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
+                pathUpdates, null, true, pathUpdateType);
+        action.addChangeRequests(Collections.singletonList(changeRequest));
         action = actionsService.create(action);
 
         String ctx = removal ? "Removed" : "Added";
         Map<String, Object> auditData = AuditData.context(ctx + " SURFsecureID settings for SP " + loaLevelChange.getEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
-                pathUpdates, auditData, true, pathUpdateType);
+        changeRequest.setAuditData(auditData);
         manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
@@ -440,11 +445,15 @@ public class UsersController extends BaseController {
                 .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
+                pathUpdates, null, true, PathUpdateType.ADDITION);
+        action.addChangeRequests(Collections.singletonList(changeRequest));
         action = actionsService.create(action);
+
         String ctx = previousMfa.isPresent() ? "Changed" : "Added";
         Map<String, Object> auditData = AuditData.context(ctx + " MFA settings for SP " + mfaChange.getEntityId(), action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
-                pathUpdates, auditData, true, PathUpdateType.ADDITION);
+        changeRequest.setAuditData(auditData);
+
         manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));
@@ -479,11 +488,13 @@ public class UsersController extends BaseController {
                 .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
                 .type(Action.Type.CHANGE).build();
 
+        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
+                pathUpdates, null, false, null);
+        action.addChangeRequests(Collections.singletonList(changeRequest));
         action = actionsService.create(action);
 
         Map<String, Object> auditData = AuditData.context("Update metadata for IdP " + idpEntityId, action.getJiraKey());
-        ChangeRequest changeRequest = new ChangeRequest(idp.getInternalId(), EntityType.saml20_idp.name(),
-                pathUpdates, auditData, false, null);
+        changeRequest.setAuditData(auditData);
         manage.createChangeRequests(changeRequest);
 
         return ResponseEntity.ok(createRestResponse(action));

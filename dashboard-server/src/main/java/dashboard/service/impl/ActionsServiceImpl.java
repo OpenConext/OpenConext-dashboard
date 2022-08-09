@@ -142,7 +142,8 @@ public class ActionsServiceImpl implements ActionsService {
 
         return action.unbuild()
                 .userEmail(userEmail.orElse("unknown"))
-                .userName(userName.orElse("unknown")).build();
+                .userName(userName.orElse("unknown"))
+                .build();
     }
 
     private Optional<String> findUserEmail(String body) {

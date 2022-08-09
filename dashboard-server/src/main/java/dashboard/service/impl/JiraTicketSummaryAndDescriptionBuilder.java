@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import dashboard.domain.Action;
 import dashboard.domain.Change;
 import dashboard.domain.Settings;
+import dashboard.manage.ChangeRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -80,9 +81,27 @@ class JiraTicketSummaryAndDescriptionBuilder {
         }
         description.append("Time: ").append(new SimpleDateFormat("HH:mm dd-MM-yy").format(new Date())).append("\n");
 
-        description.append("Remark from user: ").append(action.getBody()).append("\n");
-
+        String body = action.getBody();
+        description.append("Remark from user: ").append(StringUtils.hasText(body) ? body : "None").append("\n");
+        List<ChangeRequest> changeRequests = action.getChangeRequests();
+        if (!CollectionUtils.isEmpty(changeRequests)) {
+            changeRequests.forEach(changeRequest -> {
+                description.append("\n");
+                description.append("Functional changes: ").append("\n").append(convertChangeRequest(changeRequest));
+            });
+        }
         return new SummaryAndDescription(summary.toString(), description.toString());
+    }
+
+    private static String convertChangeRequest(ChangeRequest changeRequest) {
+        final StringBuilder conversion = new StringBuilder();
+        changeRequest.getPathUpdates().forEach((key, value) -> {
+            conversion.append(key);
+            conversion.append(" -> ");
+            conversion.append(value.toString().replaceAll("[{}]", ""));
+            conversion.append("\n");
+        });
+        return conversion.toString();
     }
 
     static class SummaryAndDescription {

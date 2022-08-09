@@ -15,6 +15,7 @@
  */
 package dashboard.domain;
 
+import dashboard.manage.ChangeRequest;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -63,6 +64,7 @@ public class Action {
     private String loaLevel;
     private String mfaLevel;
     private List<String> manageUrls;
+    private List<ChangeRequest> changeRequests;
 
     private boolean rejected;
 
@@ -114,6 +116,10 @@ public class Action {
             manageUrls = new ArrayList<>();
         }
         manageUrls.add(manageUrl);
+    }
+
+    public void addChangeRequests(List<ChangeRequest> changeRequests) {
+        this.changeRequests = changeRequests;
     }
 
     public static Builder builder() {

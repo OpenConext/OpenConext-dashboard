@@ -155,7 +155,7 @@ public class ServicesController extends BaseController {
                 });
 
         Stream<String[]> headers = Stream.<String[]>of(new String[]{
-                "id", "name", "organisation-name","entityID", "description", "app-url", "wiki-url", "support-mail",
+                "id", "name", "organisation-name", "entityID", "description", "app-url", "wiki-url", "support-mail",
                 "connected", "licenseStatus",
                 "publishedInEdugain", "singleTenant", "strongAuthentication",
                 "arpEnabled", "arpAttributes"});
@@ -227,7 +227,7 @@ public class ServicesController extends BaseController {
                                                            Locale locale) throws IOException {
 
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.getCurrentLoaLevel() < 2  && dashboardStepupEnabled) {
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -286,10 +286,11 @@ public class ServicesController extends BaseController {
                     String entityType = metaDataId.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : typeMetaData;
                     action.addManageUrl(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, entityType, metaDataId));
                 });
+                action.addChangeRequests(changeRequests);
                 Action jiraAction = actionsService.create(action);
                 //Chicken / egg problem. We need the Jira key in order to create change requests
                 changeRequests.forEach(changeRequest -> {
-                    String ctx = jiraType.equals(Action.Type.LINKREQUEST) ? "Connect":"Disconnect";
+                    String ctx = jiraType.equals(Action.Type.LINKREQUEST) ? "Connect" : "Disconnect";
                     changeRequest.setAuditData(AuditData.context(String.format("%s SP %s", ctx, spEntityId), jiraAction.getJiraKey()));
                     manage.createChangeRequests(changeRequest);
                 });

@@ -205,7 +205,9 @@ public interface Manage {
         if (source.isAllowedAll()) {
             return Optional.empty();
         }
-        Map<String, Object> pathUpdates = Map.of("allowedEntities", Map.of("name", target.getId()));
+        //Need to ensure the pathUpdates are mutable
+        Map<String, Object> pathUpdates = new HashMap<>();
+        pathUpdates.put("allowedEntities", Map.of("name", target.getId()));
 
         return Optional.of(new ChangeRequest(source.getInternalId(), source.getEntityType().name(), pathUpdates,
                 null, true, add ? PathUpdateType.ADDITION : PathUpdateType.REMOVAL));
