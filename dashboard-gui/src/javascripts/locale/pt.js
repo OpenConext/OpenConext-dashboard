@@ -109,6 +109,7 @@ I18n.translations.pt = {
                 tooltip:
                     'Os serviços podem obedecer a \'categorias de entidade\'.<br>Consulte a <a href="https://wiki.surfnet.nl/display/surfconextdev/Entity+categories" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.',
                 code_of_conduct: 'Código de Conduta',
+                code_of_conduct2: 'Código de Conduta v2',
                 research_and_scholarship: 'Pesquisa e Bolsas de Estudo',
                 selectAll: 'Filter on all',
                 tooltipAll:
@@ -320,6 +321,7 @@ I18n.translations.pt = {
         entity_categories: 'Suporta Categorias de Identidade',
         entity_category: {
             'http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1': 'GÉANT Data Protection Code of Conduct',
+            'https://refedsorg/category/code-of-conduct/v2': 'REFEDS Data Protection Code of Conduct v2',
             'http://refedsorg/category/research-and-scholarship': 'Research and Scholarship',
             'http://clarineu/category/clarin-member': 'Clarin member',
         },

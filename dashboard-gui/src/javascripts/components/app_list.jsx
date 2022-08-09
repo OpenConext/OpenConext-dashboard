@@ -169,6 +169,10 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
         searchValue: 'http://www.geant.net/uri/dataprotection-code-of-conduct/v1',
       },
       {
+        value: I18n.t('facets.static.entity_category.code_of_conduct2'),
+        searchValue: 'https://refeds.org/category/code-of-conduct/v2',
+      },
+      {
         value: I18n.t('facets.static.entity_category.research_and_scholarship'),
         searchValue: 'http://refeds.org/category/research-and-scholarship',
       },

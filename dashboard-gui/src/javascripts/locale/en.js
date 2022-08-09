@@ -109,6 +109,7 @@ I18n.translations.en = {
                 tooltip:
                     'Services can comply to an \'entity categories\'.<br>See the <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> for more information. Here you can filter on services adhering to a certain category.',
                 code_of_conduct: 'Code of Conduct',
+                code_of_conduct2: 'Code of Conduct v2',
                 research_and_scholarship: 'Research and Scholarship',
                 selectAll: 'Filter on all',
                 tooltipAll:
@@ -323,6 +324,7 @@ I18n.translations.en = {
         entity_categories: 'Supported Entity Categories',
         entity_category: {
             'http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1': 'GÉANT Data Protection Code of Conduct',
+            'https://refedsorg/category/code-of-conduct/v2': 'REFEDS Data Protection Code of Conduct v2',
             'http://refedsorg/category/research-and-scholarship': 'Research and Scholarship',
             'http://clarineu/category/clarin-member': 'Clarin member',
         },
