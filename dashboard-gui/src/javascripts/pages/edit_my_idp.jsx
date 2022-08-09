@@ -48,6 +48,7 @@ class EditMyIdp extends React.Component {
       })),
       showInstitution: true,
       search: '',
+      processing: false
     }
   }
 
@@ -460,6 +461,7 @@ class EditMyIdp extends React.Component {
 
   saveRequest(e) {
     stopEvent(e)
+    this.setState({processing: true})
     const request = cloneDeep(this.state)
     request.serviceProviderSettings = request.serviceProviderSettings.map((s) => ({
       spEntityId: s.spEntityId,
@@ -482,11 +484,13 @@ class EditMyIdp extends React.Component {
           } else {
             setFlash(I18n.t('my_idp.change_request_created', { jiraKey: action.payload.jiraKey }))
           }
+          this.setState({processing: false})
           window.scrollTo(0, 0)
           this.props.history.replace('/my-idp')
         })
       })
       .catch(() => {
+        this.setState({processing: false})
         setFlash(I18n.t('my_idp.change_request_failed'), 'error')
         window.scrollTo(0, 0)
         this.props.history.replace('/my-idp')
@@ -494,7 +498,7 @@ class EditMyIdp extends React.Component {
   }
 
   render() {
-    const { showInstitution } = this.state
+    const { showInstitution, processing } = this.state
     return (
       <div className="container">
         <Helmet title={I18n.t('my_idp.settings_edit')} />
@@ -510,7 +514,10 @@ class EditMyIdp extends React.Component {
           {showInstitution && this.renderIdpFields()}
           <h2>{I18n.t('my_idp.comments')}</h2>
           <textarea value={this.state.comments} onChange={(e) => this.setState({ comments: e.target.value })} />
-          <button type="button" className="t-button save policy-button" onClick={(e) => this.saveRequest(e)}>
+          <button type="button"
+                  className="t-button save policy-button"
+                  disabled={processing}
+                  onClick={(e) => this.saveRequest(e)}>
             {I18n.t('my_idp.save')}
           </button>
         </div>
