@@ -296,7 +296,7 @@ public class UrlResourceManage implements Manage {
 
     private void configureStepupEntity(IdentityProvider identityProvider, String spEntityId, List<ChangeRequest> changeRequests, String loa, boolean add) {
         List<Map<String, String>> stepupEntities = identityProvider.getStepupEntities();
-        if (!add && stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
+        if (!add || stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
             return;
         }
         Map<String, Object> pathUpdates = Map.of("stepupEntities",
