@@ -312,7 +312,7 @@ I18n.translations.nl = {
         single_tenant_service: 'Single tenant dienst',
         single_tenant_service_html:
             '{{name}} is een single-tenant-dienst, wat wil zeggen dat de leverancier een aparte instantie moet aanmaken voor elke klant voordat deze de dienst kan gebruiken. Zie de <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURF wiki</a> voor meer informatie over single tenant diensten.',
-        interfed_source: 'Federatie bron',
+        interfed_source: 'Bronfederatie',
         publish_in_edugain_date: 'Gepubliceerd in eduGAIN op:',
         supports_ssa: 'SURFsecureID aangezet',
         minimalLoaLevel:
