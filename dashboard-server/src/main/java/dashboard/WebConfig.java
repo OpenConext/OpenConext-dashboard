@@ -1,10 +1,12 @@
 package dashboard;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.control.GsonHttpMessageConverter;
 import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.web.firewall.HttpFirewall;

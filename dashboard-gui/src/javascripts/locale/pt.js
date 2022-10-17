@@ -954,6 +954,7 @@ I18n.translations.pt = {
         name: 'Nome',
         revision: 'Número da Revisão',
         serviceProviderName: 'Serviço',
+        serviceProviderNames: 'Servições',
         title: 'Revisões',
         intro_1:
             'Sempre que uma política é atualizada é efetuada uma cópia da política anterior como uma revisão da nova política. Ao comparar revisões de políticas entre si e com a política mais atual podemos apresentar um registo de auditoria de todas as alterações efetuadas a uma política.',

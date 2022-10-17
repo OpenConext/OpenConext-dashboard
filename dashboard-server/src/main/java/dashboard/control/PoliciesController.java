@@ -2,11 +2,7 @@ package dashboard.control;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.net.HttpHeaders;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
-import dashboard.domain.Policy;
-import dashboard.domain.Policy.Attribute;
-import dashboard.domain.ServiceProvider;
+import dashboard.domain.*;
 import dashboard.mail.MailBox;
 import dashboard.manage.EntityType;
 import dashboard.manage.Manage;

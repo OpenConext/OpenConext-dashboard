@@ -19,11 +19,9 @@ export default function AuthorizationPolicyRevisions({ app, type }) {
     fetchRevisions()
   }, [])
 
-  console.log(revisions)
-  console.log(current)
   function createdDate(revision) {
     if (revision.created) {
-      const created = moment.unix(revision.created / 1000)
+      const created = moment(revision.created)
       created.locale(I18n.locale)
       return created.format('LLLL')
     }
@@ -34,7 +32,6 @@ export default function AuthorizationPolicyRevisions({ app, type }) {
     if (!current) {
       return null
     }
-
     return revisions.find((revision) => revision.revisionNbr === current.revisionNbr - 1)
   }
 

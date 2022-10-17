@@ -186,13 +186,13 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                     <div className="connection-details">
                       {app.minimalLoaLevel && (
                         <div className="loa">
-                          <div className="green-dot"></div>
+                          <div className="green-dot"/>
                           <LoaIcon /> {app.minimalLoaLevel.split('/').pop()}
                         </div>
                       )}
                       {policies.length > 0 && (
                         <div className="loa">
-                          <div className="green-dot"></div>
+                          <div className="green-dot"/>
                           <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
                         </div>
                       )}

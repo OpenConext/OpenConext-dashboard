@@ -32,7 +32,8 @@ export default function ServiceDetail() {
 
       if (!currentUser.guest) {
         const res = await getPolicies()
-        const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === data.payload.spEntityId)
+        const policiesForApp = res.payload.filter(policy => policy.serviceProviderId === data.payload.spEntityId ||
+            (policy.serviceProviderIds || []).includes(data.payload.spEntityId))
         setPolicies(policiesForApp)
       }
     } catch (e) {

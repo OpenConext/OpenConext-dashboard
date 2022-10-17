@@ -26,6 +26,8 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
     if (policyId === 'new') {
       const res = await getNewPolicy()
       const policy = res.payload
+      policy.serviceProviderIds = [app.spEntityId]
+      policy.serviceProviderNames = [app.name]
       policy.serviceProviderId = app.spEntityId
       policy.serviceProviderName = app.name
       policy.active = false
@@ -92,7 +94,7 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
   const invalidPolicy =
     isEmpty(policy.name) ||
     isEmpty(description) ||
-    !policy.serviceProviderId ||
+      (!policy.serviceProviderId && (policy.serviceProviderIds || []).length === 0) ||
     isEmpty(policy.attributes) ||
     emptyAttributes.length > 0 ||
     isEmpty(policy.denyAdvice) ||

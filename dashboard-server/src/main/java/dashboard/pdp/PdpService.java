@@ -1,7 +1,7 @@
 package dashboard.pdp;
 
+import dashboard.domain.Attribute;
 import dashboard.domain.Policy;
-import dashboard.domain.Policy.Attribute;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

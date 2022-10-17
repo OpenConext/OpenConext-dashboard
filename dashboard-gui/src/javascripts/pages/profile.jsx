@@ -49,10 +49,7 @@ class Profile extends React.Component {
   renderAttribute(attributeKey) {
     const { currentUser } = this.context
     // Use [] to get the value from I18n because attributeKey can contain (.) dot's.
-    const attributeTranslation = I18n.t('profile.attribute_map')[attributeKey]
-    if (isEmpty(attributeTranslation)) {
-      console.log(`Missing profile.attribute_map${attributeKey}`)
-    }
+    const attributeTranslation = I18n.t('profile.attribute_map')[attributeKey] || {}
     const attributeName = attributeTranslation['name']
     const attributeDescription = attributeTranslation['description']
     return (

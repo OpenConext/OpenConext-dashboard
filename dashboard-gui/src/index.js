@@ -21,7 +21,6 @@ polyfills()
 
 if (browserSupported()) {
   const url = window.location.href
-  console.log(url)
 
   getUserData().then((json) => {
     if (json.noAccess === true) {

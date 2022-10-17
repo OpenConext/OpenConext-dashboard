@@ -12,7 +12,7 @@ const properties = [
   'name',
   'description',
   'denyRule',
-  'serviceProviderName',
+  'serviceProviderNames',
   'identityProviderNames',
   'allAttributesMustMatch',
   'attributes',
@@ -26,10 +26,9 @@ export default function RevisionModal({ isOpen, onClose, current, previous }) {
   if (!current) {
     return null
   }
-
   function createdDate(revision) {
     if (revision.created) {
-      const created = moment.unix(revision.created / 1000)
+      const created = moment(revision.created)
       created.locale(I18n.locale)
       return created.format('LLLL')
     }
@@ -76,12 +75,12 @@ function PropertyDiff({ previous, current, property }) {
   if (property === 'attributes') {
     return <AttributesDiff previous={previous} current={current} />
   }
-
+  const propertyKey = property === 'serviceProviderNames' && (!previous[property] || previous[property].length === 0) ? 'serviceProviderName' : property;
   return (
     <div className="diff-container">
       <div className="diff-element">
-        <label>{I18n.t('revisions.' + property)}</label>
-        <SinglePropertyDiff prev={previous[property]} curr={current[property]} />
+        <label>{I18n.t('revisions.' + propertyKey)}</label>
+        <SinglePropertyDiff prev={previous[propertyKey]} curr={current[propertyKey]} />
       </div>
     </div>
   )

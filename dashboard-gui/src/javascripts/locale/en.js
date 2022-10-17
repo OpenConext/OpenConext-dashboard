@@ -943,6 +943,7 @@ I18n.translations.en = {
         name: 'Name',
         revision: 'Revision number',
         serviceProviderName: 'Service',
+        serviceProviderNames: 'Service(s)',
         title: 'Revisions',
         intro_1:
             'Every time a policy gets updated a copy of the previous state is stored as a revision of the new policy. By comparing revisions of a policy with each other and with the most current policy we are able to display an audit log of all changes made to a policy.',

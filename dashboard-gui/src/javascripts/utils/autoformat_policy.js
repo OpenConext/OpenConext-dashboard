@@ -36,7 +36,7 @@ export default {
     const idps = isEmpty(policy.identityProviderNames)
       ? ''
       : ' from ' + policy.identityProviderNames.map(this.addQuotes).join(' or ')
-    const sp = this.addQuotes(policy.serviceProviderName) || '?'
+    const sp = this.addQuotes(policy.serviceProviderName || policy.serviceProviderNames) || '?'
     const attrs = policy.attributes || []
     const teamMembershipAttr = attrs.filter((attr) => {
       return attr.name === 'urn:collab:group:surfteams.nl'

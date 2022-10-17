@@ -36,7 +36,8 @@ export default function AuthorizationPolicyOverview({ app, type, onPolicyChange 
   async function fetchPolicies() {
     try {
       const res = await getPolicies()
-      const policiesForApp = res.payload.filter((policy) => policy.serviceProviderId === app.spEntityId)
+      const policiesForApp = res.payload.filter(policy => policy.serviceProviderId === app.spEntityId  ||
+          (policy.serviceProviderIds || []).includes(app.spEntityId))
       setPolicies(policiesForApp)
       setLoading(false)
     } catch (e) {

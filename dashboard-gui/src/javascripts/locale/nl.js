@@ -998,6 +998,7 @@ I18n.translations.nl = {
         name: 'Naam',
         revision: 'Revisie nummer',
         serviceProviderName: 'Dienst',
+        serviceProviderNames: 'Dienst(en)',
         title: 'Revisies',
         intro_1:
             'Elke keer als een autorisatieregel wordt bijgewerkt dan wordt er een kopie van de oude regel opgeslagen als een revisie van de nieuw bijgewerkte regel. Door revisies met elkaar en met meest actuele regel te vergelijken kan een audit log worden getoond van alle veranderingen die zijn gemaakt van een autorisatieregel.',

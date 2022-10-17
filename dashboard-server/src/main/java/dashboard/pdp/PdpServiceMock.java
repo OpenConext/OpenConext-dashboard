@@ -1,17 +1,16 @@
 package dashboard.pdp;
 
 import com.google.common.collect.*;
+import dashboard.domain.Attribute;
 import dashboard.domain.Policy;
-import dashboard.domain.Policy.Attribute;
-import dashboard.domain.Policy.PolicyBuilder;
 import dashboard.domain.Service;
 import dashboard.manage.EntityType;
 import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -83,42 +82,33 @@ public class PdpServiceMock implements PdpService {
         return true;
     }
 
+    @SneakyThrows
     private Policy savePolicy(Policy policy) {
         Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
-
-        try {
-            return PolicyBuilder.of(policy)
-                    .withId(id)
-                    .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-                    .withCreated(String.valueOf(System.currentTimeMillis()))
-                    .withActionsAllowed(true)
-                    .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
-                                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
-                            .map(Service::getName)
-                            .orElse("????"))
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        policy.setId(id);
+        policy.setUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName());
+        policy.setCreated(String.valueOf(System.currentTimeMillis()));
+        policy.setActionsAllowed(true);
+        policy.setServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                        policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
+                .map(Service::getName)
+                .orElse("????"));
+        return policy;
     }
 
+    @SneakyThrows
     private Policy updatePolicy(Policy policy) {
-        try {
-            return PolicyBuilder.of(policy)
-                    .withId(policy.getId())
-                    .withUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName())
-                    .withCreated(String.valueOf(System.currentTimeMillis()))
-                    .withActionsAllowed(true)
-                    .withRevisionNbr(policy.getRevisionNbr() + 1)
-                    .withNumberOfRevisions(policy.getNumberOfRevisions() + 1)
-                    .withServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
-                                    policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
-                            .map(Service::getName)
-                            .orElse("????"))
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        policy.setId(policy.getId());
+        policy.setUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName());
+        policy.setCreated(String.valueOf(System.currentTimeMillis()));
+        policy.setActionsAllowed(true);
+        policy.setServiceProviderName(services.getServiceByEntityId(SpringSecurity.getCurrentUser().getIdp().getId(),
+                        policy.getServiceProviderId(), EntityType.saml20_sp, Locale.ENGLISH)
+                .map(Service::getName)
+                .orElse("????"));
+        policy.setRevisionNbr(policy.getRevisionNbr() + 1);
+        policy.setNumberOfRevisions(policy.getNumberOfRevisions() + 1);
+        return policy;
     }
 
 }

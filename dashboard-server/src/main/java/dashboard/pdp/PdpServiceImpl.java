@@ -3,13 +3,12 @@ package dashboard.pdp;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import dashboard.control.Constants;
+import dashboard.domain.Attribute;
 import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.domain.Policy;
-import dashboard.domain.Policy.Attribute;
 import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +118,7 @@ public class PdpServiceImpl implements PdpService, Constants {
             } catch (IOException e) {
                 LOG.error("oeps", e);
             }
-            ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {
+            ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
             });
             return response.getBody();
         } catch (HttpStatusCodeException sce) {
@@ -155,7 +154,7 @@ public class PdpServiceImpl implements PdpService, Constants {
     public Policy update(Policy policy) {
         RequestEntity<?> request = buildPutRequest("/protected/policies", policy);
         return executeWithExceptionLogging(() -> {
-            ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {
+            ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
             });
             return response.getBody();
         });
@@ -172,7 +171,7 @@ public class PdpServiceImpl implements PdpService, Constants {
         RequestEntity<?> request = buildGetRequest("/protected/revisions/" + id);
 
         return executeWithExceptionLogging(() -> {
-            ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {
+            ResponseEntity<List<Policy>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
             });
             return response.getBody();
         });
