@@ -11,7 +11,7 @@ import set from 'lodash.set'
 import cloneDeep from 'lodash.clonedeep'
 import stopEvent from '../utils/stop'
 
-const contactPersonTypes = ['administrative', 'support', 'technical', 'billing']
+const contactPersonTypes = ['administrative', 'support', 'technical']
 
 class EditMyIdp extends React.Component {
   constructor(props, context) {
