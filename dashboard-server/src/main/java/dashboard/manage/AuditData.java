@@ -15,7 +15,7 @@ public class AuditData {
 
     public static Map<String, Object> context(String action, String jiraKey) {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        String now = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date());
+        String now = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
         String notes = String.format(
                 "%s by request of user %s %s from IdP %s on %s via dashboard (%s)",
                 action,
