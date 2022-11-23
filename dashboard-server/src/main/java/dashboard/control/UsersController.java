@@ -483,6 +483,7 @@ public class UsersController extends BaseController {
                 .userEmail(currentUser.getEmail())
                 .userName(currentUser.getFriendlyName())
                 .idpId(idpEntityId)
+                .spId("N/A")
                 .settings(settings)
                 .typeMetaData(settings.getTypeMetaData())
                 .manageUrls(Collections.singletonList(String.format("%s/metadata/%s/%s/requests", manageBaseUrl, EntityType.saml20_idp.name(), idp.getInternalId())))
