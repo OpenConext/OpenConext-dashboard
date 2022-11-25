@@ -328,7 +328,7 @@ I18n.translations.pt = {
         aansluitovereenkomst: 'Protocolo de Adesão',
         aansluitovereenkomstRefused:
             '{{organisation}} recusou-se a assinar \'Protocolo de adesão à SURFconext\' com a SURF. Leia mais sobre esta política em <a href="https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
-        vendorInfo: 'This service is offered by {{organisation}}. ',
+        vendorInfo: 'This service is offered by {{organisation}}.',
         privacyInformation: 'Informação de privacidade',
         privacyInformationInfo: '{{organisation}} não disponibilizou informação de privacidade.',
         contractualBase: {

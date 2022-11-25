@@ -330,7 +330,7 @@ I18n.translations.nl = {
         aansluitovereenkomst: 'Aansluitovereenkomst',
         aansluitovereenkomstRefused:
             '{{organisation}} heeft geweigerd om de SURFconext aansluitovereenkomst te tekenen. Lees meer over deze overeenkomst op de <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
-        vendorInfo: 'Deze dienst wordt aangeboden door {{organisation}}. ',
+        vendorInfo: 'Deze dienst wordt aangeboden door {{organisation}}.',
         privacyInformation: 'Privacy-informatie',
         privacyInformationInfo: '{{organisation}} heeft geen privacy-informatie aangeleverd.',
         contractualBase: {
