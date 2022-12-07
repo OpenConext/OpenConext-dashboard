@@ -392,7 +392,7 @@ I18n.translations.nl = {
             "urn:mace:dir:attribute-def:sn": "Achternaam",
             "urn:mace:dir:attribute-def:mail": "E-mailadres",
             "urn:mace:dir:attribute-def:ou": "Organisatieonderdeel",
-            "urn:mace:terena.org:attribute-def:schacHomeOrganization": "Je IdP-afkoting",
+            "urn:mace:terena.org:attribute-def:schacHomeOrganization": "Je IdP-afkorting",
             "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": "Type instelling",
             "urn:schac:attribute-def:schacPersonalUniqueCode": "Unieke code",
             "urn:mace:dir:attribute-def:eduPersonAffiliation": "Betrekking",
