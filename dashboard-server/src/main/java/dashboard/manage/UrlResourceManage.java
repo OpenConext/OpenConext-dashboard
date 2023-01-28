@@ -164,7 +164,7 @@ public class UrlResourceManage implements Manage {
     public List<ServiceProvider> getByEntityIdin(List<String> entityIds) {
         String split = entityIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.joining(","));
         String query = findByEntityIdIn.replace("@@entityids@@", split);
-        return rawSearchProviders(query, EntityType.saml20_sp, EntityType.oidc10_rp);
+        return rawSearchProviders(query, EntityType.saml20_sp, EntityType.oidc10_rp, EntityType.oauth20_rs);
     }
 
     private List<ServiceProvider> rawSearchProviders(String query, EntityType... types) {
