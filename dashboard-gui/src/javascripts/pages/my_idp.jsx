@@ -347,8 +347,7 @@ function RolesTable({roles}) {
 function RoleRow({roleName, users}) {
     const names = users
         .map((r) => {
-            const middleName = isEmpty(r.middleName) ? ' ' : ` ${r.middleName} `
-            return `${r.firstName}${middleName}${r.surname}`
+            return r.fullname()
         })
         .sort()
         .join(', ')
