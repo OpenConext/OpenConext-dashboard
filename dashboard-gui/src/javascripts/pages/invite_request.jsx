@@ -69,7 +69,7 @@ class InviteRequest extends React.Component {
           }, {})
           const sabPersons = Object.values(sabPersonMap).map((p) => ({
             emailAddress: p.email,
-            name: p.fullname(),
+            name: p.fullName,
             uid: p.uid,
             roles: p.roles.map((r) => r.roleName),
           }))

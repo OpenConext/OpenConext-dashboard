@@ -62,7 +62,7 @@ public class ContactPerson implements Serializable {
     }
 
     public ContactPerson(SabPerson sabPerson) {
-        this.name = sabPerson.fullname();
+        this.name = sabPerson.resolveFullName();
         this.emailAddress = sabPerson.getEmail();
         this.contactPersonType = ContactPersonType.administrative;
         this.sirtfiSecurityContact = false;

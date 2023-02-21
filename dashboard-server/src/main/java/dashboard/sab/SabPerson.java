@@ -10,6 +10,7 @@ public class SabPerson {
     private final String surname;
     private final String uid;
     private final String email;
+    private final String fullName;
     private final List<SabRole> roles;
 
     public SabPerson(String firstName, String middleName, String surname, String uid, String email, List<SabRole> roles) {
@@ -19,13 +20,18 @@ public class SabPerson {
         this.uid = uid;
         this.email = email;
         this.roles = roles;
+        this.fullName = resolveFullName();
     }
 
-    public String fullname() {
+    public String resolveFullName() {
         if (middleName.isEmpty()) {
             return format("%s %s", firstName, surname);
         }
         return format("%s %s %s", firstName, middleName, surname);
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public boolean hasRole(final String roleName) {
