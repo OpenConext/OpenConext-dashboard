@@ -119,8 +119,11 @@ public class UsersController extends BaseController {
                     EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
                     final List<ChangeRequest> changeRequests = manage.createConnectionRequests(identityProvider,
                             updateInviteRequest.getSpEntityId(), entityType, updateInviteRequest.getOptionalLoaLevel());
-                    commentWithUser = commentWithUser.concat("\n" +
-                            "To create the connection in Manage a change request is made:\n");
+                    if (!changeRequests.isEmpty()) {
+                        commentWithUser = commentWithUser.concat("\n" +
+                                "To create the connection in Manage a change request is made:\n");
+
+                    }
                     //lambda cann only deal with final variables
                     for (ChangeRequest changeRequest : changeRequests) {
                         String identifier = changeRequest.getMetaDataId();

@@ -283,7 +283,9 @@ public class UrlResourceManage implements Manage {
     public List<ChangeRequest> createConnectionRequests(IdentityProvider identityProvider, String spEntityId, EntityType entityType,
                                                         Optional<String> loaLevel) {
         List<ChangeRequest> changeRequests = allowedEntityChangeRequest(identityProvider, spEntityId, entityType, true);
-        loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, changeRequests, loa, true));
+        if (!EntityType.single_tenant_template.equals(entityType)) {
+            loaLevel.ifPresent(loa -> configureStepupEntity(identityProvider, spEntityId, changeRequests, loa, true));
+        }
         return changeRequests;
     }
 

@@ -217,8 +217,10 @@ public interface Manage {
     default List<ChangeRequest> allowedEntityChangeRequest(IdentityProvider identityProvider, String spEntityId, EntityType spEntityType, boolean add) {
         ServiceProvider serviceProvider = getServiceProvider(spEntityId, spEntityType, false).orElseThrow(IllegalArgumentException::new);
         List<ChangeRequest> changeRequests = new ArrayList<>();
-        changeRequestForAllowedEntity(identityProvider, serviceProvider, add).ifPresent(changeRequests::add);
-        changeRequestForAllowedEntity(serviceProvider, identityProvider, add).ifPresent(changeRequests::add);
+        if (!EntityType.single_tenant_template.equals(serviceProvider.getEntityType())) {
+            changeRequestForAllowedEntity(identityProvider, serviceProvider, add).ifPresent(changeRequests::add);
+            changeRequestForAllowedEntity(serviceProvider, identityProvider, add).ifPresent(changeRequests::add);
+        }
         return changeRequests;
     }
 
