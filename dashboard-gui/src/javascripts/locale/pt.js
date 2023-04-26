@@ -489,7 +489,7 @@ I18n.translations.pt = {
         save: 'Guardar alterações',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
         defaultLoa: 'LoA 1: Password authentication through SURFconext at the users home IdP',
-        loa1.5: 'LoA 1.5 (see the wiki for more info)',
+        'loa1.5': 'LoA 1.5 (see the wiki for more info)',
         loa2: 'LoA 2 (see the wiki for more info)',
         loa3: 'LoA 3 (see the wiki for more info)',
     },
