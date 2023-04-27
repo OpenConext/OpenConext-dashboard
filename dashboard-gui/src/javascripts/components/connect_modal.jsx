@@ -39,7 +39,7 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
   const loaOptions = [{ value: '', display: I18n.t('consent_panel.defaultLoa') }].concat(
     currentUser.loaLevels.map((t) => ({
       value: t,
-      display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).toLowerCase()}`),
+      display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).replaceAll('.','_').toLowerCase()}`),
     }))
   )
   const validContactPersonEmail =

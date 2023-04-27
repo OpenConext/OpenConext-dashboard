@@ -28,7 +28,7 @@ export default function SurfSecureID({ app }) {
   options = options.concat(
     currentUser.loaLevels.map((t) => ({
       value: t,
-      display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).toLowerCase()}`),
+      display: I18n.t(`consent_panel.${t.substring(t.lastIndexOf('/') + 1).replaceAll('.','_').toLowerCase()}`),
     }))
   )
 
