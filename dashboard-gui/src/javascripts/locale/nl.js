@@ -877,9 +877,6 @@ I18n.translations.nl = {
             nl: 'Beschrijving (nl)',
             pt: 'Beschrijving (pt)',
         },
-        guest_enabled: 'Gast-toegang ingeschakeld',
-        guest_enabled_tooltip:
-            'Als gasttoegang is ingeschakeld, betekent dit dat gebruikers<br>van de gast-IdP eduID gebruik kunnen maken van deze dienst.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
         edit_message: 'De volgende velden kunnen worden aangepast.',
         save: 'Maak wijzigingsverzoek aan',
         change_request_created:

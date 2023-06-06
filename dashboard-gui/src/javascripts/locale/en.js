@@ -820,9 +820,6 @@ I18n.translations.en = {
             nl: 'Description (nl)',
             pt: 'Description (pt)',
         },
-        guest_enabled: 'Guest access enabled',
-        guest_enabled_tooltip:
-            'When enabled this means users of the Guest IdP are<br>allowed to connect to this service.<br>See the <a href="https://wiki.surfnet.nl/display/conextsupport/Guest+access+with+eduID" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
         edit_message: 'You are able to edit the following fields.',
         save: 'Create change request',
         change_request_created:

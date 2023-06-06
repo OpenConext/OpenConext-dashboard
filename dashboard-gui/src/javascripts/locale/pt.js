@@ -830,9 +830,6 @@ I18n.translations.pt = {
             nl: 'Descrição (nl)',
             pt: 'Descrição (pt)',
         },
-        guest_enabled: 'Acesso a convidados ativo',
-        guest_enabled_tooltip:
-            'When enabled this means users of the Guest IdP are<br>allowed to connect to this service.<br>See the <a href="https://edu.nl/46yyn" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
         edit_message: 'Pode editar os seguintes campos.',
         save: 'Criar pedido de alteração',
         change_request_created: 'Pedido de alteração enviado para a SURFnet SURFconext-team.',
