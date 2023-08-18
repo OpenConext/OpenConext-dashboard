@@ -153,7 +153,6 @@ public class ServicesImpl implements Services {
         service.setPrivacyInfo(sp.getPrivacyInfo());
         service.setMotivations(sp.getArpMotivations());
         service.setSources(sp.getArpSources());
-        service.setNormenkaderPresent(sp.getPrivacyInfo().isGdprIsInWiki());
         service.setAansluitovereenkomstRefused(sp.isAansluitovereenkomstRefused());
         service.setGuestEnabled(this.isGuestEnabled(sp));
         service.setManipulationNotes(sp.getManipulationNotes());

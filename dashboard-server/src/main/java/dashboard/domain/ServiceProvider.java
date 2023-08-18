@@ -157,22 +157,14 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     private PrivacyInfo buildPrivacyInfo(Map<String, Object> metaData) {
         return new PrivacyInfo(
-                (String) metaData.get("coin:privacy:access_data"),
-                booleanOptionalValue(metaData.get("coin:privacy:certification")),
-                (String) metaData.get("coin:privacy:certification_location"),
-                (String) metaData.get("coin:privacy:country"),
-                (String) metaData.get("coin:privacy:other_info"),
-                booleanOptionalValue(metaData.get("coin:privacy:privacy_policy")),
-                (String) metaData.get("coin:privacy:privacy_policy_url"),
-                (String) metaData.get("coin:privacy:security_measures"),
-                (String) metaData.get("coin:privacy:sn_dpa_why_not"),
-                booleanOptionalValue(metaData.get("coin:privacy:surfmarket_dpa_agreement")),
-                booleanOptionalValue(metaData.get("coin:privacy:surfnet_dpa_agreement")),
                 (String) metaData.get("coin:privacy:what_data"),
-                booleanOptionalValue(metaData.get("coin:ss:aansluitovereenkomst_refused")),
-                (String) metaData.get("coin:privacy:certification_valid_from"),
-                (String) metaData.get("coin:privacy:certification_valid_to"),
-                booleanOptionalValue(metaData.get("coin:privacy:gdpr_is_in_wiki"))
+                (String) metaData.get("coin:privacy:country"),
+                (String) metaData.get("coin:privacy:access_data"),
+                (String) metaData.get("coin:privacy:security_measures"),
+                (String) metaData.get("mdui:PrivacyStatementURL:en"),
+                (String) metaData.get("mdui:PrivacyStatementURL:nl"),
+                (String) metaData.get("coin:privacy:dpa_type"),
+                (String) metaData.get("coin:privacy:other_info")
         );
 
     }

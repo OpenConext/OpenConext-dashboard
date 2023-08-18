@@ -117,13 +117,13 @@ function Attribute({attribute, app, currentUser}) {
             <td>{I18n.t(`attributes_policy_panel.sources.${source}`)}</td>
             <td>
                 {renderFilters.length > 0 &&
-                <ul className="filters">
-                    {renderFilters.map((filter, i) =>
-                        <li key={i} className="filter">
-                            {filter}
-                        </li>
-                    )}
-                </ul>
+                    <ul className="filters">
+                        {renderFilters.map((filter, i) =>
+                            <li key={i} className="filter">
+                                {filter}
+                            </li>
+                        )}
+                    </ul>
                 }
             </td>
             <td>{app.motivations[name]}</td>
@@ -159,24 +159,21 @@ function PrivacyTable({app}) {
             </tr>
             </thead>
             <tbody>
-            {privacyProperties.map((prop) => (
-                <PrivacyProp name={prop} prop={app.privacyInfo[prop]} key={prop}/>
-            ))}
+            {privacyProperties
+                .filter(prop => !prop.startsWith('privacyStatementURL') || prop === `privacyStatementURL${I18n.locale}`)
+                    .map((prop) => (
+                        <PrivacyProp name={prop} prop={app.privacyInfo[prop]} key={prop}/>
+                    ))}
             </tbody>
         </table>
     )
 }
 
 function PrivacyProp({name, prop}) {
-    const isDate = name === 'certificationValidTo' || name === 'certificationValidFrom'
     const noValue = prop === undefined || prop === null
     let value
-    if (isDate && !noValue) {
-        value = prop.substring(0, 10)
-    } else if (prop === true) {
-        value = I18n.t('boolean.yes')
-    } else if (prop === false) {
-        value = I18n.t('boolean.no')
+    if (name === 'dpaType') {
+        value = I18n.t(`privacy_panel.dpaTypeEnum.${prop}`)
     } else {
         value = prop
     }
@@ -200,7 +197,7 @@ function ManipulationNotes({app}) {
                 <i className="fa fa-warning"/>{title}
             </p>
             {app.manipulationNotes &&
-            <section className="notes markdown-body" dangerouslySetInnerHTML={{__html: notes}}/>}
+                <section className="notes markdown-body" dangerouslySetInnerHTML={{__html: notes}}/>}
 
         </div>
     )
