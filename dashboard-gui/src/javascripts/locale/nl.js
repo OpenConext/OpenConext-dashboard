@@ -1092,7 +1092,7 @@ I18n.translations.nl = {
         selectSp: 'Zoek en selecteer nu een dienst...',
         idp: 'Instelling',
         sp: 'Dienst',
-        contactPersons: 'Selecteer naar welke contactpersonen van {{name}} de uitnodiging zal worden versuurd.',
+        contactPersons: 'Selecteer naar welke contactpersonen van {{name}} de uitnodiging zal worden verstuurd.',
         sourcePersons: 'Contactpersonen uit {{source}}',
         additionalPersons: 'Extra contactpersonen',
         selectContact: 'Selecteer',
