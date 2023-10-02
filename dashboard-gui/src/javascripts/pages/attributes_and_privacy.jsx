@@ -16,7 +16,7 @@ export default function AttributesAndPrivacy({app}) {
         <div className="app-detail-content attributes-privacy">
             <h2>{I18n.t('attributes_policy_panel.title')}</h2>
             <AttributeReleasePolicy app={app} nameIdValue={nameIdValue} currentUser={currentUser}/>
-            {(app.manipulation && !currentUser.guest) && <ManipulationNotes app={app}/>}
+            {app.manipulation && <ManipulationNotes app={app}/>}
             {hasPrivacyInfo && <PrivacyInfo app={app}/>}
         </div>
     )

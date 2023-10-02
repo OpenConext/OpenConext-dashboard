@@ -241,7 +241,6 @@ I18n.translations.nl = {
             },
         },
     },
-
     app_meta: {
         question: 'Heb je een vraag?',
         eula: 'Algemene voorwaarden',
@@ -363,6 +362,11 @@ I18n.translations.nl = {
         title: 'Attributen',
         your_value: 'Jouw waardes',
         your_values_tooltip: 'De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling. Er worden alleen waarden getoond voor attributen die door jouw IdP geleverd moeten worden.',
+        filter: 'Filter',
+        filterTooltip: 'Voor dit attribuut is een filter toegepast dat de beschikbare waarden mogelijk beperkt',
+        motivation: 'Doel',
+        motivationTooltip:
+            'Deze kolom bevat, voor zover beschikbaar, de uitleg van de leverancier waarom deze dit attribuut nodig heeft.',
         source: 'Bron',
         persistentMotivation: "Primaire identifier van de gebruiker",
         sources: {
@@ -376,11 +380,6 @@ I18n.translations.nl = {
             manage: 'SURFconext'
         },
         sourceTooltip: "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
-        filter: 'Filter',
-        filterTooltip: 'Voor dit attribuut is een filter toegepast dat de beschikbare waarden mogelijk beperkt',
-        motivation: 'Doel',
-        motivationTooltip:
-            'Deze kolom bevat, voor zover beschikbaar, de uitleg van de leverancier waarom deze dit attribuut nodig heeft.',
         attributes: {
             "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified": "Unieke identifier",
             "urn:mace:dir:attribute-def:eduPersonTargetedID": "Persistente identifier",
@@ -408,7 +407,6 @@ I18n.translations.nl = {
             "urn:mace:dir:attribute-def:preferredLanguage": "Preferred language",
             "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": "eduPerson organisatie"
         }
-
     },
     connected_resource_servers_panel: {
         title: 'Aangesloten Resource Servers',
@@ -425,13 +423,11 @@ I18n.translations.nl = {
             'Als je wil weten door welke andere instellingen {{name}} via SURFconext wordt gebruikt, kun je dat opvragen via support@surfconext.nl.',
         institution: 'Instelling',
     },
-
     sirtfi_panel: {
         title: 'De Sirtfi contact personen voor {{name}}',
         subtitle:
             'Het Security Incident Response Trust Framework voor Federated Identity <a href=" https://refeds.org/sirtfi" target="_blank" rel="noopener noreferrer">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.',
-        contactPersons:
-            'In het geval van een beveiligingsincident kan deze service het beste op de volgende manier worden gecontacteerd:',
+        contactPersons: 'In het geval van een beveiligingsincident kan deze service het beste op de volgende manier worden gecontacteerd:',
         cp_name: 'Naam',
         cp_email: 'Email',
         cp_telephoneNumber: 'Telefoonnummer',
@@ -467,8 +463,7 @@ I18n.translations.nl = {
     },
     consent_panel: {
         title: 'Toestemming',
-        subtitle:
-            'Nieuwe gebruikers wordt standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.',
+        subtitle: 'Nieuwe gebruikers wordt standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.',
         subtitle2:
             'Optioneel kun je een extra bericht/waarschuwing aan het informatie/consent-scherm toevoegen, bijvoorbeeld om de gebruiker te wijzen op het feit dat de desbetreffende dienst <i>geen officiële</i> dienst van de instelling is en er dus geen ondersteuning wordt geboden. Lees meer informatie hierover op onze <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a>.',
         subtitle2Viewer:
@@ -479,14 +474,11 @@ I18n.translations.nl = {
         consent_value: 'Type toestemming',
         consent_value_tooltip: 'Het type toestemming bepaalt hoe en of de gebruiker voor toestemming wordt gevraagd.',
         explanationNl: 'Nederlands bericht',
-        explanationNl_tooltip:
-            'Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers',
+        explanationNl_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers',
         explanationEn: 'Engels bericht',
-        explanationEn_tooltip:
-            'Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers',
+        explanationEn_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers',
         explanationPt: 'Portugees bericht',
-        explanationPt_tooltip:
-            'Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers',
+        explanationPt_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers',
         save: 'Verstuur verzoek',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
         defaultLoa: 'LoA 1: Wachtwoordauthenticatie door SURFconext bij de instelling van de gebruiker',
@@ -588,8 +580,7 @@ I18n.translations.nl = {
         deny: 'Uitnodiging afwijzen',
         approve: 'Uitnodiging Goedkeuren',
         deny_invitation: 'Weet je zeker dat je de uitnodiging om te koppelen met {{app}} wilt afwijzen?',
-        deny_invitation_info:
-            'Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.',
+        deny_invitation_info: 'Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.',
         invite_action_collision_title: 'Dienst {{app}} is al gekoppeld.',
         invite_action_collision_subtitle: 'Mid-air botsing gedetecteerd.',
         invite_action_collision:
@@ -614,7 +605,6 @@ I18n.translations.nl = {
         error_html:
             'Op dit moment zijn de statistieken niet beschikbaar. <a href="mailto:support@surfconext.nl">Neem contact op</a> met de supportafdeling, voor meer informatie.',
     },
-
     contact: {
         email: 'Service support e-mail',
     },
@@ -634,7 +624,6 @@ I18n.translations.nl = {
             role_dashboard_admin: 'Admin',
         },
     },
-
     stats: {
         filters: {
             name: 'Filters',
@@ -687,13 +676,11 @@ I18n.translations.nl = {
         aggregatedChartTitlePeriod: 'Logins in de periode {{period}} per {{group}}',
         noTimeFrameChart: 'Logins van {{from}} tot en met {{to}}',
     },
-
     server_error: {
         title: 'Je hebt onvoldoende rechten om de Dashboard applicatie te gebruikem.',
         description_html:
             'Neem contract op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> in het geval dat je denkt dat dit niet juist is.',
     },
-
     not_found: {
         title: 'OEPS, deze pagina kan momenteel niet worden getoond.',
         subTitle: 'Mogelijke oorzaken en oplossingen zijn:',
@@ -705,7 +692,6 @@ I18n.translations.nl = {
         reasonUnknown:
             'Je bent ergens anders tegen aangelopen, hebt hulp nodig en/of misschien moeten wij dit oplossen. Stuur ons een mail via <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> en we zullen het onderzoeken.',
     },
-
     logout: {
         title: 'Succesvol uitgelogd.',
         description_html: 'Je <strong>MOET</strong> de browser afsluiten om het uitlogproces af te ronden.',
@@ -903,8 +889,7 @@ I18n.translations.nl = {
         how_to: 'Uitleg',
         policy_name_not_unique_exception: 'Deze naam is al in gebruik',
         pdp_unreachable: 'PDP niet bereikbaar',
-        pdp_unreachable_description:
-            'Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.',
+        pdp_unreachable_description: 'Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.',
         pdp_active_info: 'Klik om meer te lezen over wanneer de regel actief is.',
         pdp_active_link: 'https://support.surfconext.nl/pdp-rule-active-after',
         overview: {
@@ -919,6 +904,8 @@ I18n.translations.nl = {
             search_hint: 'Filter op naam',
             serviceProviderName: 'Dienst',
         },
+        showMore: "Toon deny berichten",
+        showLess: "Verberg deby berichten"
     },
 
     policy_attributes: {
@@ -1046,9 +1033,6 @@ I18n.translations.nl = {
             undefined: 'Onbepaald',
         },
         resolution: {
-            cancelled: 'Geannuleerd',
-            cancelledTooltip:
-                'Het ticket was geannuleerd. Als het een uitnodiging voor een koppeling betrof dan heeft de instelling de uitnodiging afgewezen.',
             no_change_required: 'Geen verandering nodig',
             no_change_requiredTooltip: 'Het ticket had geen verandering nodig.',
             incomplete: 'Incompleet',
@@ -1057,6 +1041,9 @@ I18n.translations.nl = {
             doneTooltip: 'Het ticket is opgelost.',
             wont_do: 'Zal niet worden opgelost',
             wont_doTooltip: 'Het ticket zal niet worden opgelost.',
+            cancelled: 'Geannuleerd',
+            cancelledTooltip:
+                'Het ticket was geannuleerd. Als het een uitnodiging voor een koppeling betrof dan heeft de instelling de uitnodiging afgewezen.',
             wont_fix: 'Zal niet worden opgelost',
             wont_fixTooltip: 'Het ticket zal niet worden opgelost.',
             resolved: 'Opgelost',
@@ -1086,12 +1073,15 @@ I18n.translations.nl = {
         search: 'Zoek diensten...',
     },
     invite_request: {
-        info: 'Een koppelingsuitnodiging zal een e-mail versturen aan alle geselecteerde contactpersonen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> Jira-ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
+        info: 'Een koppelingsuitnodiging zal een e-mail versturen aan alle geselecteerde contactpersonen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst of te ontkoppelen van de de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> of <span class="emphasize">Disconnection Invite</span> Jira-ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
         selectIdp: 'Zoek en selecteer een instelling...',
         selectSpDisabled: 'Selecteer eerst een instelling',
         selectSp: 'Zoek en selecteer nu een dienst...',
         idp: 'Instelling',
         sp: 'Dienst',
+        connectionRequestQuestion: "Uitnodiging voor een koppelverzoek of ontkoppelverzoek?",
+        connectionRequest: "Koppelverzoek",
+        disConnectionRequest: "Ontkoppelverzoek",
         contactPersons: 'Selecteer naar welke contactpersonen van {{name}} de uitnodiging zal worden verstuurd.',
         sourcePersons: 'Contactpersonen uit {{source}}',
         additionalPersons: 'Extra contactpersonen',

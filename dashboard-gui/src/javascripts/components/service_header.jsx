@@ -15,6 +15,7 @@ import { ReactComponent as PolicyIcon } from '../../images/door-lock.svg'
 import { getBackPath } from '../utils/back_path'
 import StepUpModal from "./step_up_modal";
 import {login} from "../utils/utils";
+import stopEvent from "../utils/stop";
 
 export default function ServiceHeader({ app, policies, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext)
@@ -193,7 +194,13 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       {policies.length > 0 && (
                         <div className="loa">
                           <div className="green-dot"/>
-                          <PolicyIcon /> {I18n.t('apps.detail.policies', { count: policies.length })}
+                          <PolicyIcon />
+                          <a href="/#" onClick={e => {
+                            stopEvent(e);
+                            history.replace(`/apps/${app.id}/${app.entityType}/settings/authorization_policies`)
+                          }}>
+                            {I18n.t('apps.detail.policies', { count: policies.length })}
+                          </a>
                         </div>
                       )}
                     </div>}

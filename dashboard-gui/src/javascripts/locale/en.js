@@ -61,9 +61,9 @@ I18n.translations.en = {
 
     facets: {
         title: 'Filters',
+        reset: 'Reset',
         refresh: 'Refresh',
         clear_all: '(Clear all)',
-        reset: 'Reset',
         download: 'Export overview as csv',
         unknown: 'Unknown',
         totals: {
@@ -170,13 +170,13 @@ I18n.translations.en = {
             license_data: 'License',
             links: 'Links',
             overview: 'Overview',
-            connected_resource_servers: 'Resource servers',
-            sirtfi_security: 'Sirtfi Security',
-            ssid: 'SURFsecureID',
             policies: {
                 one: '1 policy',
                 other: '%{count} policies',
             },
+            connected_resource_servers: 'Resource servers',
+            sirtfi_security: 'Sirtfi Security',
+            ssid: 'SURFsecureID',
             privacy: 'Privacy',
             consent: 'Consent',
             back: 'Back',
@@ -215,7 +215,6 @@ I18n.translations.en = {
             licenseStatus: 'License required',
             aansluitovereenkomstRefused: 'Policy signed',
             contractualBase: 'Contractual Base',
-
             license_present: {
                 na: 'n/a',
                 no: 'No',
@@ -242,7 +241,6 @@ I18n.translations.en = {
             },
         },
     },
-
     app_meta: {
         question: 'Got a question?',
         eula: 'Terms & Conditions',
@@ -594,22 +592,19 @@ I18n.translations.en = {
             'If you want to change the status of your institution please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         activate_with_email: {
             title: 'Contact at institution for this service',
-            subTitle:
-                'In case the service provider wants to contact someone at your institution about this connection, who can they contact?',
+            subTitle: 'In case the service provider wants to contact someone at your institution about this connection, who can they contact?',
             emailPlaceholder: 'Contact person at your institution',
             invalidEmail: 'Invalid email',
             emailRequired: 'Email required',
             disclaimer: 'I opt not to share any name with the service provider',
         },
     },
-
     application_usage_panel: {
         title: 'Service usage',
         download: 'Export',
         error_html:
             'Stats are currently unavailable. <a href="mailto:support@surfconext.nl">Contact support</a> for more information.',
     },
-
     contact: {
         email: 'Service support email',
     },
@@ -629,7 +624,63 @@ I18n.translations.en = {
             role_dashboard_admin: 'Admin',
         },
     },
-
+    stats: {
+        filters: {
+            name: 'Filters',
+            allServiceProviders: 'All Services',
+        },
+        state: 'Status',
+        timeScale: 'Period',
+        date: 'Date',
+        from: 'From',
+        to: 'Up to and including',
+        today: 'Today',
+        sp: 'Service',
+        period: {
+            year: 'Year',
+        },
+        displayDetailPerSP: 'Display details per Service',
+        scale: {
+            year: 'Year',
+            quarter: 'Quarter',
+            month: 'Month',
+            week: 'Week',
+            day: 'Day',
+            hour: 'Hour',
+            minute: 'Minute',
+            all: 'Entire period: from ⇨ until',
+        },
+        helpLink: 'https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken',
+    },
+    chart: {
+        title: 'Logins and users per day',
+        chart: 'Number of logins per {{scale}}',
+        chartAll: 'Number of logins',
+        userCount: 'Total logins',
+        uniqueUserCount: 'Unique users',
+        loading: 'Fetching logins...',
+        noResults: 'No logins are recorded for the given period.',
+        date: 'Date',
+        logins: 'Logins per {{scale}}',
+        allLogins: '# Logins',
+        uniqueLogins: 'Unique logins',
+        sp: 'Service',
+        idp: 'Institution',
+    },
+    clipboard: {
+        copied: 'Copied!',
+        copy: 'Copy to clipboard',
+    },
+    live: {
+        chartTitle: 'Logins per {{scale}}',
+        aggregatedChartTitlePeriod: 'Logins in the period {{period}} per {{group}}',
+        noTimeFrameChart: 'Logins from {{from}} until {{to}}',
+    },
+    server_error: {
+        title: "You don't have sufficient access right to access the Dashboard application.",
+        description_html:
+            'Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you think this is incorrect.',
+    },
     not_found: {
         title: 'OOPS, I currently can’t show you that page.',
         subTitle: 'This can be due to, and may be fixed by:',
@@ -641,13 +692,6 @@ I18n.translations.en = {
         reasonUnknown:
             'You ran into something else, need help and/or maybe we have to fix this. Send us a mail at <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> so we can have a look.',
     },
-
-    server_error: {
-        title: "You don't have sufficient access right to access the Dashboard application.",
-        description_html:
-            'Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you think this is incorrect.',
-    },
-
     logout: {
         title: 'Logout completed successfully.',
         description_html: 'You <strong>MUST</strong> close your browser to complete the logout process.',
@@ -718,8 +762,7 @@ I18n.translations.en = {
         },
         organizationURL_nl_tooltip: 'A URL the end user can access for more information in Dutch about the organization.',
         organizationURL_en_tooltip: 'A URL the end user can access for more information in English about the organization.',
-        organizationURL_pt_tooltip:
-            'A URL the end user can access for more information in Portuguese about the organization.',
+        organizationURL_pt_tooltip: 'A URL the end user can access for more information in Portuguese about the organization.',
         organizationName: {
             general: 'Organization name',
             en: 'Organization name (en)',
@@ -769,11 +812,11 @@ I18n.translations.en = {
             tooltip:
                 "Attention: you are advised to use<br>a functional email address <br><br><ul><li>- admin@your-institution.nl</li><li>- tech@your-institution.nl</li><li>- helpdesk@your-institution.nl</li></ul><br>which doesn't change when<br>someone leaves your institution.",
         },
-        contact_type: {
-            title: 'Contact type',
-        },
         contact_telephone: {
             title: 'Contact telephone',
+        },
+        contact_type: {
+            title: 'Contact type',
         },
         contact_types: {
             technical: {
@@ -861,6 +904,8 @@ I18n.translations.en = {
             search_hint: 'Filter by name',
             serviceProviderName: 'Service',
         },
+        showMore: "Show deny messages",
+        showLess: "Hide deny messages"
     },
 
     policy_attributes: {
@@ -911,8 +956,7 @@ I18n.translations.en = {
         rule: 'Rule',
         rules: 'Rules',
         rule_and: 'AND',
-        rule_and_info:
-            'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.',
+        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.',
         rule_info_add: ' Note that attribute values with the same attribute name always be evaluated with the logical OR.',
         rule_info_add_2:
             'Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.',
@@ -927,7 +971,6 @@ I18n.translations.en = {
         submit: 'Submit',
         update_policy: 'Update authorization policy',
     },
-
     revisions: {
         active: 'Active',
         allAttributesMustMatch: 'Logical OR rule?',
@@ -1023,59 +1066,6 @@ I18n.translations.en = {
         resendInvitationFlash: 'Invitation mail for {{jiraKey}} was resent',
         serviceDetails: 'View service details',
     },
-
-    stats: {
-        filters: {
-            name: 'Filters',
-            allServiceProviders: 'All Services',
-        },
-        state: 'Status',
-        timeScale: 'Period',
-        date: 'Date',
-        from: 'From',
-        to: 'Up to and including',
-        today: 'Today',
-        sp: 'Service',
-        period: {
-            year: 'Year',
-        },
-        displayDetailPerSP: 'Display details per Service',
-        scale: {
-            year: 'Year',
-            quarter: 'Quarter',
-            month: 'Month',
-            week: 'Week',
-            day: 'Day',
-            hour: 'Hour',
-            minute: 'Minute',
-            all: 'Entire period: from ⇨ until',
-        },
-        helpLink: 'https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken',
-    },
-    chart: {
-        title: 'Logins and users per day',
-        chart: 'Number of logins per {{scale}}',
-        chartAll: 'Number of logins',
-        userCount: 'Total logins',
-        uniqueUserCount: 'Unique users',
-        loading: 'Fetching logins...',
-        noResults: 'No logins are recorded for the given period.',
-        date: 'Date',
-        logins: 'Logins per {{scale}}',
-        allLogins: '# Logins',
-        uniqueLogins: 'Unique logins',
-        sp: 'Service',
-        idp: 'Institution',
-    },
-    clipboard: {
-        copied: 'Copied!',
-        copy: 'Copy to clipboard',
-    },
-    live: {
-        chartTitle: 'Logins per {{scale}}',
-        aggregatedChartTitlePeriod: 'Logins in the period {{period}} per {{group}}',
-        noTimeFrameChart: 'Logins from {{from}} until {{to}}',
-    },
     service_filter: {
         title: 'Filter services',
         state: {
@@ -1084,12 +1074,15 @@ I18n.translations.en = {
         search: 'Search services...',
     },
     invite_request: {
-        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service. A <span class="emphasize">Connection Invite</span> Jira ticket is created with the status <span class="emphasize">Awaiting Input</span>.',
+        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service or disconnect from the selected Service. A <span class="emphasize">Connection Invite</span> or <span class="emphasize">Disconnection Invite</span> Jira ticket is created with the status <span class="emphasize">Awaiting Input</span>.',
         selectIdp: 'Search and select an Institution...',
         selectSpDisabled: 'First select an Institution',
         selectSp: 'Now search and select the Service...',
         idp: 'Institution',
         sp: 'Service',
+        connectionRequestQuestion: "Invite voor a connection request or disconnection request?",
+        connectionRequest: "Connection request",
+        disConnectionRequest: "Disconnection request",
         contactPersons: 'Select to which contact persons of {{name}} the invite will be sent.',
         sourcePersons: 'Contact persons from {{source}}',
         additionalPersons: 'Additional contact persons',

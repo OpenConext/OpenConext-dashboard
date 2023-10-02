@@ -10,8 +10,9 @@
     "issueTypes": {
       "question": "11103",
       "linkrequest": "11104",
-      "linkinvite": "11401",
       "unlinkrequest": "11105",
+      "linkinvite": "11401",
+      "unlinkinvite": "11401",
       "change": "11106"
     }
   },
@@ -28,6 +29,7 @@
       "linkrequest": "11104",
       "linkinvite": "11401",
       "unlinkrequest": "11105",
+      "unlinkinvite": "11401",
       "change": "11106"
     }
   }
