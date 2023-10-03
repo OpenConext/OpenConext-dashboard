@@ -36,6 +36,11 @@ I18n.translations.en = {
         welcome_txt:
             'Here you will find all the services connected to SURFconext. Log in for information tailored to your institution.',
     },
+    forms: {
+        required: '{{name}} is a required field',
+        invalidUrl: '{{url}} is an invalid URL',
+        errors: 'There are invalid / missing inputs'
+    },
     confirmation_dialog: {
         title: 'Please confirm',
         confirm: 'Confirm',
@@ -87,6 +92,13 @@ I18n.translations.en = {
             used_by_idp: {
                 all: 'All',
                 name: 'Offered by my institution',
+                no: 'No',
+                yes: 'Yes',
+            },
+            authorization_rules: {
+                all: 'All',
+                name: 'Authorization rules',
+                tooltip: 'Has the service an authorization rule set by your institution limiting the access to the service?',
                 no: 'No',
                 yes: 'Yes',
             },
@@ -203,6 +215,8 @@ I18n.translations.en = {
             pending_disconnect: 'Pending disconnect request...',
             approve_invite: 'Accept invite',
             deny_invite: 'Deny invite',
+            approve_disconnect_invite: 'Accept invite to disconnect this service',
+            deny_disconnect_invite: 'Deny invite to disconnect this service',
         },
         overview: {
             connect: '',
@@ -480,6 +494,7 @@ I18n.translations.en = {
         explanationPt: 'Portuguese message',
         explanationPt_tooltip: 'This custom message will be appended to the Portuguese consent screen for new users.',
         save: 'Submit changes',
+        request: 'Request change',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
         defaultLoa: 'LoA 1: Password authentication through SURFconext at the users home IdP',
         loa1_5: 'LoA 1.5 (see the wiki for more info)',
@@ -1017,6 +1032,7 @@ I18n.translations.en = {
             QUESTION: 'Question',
             CHANGE: 'Change request',
             LINKINVITE: 'Connection Invite',
+            UNLINKINVITE: 'Disconnect Invite',
         },
         from: 'From',
         to: 'To',
@@ -1080,7 +1096,7 @@ I18n.translations.en = {
         selectSp: 'Now search and select the Service...',
         idp: 'Institution',
         sp: 'Service',
-        connectionRequestQuestion: "Invite voor a connection request or disconnection request?",
+        connectionRequestQuestion: "Invite for a connection request or disconnection request?",
         connectionRequest: "Connection request",
         disConnectionRequest: "Disconnection request",
         contactPersons: 'Select to which contact persons of {{name}} the invite will be sent.',
@@ -1092,6 +1108,7 @@ I18n.translations.en = {
         message: 'An - optional - message for the invite recipients.',
         jiraFlash:
             'A Jira ticket has been created with key {{jiraKey}}. When one of the recipients accepts the invite then it will be logged in the comments of {{jiraKey}}.',
+        jiraError: 'Jira responded with an error. Please check the logs or try again later',
         resend: "Ticket was created at {{date}} and emails were send to {{emailTo}}. Current status is '{{status}}'.",
     },
     profile: {

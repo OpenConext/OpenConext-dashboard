@@ -72,10 +72,10 @@ public class UsersController extends BaseController {
         String emailTo = inviteRequest.getContactPersons().stream()
                 .map(ContactPerson::getEmailAddress)
                 .collect(Collectors.joining(", "));
-
-        String body = "Invite request initiated by dashboard super user. Mails sent to: " + emails + ".";
+        String invitationType = inviteRequest.isConnectionRequest() ? "Invite request" : "Disconnect request";
+        String body = invitationType + " request initiated by dashboard super user. Mails sent to: " + emails + ".";
         if (inviteRequest.isContainsMessage()) {
-            body = body + " The invitation message from the SURFconext super user:\n" + inviteRequest.getMessage();
+            body = body + " The " + invitationType.toLowerCase() + " message from the SURFconext super user:\n" + inviteRequest.getMessage();
         }
 
         Action action = Action.builder()
@@ -87,10 +87,15 @@ public class UsersController extends BaseController {
                 .typeMetaData(inviteRequest.getTypeMetaData())
                 .idpId(inviteRequest.getIdpEntityId())
                 .spId(spEntityId)
-                .type(Action.Type.LINKINVITE).build();
+                .type(inviteRequest.isConnectionRequest() ? Action.Type.LINKINVITE : Action.Type.UNLINKINVITE).build();
 
         action = actionsService.create(action);
-        mailbox.sendInviteMail(inviteRequest, action);
+        if (inviteRequest.isConnectionRequest()) {
+            mailbox.sendInviteMail(inviteRequest, action);
+        } else {
+            mailbox.sendDisconnectInviteMail(inviteRequest, action);
+        }
+
 
         return ResponseEntity.ok(createRestResponse(action));
     }

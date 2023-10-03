@@ -68,7 +68,9 @@ export default function SurfSecureID({ app }) {
       })
   }
 
-  return (
+    const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
+
+    return (
     <div>
       <h2 dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.title') }} />
       <p dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle') }} />
@@ -83,16 +85,18 @@ export default function SurfSecureID({ app }) {
             options={options}
             multiple={false}
             inputId="loa-level"
-            isDisabled={!isDashboardAdmin || appHasLoaLevel}
+            isDisabled={!isDashboardAdmin || appHasLoaLevel || loaRequired}
             handleChange={(val) => setLoaLevel(val)}
           />
           {isDashboardAdmin && !appHasLoaLevel && (
             <button
               className={`c-button save ${(loaLevelEquals || serverBusy) ? 'disabled' : ''}`}
-              disabled={loaLevelEquals || serverBusy}
+              disabled={serverBusy}
               onClick={e => checkLoaLevel(() => saveRequest(e))}>
                 {serverBusy && <div id="service-loader-id" className="loader"/>}
-                {I18n.t('consent_panel.save')}
+                {loaRequired ?
+                    I18n.t('consent_panel.request'):
+                    I18n.t('consent_panel.save')}
             </button>
           )}
         </section>

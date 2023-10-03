@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static dashboard.domain.Action.Type.*;
@@ -58,6 +59,13 @@ class JiraTicketSummaryAndDescriptionBuilder {
                     append(action.getIdpId()).
                     append(" to SP ").
                     append(action.getSpId());
+        } else if (UNLINKINVITE.equals(action.getType())) {
+            description.append("Diconnect invite request: If the SCV accepts this invitation then delete the existing connection by clicking the link to manage in the comments").append("\n");
+            summary.
+                    append("New disconnect invite for IdP ").
+                    append(action.getIdpId()).
+                    append(" to SP ").
+                    append(action.getSpId());
         } else if (UNLINKREQUEST.equals(action.getType())) {
             description.append("Request: terminate a connection").append("\n");
             summary.
@@ -98,7 +106,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
         changeRequest.getPathUpdates().forEach((key, value) -> {
             conversion.append(key);
             conversion.append(" -> ");
-            conversion.append(value.toString().replaceAll("[{}]", ""));
+            conversion.append(value != null ? value.toString().replaceAll("[{}]", "") : "");
             conversion.append("\n");
         });
         return conversion.toString();

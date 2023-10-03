@@ -36,6 +36,11 @@ I18n.translations.pt = {
         welcome_txt:
             "Bem-vindo ao painel SURFconext. Nesta página, você vê quais serviços estão conectados ao SURFconext: se sua instituição permitir, você poderá acessar esses serviços usando sua conta institucional. Se você fizer login neste painel (canto superior direito), mostraremos os dados personalizados para sua instituição. Mais informações sobre este painel? Clique em 'Ajuda' no canto superior direito da tela.",
     },
+    forms: {
+        required: '{{name}} is a required field',
+        invalidUrl: '{{url}} in an invalid URL',
+        errors: 'There are invalid / missing inputs'
+    },
     confirmation_dialog: {
         title: 'Confirme por favor',
         confirm: 'Confirmar',
@@ -89,6 +94,13 @@ I18n.translations.pt = {
                 name: 'Fornecidos pela minha instituição',
                 no: 'Não',
                 yes: 'Sim',
+            },
+            authorization_rules: {
+                all: 'All',
+                name: 'Authorization rule for my institution',
+                tooltip: 'Has the service an authorization rule set by your institution?',
+                no: 'No',
+                yes: 'Yes',
             },
             published_edugain: {
                 all: 'Todos',
@@ -983,6 +995,7 @@ I18n.translations.pt = {
             QUESTION: 'Questão',
             CHANGE: 'Pedido de alteração',
             LINKINVITE: 'Convite para ativar',
+            UNLINKINVITE: 'Disconnect Invite',
         },
         from: 'De',
         to: 'Para',
@@ -1106,6 +1119,7 @@ I18n.translations.pt = {
         message: 'Uma mensagem - opcional - para os destinatários do convite.',
         jiraFlash:
             'Foi criado um pedido de serviço com a chave {{jiraKey}}.Quando um dos destinatários aceitar o convite, o mesmo será registado nos comentários de  {{jiraKey}}.',
+        jiraError: 'Jira responded with an error. Please check the logs or try again later',
         resend: 'Ticket was created at {{date}} and emails were send to {{emailTo}}. Status is {{status}}',
     },
     profile: {

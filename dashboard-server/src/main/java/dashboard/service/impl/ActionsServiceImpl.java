@@ -173,7 +173,7 @@ public class ActionsServiceImpl implements ActionsService {
 
         sendAdministrationEmail(savedAction);
 
-        if (action.getType().equals(Action.Type.LINKINVITE)) {
+        if (action.getType().equals(Action.Type.LINKINVITE) || action.getType().equals(Action.Type.UNLINKINVITE)) {
             Map<String, String> transitions = jiraClient.validTransitions(jiraKey);
             String transitionId = transitions.get(JiraClient.DISPATCH);
             jiraClient.transition(jiraKey, transitionId, Optional.empty(), Optional.empty());

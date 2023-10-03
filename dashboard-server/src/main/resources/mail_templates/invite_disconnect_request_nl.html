@@ -1,0 +1,44 @@
+{{> header.html}}
+<div id="introduction" style="background-color: #f3f6f8; font-size: 16px; line-height: 24px; color: #353535; padding: 24px;">
+    <p id="salutation" style="color: #212121; font-size: 24px; line-height: 24px;">
+        Beste {{salutation}}
+    </p>
+    <p>
+        Je bent uitgenodigd om de koppeling te verbreken tussen de dienst <strong>{{inviteRequest.spName}}</strong> en jouw eigen
+        instelling <strong>{{inviteRequest.idpName}}</strong>.
+        Lees hieronder wat je moet doen om de uitnodiging te accepteren en de koppeling te verwijderen.
+    </p>
+</div>
+<div style="padding: 25px">
+    {{#inviteRequest.containsMessage}}
+    <div id="personal-message" style="border-radius: 8px; font-size: 18px; margin: 30px 0; padding: 16px; border: 1px solid #c1c1c1;">
+        <strong style="font-size: 24px; line-height: 28px; display: inline-block; margin-bottom: 20px;">Persoonlijk bericht van SURFconext:</strong><br>"{{{inviteRequest.htmlMessage}}}"
+    </div>
+    {{/inviteRequest.containsMessage}}
+
+    <p id="invitation-message" style="color: #353535; font-size: 16px; line-height: 24px;">
+        <strong>Uitnodiging</strong><br>
+        Klik op de knop om in te loggen met het account van jouw instelling
+        en de uitnodiging te <strong>accepteren</strong> of <strong>af te wijzen</strong>.
+    </p>
+
+    <table id="invitation-mail-table">
+        <tr>
+            <td class="invitation-accept" style="font-family: Arial, sans-serif; font-size: 13px; mso-line-height-rule: exactly; line-height: 18px; color: #FFFFFF; border-radius: 8px; padding: 16px 44px;" bgcolor="#0077c8">
+                <span><a href="{{mailBaseUrl}}/apps/{{inviteRequest.spId}}/{{metaDataType}}/about/{{action.jiraKey}}/accept"  style="color: #fff; text-decoration: none; font-size: 18px; font-weight: bold;">Uitnodiging accepteren of afwijzen</a></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="footer" style="background-color: #1983d5; color: #FFFFFF; margin: 60px 0 0; padding: 21px 24px;">
+    <strong>Heb je vragen?</strong>
+    Neem contact op met <a href="mailto:support@surfconext.nl?subject=Vraag met betrekking tot koppelingen (ticket {{action.jiraKey}})" style="color: #FFFFFF;">support@surfconext.nl</a>.
+</div>
+
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>

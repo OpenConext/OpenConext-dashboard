@@ -32,7 +32,7 @@ import java.util.List;
 public class Action {
 
     public enum Type {
-        LINKREQUEST, UNLINKREQUEST, CHANGE, LINKINVITE;
+        LINKREQUEST, UNLINKREQUEST, CHANGE, LINKINVITE, UNLINKINVITE;
     }
 
     private String jiraKey;

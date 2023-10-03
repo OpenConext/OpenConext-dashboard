@@ -98,7 +98,7 @@ public class JiraClientImpl implements JiraClient {
             fields.put("customfield_" + typeMetaDataCustomField(), ImmutableMap.of("value", action.getTypeMetaData()));
         }
         fields.put("customfield_" + idpCustomField(), action.getIdpId());
-        if (action.getType().equals(Type.LINKINVITE)) {
+        if (action.getType().equals(Type.LINKINVITE) || action.getType().equals(Type.UNLINKINVITE)) {
             fields.put("customfield_" + emailToCustomField(), action.getEmailTo());
         }
         fields.put("issuetype", ImmutableMap.of("id", actionToIssueIdentifier(action.getType())));

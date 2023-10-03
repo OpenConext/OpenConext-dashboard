@@ -27,16 +27,18 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
   const [afterStepUpPath, setAfterStepUpPath] = useState(null)
   const [jiraAction, setJiraAction] = useState(null)
   const hasInvite =
-    jiraAction && jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Waiting for customer' && !app.connected
+    jiraAction && ((jiraAction.type === 'LINKINVITE' && jiraAction.status === 'Waiting for customer' && !app.connected) ||
+          (jiraAction.type === 'UNLINKINVITE' && jiraAction.status === 'Waiting for customer' && app.connected))
   const pendingAction = jiraAction && (jiraAction.status === 'Open' || jiraAction.status === 'In Progress')
   const connectedButJiraNotResolved = pendingAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && app.connected && !hasInvite
   const notConnectedButJiraNotResolved = pendingAction && jiraAction.type === 'UNLINKREQUEST' && !app.connected && !hasInvite
   const pendingConnectionJira = pendingAction && (jiraAction.type === 'LINKINVITE' || jiraAction.type === 'LINKREQUEST') && !app.connected && !hasInvite
-  const pendingUnlinkAction = pendingAction && jiraAction.type === 'UNLINKREQUEST' && app.connected && !hasInvite
+  const pendingUnlinkAction = pendingAction && (jiraAction.type === 'UNLINKREQUEST' || jiraAction.type === 'UNLINKINVITE') && app.connected && !hasInvite
   const currentIdp = currentUser.getCurrentIdp()
   const canConnectOrDisconnect =
     currentUser.dashboardAdmin && currentIdp.institutionId && currentIdp.state !== 'testaccepted' && !pendingAction
   const [loading, setLoading] = useState(true)
+
 
   const refresh = () => {
     fetchJira()
@@ -51,14 +53,13 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
     startAt: 0,
     spEntityId: app.spEntityId,
     statuses: jiraKey ? [] : ['Waiting for Acceptance', 'Open', 'In Progress', 'Waiting for customer'],
-    types: ['LINKREQUEST', 'UNLINKREQUEST', 'LINKINVITE'],
+    types: ['LINKREQUEST', 'UNLINKREQUEST', 'LINKINVITE', 'UNLINKINVITE'],
     key: jiraKey,
   }
 
   async function fetchJira() {
     if (app && !currentUser.guest && !currentUser.dashboardMember) {
       const res = await searchJira(jiraFilter)
-
       if (res.payload.total > 0) {
         const nonRejected = res.payload.issues.filter((action) => !action.rejected && action.spEid === app.id)
         if (nonRejected.length > 0) {
@@ -183,6 +184,24 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       </button>
                     </div>
                   }
+                  {(!pendingAction && app.connected && hasInvite) &&
+                      <div className="approve-deny">
+                        <button
+                            disabled={!canConnectOrDisconnect}
+                            className="g-button"
+                            onClick={() => checkLoaLevel("connect",() => setShowDisconnectModal(true))}
+                        >
+                          {I18n.t('apps.detail.approve_disconnect_invite')}
+                        </button>
+                        <button
+                            disabled={!canConnectOrDisconnect}
+                            className="red-button deny-invite"
+                            onClick={() => checkLoaLevel("deny",() => setShowDenyModal(true))}
+                        >
+                          {I18n.t('apps.detail.deny_disconnect_invite')}
+                        </button>
+                      </div>
+                  }
                   {app.connected &&
                     <div className="connection-details">
                       {app.minimalLoaLevel && (
@@ -263,7 +282,7 @@ function JiraActionMessage({ action, app, jiraKey }) {
           action: I18n.t(`apps.detail.${i18nParam}`),
         })
       }
-    } else if (jiraKey && app.connected) {
+    } else if (jiraKey && app.connected && action.type !== 'UNLINKINVITE') {
       return I18n.t('how_to_connect_panel.invite_action_collision', {
         app: app.name,
         jiraKey: jiraKey,

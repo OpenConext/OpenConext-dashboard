@@ -76,7 +76,7 @@ export default function MFA({app}) {
                 window.scrollTo(0, 0)
             })
     }
-
+    const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
     return (
         <div className="mod-ssid-panel">
             <h2 dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.title')}}/>
@@ -93,7 +93,7 @@ export default function MFA({app}) {
                         options={options}
                         multiple={false}
                         inputId="authn_context_level"
-                        isDisabled={!isDashboardAdmin}
+                        isDisabled={!isDashboardAdmin || loaRequired}
                         handleChange={val => setAuthnContextLevel(val)}
                     />}
                     {notAllowedAuthnContextLevel && <div className="not-allowed-mfa-change">
@@ -111,11 +111,13 @@ export default function MFA({app}) {
                     </div>}
                     {(isDashboardAdmin && !notAllowedAuthnContextLevel) &&
                     <button
-                        className={`c-button save ${(serverBusy || authnContextLevelEquals) ? 'disabled' : ''}`}
-                        disabled={authnContextLevelEquals || serverBusy}
+                        className={`c-button save ${serverBusy ? 'disabled' : ''}`}
+                        disabled={serverBusy}
                         onClick={e => checkLoaLevel(() => saveRequest(e))}>
                         {serverBusy && <div id="service-loader-id" className="loader"/>}
-                        {I18n.t('consent_panel.save')}
+                        {loaRequired ?
+                            I18n.t('consent_panel.request'):
+                            I18n.t('consent_panel.save')}
                     </button>
                     }
                 </section>

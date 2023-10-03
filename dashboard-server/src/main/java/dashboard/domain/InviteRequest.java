@@ -15,6 +15,7 @@ public class InviteRequest {
     private String spId;
     private String typeMetaData;
     private String message;
+    private boolean connectionRequest;
 
     private List<ContactPerson> contactPersons;
 
@@ -93,6 +94,14 @@ public class InviteRequest {
 
     public void setContactPersons(List<ContactPerson> contactPersons) {
         this.contactPersons = contactPersons;
+    }
+
+    public boolean isConnectionRequest() {
+        return connectionRequest;
+    }
+
+    public void setConnectionRequest(boolean connectionRequest) {
+        this.connectionRequest = connectionRequest;
     }
 
     @JsonIgnore

@@ -37,22 +37,39 @@ public class MailBox {
         this.mailBaseUrl = mailBaseUrl;
     }
 
+
+    public void sendDisconnectInviteMail(InviteRequest inviteRequest, Action action) {
+        doSendInviteMail(inviteRequest, action);
+    }
+
     public void sendInviteMail(InviteRequest inviteRequest, Action action) {
+        doSendInviteMail(inviteRequest, action);
+    }
+
+    public void doSendInviteMail(InviteRequest inviteRequest, Action action) {
         String jiraKey = action.getJiraKey();
         List<String> to = inviteRequest.getContactPersons().stream().filter(ContactPerson::isSabContact).map(ContactPerson::getEmailAddress).collect(toList());
         List<String> cc = inviteRequest.getContactPersons().stream().filter(cp -> !cp.isSabContact()).map(ContactPerson::getEmailAddress).collect(toList());
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("title", "Uitnodiging voor een nieuwe SURFconext-koppeling");
+        String title = inviteRequest.isConnectionRequest() ?
+                "Uitnodiging voor een nieuwe SURFconext-koppeling" :
+                "Uitnodiging voor  het verwijderen van een SURFconext-koppeling";
+        variables.put("title", title);
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
         variables.put("mailBaseUrl", mailBaseUrl);
         variables.put("salutation", inviteRequest.getContactPersons().stream()
                 .filter(ContactPerson::isSabContact).map(cp -> cp.getName()).collect(Collectors.joining(", ")));
         variables.put("metaDataType", !StringUtils.hasText(action.getTypeMetaData()) ? EntityType.saml20_sp.name() : action.getTypeMetaData());
-        String html = this.mailTemplate("invite_request_nl.html", variables);
-        String subject = String.format("Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)", inviteRequest.getSpName(), jiraKey);
+        String templateName = inviteRequest.isConnectionRequest() ?  "invite_request_nl.html" : "invite_disconnect_request_nl.html";
+        String html = this.mailTemplate(templateName, variables);
+        String subjectPart = inviteRequest.isConnectionRequest() ?
+                "Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)":
+                "Uitnodiging voor het verbreken van een bestaande SURFconext-koppeling met %s (ticket %s)";
+        String subject = String.format(subjectPart, inviteRequest.getSpName(), jiraKey);
         sendMail(html, subject, to, cc, true, emailFrom);
+
     }
 
     public void sendAdministrativeMail(String body, String subject) throws MessagingException, IOException {

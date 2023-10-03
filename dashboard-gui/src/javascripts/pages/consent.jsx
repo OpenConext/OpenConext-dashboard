@@ -75,7 +75,7 @@ export default function Consent({ app }) {
     return null
   }
   const msgAllowed = consent.type.toLowerCase() !== 'no_consent'
-
+  const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
   return (
     <div>
       <h2>{I18n.t('consent_panel.title')}</h2>
@@ -98,7 +98,7 @@ export default function Consent({ app }) {
             options={consentTypes.map((t) => ({ value: t, display: I18n.t(`consent_panel.${t.toLowerCase()}`) }))}
             multiple={false}
             inputId="consent-value"
-            isDisabled={!isDashboardAdmin}
+            isDisabled={!isDashboardAdmin || loaRequired}
             handleChange={(val) => setConsent({ ...consent, type: val })}
           />
 
@@ -116,7 +116,7 @@ export default function Consent({ app }) {
               type="text"
               id="explanation-nl"
               value={consent.explanationNl}
-              disabled={!isDashboardAdmin}
+              disabled={!isDashboardAdmin || loaRequired}
               onChange={(e) => setConsent({ ...consent, explanationNl: e.target.value })}
             />
           )}
@@ -135,7 +135,7 @@ export default function Consent({ app }) {
               type="text"
               id="explanation-en"
               value={consent.explanationEn}
-              disabled={!isDashboardAdmin}
+              disabled={!isDashboardAdmin || loaRequired}
               onChange={(e) =>
                 setConsent({
                   ...consent,
@@ -150,7 +150,9 @@ export default function Consent({ app }) {
                     disabled={serverBusy}
                     onClick={e => checkLoaLevel(() => onSave(e))}>
               {serverBusy && <div id="service-loader-id" className="loader"/>}
-              {I18n.t('consent_panel.save')}
+              {loaRequired ?
+                  I18n.t('consent_panel.request'):
+                  I18n.t('consent_panel.save')}
             </button>
           )}
         </section>

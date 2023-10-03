@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import I18n from 'i18n-js'
 import Helmet from 'react-helmet'
 import { withRouter } from 'react-router'
@@ -10,6 +10,7 @@ import CheckBox from '../components/checkbox'
 import stopEvent from '../utils/stop'
 import { setFlash } from '../utils/flash'
 import { validEmailRegExp, validNameRegExp } from '../utils/validations'
+import ConnectModalContainer from "../components/connect_modal_container";
 
 class InviteRequest extends React.Component {
   constructor(props) {
@@ -22,13 +23,17 @@ class InviteRequest extends React.Component {
     idpId: null,
     idp: null,
     sps: [],
+    allServiceProviders: [],
     spId: null,
     sp: null,
     emails: {},
     additionalContactPersons: [],
     sabContactPersons: [],
     newContactAdded: false,
+    connectionRequest: true,
     message: '',
+    showJiraDownModal: false,
+    busyProcessing: false
   })
 
   componentDidMount() {
@@ -50,6 +55,8 @@ class InviteRequest extends React.Component {
       {
         idpId: value,
         idp: idp,
+        spId: null,
+        sp: null,
         emails: idp
           ? idp.contactPersons.reduce((acc, contactPerson) => {
               acc[contactPerson.emailAddress] = false
@@ -74,10 +81,12 @@ class InviteRequest extends React.Component {
             roles: p.roles.map((r) => r.roleName),
           }))
           const emails = { ...this.state.emails }
+          const {connectionRequest} = this.state;
           sabPersons.forEach((p) => (emails[p.uid] = p.roles.includes('SURFconextverantwoordelijke')))
           this.setState({
+            allServiceProviders: res[0].payload.apps,
             sps: res[0].payload.apps
-              .filter((app) => !app.connected && !app.exampleSingleTenant)
+              .filter((app) => ((connectionRequest && !app.connected || !connectionRequest && app.connected )) && !app.exampleSingleTenant)
               .sort((a, b) => a.name.localeCompare(b.name)),
             sabContactPersons: sabPersons,
             emails: emails,
@@ -86,10 +95,24 @@ class InviteRequest extends React.Component {
     )
   }
 
+  toggleConnectionRequest = () => {
+    const {connectionRequest, allServiceProviders} = this.state;
+    this.setState({
+      sps: allServiceProviders
+          .filter((app) => ((!connectionRequest && !app.connected || connectionRequest && app.connected )) && !app.exampleSingleTenant)
+          .sort((a, b) => a.name.localeCompare(b.name)),
+      connectionRequest: !connectionRequest,
+      spId: null,
+      sp: null
+    })
+
+  }
+
   sendRequest = (e) => {
     stopEvent(e)
     if (this.isValidForSubmit()) {
-      const { idpId, idp, sp, emails, additionalContactPersons, sabContactPersons, message } = this.state
+      this.setState({busyProcessing: true})
+      const { idpId, idp, sp, emails, additionalContactPersons, sabContactPersons, message, connectionRequest } = this.state
       sabContactPersons.forEach((cp) => (cp.sabContact = true))
       const contactPersons = idp.contactPersons
         .filter((cp) => emails[cp.emailAddress])
@@ -103,6 +126,7 @@ class InviteRequest extends React.Component {
         typeMetaData: sp.entityType,
         spId: sp.id,
         message: message,
+        connectionRequest: connectionRequest,
         contactPersons: contactPersons,
       }).then((json) => {
         this.props.history.replace('/dummy')
@@ -111,6 +135,8 @@ class InviteRequest extends React.Component {
           this.props.history.replace('/users/invite')
           setFlash(I18n.t('invite_request.jiraFlash', { jiraKey: json.payload.jiraKey }))
         }, 5)
+      }).catch(() => {
+        this.setState({showJiraDownModal: true, busyProcessing: false})
       })
     }
   }
@@ -267,13 +293,14 @@ class InviteRequest extends React.Component {
     ) : null
 
   isValidForSubmit = () => {
-    const { idp, spId, emails, additionalContactPersons } = this.state
+    const { idp, spId, emails, additionalContactPersons, busyProcessing } = this.state
     const emailsSelectedLength = Object.keys(emails).filter((k) => emails[k])
-    return idp && spId && this.validContactPersons(additionalContactPersons, emailsSelectedLength)
+    return !busyProcessing && idp && spId && this.validContactPersons(additionalContactPersons, emailsSelectedLength)
   }
 
   render() {
-    const { idps, idpId, idp, sps, spId, message, sabContactPersons, additionalContactPersons } = this.state
+    const { idps, idpId, idp, sps, spId, message, sabContactPersons, additionalContactPersons,
+      connectionRequest, showJiraDownModal, busyProcessing} = this.state
     const spSelectDisabled = isEmpty(idp) || sps.length === 0
     const submitClassName = this.isValidForSubmit() ? '' : 'disabled'
     return (
@@ -309,6 +336,18 @@ class InviteRequest extends React.Component {
             {idp &&
               spId &&
               this.renderContactPersons(idp.contactPersons, sabContactPersons, additionalContactPersons, idp.name)}
+            <div className={"connection-request"}>
+              <label>{I18n.t("invite_request.connectionRequestQuestion")}</label>
+              <CheckBox name={"connectionRequest"}
+                        value={connectionRequest}
+                        onChange={() => this.toggleConnectionRequest()}
+                        info={I18n.t("invite_request.connectionRequest")}/>
+              <CheckBox name={"connectionRequest"}
+                        value={!connectionRequest}
+                        onChange={() => this.toggleConnectionRequest()}
+                        info={I18n.t("invite_request.disConnectionRequest")}/>
+            </div>
+
             <label>{I18n.t('invite_request.message')}</label>
             <textarea
               name="message"
@@ -318,12 +357,28 @@ class InviteRequest extends React.Component {
               onChange={(e) => this.setState({ message: e.target.value })}
             />
             <div className="buttons">
-              <button type="button" className={`t-button save ${submitClassName}`} onClick={this.sendRequest}>
+              <button type="button"
+                      disabled={busyProcessing}
+                      className={`t-button save ${submitClassName}`}
+                      onClick={this.sendRequest}>
                 {I18n.t('invite_request.sendRequest')}
               </button>
             </div>
           </section>
         </div>
+        <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+          <div>
+            <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
+            <div className="connect-modal-body">
+              <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
+            </div>
+            <div className="buttons">
+              <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+                {I18n.t('how_to_connect_panel.close')}
+              </button>
+            </div>
+          </div>
+        </ConnectModalContainer>
       </div>
     )
   }

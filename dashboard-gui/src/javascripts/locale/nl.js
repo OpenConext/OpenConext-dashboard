@@ -36,6 +36,11 @@ I18n.translations.nl = {
         welcome_txt:
             'Je vindt hier alle op SURFconext aangesloten diensten. Log in voor informatie toegesneden op jouw instelling.',
     },
+    forms: {
+        required: '{{name}} is een verplicht veld',
+        invalidUrl: '{{url}} is niet een geldige URL',
+        errors: 'Er zijn ongeldige of lege verplichte waardes'
+    },
     confirmation_dialog: {
         title: 'Bevestig',
         confirm: 'Bevestig',
@@ -87,6 +92,13 @@ I18n.translations.nl = {
             used_by_idp: {
                 all: 'Alle',
                 name: 'Aangeboden door mijn instelling',
+                no: 'Nee',
+                yes: 'Ja',
+            },
+            authorization_rules: {
+                all: 'Alle',
+                name: 'Autorisatieregels',
+                tooltip: 'Heeft de dienst een autorisatieregel voor mijn instelling die toegang tot de dienst beperkt ?',
                 no: 'Nee',
                 yes: 'Ja',
             },
@@ -1016,6 +1028,7 @@ I18n.translations.nl = {
             QUESTION: 'Vraag',
             CHANGE: 'Wijziging',
             LINKINVITE: 'Koppeling uitnodiging',
+            UNLINKINVITE: 'Ontkoppel uitnodiging',
         },
         from: 'Van',
         to: 'Tot',
@@ -1091,6 +1104,7 @@ I18n.translations.nl = {
         message: 'Een - optioneel - bericht voor de uitgenodigden.',
         jiraFlash:
             'Een Jira-ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogd in het commentaar van {{jiraKey}}.',
+        jiraError: 'Jira responded with an error. Please check the logs or try again later',
         resend:
             "Ticket is aangemaakt op {{date}} en e-mails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'.",
     },

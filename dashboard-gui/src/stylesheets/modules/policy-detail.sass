@@ -42,7 +42,7 @@
     margin-bottom: 12px
     display: inline-block
 
-  input[type=text]
+  input[type=text], input[type=url]
     height: 44px
     padding: 5px 10px
     margin-bottom: 22px
@@ -64,7 +64,7 @@
     background-color: #fff
     padding: 14px
     border-radius: 8px
-    border: solid 1px #c1c1c1;
+    border: solid 1px #c1c1c1
     cursor: pointer
     margin-right: 23px
 
@@ -169,7 +169,7 @@
     .new-attribute
       max-width: 400px
 
-      input[type="text"]
+      input[type="text"], input[type="url"]
         height: 100%
         margin-bottom: 0
 
@@ -331,7 +331,7 @@
       &.add
         color: $blue
 
-  input[type="text"]:disabled
+  input[type="text"]:disabled, input[type="url"]:disabled
     background-color: #fbfbfb
 
   a.plus i

@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip'
 import qs from 'query-string'
 import includes from 'lodash.includes'
 import isEmpty from 'lodash.isempty'
-import { disableConsent, exportApps } from '../api'
+import {disableConsent, exportApps, getPolicies} from '../api'
 import stopEvent from '../utils/stop'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as ConnectedServiceIcon } from '../../images/tags-favorite-star.svg'
@@ -28,10 +28,14 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
   const [page, setPage] = useState(parseInt(queryString.page) || 1)
   const [entityCategoriesFacetSelector, setEntityCategoriesFacetSelector] = useState(false)
   const [idpDisableConsent, setIdpDisableConsent] = useState([])
+  const [policies, setPolicies] = useState([])
+
 
   async function fetchDisableConsent() {
     const value = await disableConsent()
+    const allPolicies = await getPolicies()
     setIdpDisableConsent(value)
+    setPolicies(allPolicies.payload)
   }
 
   useEffect(() => {
@@ -130,6 +134,29 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
     ],
     filterApp: function (app) {
       return filterYesNoFacet('used_by_idp', currentUser.getCurrentIdp().institutionId === app.institutionId)
+    },
+  })
+  facets.push({
+    name: I18n.t('facets.static.authorization_rules.name'),
+    tooltip: I18n.t('facets.static.authorization_rules.tooltip'),
+    searchValue: 'authorization_rules',
+    values: [
+      {
+        value: I18n.t('facets.static.authorization_rules.yes'),
+        searchValue: 'yes',
+        count: (apps) => apps.filter((app) => policies.some(policy => policy.serviceProviderIds.includes(app.spEntityId)
+            && policy.identityProviderIds.includes(currentUser.getCurrentIdp().id))).length,
+      },
+      {
+        value: I18n.t('facets.static.authorization_rules.no'),
+        searchValue: 'no',
+        count: (apps) => apps.filter((app) => !policies.some(policy => policy.serviceProviderIds.includes(app.spEntityId)
+            && policy.identityProviderIds.includes(currentUser.getCurrentIdp().id))).length,
+      },
+    ],
+    filterApp: function (app) {
+      return filterYesNoFacet('authorization_rules', policies.some(policy => policy.serviceProviderIds.includes(app.spEntityId)
+          && policy.identityProviderIds.includes(currentUser.getCurrentIdp().id)))
     },
   })
   facets.push({
@@ -416,7 +443,8 @@ export default function AppList({ apps, currentUser, facets: remoteFacets, conne
     facets = facets.filter(
       (facet) =>
         facet.name !== I18n.t('facets.static.connection.name') &&
-        facet.name !== I18n.t('facets.static.used_by_idp.name')
+        facet.name !== I18n.t('facets.static.used_by_idp.name') &&
+        facet.name !== I18n.t('facets.static.authorization_rules.name')
     )
   }
 

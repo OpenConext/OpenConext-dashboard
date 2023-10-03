@@ -21,7 +21,7 @@ const statusMap = {
   resolved: 'Resolved',
   closed: 'Closed',
 }
-const allTypes = ['LINKREQUEST', 'UNLINKREQUEST', 'CHANGE', 'LINKINVITE']
+const allTypes = ['LINKREQUEST', 'UNLINKREQUEST', 'CHANGE', 'LINKINVITE', 'UNLINKINVITE']
 const pageCount = 10
 
 export default function Tickets() {

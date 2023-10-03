@@ -50,7 +50,7 @@ public class ServicesController extends BaseController {
     @Value("${dashboard.feature.stepup}")
     private boolean dashboardStepupEnabled;
 
-    @RequestMapping
+    @GetMapping
     public RestResponse<Map<String, Object>> index(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId, Locale locale)
             throws IOException {
         List<Service> servicesForIdp = services.getServicesForIdp(idpEntityId, false, locale);
