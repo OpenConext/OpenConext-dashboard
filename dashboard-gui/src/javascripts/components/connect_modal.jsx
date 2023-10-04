@@ -152,12 +152,14 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
 
     const jiraKey = action.jiraKey
     const subtitle = jiraKey
-      ? I18n.t('how_to_connect_panel.done_subtitle_with_jira_html', { jiraKey: jiraKey })
+      ? I18n.t(`how_to_connect_panel.done_subtitle_with_jira_html${hasInvite ? "_after_invite" : ""}`, { jiraKey: jiraKey })
       : I18n.t('how_to_connect_panel.done_subtitle_html')
 
     return (
       <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
-        <div className="connect-modal-header">{I18n.t('how_to_connect_panel.done_title')}</div>
+        <div className="connect-modal-header">
+          {I18n.t(`how_to_connect_panel.done_title${hasInvite ? "_after_invite" : ""}`)}
+        </div>
         <div className="connect-modal-body">
           <p dangerouslySetInnerHTML={{ __html: subtitle }} />
         </div>

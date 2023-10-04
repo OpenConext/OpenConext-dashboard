@@ -98,7 +98,7 @@ I18n.translations.en = {
             authorization_rules: {
                 all: 'All',
                 name: 'Authorization rules',
-                tooltip: 'Has the service an authorization rule set by your institution limiting the access to the service?',
+                tooltip: 'Has the service an authorization rule limiting the access to the service?',
                 no: 'No',
                 yes: 'Yes',
             },
@@ -541,11 +541,17 @@ I18n.translations.en = {
         done_disconnect_subtitle_html_with_jira_html:
             'You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
         done_disconnect_title: 'Deactivation requested!',
+        done_disconnect_subtitle_html_with_jira_html_after_invite:
+            'You will be contacted if there are further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
+        done_disconnect_title_after_invite: 'Request for deactivation accepted!',
         done_subtitle_html:
             'You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         done_subtitle_with_jira_html:
             'You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
         done_title: 'Connection requested!',
+        done_subtitle_with_jira_html_after_invite:
+            'You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
+        done_title_after_invite: 'Request for connection accepted!',
         rejected_without_interaction_title: 'Connection failed!',
         rejected_without_interaction_subtitle: 'Something went wrong while connecting.', // TODO: change text
         done_without_interaction_title: 'Connection established!', // TODO: check text

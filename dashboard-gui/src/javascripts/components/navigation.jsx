@@ -32,7 +32,7 @@ class Navigation extends React.Component {
       maxResults: 0,
       startAt: 0,
       statuses: ['Waiting for customer'],
-      types: ['LINKINVITE'],
+      types: ['LINKINVITE', 'UNLINKINVITE'],
     }
     searchJira(jiraFilter).then((data) => {
       const { total } = data.payload

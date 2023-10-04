@@ -549,11 +549,17 @@ I18n.translations.pt = {
         done_disconnect_subtitle_html_with_jira_html:
             'Será contactado sobre os próximos passos, necessários para finalizar esta desativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.',
         done_disconnect_title: 'Pedido de Desativação!',
+        done_disconnect_subtitle_html_with_jira_html_after_invite:
+            'You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
+        done_disconnect_title_after_invite: 'Deactivation requested!',
         done_subtitle_html:
             'Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         done_subtitle_with_jira_html:
             'Será contactado sobre os próximos passos, necessários para finalizar esta ativação. Se tem outras questões antes de proceder à finalização, por favor contacte <a href="mailto:support@surfconext.nl?subject=Questões sobre a ligação {{jiraKey}}">support@surfconext.nl</a> e adicione o seguinte número do pedido de serviço no assunto da mensagem: {{jiraKey}}.',
         done_title: 'Ligação é solicitada!',
+        done_subtitle_with_jira_html_after_invite:
+            'You will be contacted about the further steps needed to finalize this connection. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl?subject=Question about connection {{jiraKey}}">support@surfconext.nl</a> and include the following ticket number in the subject: {{jiraKey}}.',
+        done_title_after_invite: 'Connection requested!',
         rejected_without_interaction_title: 'Connection failed!',
         rejected_without_interaction_subtitle: 'Something went wrong while connecting.', // TODO: change text
         done_without_interaction_title: 'Connection established!', // TODO: check text. translate if text is sufficient

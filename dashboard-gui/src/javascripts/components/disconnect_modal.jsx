@@ -82,13 +82,16 @@ export default function DisconnectModal({isOpen, onClose, app, currentUser, onSu
 
     if (done) {
         const message = action.jiraKey
-            ? I18n.t('how_to_connect_panel.done_disconnect_subtitle_html_with_jira_html', {
+            ? I18n.t(`how_to_connect_panel.done_disconnect_subtitle_html_with_jira_html${hasInvite ? "_after_invite" : ""}`, {
                 jiraKey: action.jiraKey,
             })
             : I18n.t('how_to_connect_panel.done_disconnect_subtitle_html')
+
         return (
             <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
-                <div className="connect-modal-header">{I18n.t('how_to_connect_panel.done_disconnect_title')}</div>
+                <div className="connect-modal-header">
+                    {I18n.t(`how_to_connect_panel.done_disconnect_title${hasInvite ? "_after_invite" : ""}`)}
+                </div>
                 <div className="connect-modal-body">
                     <p dangerouslySetInnerHTML={{__html: message}}/>
                 </div>

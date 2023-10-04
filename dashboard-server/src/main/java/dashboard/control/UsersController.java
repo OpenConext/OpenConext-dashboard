@@ -56,7 +56,6 @@ public class UsersController extends BaseController {
     @RequestMapping("/me")
     public RestResponse<CoinUser> me() {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        currentUser.setDashboardStepupEnabled(dashboardStepupEnabled);
         return createRestResponse(currentUser);
     }
 

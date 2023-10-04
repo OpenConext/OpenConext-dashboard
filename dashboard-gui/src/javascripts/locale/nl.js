@@ -98,7 +98,7 @@ I18n.translations.nl = {
             authorization_rules: {
                 all: 'Alle',
                 name: 'Autorisatieregels',
-                tooltip: 'Heeft de dienst een autorisatieregel voor mijn instelling die toegang tot de dienst beperkt ?',
+                tooltip: 'Heeft de dienst een autorisatieregel die toegang tot de dienst beperkt ?',
                 no: 'Nee',
                 yes: 'Ja',
             },
@@ -541,11 +541,17 @@ I18n.translations.nl = {
         done_disconnect_subtitle_html_with_jira_html:
             'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).',
         done_disconnect_title: 'Verzoek om verbinding te deactiveren is aangevraagd!',
+        done_disconnect_subtitle_html_with_jira_html_after_invite:
+            'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).',
+        done_disconnect_title_after_invite: 'Verzoek om verbinding te deactiveren is aangevraagd!',
         done_subtitle_html:
             'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         done_subtitle_with_jira_html:
             'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl?subject=Vraag over koppeling {{jiraKey}}">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).',
         done_title: 'Verbinding aangevraagd!',
+        done_subtitle_with_jira_html_after_invite:
+            'Er zal contact worden opgenomen om deze aanvraag af te ronden. Als je voor die tijd nog vragen hebt, neem dan contact op met <a href="mailto:support@surfconext.nl?subject=Vraag over koppeling {{jiraKey}}">support@surfconext.nl</a>. Stuur a.u.b. het ticketnummer mee in het onderwerp ({{jiraKey}}).',
+        done_title_after_invite: 'Verbinding aangevraagd!',
         rejected_without_interaction_title: 'Koppeling niet geslaagd!',
         rejected_without_interaction_subtitle: 'Er is iets fout gegaan bij de koppeling.',
         done_without_interaction_title: 'Service gekoppeld!', // TODO: check text

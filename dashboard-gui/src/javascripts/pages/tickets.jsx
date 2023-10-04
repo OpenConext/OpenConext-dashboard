@@ -62,6 +62,8 @@ export default function Tickets() {
   ]
 
   const visibleActions = actions.slice((page - 1) * pageCount, page * pageCount)
+  const noResults = visibleActions.length === 0 && !loading;
+
   return (
     <div className="tickets">
       <Helmet title={I18n.t('history.header')} />
@@ -87,8 +89,8 @@ export default function Tickets() {
             </Link>
           </div>
           <div className="list">
-            <h2>{I18n.t(`history.statuses.${statusMap[status] || 'all'}`)}</h2>
-            {visibleActions.length === 0 && !loading && <p className="no-results">{I18n.t('history.no_results')}</p>}
+            <h2>{I18n.t(`history.statuses.${statusMap[status] || 'all'}`) + (noResults ? "" : ` (${visibleActions.length})` )}</h2>
+            {noResults && <p className="no-results">{I18n.t('history.no_results')}</p>}
             {visibleActions.map((action) => (
               <Action key={action.jiraKey} action={action} currentUser={currentUser} showStatus={!statusMap[status]} />
             ))}

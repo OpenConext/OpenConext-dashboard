@@ -65,7 +65,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
     private Manage manage;
     private Sab sab;
-    private JiraClient jiraClient;
+    private final JiraClient jiraClient;
     private String dashboardAdmin;
     private String dashboardViewer;
     private List<String> dashboardSuperUser;
@@ -114,6 +114,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.adminSurfConextIdpRole = adminSufConextIdpRole;
         this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
         this.isManageConsentEnabled = isManageConsentEnabled;
+        this.dashboardStepupEnabled = dashboardStepupEnabled;
         this.isOidcEnabled = isOidcEnabled;
         this.jiraDown = jiraDown;
         this.hideTabs = hideTabs;
