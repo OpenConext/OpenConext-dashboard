@@ -54,7 +54,7 @@ public class MailBox {
         Map<String, Object> variables = new HashMap<>();
         String title = inviteRequest.isConnectionRequest() ?
                 "Uitnodiging voor een nieuwe SURFconext-koppeling" :
-                "Uitnodiging voor  het verwijderen van een SURFconext-koppeling";
+                "Verzoek voor  het verwijderen van een SURFconext-koppeling";
         variables.put("title", title);
         variables.put("inviteRequest", inviteRequest);
         variables.put("action", action);
@@ -66,7 +66,7 @@ public class MailBox {
         String html = this.mailTemplate(templateName, variables);
         String subjectPart = inviteRequest.isConnectionRequest() ?
                 "Uitnodiging voor een nieuwe SURFconext-koppeling met %s (ticket %s)":
-                "Uitnodiging voor het verbreken van een bestaande SURFconext-koppeling met %s (ticket %s)";
+                "Verzoek voor het verbreken van een bestaande SURFconext-koppeling met %s (ticket %s)";
         String subject = String.format(subjectPart, inviteRequest.getSpName(), jiraKey);
         sendMail(html, subject, to, cc, true, emailFrom);
 

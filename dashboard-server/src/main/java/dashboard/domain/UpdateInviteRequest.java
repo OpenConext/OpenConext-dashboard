@@ -21,6 +21,7 @@ public class UpdateInviteRequest {
     private String spEntityId;
     private String typeMetaData;
     private boolean connectWithoutInteraction;
+    private String type;
 
     public Optional<String> getOptionalLoaLevel() {
      return StringUtils.hasText(loaLevel) ? Optional.of(loaLevel) : Optional.empty();

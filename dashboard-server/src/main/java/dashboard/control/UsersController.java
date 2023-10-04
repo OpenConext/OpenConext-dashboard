@@ -105,8 +105,12 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> updateInviteRequest(@RequestBody UpdateInviteRequest updateInviteRequest,
                                                                     Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        String commentWithUser = String.format("%s / %s has %s this Invite request.", currentUser.getUid(), currentUser.getFriendlyName(),
-                updateInviteRequest.getStatus().name().toLowerCase());
+        boolean isLinkInvite = Action.Type.LINKINVITE.name().equals(updateInviteRequest.getType());
+        String commentWithUser = String.format("%s / %s has %s this %s request.",
+                currentUser.getUid(),
+                currentUser.getFriendlyName(),
+                updateInviteRequest.getStatus().name().toLowerCase(),
+                updateInviteRequest.getType());
         String comment = updateInviteRequest.getComment();
         if (StringUtils.hasText(comment)) {
             commentWithUser = commentWithUser.concat(" User comment: ").concat(comment);
@@ -114,31 +118,39 @@ public class UsersController extends BaseController {
         String jiraKey = updateInviteRequest.getJiraKey();
         if (UpdateInviteRequest.Status.ACCEPTED.equals(updateInviteRequest.getStatus())) {
             try {
-                boolean connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
-                if (connected) {
-                    updateInviteRequest.setConnectWithoutInteraction(true);
-                    commentWithUser = commentWithUser.concat("\n" +
-                            "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
-                } else {
-                    IdentityProvider identityProvider = currentUser.getCurrentIdp();
-                    EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
-                    final List<ChangeRequest> changeRequests = manage.createConnectionRequests(identityProvider,
-                            updateInviteRequest.getSpEntityId(), entityType, updateInviteRequest.getOptionalLoaLevel());
-                    if (!changeRequests.isEmpty()) {
+                boolean connected = false;
+                IdentityProvider identityProvider = currentUser.getCurrentIdp();
+                EntityType entityType = EntityType.valueOf(updateInviteRequest.getTypeMetaData());
+                final List<ChangeRequest> changeRequests = new ArrayList<>();
+                if (isLinkInvite) {
+                    connected = this.automaticallyCreateConnection(locale, updateInviteRequest);
+                    if (connected) {
+                        updateInviteRequest.setConnectWithoutInteraction(true);
                         commentWithUser = commentWithUser.concat("\n" +
-                                "To create the connection in Manage a change request is made:\n");
-
+                                "The connection in Manage is already made as the SP is configured to automatically connect without interaction");
+                    } else {
+                        changeRequests.addAll(manage.createConnectionRequests(identityProvider,
+                                updateInviteRequest.getSpEntityId(), entityType, updateInviteRequest.getOptionalLoaLevel()));
                     }
-                    //lambda cann only deal with final variables
-                    for (ChangeRequest changeRequest : changeRequests) {
-                        String identifier = changeRequest.getMetaDataId();
-                        String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
-                        commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
-
-                        changeRequest.setAuditData(AuditData.context("Invite request accepted and connected SP " +
-                                updateInviteRequest.getSpEntityId(), jiraKey));
-                        manage.createChangeRequests(changeRequest);
-                    }
+                } else {
+                    changeRequests.addAll(manage.deactivateConnectionRequests(identityProvider,
+                            updateInviteRequest.getSpEntityId(), entityType)) ;
+                }
+                String action = isLinkInvite ? "create" : "delete";
+                if (!changeRequests.isEmpty()) {
+                    commentWithUser = commentWithUser.concat("\n" +
+                            "To "+action+" the connection in Manage a change request is made:\n");
+                }
+                //lambda cann only deal with final variables
+                for (ChangeRequest changeRequest : changeRequests) {
+                    String identifier = changeRequest.getMetaDataId();
+                    String entityTypeValue = identifier.equals(identityProvider.getInternalId()) ? EntityType.saml20_idp.name() : entityType.name();
+                    commentWithUser = commentWithUser.concat(String.format("%s/metadata/%s/%s/requests\n", manageBaseUrl, entityTypeValue, identifier));
+                    String actionDetail = isLinkInvite ? "Connection request accepted and connected SP " :
+                            "Disconnect request accepted and disconnected SP ";
+                    changeRequest.setAuditData(AuditData.context(actionDetail +
+                            updateInviteRequest.getSpEntityId(), jiraKey));
+                    manage.createChangeRequests(changeRequest);
                 }
                 actionsService.approveInviteRequest(jiraKey, commentWithUser, connected);
             } catch (Exception e) {
@@ -148,7 +160,6 @@ public class UsersController extends BaseController {
                                 ". Please contact the dashboard TPM to check the logs.");
                 throw e;
             }
-
         } else {
             actionsService.rejectInviteRequest(jiraKey, commentWithUser);
         }

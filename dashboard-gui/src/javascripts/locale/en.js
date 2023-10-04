@@ -215,8 +215,8 @@ I18n.translations.en = {
             pending_disconnect: 'Pending disconnect request...',
             approve_invite: 'Accept invite',
             deny_invite: 'Deny invite',
-            approve_disconnect_invite: 'Accept invite to disconnect this service',
-            deny_disconnect_invite: 'Deny invite to disconnect this service',
+            approve_disconnect_invite: 'Accept request to disconnect this service',
+            deny_disconnect_invite: 'Deny request to disconnect this service',
         },
         overview: {
             connect: '',

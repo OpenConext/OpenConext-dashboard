@@ -147,7 +147,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                       {I18n.t('apps.detail.pending_disconnect')}
                     </button>
                   }
-                  {(!pendingAction && app.connected) &&
+                  {(!pendingAction && app.connected && !hasInvite) &&
                     <button
                       disabled={!canConnectOrDisconnect}
                       className="g-button"
@@ -189,7 +189,7 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
                         <button
                             disabled={!canConnectOrDisconnect}
                             className="g-button"
-                            onClick={() => checkLoaLevel("connect",() => setShowDisconnectModal(true))}
+                            onClick={() => checkLoaLevel("disconnect",() => setShowDisconnectModal(true))}
                         >
                           {I18n.t('apps.detail.approve_disconnect_invite')}
                         </button>
@@ -241,6 +241,8 @@ export default function ServiceHeader({ app, policies, onSubmit }) {
           app={app}
           currentUser={currentUser}
           isOpen={showDisconnectModal}
+          hasInvite={hasInvite}
+          existingJiraAction={jiraAction}
           onSubmit={refresh}
           onClose={() => setShowDisconnectModal(false)}
         />

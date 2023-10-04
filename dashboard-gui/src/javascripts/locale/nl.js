@@ -215,6 +215,8 @@ I18n.translations.nl = {
             pending_disconnect: 'Openstaand ontkoppelverzoek...',
             approve_invite: 'Uitnodiging goedkeuren',
             deny_invite: 'Uitnodiging afwijzen',
+            approve_disconnect_invite: 'Accepteer verzoek om de dienst te ontkoppelen',
+            deny_disconnect_invite: 'Weiger verzoek om dienst te ontkoppelen',
         },
         overview: {
             connect: '',
@@ -492,6 +494,7 @@ I18n.translations.nl = {
         explanationPt: 'Portugees bericht',
         explanationPt_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers',
         save: 'Verstuur verzoek',
+        request: 'Verzoek aanpassing',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
         defaultLoa: 'LoA 1: Wachtwoordauthenticatie door SURFconext bij de instelling van de gebruiker',
         loa1_5: 'LoA 1.5 (see the wiki for more info)',

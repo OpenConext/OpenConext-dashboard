@@ -214,6 +214,8 @@ I18n.translations.pt = {
             pending_disconnect: 'Pending disconnect request...',
             approve_invite: 'Approve invite',
             deny_invite: 'Deny invite',
+            approve_disconnect_invite: 'Accept request to disconnect this service',
+            deny_disconnect_invite: 'Deny request to disconnect this service',
         },
         overview: {
             connect: '',
@@ -500,6 +502,7 @@ I18n.translations.pt = {
         explanationPt_tooltip:
             'Esta mensagem será adicionada ao interface de consentimento em Português para novos utilizadores.',
         save: 'Guardar alterações',
+        request: 'Request change',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
         defaultLoa: 'LoA 1: Password authentication through SURFconext at the users home IdP',
         loa1_5: 'LoA 1.5 (see the wiki for more info)',

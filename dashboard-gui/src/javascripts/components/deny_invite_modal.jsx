@@ -9,7 +9,11 @@ export default function DenyInviteModal({ isOpen, onClose, app, currentUser, jir
 
   async function handleDeny() {
     try {
-      await updateInviteRequest({ status: 'REJECTED', jiraKey: jiraAction.jiraKey, comment: comments })
+      await updateInviteRequest({
+        status: 'REJECTED',
+        type: jiraAction.type,
+        jiraKey: jiraAction.jiraKey,
+        comment: comments })
       onSubmit()
       onClose()
     } catch {
