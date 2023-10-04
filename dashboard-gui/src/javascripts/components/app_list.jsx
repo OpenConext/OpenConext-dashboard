@@ -33,9 +33,11 @@ export default function AppList({apps, currentUser, facets: remoteFacets, connec
 
     async function fetchDisableConsent() {
         const value = await disableConsent()
-        const allPolicies = await getPolicies()
         setIdpDisableConsent(value)
-        setPolicies(allPolicies.payload)
+        if (!currentUser.guest) {
+            const allPolicies = await getPolicies()
+            setPolicies(allPolicies.payload)
+        }
     }
 
     useEffect(() => {
