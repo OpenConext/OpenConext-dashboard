@@ -57,8 +57,8 @@ public class JiraClientImplTest {
     public void actionToIssueIdentifier() {
         List<String> identifiers = Arrays.asList(Action.Type.values()).stream().map(type -> jiraClient.actionToIssueIdentifier(type)).collect(toList());
 
-        assertEquals("11104,11105,11106,11401", String.join(",", identifiers));
-        assertEquals(4l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
+        assertEquals("11104,11105,11106,11401,12201", String.join(",", identifiers));
+        assertEquals(5l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
     }
 
 }
