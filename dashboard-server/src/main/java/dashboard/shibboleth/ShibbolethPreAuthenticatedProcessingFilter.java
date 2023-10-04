@@ -220,7 +220,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
 
         String idpEntityId = coinUser.getIdp().getId();
         JiraFilter jiraFilter = new JiraFilter();
-        jiraFilter.setTypes(Arrays.asList(Action.Type.LINKINVITE, Action.Type.LINKREQUEST));
+        jiraFilter.setTypes(Arrays.asList(Action.Type.LINKINVITE, Action.Type.LINKREQUEST, Action.Type.UNLINKINVITE, Action.Type.UNLINKREQUEST));
         jiraFilter.setStatuses(Arrays.asList("To Do", "Awaiting Input"));
 
         JiraResponse jiraResponse = jiraClient.searchTasks(idpEntityId, jiraFilter);
