@@ -191,7 +191,6 @@ public class ServicesController extends BaseController {
     public static Service eraseMailsFromService(Service service) {
         service.setSupportMail(null);
         service.setContactPersons(Collections.emptyList());
-        service.setManipulationNotes(null);
         return service;
     }
 

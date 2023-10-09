@@ -926,7 +926,7 @@ I18n.translations.nl = {
             serviceProviderName: 'Dienst',
         },
         showMore: "Toon deny berichten",
-        showLess: "Verberg deby berichten"
+        showLess: "Verberg deny berichten"
     },
 
     policy_attributes: {
