@@ -72,7 +72,15 @@ export default function SurfSecureID({ app }) {
 
     return (
     <div>
-      <h2 dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.title') }} />
+        <div className={"title-container"}>
+            <h2>{I18n.t('ssid_panel.title')}</h2>
+            {(isDashboardAdmin && loaRequired) &&
+                <button className={`c-button save larger`}
+                        disabled={serverBusy}
+                        onClick={e => checkLoaLevel(() => saveRequest(e))}>
+                    {I18n.t('consent_panel.request')}
+                </button>}
+        </div>
       <p dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle') }} />
       <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle2') }} />
       {isDashboardAdmin && <p className="info" dangerouslySetInnerHTML={{ __html: I18n.t('ssid_panel.subtitle3') }} />}
@@ -80,23 +88,27 @@ export default function SurfSecureID({ app }) {
         {appHasLoaLevel && <p className="error">{I18n.t('ssid_panel.appHasLoaLevel')}</p>}
         <section className="change-form">
           <label htmlFor="loa-level">{I18n.t('consent_panel.loa_level')}</label>
-          <SelectWrapper
+            {!loaRequired && <SelectWrapper
             defaultValue={loaLevel}
             options={options}
             multiple={false}
             inputId="loa-level"
             isDisabled={!isDashboardAdmin || appHasLoaLevel || loaRequired}
             handleChange={(val) => setLoaLevel(val)}
-          />
-          {isDashboardAdmin && !appHasLoaLevel && (
+          />}
+            {loaRequired && <input
+                type="text"
+                id="consent-type"
+                value={loaLevel || I18n.t('consent_panel.defaultLoa')}
+                disabled={true}
+            />}
+          {(isDashboardAdmin && !appHasLoaLevel && !loaRequired) && (
             <button
               className={`c-button save ${(loaLevelEquals || serverBusy) ? 'disabled' : ''}`}
               disabled={serverBusy}
               onClick={e => checkLoaLevel(() => saveRequest(e))}>
                 {serverBusy && <div id="service-loader-id" className="loader"/>}
-                {loaRequired ?
-                    I18n.t('consent_panel.request'):
-                    I18n.t('consent_panel.save')}
+                {I18n.t('consent_panel.save')}
             </button>
           )}
         </section>

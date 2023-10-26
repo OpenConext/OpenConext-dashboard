@@ -79,7 +79,15 @@ export default function MFA({app}) {
     const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
     return (
         <div className="mod-ssid-panel">
-            <h2 dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.title')}}/>
+            <div className={"title-container"}>
+                <h2>{I18n.t('mfa_panel.title')}</h2>
+                {(isDashboardAdmin && loaRequired) &&
+                    <button className={`c-button larger`}
+                            disabled={serverBusy}
+                            onClick={e => checkLoaLevel(() => saveRequest(e))}>
+                        {I18n.t('consent_panel.request')}
+                    </button>}
+            </div>
             <p dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.subtitle')}}/>
             <p className="info" dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.subtitle2')}}/>
             {isDashboardAdmin &&
@@ -87,7 +95,7 @@ export default function MFA({app}) {
             <div>
                 <section className="change-form">
                     <label htmlFor="authn_context_level">{I18n.t('mfa_panel.authn_context_level')}</label>
-                    {!notAllowedAuthnContextLevel &&
+                    {(!notAllowedAuthnContextLevel && !loaRequired && isDashboardAdmin) &&
                     <SelectWrapper
                         defaultValue={authnContextLevel}
                         options={options}
@@ -96,28 +104,30 @@ export default function MFA({app}) {
                         isDisabled={!isDashboardAdmin || loaRequired}
                         handleChange={val => setAuthnContextLevel(val)}
                     />}
+                    {(!notAllowedAuthnContextLevel && loaRequired) &&
+                        <input
+                            type="text"
+                            id="consent-type"
+                            value={authnContextLevel || I18n.t('mfa_panel.defaultAuthnContextLevel')}
+                            disabled={true}
+                        />
+                    }
                     {notAllowedAuthnContextLevel && <div className="not-allowed-mfa-change">
-                        <SelectWrapper
-                            defaultValue={initialAuthnContextLevel}
-                            options={[{
-                                value: initialAuthnContextLevel,
-                                display: getAuthContextValue(initialAuthnContextLevel)
-                            }]}
-                            multiple={false}
-                            inputId="authn_context_level"
-                            isDisabled={true}
+                        <input
+                            type="text"
+                            id="consent-type"
+                            value={getAuthContextValue(initialAuthnContextLevel)}
+                            disabled={true}
                         />
                         <p dangerouslySetInnerHTML={{__html: I18n.t('mfa_panel.not_allowed')}}/>
                     </div>}
-                    {(isDashboardAdmin && !notAllowedAuthnContextLevel) &&
+                    {(isDashboardAdmin && !notAllowedAuthnContextLevel && !loaRequired) &&
                     <button
                         className={`c-button save ${serverBusy ? 'disabled' : ''}`}
                         disabled={serverBusy}
                         onClick={e => checkLoaLevel(() => saveRequest(e))}>
                         {serverBusy && <div id="service-loader-id" className="loader"/>}
-                        {loaRequired ?
-                            I18n.t('consent_panel.request'):
-                            I18n.t('consent_panel.save')}
+                        {I18n.t('consent_panel.save')}
                     </button>
                     }
                 </section>

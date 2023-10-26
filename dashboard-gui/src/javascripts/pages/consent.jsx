@@ -33,7 +33,7 @@ export default function Consent({ app }) {
   }
 
   const checkLoaLevel = callback => {
-    if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
+    if (currentUser.isMFARequired()) {
       setShowStepUpModal(true)
     } else {
       callback();
@@ -75,10 +75,19 @@ export default function Consent({ app }) {
     return null
   }
   const msgAllowed = consent.type.toLowerCase() !== 'no_consent'
-  const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
+  const loaRequired = currentUser.isMFARequired()
   return (
     <div>
-      <h2>{I18n.t('consent_panel.title')}</h2>
+      <div className={"title-container"}>
+        <h2>{I18n.t('consent_panel.title')}</h2>
+        {(isDashboardAdmin && loaRequired) &&
+            <button className={`c-button save larger`}
+                    disabled={serverBusy}
+                    onClick={e => checkLoaLevel(() => onSave(e))}>
+              {I18n.t('consent_panel.request')}
+            </button>}
+      </div>
+
       <p>{I18n.t('consent_panel.subtitle', { name: app.name })}</p>
       <p
         className="info"
@@ -93,14 +102,21 @@ export default function Consent({ app }) {
               <span dangerouslySetInnerHTML={{ __html: I18n.t('consent_panel.consent_value_tooltip') }} />
             </ReactTooltip>
           </label>
-          <SelectWrapper
+          {(isDashboardAdmin && !loaRequired) && <SelectWrapper
             defaultValue={consent.type}
             options={consentTypes.map((t) => ({ value: t, display: I18n.t(`consent_panel.${t.toLowerCase()}`) }))}
             multiple={false}
             inputId="consent-value"
             isDisabled={!isDashboardAdmin || loaRequired}
             handleChange={(val) => setConsent({ ...consent, type: val })}
-          />
+          />}
+          {(!isDashboardAdmin || loaRequired) &&
+            <input
+                type="text"
+                id="consent-type"
+                value={I18n.t(`consent_panel.${consent.type.toLowerCase()}`)}
+                disabled={true}
+            />}
 
           {msgAllowed && (
             <label htmlFor="explanation-nl">
@@ -145,16 +161,13 @@ export default function Consent({ app }) {
             />
           )}
 
-          {isDashboardAdmin && (
+          {(isDashboardAdmin && !loaRequired) &&
             <button className={`c-button save ${serverBusy ? 'disabled' : ''}`}
                     disabled={serverBusy}
                     onClick={e => checkLoaLevel(() => onSave(e))}>
               {serverBusy && <div id="service-loader-id" className="loader"/>}
-              {loaRequired ?
-                  I18n.t('consent_panel.request'):
-                  I18n.t('consent_panel.save')}
-            </button>
-          )}
+              {I18n.t('consent_panel.save')}
+            </button>}
         </section>
       </div>
       <StepUpModal

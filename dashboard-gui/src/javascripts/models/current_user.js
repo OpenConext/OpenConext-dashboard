@@ -32,6 +32,10 @@ class CurrentUser {
     this.dashboardStepupEnabled = rawUser.dashboardStepupEnabled
   }
 
+  isMFARequired() {
+    return this.currentLoaLevel < 2 && this.dashboardStepupEnabled
+  }
+
   getCurrentIdp() {
     if (this.guest) {
       return { state: 'prodaccepted' }

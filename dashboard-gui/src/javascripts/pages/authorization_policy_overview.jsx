@@ -88,7 +88,7 @@ export default function AuthorizationPolicyOverview({app, type, onPolicyChange})
             <div className="policy-overview-header">
                 <h2>{I18n.t('policies.overview.header')}</h2>
                 {isAllowedToMaintainPolicies &&
-                    <button className="c-button"
+                    <button className="c-button larger"
                             onClick={() => checkLoaLevel(`${window.location.origin}/apps/${app.id}/${type}/settings/authorization_policies/new`,
                                 () => history.replace(`/apps/${app.id}/${type}/settings/authorization_policies/new`))}>
                         {I18n.t('policies.new_policy')}
