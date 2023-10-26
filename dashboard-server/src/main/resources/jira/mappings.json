@@ -4,8 +4,8 @@
       "spEntityId": "13018",
       "idpEntityId": "13012",
       "emailTo": "13010",
-      "typeMetaData": "14602",
-      "optionalMessage": "15100"
+      "typeMetaData": "14800",
+      "optionalMessage": "15300"
     },
     "issueTypes": {
       "question": "11103",
@@ -27,8 +27,8 @@
     "issueTypes": {
       "question": "11103",
       "linkrequest": "11104",
-      "linkinvite": "11401",
       "unlinkrequest": "11105",
+      "linkinvite": "11401",
       "unlinkinvite": "12201",
       "change": "11106"
     }
