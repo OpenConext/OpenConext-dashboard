@@ -32,11 +32,11 @@ public class JiraClientMock implements JiraClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(JiraClientMock.class);
 
-    private Map<String, Action> repository = new LinkedHashMap<>();
+    private final Map<String, Action> repository = new LinkedHashMap<>();
 
-    private AtomicInteger counter = new AtomicInteger(0);
+    private final AtomicInteger counter = new AtomicInteger(0);
 
-    private List<String> statuses = Arrays.asList("To Do", "In Progress", "Awaiting Input", "Resolved", "Closed");
+    private final List<String> statuses = Arrays.asList("To Do", "In Progress", "Awaiting Input", "Resolved", "Closed");
 
     public JiraClientMock(String idp) {
 //        IntStream.rangeClosed(0, 25).forEach(i -> {
@@ -99,6 +99,8 @@ public class JiraClientMock implements JiraClient {
             });
         }
     }
+
+
 
     @Override
     public void updateOptionalMessage(String jiraKey, String optionalMessage) {

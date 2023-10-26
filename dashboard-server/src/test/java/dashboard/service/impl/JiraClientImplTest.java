@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class JiraClientImplTest {
 
-    private JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.test);
+    private final JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.test);
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8891);
@@ -54,11 +54,16 @@ public class JiraClientImplTest {
     }
 
     @Test
-    public void actionToIssueIdentifier() {
-        List<String> identifiers = Arrays.asList(Action.Type.values()).stream().map(type -> jiraClient.actionToIssueIdentifier(type)).collect(toList());
-
-        assertEquals("11104,11105,11106,11401,12201", String.join(",", identifiers));
-        assertEquals(5l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
+    public void actionToIssueIdentifier() throws IOException {
+        doActionToIssuerIdentifier(jiraClient);
+        doActionToIssuerIdentifier(new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.prod));
     }
 
+    private void doActionToIssuerIdentifier(JiraClientImpl jiraClient) {
+        List<String> identifiers = Arrays.asList(Action.Type.values()).stream().map(type -> jiraClient.actionToIssueIdentifier(type)).collect(toList());
+
+        assertEquals("11104,11105,11106,11401,12100", String.join(",", identifiers));
+        assertEquals(5l, identifiers.stream().map(identifier -> jiraClient.findType(identifier)).count());
+
+    }
 }
