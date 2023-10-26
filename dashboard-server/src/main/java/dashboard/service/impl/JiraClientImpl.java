@@ -65,7 +65,7 @@ public class JiraClientImpl implements JiraClient {
     private ArrayList standardFields;
     private int dueDateWeeks;
 
-    public JiraClientImpl(String baseUrl, String username, String password, String projectKey, int dueDateWeeks) throws IOException {
+    public JiraClientImpl(String baseUrl, String username, String password, String projectKey, int dueDateWeeks, Environment environment) throws IOException {
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
         this.dueDateWeeks = dueDateWeeks;
@@ -75,7 +75,7 @@ public class JiraClientImpl implements JiraClient {
         byte[] encoded = Base64.getEncoder().encode((username + ":" + password).getBytes());
         this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
         this.restTemplate = new RestTemplate();
-        this.environment = baseUrl.contains("test") ? "test" : "prod";
+        this.environment = environment.equals(Environment.test) ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
 
         this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype",

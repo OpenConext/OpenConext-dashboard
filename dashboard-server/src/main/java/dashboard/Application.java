@@ -11,10 +11,7 @@ import dashboard.sab.Sab;
 import dashboard.sab.SabClient;
 import dashboard.sab.SabClientMock;
 import dashboard.service.Services;
-import dashboard.service.impl.JiraClient;
-import dashboard.service.impl.JiraClientImpl;
-import dashboard.service.impl.JiraClientMock;
-import dashboard.service.impl.ServicesImpl;
+import dashboard.service.impl.*;
 import dashboard.shibboleth.mock.MockShibbolethFilter;
 import dashboard.stats.Stats;
 import dashboard.stats.StatsImpl;
@@ -73,8 +70,9 @@ public class Application {
                                  @Value("${jiraUsername}") String username,
                                  @Value("${jiraPassword}") String password,
                                  @Value("${jiraProjectKey}") String projectKey,
+                                 @Value("${jiraEnvironment}") Environment environment,
                                  @Value("${jiraDueDateWeeks}") int dueDateWeeks) throws IOException {
-        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey, dueDateWeeks) :
+        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey, dueDateWeeks, environment) :
                 new JiraClientMock(MockShibbolethFilter.idp);
     }
 

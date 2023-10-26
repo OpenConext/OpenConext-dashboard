@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class JiraClientImplTest {
 
-    private JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5);
+    private JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.test);
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8891);
