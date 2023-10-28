@@ -141,9 +141,9 @@ function Action({ action, currentUser, showStatus }) {
   const renderViewInvitation = linkInviteAwaitingInput && currentUser.dashboardAdmin
   const renderResend = linkInviteAwaitingInput && currentUser.superUser && !isEmpty(action.emailTo)
   let name
-  if (action.spName === 'Information unavailable' && isEmpty(action.spId)) {
+  if (action.spName === 'Information unavailable' && (action.spId === "N/A" || isEmpty(action.spId))) {
     name = action.idpName
-  } else if (action.spName === 'Information unavailable' && !isEmpty(action.spId)) {
+  } else if (action.spName === 'Information unavailable' && (action.spName !== "N/A" && !isEmpty(action.spId))) {
     name =  action.spId
   } else {
     name = action.spName
