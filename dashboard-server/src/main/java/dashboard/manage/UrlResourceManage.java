@@ -301,13 +301,17 @@ public class UrlResourceManage implements Manage {
         if (!add && stepupEntities.stream().noneMatch(map -> map.get("name").equals(spEntityId))) {
             return;
         }
-        Map<String, Object> pathUpdates = Map.of("stepupEntities",
-                Map.of("name", spEntityId,
-                        "level", loa));
-
+        if (!add && !StringUtils.hasText(loa)) {
+            //bugfix for null-pointer in java.base/java.util.Objects.requireNonNull(Objects.java:221)
+            loa = "";
+        }
         Optional<ChangeRequest> optionalChangeRequest = changeRequests.stream()
                 .filter(changeRequest -> changeRequest.getMetaDataId().equals(identityProvider.getInternalId()))
                 .findFirst();
+
+        Map<String, Object> pathUpdates = Map.of("stepupEntities",
+                Map.of("name", spEntityId,
+                        "level", loa));
 
         if (optionalChangeRequest.isPresent()) {
             ChangeRequest changeRequest = optionalChangeRequest.get();
