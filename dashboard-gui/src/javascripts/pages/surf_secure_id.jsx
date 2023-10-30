@@ -68,7 +68,7 @@ export default function SurfSecureID({ app }) {
       })
   }
 
-    const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
+    const loaRequired = currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled
 
     return (
     <div>

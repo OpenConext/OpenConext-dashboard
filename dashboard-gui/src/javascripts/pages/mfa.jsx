@@ -76,7 +76,7 @@ export default function MFA({app}) {
                 window.scrollTo(0, 0)
             })
     }
-    const loaRequired = currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled
+    const loaRequired = currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled
     return (
         <div className="mod-ssid-panel">
             <div className={"title-container"}>
