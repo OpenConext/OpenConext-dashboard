@@ -42,7 +42,7 @@ export default function MFA({app}) {
         && currentUser.authnContextLevels.indexOf(initialAuthnContextLevel) === -1
 
     const checkLoaLevel = callback => {
-        if (currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled) {
+        if (currentUser.isMFARequired(3)) {
             setShowStepUpModal(true)
         } else {
             callback();
@@ -76,7 +76,7 @@ export default function MFA({app}) {
                 window.scrollTo(0, 0)
             })
     }
-    const loaRequired = currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled
+    const loaRequired = currentUser.isMFARequired(3)
     return (
         <div className="mod-ssid-panel">
             <div className={"title-container"}>

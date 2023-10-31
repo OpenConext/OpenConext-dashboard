@@ -25,7 +25,7 @@ export default function AuthorizationPolicyOverview({app, type, onPolicyChange})
     const isPolicyActive = policy => app.policyEnforcementDecisionRequired && policy.active
 
     const checkLoaLevel = (theLocation, callback) => {
-        if (currentUser.currentLoaLevel < 2 && currentUser.dashboardStepupEnabled) {
+        if (currentUser.isMFARequired(2)) {
             setShowStepUpModal(true)
             setLocationAfterStepup(theLocation)
         } else {

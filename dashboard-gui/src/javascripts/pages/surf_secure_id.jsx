@@ -33,7 +33,7 @@ export default function SurfSecureID({ app }) {
   )
 
   const checkLoaLevel = callback => {
-    if (currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled) {
+    if (currentUser.isMFARequired(3)) {
       setShowStepUpModal(true)
     } else {
       callback();
@@ -68,8 +68,7 @@ export default function SurfSecureID({ app }) {
       })
   }
 
-    const loaRequired = currentUser.currentLoaLevel < 3 && currentUser.dashboardStepupEnabled
-
+    const loaRequired = currentUser.isMFARequired(3)
     return (
     <div>
         <div className={"title-container"}>

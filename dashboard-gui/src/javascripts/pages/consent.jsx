@@ -33,7 +33,7 @@ export default function Consent({ app }) {
   }
 
   const checkLoaLevel = callback => {
-    if (currentUser.isMFARequired()) {
+    if (currentUser.isMFARequired(2)) {
       setShowStepUpModal(true)
     } else {
       callback();
@@ -75,7 +75,7 @@ export default function Consent({ app }) {
     return null
   }
   const msgAllowed = consent.type.toLowerCase() !== 'no_consent'
-  const loaRequired = currentUser.isMFARequired()
+  const loaRequired = currentUser.isMFARequired(2)
   return (
     <div>
       <div className={"title-container"}>

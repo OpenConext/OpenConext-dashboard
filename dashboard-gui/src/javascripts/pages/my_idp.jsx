@@ -297,7 +297,7 @@ const EditIdpButton = ({currentUser, showModal}) => {
                    stopEvent(e)
                    if (currentUser.jiraDown) {
                        setShowJiraDownModal(true)
-                   } else if (currentUser.currentLoaLevel === 1 && currentUser.dashboardStepupEnabled) {
+                   } else if (currentUser.isMFARequired(2)) {
                        showModal(true)
                    } else {
                        history.replace("/my-idp/edit")
