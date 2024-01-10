@@ -1279,6 +1279,8 @@ I18n.translations.en = {
         mobileonefactorcontract: "Mobile one factor",
         multipleauthn_short: 'Microsoft IdP',
         mfa_short: 'Generic IdP',
+        mobileonefactorunregistered: 'Mobile one unregistered',
+        password: 'Password',
         not_allowed: "You can not change the MFA for this service. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to change the MFA for this service."
     },
 

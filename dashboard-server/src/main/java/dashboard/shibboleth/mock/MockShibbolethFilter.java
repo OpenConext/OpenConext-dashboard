@@ -23,7 +23,7 @@ import static dashboard.shibboleth.ShibbolethHeader.*;
 @SuppressWarnings("unchecked")
 public class MockShibbolethFilter extends GenericFilterBean {
 
-    public static final String idp = "https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
+    public static final String idp = "http://mock-idp";//,"https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
     public String role = "admin";//"";
 
     @Override

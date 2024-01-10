@@ -1283,6 +1283,8 @@ I18n.translations.nl = {
         transparent_authn_context: "Transparent Authn context",
         mobileonefactorcontract: "Mobile one factor",
         multipleauthn_short: 'MFA Microsoft',
+        mobileonefactorunregistered: 'Mobile one unregistered',
+        password: 'Wachtwoord',
         mfa_short: 'MFA Generiek',
         not_allowed: "Je kan de MFA voor deze dienst niet aanpassen. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een andere MFA wenst voor deze service.."
     },
