@@ -51,6 +51,28 @@ jobs:
         echo "Project version ${{ steps.versioncheck.outputs.version }} does not match git tag ${{ github.ref_name }}"
         exit 1
       if: github.event_name != 'workflow_dispatch' && steps.versioncheck.outputs.version != github.ref_name
+    
+    - name: Set up JDK 17 for snapshots
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: 'maven'
+        server-id: openconext-snapshots
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
+      if: ( endsWith(steps.versioncheck.outputs.version, '-SNAPSHOT'))
+
+    - name: Set up JDK 17 for releases
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: 'maven'
+        server-id: openconext-releases
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
+      if: ${{!( endsWith(steps.versioncheck.outputs.version, '-SNAPSHOT')) }}
 
     - name: Deploy with Maven
       run: mvn --batch-mode deploy -DskipTests
