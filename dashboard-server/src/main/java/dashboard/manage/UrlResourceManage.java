@@ -29,17 +29,14 @@ public class UrlResourceManage implements Manage {
     private final RestTemplate restTemplate = new RestTemplate();
     private final HttpHeaders httpHeaders;
 
-    private String requestedAttributes = "\"ALL_ATTRIBUTES\":true";
-    private String body = "{" + requestedAttributes + "}";
-    private String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
-    private String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
-    private String bodyForInstitutionId =
+    private final String requestedAttributes = "\"ALL_ATTRIBUTES\":true";
+    private final String body = "{" + requestedAttributes + "}";
+    private final String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
+    private final String bodyForInstitutionId =
             "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
 
-    private String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
+    private final String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
             ".allowedall\": true}]}]}";
-
-    private String findByEntityIdIn = "{\"data.entityid\":{\"$in\":[@@entityids@@]}}";
 
     public UrlResourceManage(
             String username,
@@ -109,6 +106,7 @@ public class UrlResourceManage implements Manage {
         if (spId == null) {
             return Optional.empty();
         }
+        String bodyForEid = "{\"eid\":@@eid@@, " + requestedAttributes + "}";
         String body = bodyForEid.replace("@@eid@@", spId.toString());
         List<Map<String, Object>> providers = getMaps(providerInputStream(entityType, body));
         return providers.stream().map(this::transformManageMetadata).map(sp -> this.serviceProvider(sp, entityType)).findFirst();
@@ -163,6 +161,7 @@ public class UrlResourceManage implements Manage {
     @Override
     public List<ServiceProvider> getByEntityIdin(List<String> entityIds) {
         String split = entityIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.joining(","));
+        String findByEntityIdIn = "{\"data.entityid\":{\"$in\":[@@entityids@@]}}";
         String query = findByEntityIdIn.replace("@@entityids@@", split);
         return rawSearchProviders(query, EntityType.saml20_sp, EntityType.oidc10_rp, EntityType.oauth20_rs);
     }
