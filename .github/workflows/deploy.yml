@@ -89,6 +89,30 @@ jobs:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    
+    -  name: Extract metadata (tags, labels) for Docker
+       id: meta_gui
+       uses: docker/metadata-action@v5
+       with:
+          images: ghcr.io/openconext/openconext-dashboard/dashboard-gui
+          flavor: |
+            latest=false
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}},value=${{ steps.versioncheck.outputs.version }}
+            type=sha
+    
+    -  name: Extract metadata (tags, labels) for Docker
+       id: meta_server
+       uses: docker/metadata-action@v5
+       with:
+          images: ghcr.io/openconext/openconext-dashboard/dashboard-server
+          flavor: |
+            latest=false
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}},value=${{ steps.versioncheck.outputs.version }}
+            type=sha
 
     - name: Build and push the dashboard gui image
       uses: docker/build-push-action@v4
@@ -97,8 +121,8 @@ jobs:
         file: dashboard-gui/docker/Dockerfile
         platforms: linux/amd64
         push: true
-        tags: |
-          ghcr.io/openconext/openconext-dashboard/dashboard-gui:${{ steps.versioncheck.outputs.version }}
+        tags: ${{ steps.meta_gui.outputs.tags }}
+        labels: ${{ steps.meta_gui.outputs.labels }}
 
     - name: Build and push the dashboard server image
       uses: docker/build-push-action@v4
@@ -107,5 +131,5 @@ jobs:
         file: dashboard-server/docker/Dockerfile
         platforms: linux/amd64
         push: true
-        tags: |
-          ghcr.io/openconext/openconext-dashboard/dashboard-server:${{ steps.versioncheck.outputs.version }}
+        tags: ${{ steps.meta_server.outputs.tags }}
+        labels: ${{ steps.meta_server.outputs.labels }}
