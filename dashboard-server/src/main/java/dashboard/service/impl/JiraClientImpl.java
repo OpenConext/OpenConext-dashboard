@@ -17,11 +17,9 @@ package dashboard.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import dashboard.domain.Action;
 import dashboard.domain.Action.Type;
-import dashboard.domain.Change;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
 import dashboard.service.impl.JiraTicketSummaryAndDescriptionBuilder.SummaryAndDescription;
@@ -29,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
-
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -140,6 +137,11 @@ public class JiraClientImpl implements JiraClient {
                     "maxResults", jiraFilter.getMaxResults(),
                     "startAt", jiraFilter.getStartAt(),
                     "fields", this.standardFields);
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Sending query to Jira: " + body);
+            }
+
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, defaultHeaders);
 
             String url = baseUrl + "/search";
