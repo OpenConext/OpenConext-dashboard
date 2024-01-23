@@ -989,7 +989,7 @@ I18n.translations.pt = {
         no_results: 'No results',
         info: 'Nesta página pode encontrar todos os pedidos de serviços relacionados com a (des)ativação de serviços e pedidos de alterações.',
         moreAwaitingTickets:
-            "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",
+            "Not all 'Waiting for customer' tickets are shown because the period in the search filter is not broad enough.",
         requestDate: 'Criado',
         updateDate: 'Atualizado',
         type: 'Tipo',
@@ -1012,12 +1012,13 @@ I18n.translations.pt = {
         spEntityId: 'Serviço',
         statuses: {
             all: 'All tickets',
-            'To Do': 'Abrir',
             'Open': 'Abrir',
             'In Progress': 'Em progresso',
             'On Hold': 'Em espera',
             'Waiting for customer': 'Input pendente',
+            'Waiting for Acceptance': 'Input pendente',
             Resolved: 'Resolvido',
+            Reopened: 'Reaberta',
             Closed: 'Fechado',
             undefined: 'Indefinido',
         },
