@@ -1,11 +1,10 @@
 package dashboard;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
 import dashboard.manage.UrlResourceManage;
-import dashboard.pdp.PdpService;
-import dashboard.pdp.PdpServiceImpl;
-import dashboard.pdp.PdpServiceMock;
+import dashboard.pdp.*;
 import dashboard.sab.HttpClientTransport;
 import dashboard.sab.Sab;
 import dashboard.sab.SabClient;
@@ -77,11 +76,23 @@ public class Application {
     }
 
     @Bean
-    public PdpService pdpService(@Value("${dashboard.feature.pdp}") boolean pdpEnabled,
-                                 @Value("${pdp.server}") String server,
-                                 @Value("${pdp.username}") String username,
-                                 @Value("${pdp.password}") String password) {
-        return pdpEnabled ? new PdpServiceImpl(server, username, password) : new PdpServiceMock();
+    public PdpService pdpService(ObjectMapper objectMapper,
+                                 @Value("${dashboard.feature.pdp}") PolicyDataSource policyDataSource,
+                                 @Value("${pdp.server}") String pdpBaseUrl,
+                                 @Value("${pdp.username}") String pdpUsername,
+                                 @Value("${pdp.password}") String pdpPassword,
+                                 @Value("${manage.manageBaseUrl}") String manageBaseUrl,
+                                 @Value("${manage.username}") String manageUsername,
+                                 @Value("${manage.password}") String managePassword) {
+        switch (policyDataSource) {
+            case PDP:
+                return new PdpServiceImpl(objectMapper, pdpBaseUrl, pdpUsername, pdpPassword);
+            case MOCK:
+                return new PdpServiceMock();
+            case MANAGE:
+                return new PdpManage(manageBaseUrl, manageUsername, managePassword);
+        }
+        throw new IllegalArgumentException();
     }
 
 }

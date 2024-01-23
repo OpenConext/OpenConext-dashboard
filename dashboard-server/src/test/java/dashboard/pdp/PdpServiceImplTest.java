@@ -1,5 +1,6 @@
 package dashboard.pdp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
@@ -18,14 +19,13 @@ import static com.google.common.io.BaseEncoding.base64;
 import static com.google.common.net.HttpHeaders.*;
 import static com.google.common.net.MediaType.JSON_UTF_8;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 
 public class PdpServiceImplTest {
 
-    private PdpService pdpService = new PdpServiceImpl("http://localhost:8889", "pdp-user", "pdp-password");
+    private PdpService pdpService = new PdpServiceImpl(new ObjectMapper(), "http://localhost:8889", "pdp-user", "pdp-password");
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8889);

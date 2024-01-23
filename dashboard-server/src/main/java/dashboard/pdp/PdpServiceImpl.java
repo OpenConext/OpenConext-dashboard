@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -40,39 +41,21 @@ public class PdpServiceImpl implements PdpService, Constants {
 
     private static final Logger LOG = LoggerFactory.getLogger(PdpServiceImpl.class);
 
-    protected static final String X_IDP_ENTITY_ID = "X-IDP-ENTITY-ID";
-    protected static final String X_UNSPECIFIED_NAME_ID = "X-UNSPECIFIED-NAME-ID";
-    protected static final String X_DISPLAY_NAME = "X-DISPLAY-NAME";
-
     private final RestTemplate pdpRestTemplate;
     private final String server;
     private final ObjectMapper objectMapper;
 
-    public PdpServiceImpl(String server, String username, String password) {
+    public PdpServiceImpl(ObjectMapper objectMapper, String server, String username, String password) {
         checkArgument(server.startsWith("http"));
         checkArgument(!isNullOrEmpty(username));
         checkArgument(!isNullOrEmpty(password));
 
         this.pdpRestTemplate = new RestTemplate(clientHttpRequestFactory(10 * 1000));
 
-        this.pdpRestTemplate.setInterceptors(ImmutableList.of((request, body, execution) -> {
-            CoinUser user = SpringSecurity.getCurrentUser();
-
-            IdentityProvider idp = user.getSwitchedToIdp().orElse(user.getIdp());
-
-            HttpHeaders headers = request.getHeaders();
-            headers.setContentType(APPLICATION_JSON);
-            headers.setAccept(ImmutableList.of(APPLICATION_JSON));
-            headers.set(AUTHORIZATION, authorizationHeaderValue(username, password));
-            headers.set(X_IDP_ENTITY_ID, idp.getId());
-            headers.set(X_UNSPECIFIED_NAME_ID, user.getUid());
-            headers.set(X_DISPLAY_NAME, user.getDisplayName());
-
-            return execution.execute(request, body);
-        }));
+        this.pdpRestTemplate.getInterceptors().add(clientHttpRequestInterceptor(username, password));
 
         this.server = server;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
     }
 
     @Override
