@@ -53,14 +53,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }
@@ -316,14 +316,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }
@@ -456,14 +456,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }
@@ -596,14 +596,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }
@@ -764,14 +764,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }
@@ -904,14 +904,14 @@
           "self": "https://jira-test.surfnet.nl/rest/api/2/status/10800",
           "description": "",
           "iconUrl": "https://jira-test.surfnet.nl/",
-          "name": "To Do",
+          "name": "In Progress",
           "id": "10800",
           "statusCategory": {
             "self": "https://jira-test.surfnet.nl/rest/api/2/statuscategory/2",
             "id": 2,
             "key": "new",
             "colorName": "blue-gray",
-            "name": "To Do"
+            "name": "In Progress"
           }
         }
       }

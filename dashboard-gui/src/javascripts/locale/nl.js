@@ -1045,12 +1045,13 @@ I18n.translations.nl = {
         spEntityId: 'Dienst',
         statuses: {
             all: 'Alle tickets',
-            'To Do': 'Open',
             'Open': 'Open',
             'In Progress': 'Bezig',
             'On Hold': 'In de wacht',
             'Waiting for customer': 'Wachtende op goedkeuring',
+            'Waiting for Acceptance': 'Wachtende op acceptatie',
             Resolved: 'Opgeleverd',
+            Reopened: 'Heropend',
             Closed: 'Gesloten',
             undefined: 'Onbepaald',
         },
@@ -1095,7 +1096,7 @@ I18n.translations.nl = {
         search: 'Zoek diensten...',
     },
     invite_request: {
-        info: 'Een koppelingsuitnodiging zal een e-mail versturen aan alle geselecteerde contactpersonen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst of te ontkoppelen van de de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> of <span class="emphasize">Disconnection Invite</span> Jira-ticket worden aangemaakt met de status <span class="emphasize">Awaiting Input</span>.',
+        info: 'Een koppelingsuitnodiging zal een e-mail versturen aan alle geselecteerde contactpersonen met daarin een uitnodiging om hun instelling te koppelen aan de geselecteerde dienst of te ontkoppelen van de de geselecteerde dienst. Daarnaast zal er een <span class="emphasize">Connection Invite</span> of <span class="emphasize">Disconnection Invite</span> Jira-ticket worden aangemaakt met de status <span class="emphasize">Waiting for customer</span>.',
         selectIdp: 'Zoek en selecteer een instelling...',
         selectSpDisabled: 'Selecteer eerst een instelling',
         selectSp: 'Zoek en selecteer nu een dienst...',

@@ -1023,7 +1023,7 @@ I18n.translations.en = {
         no_results: 'No results',
         info: 'On this page you find all tickets related to (dis)connecting services and change requests.',
         moreAwaitingTickets:
-            "Not all 'Awaiting Input' tickets are shown because the period in the search filter is not broad enough.",
+            "Not all 'Waiting for customer' tickets are shown because the period in the search filter is not broad enough.",
         requestDate: 'Created',
         updateDate: 'Updated',
         type: 'Type',
@@ -1046,12 +1046,13 @@ I18n.translations.en = {
         spEntityId: 'Service',
         statuses: {
             all: 'All tickets',
-            'To Do': 'Open',
             'Open': 'Open',
             'In Progress': 'In progress',
             'On Hold': 'On Hold',
             'Waiting for customer': 'Pending input',
+            'Waiting for Acceptance': 'Waiting for Acceptance',
             Resolved: 'Resolved',
+            Reopened: 'Reopened',
             Closed: 'Closed',
             undefined: 'Undefined',
         },
@@ -1096,7 +1097,7 @@ I18n.translations.en = {
         search: 'Search services...',
     },
     invite_request: {
-        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service or disconnect from the selected Service. A <span class="emphasize">Connection Invite</span> or <span class="emphasize">Disconnection Invite</span> Jira ticket is created with the status <span class="emphasize">Awaiting Input</span>.',
+        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service or disconnect from the selected Service. A <span class="emphasize">Connection Invite</span> or <span class="emphasize">Disconnection Invite</span> Jira ticket is created with the status <span class="emphasize">Waiting for customer</span>.',
         selectIdp: 'Search and select an Institution...',
         selectSpDisabled: 'First select an Institution',
         selectSp: 'Now search and select the Service...',
