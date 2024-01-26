@@ -1,0 +1,21 @@
+{
+  "jql": "project = CXT AND cf[13012]~\"http://mock-idp\" AND status in (\"To Do\", \"Awaiting Input\") AND issueType in (11401, 11104, 12100, 11105)",
+  "maxResults": 20,
+  "startAt": 0,
+  "fields": [
+    "summary",
+    "resolution",
+    "status",
+    "assignee",
+    "issuetype",
+    "created",
+    "description",
+    "updated",
+    "comment",
+    "customfield_13018",
+    "customfield_13012",
+    "customfield_13010",
+    "customfield_14800",
+    "customfield_15300"
+  ]
+}

@@ -182,7 +182,7 @@ public class PdpServiceImpl implements PdpService, Constants {
         RequestEntity<?> request = buildGetRequest("/protected/attributes/");
 
         return executeWithExceptionLogging(() -> {
-            ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<AllowedAttribute>>() {
+            ResponseEntity<List<AllowedAttribute>> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
             });
             return response.getBody().stream().map(aa -> new Attribute(aa.attributeId, aa.value)).collect(Collectors.toList());
         });
