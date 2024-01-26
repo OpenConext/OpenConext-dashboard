@@ -25,11 +25,8 @@ public class PdpManage implements PdpService , Constants {
 
     public PdpManage(String manageBaseUrl, String manageUsername, String managePassword) {
         this.restTemplate = new RestTemplate(clientHttpRequestFactory(10 * 1000));
-
         this.restTemplate.getInterceptors().add(clientHttpRequestInterceptor(manageUsername, managePassword));
-
         this.manageBaseUrl = manageBaseUrl;
-
     }
 
     @Override
