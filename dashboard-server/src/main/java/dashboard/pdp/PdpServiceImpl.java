@@ -76,19 +76,17 @@ public class PdpServiceImpl implements PdpService, Constants {
     public List<Policy> policies() {
         RequestEntity<?> request = buildGetRequest("/protected/policies");
 
-        return executeWithExceptionLogging(() -> {
-            return pdpRestTemplate.exchange(request, new ParameterizedTypeReference<List<Policy>>() {
-            }).getBody();
-        });
+        return executeWithExceptionLogging(() -> pdpRestTemplate
+                .exchange(request, new ParameterizedTypeReference<List<Policy>>() {
+        }).getBody());
     }
 
     public Policy policy(Long id) {
         RequestEntity<?> request = buildGetRequest("/protected/policies/" + id);
 
-        return executeWithExceptionLogging(() -> {
-            return pdpRestTemplate.exchange(request, new ParameterizedTypeReference<Policy>() {
-            }).getBody();
-        });
+        return executeWithExceptionLogging(() -> pdpRestTemplate
+                .exchange(request, new ParameterizedTypeReference<Policy>() {
+        }).getBody());
     }
 
     @Override
@@ -99,7 +97,7 @@ public class PdpServiceImpl implements PdpService, Constants {
                 String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(policy);
                 LOG.info("creation of policy {}", json);
             } catch (IOException e) {
-                LOG.error("oeps", e);
+                LOG.error("Unexpected error from PdP", e);
             }
             ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {
             });
@@ -196,11 +194,14 @@ public class PdpServiceImpl implements PdpService, Constants {
         return RequestEntity.get(buildUri(path)).build();
     }
 
-    private URI buildUri(String path) {
+    protected URI buildUri(String path) {
         checkArgument(path.startsWith("/"));
         return URI.create(String.format("%s/pdp/api%s", server, path));
     }
 
+    protected RestTemplate getPdpRestTemplate() {
+        return pdpRestTemplate;
+    }
 
     private static final class AllowedAttribute {
         @JsonProperty("AttributeId")

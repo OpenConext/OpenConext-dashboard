@@ -90,7 +90,7 @@ public class Application {
             case MOCK:
                 return new PdpServiceMock();
             case MANAGE:
-                return new PdpManage(manageBaseUrl, manageUsername, managePassword);
+                return new PdpManage(objectMapper, manageBaseUrl, manageUsername, managePassword);
         }
         throw new IllegalArgumentException();
     }
