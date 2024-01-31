@@ -413,7 +413,7 @@ class Stats extends React.Component {
     const spSelected = sp !== this.allServiceProviderOption.value
     const noResult = (data.length === 1 && data[0] === 'no_results') || (loaded && data.length === 0)
     const results = loaded && data.length > 0 && !noResult
-    const idp = this.context.currentUser.currentIdp
+    const idp = this.context.currentUser.getCurrentIdp()
     const identityProvidersDict = {}
     identityProvidersDict[idp.id] =
       I18n.locale === 'en'
