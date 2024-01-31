@@ -2,7 +2,6 @@ package dashboard.service.impl;
 
 import com.google.common.base.MoreObjects;
 import dashboard.domain.Action;
-import dashboard.domain.Change;
 import dashboard.domain.Settings;
 import dashboard.manage.ChangeRequest;
 import org.springframework.util.CollectionUtils;
@@ -11,7 +10,6 @@ import org.springframework.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static dashboard.domain.Action.Type.*;
@@ -26,7 +24,9 @@ class JiraTicketSummaryAndDescriptionBuilder {
         final StringBuilder summary = new StringBuilder();
 
         if (!CollectionUtils.isEmpty(action.getManageUrls())) {
-            description.append("A change request in manage has been created to merge this user request.See:\n" +
+            String changeRequestDescriiption = "A change request in manage has been created to merge this user request.";
+            String warning = action.getManageUrls().size() > 1 ? " NOTE: there are multiple Manage URL's." : "";
+            description.append(changeRequestDescriiption + warning + " See:\n" +
                     String.join("\n", action.getManageUrls()) + "\n\n");
         }
 

@@ -302,7 +302,7 @@ export default function AppList({apps, currentUser, facets: remoteFacets, connec
     })
     if (!currentUser.guest) {
         facets.push(strongAuthenticationFacet)
-        const mfaEntities = currentUser.currentIdp.mfaEntities
+        const mfaEntities = currentUser.getCurrentIdp().mfaEntities
         const mfaLevels = [
             'https://refeds.org/profile/mfa',
             'http://schemas.microsoft.com/claims/multipleauthn'

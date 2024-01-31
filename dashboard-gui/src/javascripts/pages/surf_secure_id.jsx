@@ -11,7 +11,7 @@ import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function SurfSecureID({ app }) {
   const { currentUser } = useContext(CurrentUserContext)
-  const stepEntity = (currentUser.currentIdp.stepupEntities || []).find((e) => e.name === app.spEntityId)
+  const stepEntity = (currentUser.getCurrentIdp().stepupEntities || []).find((e) => e.name === app.spEntityId)
   const initialLoaLevel = app.minimalLoaLevel || (stepEntity && stepEntity.level) || ''
 
   const [loaLevel, setLoaLevel] = useState(initialLoaLevel)

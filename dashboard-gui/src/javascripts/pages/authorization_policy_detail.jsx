@@ -72,7 +72,9 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
       if (e.response && e.response.json) {
         e.response.json().then((json) => {
           let message = 'error'
-          if (json.exception && json.exception.indexOf('PolicyNameNotUniqueException') > 0) {
+          if (json.exception && (
+              json.exception.indexOf('PolicyNameNotUniqueException') > 0 ||
+              json.exception.indexOf('DuplicateEntityIdException') > 0)) {
             message = I18n.t('policies.policy_name_not_unique_exception')
           }
           setFlash(message, 'error')

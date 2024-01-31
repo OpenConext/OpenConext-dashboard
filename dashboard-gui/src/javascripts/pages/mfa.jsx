@@ -11,7 +11,7 @@ import ConnectModalContainer from "../components/connect_modal_container";
 
 export default function MFA({app}) {
     const {currentUser} = useContext(CurrentUserContext)
-    const mfaEntity = (currentUser.currentIdp.mfaEntities || []).find((e) => e.name === app.spEntityId)
+    const mfaEntity = (currentUser.getCurrentIdp().mfaEntities || []).find((e) => e.name === app.spEntityId)
     const initialAuthnContextLevel = mfaEntity && mfaEntity.level || ''
     const [authnContextLevel, setAuthnContextLevel] = useState(initialAuthnContextLevel)
     const [showStepUpModal, setShowStepUpModal] = useState(false)
