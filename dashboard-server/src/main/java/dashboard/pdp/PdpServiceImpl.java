@@ -3,18 +3,16 @@ package dashboard.pdp;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
 import dashboard.control.Constants;
 import dashboard.domain.Attribute;
-import dashboard.domain.CoinUser;
-import dashboard.domain.IdentityProvider;
 import dashboard.domain.Policy;
-import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -32,10 +30,8 @@ import java.util.stream.StreamSupport;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 public class PdpServiceImpl implements PdpService, Constants {
 
@@ -104,30 +100,15 @@ public class PdpServiceImpl implements PdpService, Constants {
             return response.getBody();
         } catch (HttpStatusCodeException sce) {
             if (sce.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
-                Optional<PolicyNameNotUniqueException> exception = extractException(sce.getResponseBodyAsByteArray());
-                if (exception.isPresent()) {
-                    throw exception.get();
+                String response = sce.getResponseBodyAsString();
+                //Must both cover PdP and Manage API
+                if (response.contains("unique") || response.contains("DuplicateEntityIdException")) {
+                    throw new PolicyNameNotUniqueException();
                 }
             }
 
             LOG.error("Response error: {} {}:\n {}", sce.getStatusCode(), sce.getStatusText(), sce.getResponseBodyAsString());
             throw new RuntimeException(sce);
-        }
-    }
-
-    private Optional<PolicyNameNotUniqueException> extractException(byte[] byteArray) {
-        try {
-            JsonNode readTree = objectMapper.readTree(byteArray);
-
-            return Optional.ofNullable(readTree.findValue("details")).map(details -> {
-                Iterable<Map.Entry<String, JsonNode>> fields = () -> details.fields();
-                return StreamSupport.stream(fields.spliterator(), false)
-                        .map(entry -> entry.getValue().asText())
-                        .filter(StringUtils::hasText)
-                        .collect(Collectors.joining(", "));
-            }).map(PolicyNameNotUniqueException::new);
-        } catch (IOException e) {
-            return Optional.empty();
         }
     }
 

@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
 
-public class PdpManage extends PdpServiceImpl implements  Constants {
+public class PdpManage extends PdpServiceImpl {
 
     private static final Logger LOG = LoggerFactory.getLogger(PdpManage.class);
     private final String manageBaseUrl;
