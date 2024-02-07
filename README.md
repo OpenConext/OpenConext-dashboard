@@ -88,10 +88,10 @@ CI=true yarn test
 ### [Jira](#jira)
 ```
 cd dashboard-server/src/test/resources/jira-json/
-curl -u test-beheer-rpc -X POST -H 'Content-Type: application/json' -d '@query.json' 'https://servicedesk.test.surf.nl/jira/rest/api/2/search'
+curl -X POST --data "@query_new.json" -H "Content-Type: application/json" -H "Authorization: Bearer ??"  "https://servicedesk.test.surf.nl/jira/rest/api/2/search"
 ```
 To find transitions:
 ```
-curl -u test-beheer-rpc "https://servicedesk.test.surf.nl/jira/rest/api/2/issue/CXT-70752/transitions" | jq .
+curl -H "Content-Type: application/json" -H "Authorization: Bearer ??" "https://servicedesk.test.surf.nl/jira/rest/api/2/issue/CXT-70752/transitions" | jq .
 ```
-The Jira password can be found in the environments-external project in SURF gitlab.
+The Jira API key can be found in the environments-external project in SURF gitlab.

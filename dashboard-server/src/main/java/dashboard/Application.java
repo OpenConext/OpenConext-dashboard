@@ -1,5 +1,6 @@
 package dashboard;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
 import dashboard.manage.UrlResourceManage;
@@ -65,15 +66,26 @@ public class Application {
     }
 
     @Bean
-    public JiraClient jiraClient(@Value("${dashboard.feature.jira}") boolean jiraEnabled,
+    public JiraClient jiraClient(ObjectMapper objectMapper,
+                                 @Value("${dashboard.feature.jira}") boolean jiraEnabled,
                                  @Value("${jiraBaseUrl}") String baseUrl,
                                  @Value("${jiraUsername}") String username,
                                  @Value("${jiraPassword}") String password,
                                  @Value("${jiraProjectKey}") String projectKey,
+                                 @Value("${jiraApikey}") String jiraApikey,
+                                 @Value("${jiraUseApiKey}") boolean jiraUseApiKey,
                                  @Value("${jiraEnvironment}") Environment environment,
                                  @Value("${jiraDueDateWeeks}") int dueDateWeeks) throws IOException {
-        return jiraEnabled ? new JiraClientImpl(baseUrl, username, password, projectKey, dueDateWeeks, environment) :
-                new JiraClientMock(MockShibbolethFilter.idp);
+        return jiraEnabled ? new JiraClientImpl(
+                objectMapper,
+                baseUrl,
+                username,
+                password,
+                jiraApikey,
+                jiraUseApiKey,
+                projectKey,
+                dueDateWeeks,
+                environment) : new JiraClientMock(MockShibbolethFilter.idp);
     }
 
     @Bean
