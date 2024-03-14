@@ -129,8 +129,17 @@ public class JiraClientImpl implements JiraClient {
             Map<String, String> result = restTemplate.postForObject(baseUrl + "/issue", entity, Map.class);
             return result.get("key");
         } catch (HttpClientErrorException e) {
-            LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e
-                    .getResponseBodyAsString());
+            String json ;
+            try {
+                json = objectMapper.writeValueAsString(issue);
+            } catch (JsonProcessingException ex) {
+                json = "Unable to parse request";
+            }
+            LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}\nJSON Request: {}",
+                    e.getStatusCode(),
+                    e.getStatusText(),
+                    e.getResponseBodyAsString(),
+                    json);
             throw new RuntimeException(e);
         }
     }
