@@ -62,9 +62,9 @@ class SearchUser extends React.Component {
       <tr key={idp.name}>
         <td>{idp.name}</td>
         <td className="center">
-          {this.state.roles.map((role) => {
+          <div className="switch-roles">{this.state.roles.map((role) => {
             return this.renderSwitchToRole(idp, role)
-          })}
+          })}</div>
         </td>
       </tr>
     )
