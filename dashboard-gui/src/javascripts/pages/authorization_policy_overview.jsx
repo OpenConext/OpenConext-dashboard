@@ -133,10 +133,9 @@ export default function AuthorizationPolicyOverview({app, type, onPolicyChange})
                             </div>
                             {isAllowedToMaintainPolicies && (
                                 <div>
-                                    {I18n.t('policies.overview.numberOfRevisions')}:{' '}
                                     <Link
                                         to={`/apps/${app.id}/${type}/settings/authorization_policies/${policy.id}/revisions`}>
-                                        {policy.numberOfRevisions}
+                                        {I18n.t('policies.overview.numberOfRevisions')}
                                     </Link>
                                 </div>
                             )}

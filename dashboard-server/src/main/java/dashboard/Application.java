@@ -88,7 +88,7 @@ public class Application {
 
     @Bean
     public PdpService pdpService(ObjectMapper objectMapper,
-                                 @Value("${dashboard.feature.pdp}") PolicyDataSource policyDataSource,
+                                 @Value("${dashboard.feature.pdpSource}") PolicyDataSource policyDataSource,
                                  @Value("${pdp.server}") String pdpBaseUrl,
                                  @Value("${pdp.username}") String pdpUsername,
                                  @Value("${pdp.password}") String pdpPassword,

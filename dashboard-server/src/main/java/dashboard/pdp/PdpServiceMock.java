@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
@@ -26,7 +27,7 @@ public class PdpServiceMock implements PdpService {
             new Attribute("urn:mace:dir:attribute-def:eduPersonAffiliation", "Edu person affiliation"),
             new Attribute("urn:mace:dir:attribute-def:eduPersonScopedAffiliation", "Edu person scoped affiliation"));
 
-    private final ListMultimap<Long, Policy> policies = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
+    private final ListMultimap<Object, Policy> policies = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
     @Autowired
     private Services services;
@@ -37,7 +38,7 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public Policy policy(Long id) {
+    public Policy policy(Object id) {
         return ofNullable(policies.get(id)).map(Iterables::getLast).orElseThrow(RuntimeException::new);
     }
 
@@ -67,13 +68,13 @@ public class PdpServiceMock implements PdpService {
     }
 
     @Override
-    public ResponseEntity<String> delete(Long id) {
+    public ResponseEntity<String> delete(Object id) {
         policies.removeAll(id);
         return null;
     }
 
     @Override
-    public List<Policy> revisions(Long id) {
+    public List<Policy> revisions(Object id) {
         return Optional.ofNullable(policies.get(id)).orElseThrow(RuntimeException::new);
     }
 
@@ -84,8 +85,7 @@ public class PdpServiceMock implements PdpService {
 
     @SneakyThrows
     private Policy savePolicy(Policy policy) {
-        Long id = policies.keySet().stream().max(Long::compare).map(l -> l + 1).orElse(1L);
-        policy.setId(id);
+        policy.setId(UUID.randomUUID().toString());
         policy.setUserDisplayName(SpringSecurity.getCurrentUser().getDisplayName());
         policy.setCreated(String.valueOf(System.currentTimeMillis()));
         policy.setActionsAllowed(true);

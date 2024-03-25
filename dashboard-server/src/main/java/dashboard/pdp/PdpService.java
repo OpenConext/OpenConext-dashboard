@@ -10,7 +10,7 @@ public interface PdpService {
 
     List<Policy> policies();
 
-    Policy policy(Long id);
+    Policy policy(Object id);
 
     Policy create(Policy policy);
 
@@ -18,9 +18,9 @@ public interface PdpService {
 
     List<Attribute> allowedAttributes();
 
-    ResponseEntity<String> delete(Long id);
+    ResponseEntity<String> delete(Object id);
 
-    List<Policy> revisions(Long id);
+    List<Policy> revisions(Object id);
 
     boolean isAvailable();
 

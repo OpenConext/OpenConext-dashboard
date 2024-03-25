@@ -77,7 +77,8 @@ public class PdpServiceImpl implements PdpService, Constants {
         }).getBody());
     }
 
-    public Policy policy(Long id) {
+    @Override
+    public Policy policy(Object id) {
         RequestEntity<?> request = buildGetRequest("/protected/policies/" + id);
 
         return executeWithExceptionLogging(() -> pdpRestTemplate
@@ -90,7 +91,7 @@ public class PdpServiceImpl implements PdpService, Constants {
         RequestEntity<?> request = buildPostRequest("/protected/policies", policy);
         try {
             try {
-                String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(policy);
+                String json = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(policy);
                 LOG.info("creation of policy {}", json);
             } catch (IOException e) {
                 LOG.error("Unexpected error from PdP", e);
@@ -123,13 +124,13 @@ public class PdpServiceImpl implements PdpService, Constants {
     }
 
     @Override
-    public ResponseEntity<String> delete(Long id) {
+    public ResponseEntity<String> delete(Object id) {
         RequestEntity<?> request = buildDeleteRequest("/protected/policies/" + id);
         return executeWithExceptionLogging(() -> pdpRestTemplate.exchange(request, String.class));
     }
 
     @Override
-    public List<Policy> revisions(Long id) {
+    public List<Policy> revisions(Object id) {
         RequestEntity<?> request = buildGetRequest("/protected/revisions/" + id);
 
         return executeWithExceptionLogging(() -> {

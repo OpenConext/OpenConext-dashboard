@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Policy {
 
-    private Long id;
+    private Object id;
 
     private String name;
     private String description;

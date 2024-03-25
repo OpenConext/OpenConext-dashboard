@@ -113,13 +113,13 @@ public class PoliciesController extends BaseController {
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}", method = GET)
-    public RestResponse<Policy> policy(@PathVariable("id") Long id) {
+    public RestResponse<Policy> policy(@PathVariable("id") Object id) {
         return createRestResponse(pdpService.policy(id));
     }
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}", method = DELETE)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("id") Object id) {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             String msg = String.format("Consent endpoint requires LOA level 2 or higher, currentUser %s", currentUser);
@@ -131,7 +131,7 @@ public class PoliciesController extends BaseController {
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(path = "/{id}/revisions", method = GET)
-    public RestResponse<List<Policy>> revisions(@PathVariable("id") Long id) {
+    public RestResponse<List<Policy>> revisions(@PathVariable("id") Object id) {
         return createRestResponse(pdpService.revisions(id));
     }
 
