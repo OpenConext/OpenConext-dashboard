@@ -1,5 +1,6 @@
 package dashboard.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import dashboard.domain.Action;
 import dashboard.domain.JiraFilter;
@@ -20,7 +21,8 @@ import static org.junit.Assert.assertEquals;
 
 public class JiraClientImplTest {
 
-    private final JiraClientImpl jiraClient = new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.test);
+    private final JiraClientImpl jiraClient = new JiraClientImpl(new ObjectMapper(),
+            "http://localhost:8891", "user", "password", "jiraApiKey", true, "CTX", 5, Environment.test);
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8891);
@@ -56,7 +58,7 @@ public class JiraClientImplTest {
     @Test
     public void actionToIssueIdentifier() throws IOException {
         doActionToIssuerIdentifier(jiraClient);
-        doActionToIssuerIdentifier(new JiraClientImpl("http://localhost:8891", "user", "password", "CTX", 5, Environment.prod));
+        doActionToIssuerIdentifier(new JiraClientImpl(new ObjectMapper(), "http://localhost:8891", "user", "password", "jiraApiKey", false, "CTX", 5, Environment.prod));
     }
 
     private void doActionToIssuerIdentifier(JiraClientImpl jiraClient) {

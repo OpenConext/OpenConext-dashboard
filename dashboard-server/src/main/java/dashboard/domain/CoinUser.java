@@ -99,6 +99,11 @@ public class CoinUser implements UserDetails {
         return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_SUPER_USER));
     }
 
+    public boolean isImpersonating() {
+        return this.isSuperUser() && this.getSwitchedToIdp().isPresent() &&
+                this.isDashboardAdmin();
+    }
+
     public boolean isDashboardAdmin() {
         return hasAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
     }

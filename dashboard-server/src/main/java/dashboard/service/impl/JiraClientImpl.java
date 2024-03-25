@@ -52,25 +52,33 @@ public class JiraClientImpl implements JiraClient {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    private String baseUrl;
-    private RestTemplate restTemplate;
-    private String projectKey;
-    private HttpHeaders defaultHeaders;
-    private Map<String, Map<String, Map<String, String>>> mappings;
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private String environment;
-    private ArrayList standardFields;
-    private int dueDateWeeks;
+    private final String baseUrl;
+    private final RestTemplate restTemplate;
+    private final String projectKey;
+    private final HttpHeaders defaultHeaders;
+    private final Map<String, Map<String, Map<String, String>>> mappings;
+    private final ObjectMapper objectMapper;
+    private final String environment;
+    private final ArrayList standardFields;
+    private final int dueDateWeeks;
 
-    public JiraClientImpl(String baseUrl, String username, String password, String projectKey, int dueDateWeeks, Environment environment) throws IOException {
+    public JiraClientImpl(ObjectMapper objectMapper, String baseUrl, String username, String password,
+                          String jiraApikey, boolean jiraUseApiKey, String projectKey,
+                          int dueDateWeeks, Environment environment) throws IOException {
+        this.objectMapper = objectMapper;
+        ;
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
         this.dueDateWeeks = dueDateWeeks;
 
         this.defaultHeaders = new HttpHeaders();
         this.defaultHeaders.setContentType(MediaType.APPLICATION_JSON);
-        byte[] encoded = Base64.getEncoder().encode((username + ":" + password).getBytes());
-        this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
+        if (jiraUseApiKey) {
+            this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + jiraApikey);
+        } else {
+            byte[] encoded = Base64.getEncoder().encode((username + ":" + password).getBytes());
+            this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
+        }
         this.restTemplate = new RestTemplate();
         this.environment = environment.equals(Environment.test) ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
@@ -121,8 +129,17 @@ public class JiraClientImpl implements JiraClient {
             Map<String, String> result = restTemplate.postForObject(baseUrl + "/issue", entity, Map.class);
             return result.get("key");
         } catch (HttpClientErrorException e) {
-            LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}", e.getStatusCode(), e.getStatusText(), e
-                    .getResponseBodyAsString());
+            String json ;
+            try {
+                json = objectMapper.writeValueAsString(issue);
+            } catch (JsonProcessingException ex) {
+                json = "Unable to parse request";
+            }
+            LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}\nJSON Request: {}",
+                    e.getStatusCode(),
+                    e.getStatusText(),
+                    e.getResponseBodyAsString(),
+                    json);
             throw new RuntimeException(e);
         }
     }

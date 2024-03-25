@@ -76,7 +76,7 @@ export default function MFA({app}) {
                 window.scrollTo(0, 0)
             })
     }
-    const loaRequired = currentUser.isMFARequired(3)
+    const loaRequired = currentUser.isMFARequired(2)
     return (
         <div className="mod-ssid-panel">
             <div className={"title-container"}>

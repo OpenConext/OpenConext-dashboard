@@ -314,7 +314,7 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> updateConsentSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                       @RequestBody Consent consent) {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+        if ((currentUser.isSuperUser() && !currentUser.isImpersonating()) || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             LOG.warn("Consent endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -369,7 +369,7 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> updateSurfSecureId(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                    @RequestBody LoaLevelChange loaLevelChange) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin()) {
+        if ((currentUser.isSuperUser() && !currentUser.isImpersonating()) || !currentUser.isDashboardAdmin()) {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -431,12 +431,12 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> updateMFA(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                           @RequestBody MFAChange mfaChange) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.isSuperUser() || !currentUser.isDashboardAdmin()) {
+        if ((currentUser.isSuperUser() && !currentUser.isImpersonating()) || !currentUser.isDashboardAdmin()) {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 3 && dashboardStepupEnabled) {
-            LOG.warn("MFA endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
+        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
+            LOG.warn("MFA endpoint is not allowed without LOA level 2, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
@@ -483,7 +483,7 @@ public class UsersController extends BaseController {
     public ResponseEntity<RestResponse<Object>> updateSettings(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
                                                                @RequestBody Settings settings) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+        if ((currentUser.isSuperUser() && !currentUser.isImpersonating()) || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
             LOG.warn("Settings endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
