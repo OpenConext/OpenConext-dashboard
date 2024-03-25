@@ -104,7 +104,7 @@ public class PdpServiceImpl implements PdpService, Constants {
                 String response = sce.getResponseBodyAsString();
                 //Must both cover PdP and Manage API
                 if (response.contains("unique") || response.contains("DuplicateEntityIdException")) {
-                    throw new PolicyNameNotUniqueException();
+                    throw new PolicyNameNotUniqueException(response);
                 }
             }
 

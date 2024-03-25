@@ -21,11 +21,12 @@ import static com.google.common.net.MediaType.JSON_UTF_8;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class PdpServiceImplTest {
 
-    private PdpService pdpService = new PdpServiceImpl(new ObjectMapper(), "http://localhost:8889", "pdp-user", "pdp-password");
+    private final PdpService pdpService = new PdpServiceImpl(new ObjectMapper(), "http://localhost:8889", "pdp-user", "pdp-password");
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8889);
@@ -99,7 +100,7 @@ public class PdpServiceImplTest {
 
         Policy policy = pdpService.create(new Policy());
 
-        assertThat(policy.getId(), is(2L));
+        assertThat(policy.getId(), is(2));
     }
 
     @Test
@@ -113,7 +114,8 @@ public class PdpServiceImplTest {
             pdpService.create(new Policy());
             fail("Should throw PolicyException");
         } catch (PolicyNameNotUniqueException e) {
-            assertThat(e.getMessage(), startsWith("Policy name must be unique"));
+
+            assertTrue(e.getMessage().contains("Policy name must be unique"));
         }
     }
 }
