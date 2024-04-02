@@ -387,6 +387,7 @@ I18n.translations.nl = {
             idp: 'Je IdP',
             surf: 'SURFconext',
             voot: 'SURFconext Teams',
+            invite: 'SURFconext Invite',
             eduid: 'eduID',
             sab: 'SURF Autorisatie Beheer',
             ala: 'Je IdP',

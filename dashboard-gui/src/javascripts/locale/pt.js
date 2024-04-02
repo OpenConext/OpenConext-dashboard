@@ -384,6 +384,7 @@ I18n.translations.pt = {
             idp: 'Your IdP',
             surf: 'SURFconext',
             voot: 'SURFconext Teams',
+            invite: 'SURFconext Invite',
             eduid: 'eduID',
             sab: 'SURF Autorisation Management',
             ala: 'Your IdP',
