@@ -92,7 +92,6 @@ public class JiraClientImpl implements JiraClient {
     @SuppressWarnings("unchecked")
     public String create(final Action action) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("priority", ImmutableMap.of("id", "3"));
         fields.put("project", ImmutableMap.of("key", projectKey));
         fields.put("customfield_" + spCustomField(), action.getSpId());
         if (StringUtils.hasText(action.getPersonalMessage())) {
