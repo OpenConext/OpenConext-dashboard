@@ -116,7 +116,7 @@ export default function SurfSecureID({ app }) {
           app={app}
           isOpen={showStepUpModal}
           onClose={() => setShowStepUpModal(false)}
-          requiredLoaLevel={3}
+          requiredLoaLevel={2}
       />
         <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
             <div>
