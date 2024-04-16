@@ -42,7 +42,7 @@ export default function MFA({app}) {
         && currentUser.authnContextLevels.indexOf(initialAuthnContextLevel) === -1
 
     const checkLoaLevel = callback => {
-        if (currentUser.isMFARequired(3)) {
+        if (currentUser.isMFARequired(2)) {
             setShowStepUpModal(true)
         } else {
             callback();

@@ -33,7 +33,7 @@ export default function SurfSecureID({ app }) {
   )
 
   const checkLoaLevel = callback => {
-    if (currentUser.isMFARequired(2)) {
+    if (currentUser.isMFARequired(3)) {
       setShowStepUpModal(true)
     } else {
       callback();
@@ -68,7 +68,7 @@ export default function SurfSecureID({ app }) {
       })
   }
 
-    const loaRequired = currentUser.isMFARequired(2)
+    const loaRequired = currentUser.isMFARequired(3)
     return (
     <div>
         <div className={"title-container"}>
@@ -116,7 +116,7 @@ export default function SurfSecureID({ app }) {
           app={app}
           isOpen={showStepUpModal}
           onClose={() => setShowStepUpModal(false)}
-          requiredLoaLevel={2}
+          requiredLoaLevel={3}
       />
         <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
             <div>

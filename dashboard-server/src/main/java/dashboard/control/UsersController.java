@@ -373,8 +373,8 @@ public class UsersController extends BaseController {
             LOG.warn("SURF secure ID endpoint is not allowed for superUser / dashboardViewer, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
-            LOG.warn("SURFsecureID endpoint is not allowed without LOA level 2, currentUser {}", currentUser);
+        if (currentUser.getCurrentLoaLevel() < 3 && dashboardStepupEnabled) {
+            LOG.warn("SURFsecureID endpoint is not allowed without LOA level 3, currentUser {}", currentUser);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         ServiceProvider serviceProvider = this.manage.getServiceProvider(loaLevelChange.getEntityId(), EntityType.valueOf(loaLevelChange.getEntityType()), false)
