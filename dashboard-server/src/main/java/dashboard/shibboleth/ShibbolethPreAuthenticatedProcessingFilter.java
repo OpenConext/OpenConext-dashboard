@@ -319,7 +319,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             return 1;
         }
         try {
-            return Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+            int loa = Integer.parseInt(shibAuthnContextClass.substring(shibAuthnContextClass.length() - 1));
+            return loa == 5 ? 1 : loa;
         } catch (NumberFormatException e) {
             return 1;
         }
