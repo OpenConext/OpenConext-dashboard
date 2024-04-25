@@ -24,6 +24,8 @@ import static dashboard.shibboleth.ShibbolethHeader.*;
 public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "http://mock-idp";//,"https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
+    public final String authnContextClass = "urn:oasis:names:tc:SAML:2.0:ac:classes:Password";
+//    public final String authnContextClass = "http://test2.surfconext.nl/assurance/loa2";
     public String role = "admin";
 //    public String role = "super";
 
@@ -56,7 +58,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
                     "urn:mace:terena.org:tcs:eduPersonScopedAffiliation");
             wrapper.setHeader(Shib_SURFEckid.getValue(), "some surf eckid value");
             wrapper.setHeader(HTTP_X_IDP_ENTITY_ID, idp);
-            wrapper.setHeader(Shib_AuthnContext_Class.getValue(), "urn:oasis:names:tc:SAML:2.0:ac:classes:Password");
+            wrapper.setHeader(Shib_AuthnContext_Class.getValue(), authnContextClass);
 
             switch (role) {
                 case "super":
@@ -73,7 +75,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
             }
             if (requestURI.endsWith("Shibboleth.sso/Login")) {
                 String authnContextClassRef = request.getParameter("authnContextClassRef");
-                authnContextClassRef = StringUtils.hasText(authnContextClassRef) ? authnContextClassRef : "urn:oasis:names:tc:SAML:2.0:ac:classes:Password";
+                authnContextClassRef = StringUtils.hasText(authnContextClassRef) ? authnContextClassRef : authnContextClass;
                 wrapper.setHeader(Shib_AuthnContext_Class.getValue(), URLDecoder.decode(authnContextClassRef, Charset.defaultCharset()));
             }
             chain.doFilter(wrapper, response);
