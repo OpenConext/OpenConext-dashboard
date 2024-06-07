@@ -26,8 +26,8 @@ public class MockShibbolethFilter extends GenericFilterBean {
     public static final String idp = "http://mock-idp";//,"https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
     public final String authnContextClass = "urn:oasis:names:tc:SAML:2.0:ac:classes:Password";
 //    public final String authnContextClass = "http://test2.surfconext.nl/assurance/loa2";
-    public String role = "admin";
-//    public String role = "super";
+//    public String role = "admin";
+    public String role = "super";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) throws IOException,

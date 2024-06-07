@@ -366,14 +366,14 @@ class InviteRequest extends React.Component {
             </div>
           </section>
         </div>
-        <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => setShowJiraDownModal(false)}>
+        <ConnectModalContainer isOpen={showJiraDownModal} onClose={() => this.setState({showJiraDownModal: false})}>
           <div>
             <div className="connect-modal-header">{I18n.t('how_to_connect_panel.jira_down')}</div>
             <div className="connect-modal-body">
               <p dangerouslySetInnerHTML={{ __html: I18n.t('how_to_connect_panel.jira_down_description') }}/>
             </div>
             <div className="buttons">
-              <button className="c-button white" onClick={() => setShowJiraDownModal(false)}>
+              <button className="c-button white" onClick={() => this.setState({showJiraDownModal: false})}>
                 {I18n.t('how_to_connect_panel.close')}
               </button>
             </div>
