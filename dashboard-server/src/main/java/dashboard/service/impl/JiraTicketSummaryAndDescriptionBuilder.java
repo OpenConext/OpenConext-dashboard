@@ -48,7 +48,7 @@ class JiraTicketSummaryAndDescriptionBuilder {
             if (action.getLoaLevel() != null) {
                 description
                         .append("\n")
-                        .append("Note: the user has requested a higher LOA level then default, ")
+                        .append("Note: the user has requested a higher LOA level than default, ")
                         .append(action.getLoaLevel())
                         .append("\n");
             }
