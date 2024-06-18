@@ -39,6 +39,12 @@ To run locally either start the Application from your IDE or use the spring-boot
 If you want to debug you can either debug the Application in your IDE or use:
 
     ./debug.sh
+
+
+#### [Mail](#mail)
+
+In the default `application.properties` the mail host is `localhost` and the port is `1025`. Run mailpit to capture mails.
+See <https://github.com/axllent/mailpit>
     
 #### [Feature toggles](#feature_toggles)
 

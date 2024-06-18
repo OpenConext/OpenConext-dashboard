@@ -37,7 +37,7 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     @InjectMocks
     private ShibbolethPreAuthenticatedProcessingFilter subject =
-            new ShibbolethPreAuthenticatedProcessingFilter(new JiraClientMock("idp"));
+            new ShibbolethPreAuthenticatedProcessingFilter(new JiraClientMock(null, null));
 
     @Mock
     private Manage manageMock;

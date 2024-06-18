@@ -1,6 +1,7 @@
 package dashboard;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dashboard.mail.MailBox;
 import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
 import dashboard.manage.UrlResourceManage;
@@ -65,6 +66,7 @@ public class Application {
 
     @Bean
     public JiraClient jiraClient(ObjectMapper objectMapper,
+                                 MailBox mailBox,
                                  @Value("${dashboard.feature.jira}") boolean jiraEnabled,
                                  @Value("${jiraBaseUrl}") String baseUrl,
                                  @Value("${jiraUsername}") String username,
@@ -83,7 +85,7 @@ public class Application {
                 jiraUseApiKey,
                 projectKey,
                 dueDateWeeks,
-                environment) : new JiraClientMock(MockShibbolethFilter.idp);
+                environment) : new JiraClientMock(mailBox, objectMapper);
     }
 
     @Bean
