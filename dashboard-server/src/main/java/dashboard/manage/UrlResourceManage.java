@@ -33,7 +33,7 @@ public class UrlResourceManage implements Manage {
     private final String body = "{" + requestedAttributes + "}";
     private final String bodyForEntity = "{\"entityid\":\"@@entityid@@\", " + requestedAttributes + "}";
     private final String bodyForInstitutionId =
-            "{\"metaDataFields.coin:institution_id\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
+            "{\"metaDataFields.coin:institution_guid\":\"@@institution_id@@\", \"ALL_ATTRIBUTES\":true}";
 
     private final String linkedQuery = "{$and: [{$or:[{\"data.allowedEntities.name\": {$in: [\"@@entityid@@\"]}}, {\"data" +
             ".allowedall\": true}]}]}";

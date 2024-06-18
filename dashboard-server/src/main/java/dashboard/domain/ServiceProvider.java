@@ -81,7 +81,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         super(metaData);
         this.dashboardConnectOption = DashboardConnectOption.fromOption((String) metaData.getOrDefault("coin:dashboard_connect_option", "connect_with_interaction"));
         this.applicationUrl = (String) metaData.get("coin:application_url");
-        this.institutionId = (String) metaData.get("coin:institution_id");
+        this.institutionId = (String) metaData.get("coin:institution_guid");
         this.eulaURL = (String) metaData.get("coin:eula");
         this.interfedSource = (String) metaData.getOrDefault("coin:interfed_source", "SURFconext");
         this.privacyStatementUrlEn = (String) metaData.get("mdui:PrivacyStatementURL:en");

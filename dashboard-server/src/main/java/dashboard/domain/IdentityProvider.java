@@ -56,7 +56,7 @@ public class IdentityProvider extends Provider implements Serializable {
 
     public IdentityProvider(Map<String, Object> metaData) {
         super(metaData);
-        this.institutionId = (String) metaData.get("coin:institution_id");
+        this.institutionId = (String) metaData.get("coin:institution_guid");
         this.disableConsent = (List<Consent>) metaData.getOrDefault("disableConsent", new ArrayList<>());
         addKeywords("en", (String) metaData.get("keywords:en"));
         addKeywords("nl", (String) metaData.get("keywords:nl"));

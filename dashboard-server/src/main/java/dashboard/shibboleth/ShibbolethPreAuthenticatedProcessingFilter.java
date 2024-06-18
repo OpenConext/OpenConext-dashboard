@@ -14,12 +14,14 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkState;
+import static dashboard.control.LoginController.IDP_ID_COOKIE_NAME;
 import static dashboard.domain.CoinAuthority.Authority.*;
 import static dashboard.shibboleth.ShibbolethHeader.*;
 import static java.util.Collections.singletonList;
@@ -150,7 +152,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         String idpId = authorityOptional.orElseThrow(() -> new IllegalArgumentException(String.format("Missing %s Shibboleth header (%s)",
                 Shib_Authenticating_Authority.getValue(), request.getRequestURL())));
 
-
         CoinUser coinUser = new CoinUser();
         coinUser.setUid(uid);
         coinUser.setDisplayName(getFirstShibHeaderValue(Shib_DisplayName, request).orElse(null));
@@ -181,6 +182,16 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
             coinUser.setIdp(getCurrentIdp(idpId, institutionIdentityProviders));
             coinUser.getInstitutionIdps().addAll(institutionIdentityProviders);
             Collections.sort(coinUser.getInstitutionIdps(), Comparator.comparing(Provider::getName));
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                Stream.of(cookies).filter(cookie -> IDP_ID_COOKIE_NAME.equals(cookie.getName()))
+                        .findAny()
+                        .ifPresent(cookie -> {
+                            IdentityProvider switchedToIdp = institutionIdentityProviders.stream()
+                                    .filter(idp -> idp.getId().equals(cookie.getValue())).findAny().orElse(null);
+                            coinUser.setSwitchedToIdp(switchedToIdp);
+                        });
+            }
         }
 
         Optional<SabRoleHolder> roles = sab.getRoles(uid);
