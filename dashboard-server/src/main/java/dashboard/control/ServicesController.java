@@ -239,10 +239,12 @@ public class ServicesController extends BaseController {
             jiraType, Locale locale, Optional<String> emailContactPersonOptional, Optional<String> loaLevel) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.isSuperUser() || (!currentUser.isDashboardAdmin() && currentUser.isDashboardViewer())) {
+            LOG.warn(String.format("Action create not allowed, because of user %s ", currentUser));
             return Optional.empty();
         }
 
         if (isNullOrEmpty(currentUser.getIdp().getInstitutionId())) {
+            LOG.warn(String.format("Action create not allowed, because of user IdP %s ", currentUser.getIdp()));
             return Optional.empty();
         }
 
