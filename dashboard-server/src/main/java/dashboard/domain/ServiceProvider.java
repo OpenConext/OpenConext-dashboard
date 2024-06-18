@@ -16,7 +16,7 @@
 package dashboard.domain;
 
 import dashboard.manage.DashboardConnectOption;
-import dashboard.manage.EntityType;
+import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -27,54 +27,56 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toMap;
 
 
+@Getter
 public class ServiceProvider extends Provider implements Serializable, Cloneable {
 
     private static final List<String> nameIdFormats = Arrays.asList("NameIDFormat", "NameIDFormats:0", "NameIDFormats:1", "NameIDFormats:2");
 
-    private Map<String, String> arpMotivations;
-    private Map<String, String> arpSources;
-    private String applicationUrl;
-    private String institutionId;
-    private String eulaURL;
-    private String interfedSource;
-    private String privacyStatementUrlEn;
-    private String privacyStatementUrlNl;
-    private String privacyStatementUrlPt;
-    private String registrationInfo;
-    private String registrationPolicyUrlEn;
-    private String registrationPolicyUrlNl;
-    private String registrationPolicyUrlPt;
-    private String entityCategories1;
-    private String entityCategories2;
-    private String entityCategories3;
-    private boolean idpVisibleOnly;
-    private boolean policyEnforcementDecisionRequired;
-    private DashboardConnectOption dashboardConnectOption;
-    private boolean aansluitovereenkomstRefused;
-    private boolean hidden;
-    private LicenseStatus licenseStatus;
-    private List<String> nameIds;
-    private List<String> resourceServers;
-    private boolean isResourceServer;
+    private final Map<String, String> arpMotivations;
+    private final Map<String, String> arpSources;
+    private final String applicationUrl;
+    private final String institutionId;
+    private final String eulaURL;
+    private final String interfedSource;
+    private final String privacyStatementUrlEn;
+    private final String privacyStatementUrlNl;
+    private final String privacyStatementUrlPt;
+    private final String registrationInfo;
+    private final String registrationPolicyUrlEn;
+    private final String registrationPolicyUrlNl;
+    private final String registrationPolicyUrlPt;
+    private final String entityCategories1;
+    private final String entityCategories2;
+    private final String entityCategories3;
+    private final boolean idpVisibleOnly;
+    private final boolean policyEnforcementDecisionRequired;
+    private final DashboardConnectOption dashboardConnectOption;
+    private final boolean aansluitovereenkomstRefused;
+    private final boolean hidden;
+    private final LicenseStatus licenseStatus;
+    private final List<String> nameIds;
+    private final List<String> resourceServers;
+    private final boolean isResourceServer;
     private boolean isClientCredentials;
+    private final boolean excludeFromPush;
 
-    private ARP arp;
-    private PrivacyInfo privacyInfo;
+    private final ARP arp;
+    private final PrivacyInfo privacyInfo;
 
-    private Map<String, String> urls = new HashMap<>();
-    private String wikiUrlNl;
-    private String wikiUrlEn;
-    private String wikiUrlPt;
-    private boolean strongAuthenticationEnabled;
-    private String minimalLoaLevel;
+    private final Map<String, String> urls = new HashMap<>();
+    private final String wikiUrlNl;
+    private final String wikiUrlEn;
+    private final String wikiUrlPt;
+    private final boolean strongAuthenticationEnabled;
+    private final String minimalLoaLevel;
 
     private List<String> typeOfServicesNl = new ArrayList<>();
     private List<String> typeOfServicesEn = new ArrayList<>();
     private List<String> typeOfServicesPt = new ArrayList<>();
 
-    private String manipulationNotes;
-    private boolean manipulation;
-    private String contractualBase;
+    private final String manipulationNotes;
+    private final boolean manipulation;
+    private final String contractualBase;
 
     @SuppressWarnings("unchecked")
     public ServiceProvider(Map<String, Object> metaData) {
@@ -101,6 +103,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.minimalLoaLevel = (String) metaData.get("coin:stepup:requireloa");
         this.strongAuthenticationEnabled = StringUtils.hasText(this.minimalLoaLevel);
         this.aansluitovereenkomstRefused = booleanValue(metaData.get("coin:ss:aansluitovereenkomst_refused"));
+        this.excludeFromPush = booleanValue(metaData.get("coin:exclude_from_push"));
         this.hidden = booleanValue(metaData.get("coin:ss:hidden"));
         this.wikiUrlEn = (String) metaData.get("coin:ss:wiki_url:en");
         this.wikiUrlNl = (String) metaData.get("coin:ss:wiki_url:nl");
@@ -142,7 +145,7 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         this.contractualBase = (String) metaData.getOrDefault("coin:contractual_base", "NA");
 
         this.nameIds = nameIdFormats.stream()
-                .filter(nameId -> metaData.containsKey(nameId))
+                .filter(metaData::containsKey)
                 .map(nameId -> (String) metaData.get(nameId))
                 .collect(Collectors.toList());
 
@@ -169,58 +172,6 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
 
     }
 
-    public boolean isIdpVisibleOnly() {
-        return idpVisibleOnly;
-    }
-
-    public boolean isPolicyEnforcementDecisionRequired() {
-        return policyEnforcementDecisionRequired;
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public String getEulaURL() {
-        return eulaURL;
-    }
-
-    public String getInterfedSource() {
-        return interfedSource;
-    }
-
-    public String getPrivacyStatementUrlEn() {
-        return privacyStatementUrlEn;
-    }
-
-    public String getPrivacyStatementUrlNl() {
-        return privacyStatementUrlNl;
-    }
-
-    public String getPrivacyStatementUrlPt() {
-        return privacyStatementUrlPt;
-    }
-
-    public String getRegistrationInfo() {
-        return registrationInfo;
-    }
-
-    public String getRegistrationPolicyUrlEn() {
-        return registrationPolicyUrlEn;
-    }
-
-    public String getRegistrationPolicyUrlNl() {
-        return registrationPolicyUrlNl;
-    }
-
-    public String getRegistrationPolicyUrlPt() {
-        return registrationPolicyUrlPt;
-    }
-
-    public Map<String, String> getUrls() {
-        return urls;
-    }
-
     public String getUrl(Language language) {
         return CollectionUtils.isEmpty(this.urls) ? null : urls.get(language.name().toLowerCase());
     }
@@ -229,46 +180,10 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         return Language.EN.equals(language) ? this.wikiUrlEn : Language.PT.equals(language) ? this.wikiUrlPt : this.wikiUrlNl;
     }
 
-    public PrivacyInfo getPrivacyInfo() {
-        return privacyInfo;
-    }
-
-    public Map<String, String> getArpMotivations() {
-        return arpMotivations;
-    }
-
-    public Map<String, String> getArpSources() {
-        return arpSources;
-    }
-
     private void addUrl(String lang, String url) {
         if (StringUtils.hasText(url)) {
             this.urls.put(lang, url);
         }
-    }
-
-    public ARP getArp() {
-        return arp;
-    }
-
-    public String getApplicationUrl() {
-        return applicationUrl;
-    }
-
-    public String getInstitutionId() {
-        return institutionId;
-    }
-
-    public String getEntityCategories1() {
-        return entityCategories1;
-    }
-
-    public String getEntityCategories2() {
-        return entityCategories2;
-    }
-
-    public String getEntityCategories3() {
-        return entityCategories3;
     }
 
     @Override
@@ -294,79 +209,4 @@ public class ServiceProvider extends Provider implements Serializable, Cloneable
         }
     }
 
-    public LicenseStatus getLicenseStatus() {
-        return licenseStatus;
-    }
-
-    public boolean isStrongAuthenticationEnabled() {
-        return strongAuthenticationEnabled;
-    }
-
-    public String getMinimalLoaLevel() {
-        return minimalLoaLevel;
-    }
-
-    public String getWikiUrlNl() {
-        return wikiUrlNl;
-    }
-
-    public String getWikiUrlEn() {
-        return wikiUrlEn;
-    }
-
-    public String getWikiUrlPt() {
-        return wikiUrlPt;
-    }
-
-    public List<String> getTypeOfServicesNl() {
-        return typeOfServicesNl;
-    }
-
-    public List<String> getTypeOfServicesEn() {
-        return typeOfServicesEn;
-    }
-
-    public List<String> getTypeOfServicesPt() {
-        return typeOfServicesPt;
-    }
-
-    public boolean isAansluitovereenkomstRefused() {
-        return aansluitovereenkomstRefused;
-    }
-
-    public String getManipulationNotes() {
-        return manipulationNotes;
-    }
-
-    public String getContractualBase() {
-        return contractualBase;
-    }
-
-    public boolean isManipulation() {
-        return manipulation;
-    }
-
-    public List<String> getNameIds() {
-        return nameIds;
-    }
-
-    public void setDashboardConnectOption(DashboardConnectOption dashboardConnectOption) {
-        this.dashboardConnectOption = dashboardConnectOption;
-    }
-
-    public DashboardConnectOption getDashboardConnectOption() {
-        return dashboardConnectOption;
-    }
-
-    public List<String> getResourceServers() {
-        return resourceServers;
-    }
-
-    public boolean isResourceServer() {
-        return isResourceServer;
-    }
-
-    public boolean isClientCredentials() {
-        return isClientCredentials;
-    }
 }

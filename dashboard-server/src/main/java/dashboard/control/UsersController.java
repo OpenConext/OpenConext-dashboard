@@ -9,7 +9,6 @@ import dashboard.service.Services;
 import dashboard.util.SpringSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +19,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static dashboard.control.Constants.HTTP_X_IDP_ENTITY_ID;
+import static dashboard.control.LoginController.IDP_ID_COOKIE_NAME;
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -33,25 +35,37 @@ import static java.util.stream.Collectors.toList;
 @SuppressWarnings("unchecked")
 public class UsersController extends BaseController {
 
-    @Autowired
-    private Manage manage;
-
-    @Autowired
-    private Services services;
-
-    @Autowired
-    private ActionsService actionsService;
-
-    @Autowired
-    private MailBox mailbox;
-
-    @Value("${manage.manageBaseUrl}")
-    private String manageBaseUrl;
-
-    @Value("${dashboard.feature.stepup}")
-    private boolean dashboardStepupEnabled;
-
     private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
+
+    private final Manage manage;
+
+    private final Services services;
+
+    private final ActionsService actionsService;
+
+    private final MailBox mailbox;
+
+    private final String manageBaseUrl;
+
+    private final boolean dashboardStepupEnabled;
+
+    private final boolean secureCookie;
+
+    public UsersController(Manage manage,
+                           Services services,
+                           ActionsService actionsService,
+                           MailBox mailbox,
+                           @Value("${manage.manageBaseUrl}") String manageBaseUrl,
+                           @Value("${dashboard.feature.stepup}") boolean dashboardStepupEnabled,
+                           @Value("${server.servlet.session.cookie.secure}") boolean secureCookie) {
+        this.manage = manage;
+        this.services = services;
+        this.actionsService = actionsService;
+        this.mailbox = mailbox;
+        this.manageBaseUrl = manageBaseUrl;
+        this.dashboardStepupEnabled = dashboardStepupEnabled;
+        this.secureCookie = secureCookie;
+    }
 
     @RequestMapping("/me")
     public RestResponse<CoinUser> me() {
@@ -294,18 +308,23 @@ public class UsersController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping("/me/switch-to-idp")
     public ResponseEntity<Void> currentIdp(
+            HttpServletResponse response,
             @RequestParam(value = "idpId", required = false) String switchToIdp,
             @RequestParam(value = "role", required = false) String role) {
-
+        Cookie cookie = new Cookie(IDP_ID_COOKIE_NAME, "");
+        cookie.setSecure(secureCookie);
+        cookie.setHttpOnly(true);
         if (isNullOrEmpty(switchToIdp)) {
             SpringSecurity.clearSwitchedIdp();
+            cookie.setValue("");
+            cookie.setMaxAge(0);
         } else {
             IdentityProvider identityProvider = manage.getIdentityProvider(switchToIdp, false)
                     .orElseThrow(() -> new SecurityException(switchToIdp + " does not exist"));
-
             SpringSecurity.setSwitchedToIdp(identityProvider, role);
+            cookie.setValue(identityProvider.getId());
         }
-
+        response.addCookie(cookie);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

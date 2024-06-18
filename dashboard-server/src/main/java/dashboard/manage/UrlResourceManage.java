@@ -78,7 +78,7 @@ public class UrlResourceManage implements Manage {
         serviceProviders.addAll(singleTenantsProviders);
         serviceProviders.addAll(relayingParties);
 
-        return serviceProviders;
+        return serviceProviders.stream().filter(sp -> !sp.isExcludeFromPush()).collect(Collectors.toList());
     }
 
     private InputStream providerInputStream(EntityType type, String body) {

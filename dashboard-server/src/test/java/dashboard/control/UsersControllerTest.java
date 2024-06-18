@@ -14,7 +14,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
@@ -52,8 +51,7 @@ public class UsersControllerTest {
     private static final String FOO_IDP_ENTITY_ID = "foo";
     private static final String BAR_IDP_ENTITY_ID = "bar";
     private final CoinUser coinUser = coinUser("user", FOO_IDP_ENTITY_ID, BAR_IDP_ENTITY_ID);
-    @InjectMocks
-    private UsersController controller;
+
     @Mock
     private Manage manage;
     @Mock
@@ -63,8 +61,13 @@ public class UsersControllerTest {
 
     private MockMvc mockMvc;
 
+    private UsersController controller;
+
     @Before
     public void setup() throws IOException {
+        controller = new UsersController(
+            manage, services, actionsService, null, null, true, false
+                );
         controller.localeResolver = new CookieThenAcceptHeaderLocaleResolver();
 
         EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manage);

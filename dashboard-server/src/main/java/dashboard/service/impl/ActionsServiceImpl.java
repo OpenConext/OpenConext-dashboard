@@ -59,9 +59,6 @@ public class ActionsServiceImpl implements ActionsService {
     @Autowired
     private Sab sabClient;
 
-    @Value("${administration.email.enabled}")
-    private boolean sendAdministrationEmail;
-
     @Override
     @SuppressWarnings("unchecked")
     public JiraResponse searchTasks(String idp, JiraFilter jiraFilter) {
@@ -171,8 +168,6 @@ public class ActionsServiceImpl implements ActionsService {
         String jiraKey = jiraClient.create(action);
         Action savedAction = addNames(action).unbuild().jiraKey(jiraKey).build();
 
-        sendAdministrationEmail(savedAction);
-
         if (action.getType().equals(Action.Type.LINKINVITE) || action.getType().equals(Action.Type.UNLINKINVITE)) {
             Map<String, String> transitions = jiraClient.validTransitions(jiraKey);
             String transitionId = transitions.get(JiraClient.DISPATCH);
@@ -274,25 +269,4 @@ public class ActionsServiceImpl implements ActionsService {
         jiraClient.updateOptionalMessage(jiraKey, optionalMessage);
     }
 
-    private void sendAdministrationEmail(Action action) {
-        if (!sendAdministrationEmail) {
-            return;
-        }
-        String subject = String.format(
-                "[Services (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
-                getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey());
-        try {
-            mailBox.sendAdministrativeMail(action.toString(), subject);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    private String getHost() {
-        try {
-            return InetAddress.getLocalHost().toString();
-        } catch (UnknownHostException e) {
-            return "UNKNOWN";
-        }
-    }
 }

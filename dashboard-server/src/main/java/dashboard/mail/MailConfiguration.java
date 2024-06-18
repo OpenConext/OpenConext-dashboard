@@ -25,16 +25,9 @@ public class MailConfiguration {
     @Autowired
     private JavaMailSender mailSender;
 
-    @ConditionalOnProperty(prefix = "dashboard.feature", name = "mail", havingValue = "true")
     @Bean
     public MailBox mailBox() {
         return new MailBox(mailSender, emailFrom, administrativeEmail, mailBaseUrl);
-    }
-
-    @ConditionalOnProperty(prefix = "dashboard.feature", name = "mail", havingValue = "false")
-    @Bean
-    public MailBox mockMailBox() {
-        return new MockMailBox(mailSender, emailFrom, administrativeEmail, mailBaseUrl);
     }
 
 }

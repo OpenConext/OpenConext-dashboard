@@ -23,10 +23,10 @@ import static java.util.stream.Collectors.toList;
 
 public class MailBox {
 
-    private JavaMailSender mailSender;
-    private String emailFrom;
-    private List<String> administrativeEmails;
-    private String mailBaseUrl;
+    private final JavaMailSender mailSender;
+    private final String emailFrom;
+    private final List<String> administrativeEmails;
+    private final String mailBaseUrl;
 
     private final MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 

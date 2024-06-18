@@ -20,9 +20,12 @@ import dashboard.domain.Action;
 import dashboard.domain.Change;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
+import dashboard.mail.MailBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,27 +35,28 @@ public class JiraClientMock implements JiraClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(JiraClientMock.class);
 
-    private final Map<String, Action> repository = new LinkedHashMap<>();
+    private final MailBox mailBox;
 
-    private final AtomicInteger counter = new AtomicInteger(0);
-
-    public JiraClientMock(String idp) {
+    public JiraClientMock(MailBox mailBox) {
+        this.mailBox = mailBox;
     }
+
 
     @Override
     public String create(final Action action) {
-        String key = generateKey();
+        String subject = String.format(
+                "[Services (%s) request] %s connection from IdP '%s' to SP '%s' (Issue : %s)",
+                getHost(), action.getType().name(), action.getIdpId(), action.getSpId(), action.getJiraKey());
 
-        repository.put(key, action.unbuild().jiraKey(key).body(action.getBody() == null ? "" : action.getBody())
-                .build());
-
-        LOG.debug("Added task (key '{}') to repository: {}", key, action);
-
-        return key;
+        mailBox.sendAdministrativeMail();
+        return UUID.randomUUID().toString();
     }
-
-    private String generateKey() {
-        return "TASK-" + counter.incrementAndGet();
+    private String getHost() {
+        try {
+            return InetAddress.getLocalHost().toString();
+        } catch (UnknownHostException e) {
+            return "UNKNOWN";
+        }
     }
 
     @Override
