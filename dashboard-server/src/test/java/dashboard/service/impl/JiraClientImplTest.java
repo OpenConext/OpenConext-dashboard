@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -21,8 +22,17 @@ import static org.junit.Assert.assertEquals;
 
 public class JiraClientImplTest {
 
-    private final JiraClientImpl jiraClient = new JiraClientImpl(new ObjectMapper(),
-            "http://localhost:8891", "user", "password", "jiraApiKey", true, "CTX", 5, Environment.test);
+    private final JiraClientImpl jiraClient = new JiraClientImpl(
+            new ObjectMapper(),
+            "http://localhost:8891",
+            "user",
+            "password",
+            "jiraApiKey",
+            true,
+            "CTX",
+            5,
+            Environment.test,
+            500);
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8891);
@@ -43,6 +53,21 @@ public class JiraClientImplTest {
     }
 
     @Test
+    public void getTasksTimeOut() throws IOException {
+        String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/tasks.json").getInputStream(), Charset.defaultCharset());
+
+        stubFor(post(urlPathEqualTo("/search")).willReturn(aResponse()
+                .withFixedDelay(1000)
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody(jiraResponse)));
+
+        JiraFilter jiraFilter = new JiraFilter();
+        JiraResponse response = jiraClient.searchTasks("https://mock-idp", jiraFilter);
+        assertEquals(0, response.getIssues().size());
+    }
+
+    @Test
     public void getTasksRejected() throws IOException {
         String jiraResponse = IOUtils.toString(new ClassPathResource("jira-json/rejected_task.json").getInputStream(), Charset.defaultCharset());
 
@@ -58,7 +83,7 @@ public class JiraClientImplTest {
     @Test
     public void actionToIssueIdentifier() throws IOException {
         doActionToIssuerIdentifier(jiraClient);
-        doActionToIssuerIdentifier(new JiraClientImpl(new ObjectMapper(), "http://localhost:8891", "user", "password", "jiraApiKey", false, "CTX", 5, Environment.prod));
+        doActionToIssuerIdentifier(new JiraClientImpl(new ObjectMapper(), "http://localhost:8891", "user", "password", "jiraApiKey", false, "CTX", 5, Environment.prod, 10 * 1000));
     }
 
     private void doActionToIssuerIdentifier(JiraClientImpl jiraClient) {

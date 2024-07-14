@@ -12,7 +12,6 @@ import dashboard.sab.SabClient;
 import dashboard.sab.SabClientMock;
 import dashboard.service.Services;
 import dashboard.service.impl.*;
-import dashboard.shibboleth.mock.MockShibbolethFilter;
 import dashboard.stats.Stats;
 import dashboard.stats.StatsImpl;
 import dashboard.stats.StatsMock;
@@ -75,7 +74,8 @@ public class Application {
                                  @Value("${jiraApikey}") String jiraApikey,
                                  @Value("${jiraUseApiKey}") boolean jiraUseApiKey,
                                  @Value("${jiraEnvironment}") Environment environment,
-                                 @Value("${jiraDueDateWeeks}") int dueDateWeeks) throws IOException {
+                                 @Value("${jiraDueDateWeeks}") int dueDateWeeks,
+                                 @Value("${jiraConnectionTimeout}") int jiraConnectionTimeout) throws IOException {
         return jiraEnabled ? new JiraClientImpl(
                 objectMapper,
                 baseUrl,
@@ -85,7 +85,8 @@ public class Application {
                 jiraUseApiKey,
                 projectKey,
                 dueDateWeeks,
-                environment) : new JiraClientMock(mailBox, objectMapper);
+                environment,
+                jiraConnectionTimeout) : new JiraClientMock(mailBox, objectMapper);
     }
 
     @Bean

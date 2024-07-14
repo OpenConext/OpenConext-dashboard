@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -48,6 +49,7 @@ import static java.util.stream.Collectors.toList;
 
 @SuppressWarnings("unchecked")
 public class JiraClientImpl implements JiraClient {
+
     private static final Logger LOG = LoggerFactory.getLogger(JiraClientImpl.class);
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -59,14 +61,20 @@ public class JiraClientImpl implements JiraClient {
     private final Map<String, Map<String, Map<String, String>>> mappings;
     private final ObjectMapper objectMapper;
     private final String environment;
-    private final ArrayList standardFields;
+    private final ArrayList<String> standardFields;
     private final int dueDateWeeks;
 
-    public JiraClientImpl(ObjectMapper objectMapper, String baseUrl, String username, String password,
-                          String jiraApikey, boolean jiraUseApiKey, String projectKey,
-                          int dueDateWeeks, Environment environment) throws IOException {
+    public JiraClientImpl(ObjectMapper objectMapper,
+                          String baseUrl,
+                          String username,
+                          String password,
+                          String jiraApikey,
+                          boolean jiraUseApiKey,
+                          String projectKey,
+                          int dueDateWeeks,
+                          Environment environment,
+                          int timeout) throws IOException {
         this.objectMapper = objectMapper;
-        ;
         this.projectKey = projectKey;
         this.baseUrl = baseUrl;
         this.dueDateWeeks = dueDateWeeks;
@@ -80,10 +88,13 @@ public class JiraClientImpl implements JiraClient {
             this.defaultHeaders.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encoded));
         }
         this.restTemplate = new RestTemplate();
+        SimpleClientHttpRequestFactory requestFactory = (SimpleClientHttpRequestFactory) this.restTemplate.getRequestFactory();
+        requestFactory.setReadTimeout(timeout);
+        requestFactory.setConnectTimeout(timeout);
         this.environment = environment.equals(Environment.test) ? "test" : "prod";
         this.mappings = objectMapper.readValue(new ClassPathResource("jira/mappings.json").getInputStream(), Map.class);
 
-        this.standardFields = new ArrayList(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype",
+        this.standardFields = new ArrayList<>(Arrays.asList("summary", "resolution", "status", "assignee", "issuetype",
                 "created", "description", "updated", "comment"));
         standardFields.addAll(this.mappings.get(this.environment).get("customFields").values().stream().map(s -> "customfield_" + s).collect(toList()));
     }
