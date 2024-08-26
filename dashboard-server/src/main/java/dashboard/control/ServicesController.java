@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -71,14 +70,16 @@ public class ServicesController extends BaseController {
     }
 
     private List<Category> getCategories(List<Service> servicesForIdp) {
-        Map<String, List<Category>> groupedCategories = servicesForIdp.stream().map(s -> s.getCategories()).flatMap
-                (Collection::stream).collect(groupingBy(Category::getName));
+        Map<String, List<Category>> groupedCategories = servicesForIdp.stream()
+                .map(s -> s.getCategories())
+                .flatMap(Collection::stream).collect(groupingBy(Category::getName));
 
         //ensure we make the values unique
         return groupedCategories.entrySet().stream().map(entry -> {
-            List<CategoryValue> categoryValues = entry.getValue().stream().map(cat -> cat.getValues().stream().map
-                            (CategoryValue::getValue)).flatMap(Function.identity()).collect(toSet()).stream().map
-                            (CategoryValue::new)
+            List<CategoryValue> categoryValues = entry.getValue().stream()
+                    .flatMap(cat -> cat.getValues().stream().
+                            map(CategoryValue::getValue)).collect(toSet()).stream()
+                    .map(CategoryValue::new)
                     .collect(toList());
             return new Category(entry.getKey(), "type_of_service", categoryValues);
         }).collect(toList());

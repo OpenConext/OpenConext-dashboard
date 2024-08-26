@@ -40,6 +40,7 @@ public class Category implements Serializable {
         this.name = name;
         this.searchValue = searchValue;
         this.values = values;
+        this.values.sort(CategoryValue::compareTo);
     }
 
     public List<CategoryValue> getValues() {

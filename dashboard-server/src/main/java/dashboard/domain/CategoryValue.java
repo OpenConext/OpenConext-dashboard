@@ -47,7 +47,7 @@ public class CategoryValue implements Comparable<CategoryValue>, Serializable {
     @Override
     public int compareTo(CategoryValue o) {
         return new CompareToBuilder()
-                .append(this.value, o.value)
+                .append(this.value.toLowerCase(), o.value.toLowerCase())
                 .toComparison();
     }
 

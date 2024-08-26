@@ -357,10 +357,12 @@ export default function AppList({apps, currentUser, facets: remoteFacets, connec
         name: I18n.t('facets.static.arp.name'),
         tooltip: I18n.t('facets.static.arp.tooltip'),
         searchValue: 'attributes',
-        values: arpAttributes.map((attr) => {
+        values: arpAttributes
+            .map((attr) => {
             const val = attr.substring(attr.lastIndexOf(':') + 1)
             return {value: val, searchValue: attr}
-        }),
+            })
+            .sort((a, b) => a.value.toLowerCase().localeCompare(b.value.toLowerCase())),
         filterApp: function (app) {
             const attrFacetValues = activeFacets['attributes'] || []
             const attributes = Object.keys(app.arp.attributes)
