@@ -31,7 +31,7 @@ I18n.translations.en = {
         you: 'You',
         profile: 'Profile',
         switch_idp: 'Switch IDP',
-        loginRequired: 'Please login for more information',
+        loginRequired: 'Please log in for more information',
         super_user_switch: 'Switch identity',
         welcome_txt:
             'Here you will find all the applications connected to SURFconext. Log in for information tailored to your institution.',
@@ -706,7 +706,7 @@ I18n.translations.en = {
     not_found: {
         title: 'OOPS, I currently can’t show you that page.',
         subTitle: 'This can be due to, and may be fixed by:',
-        reasonLoginPre: 'You’re trying to access a page where you need to login for. Please press ',
+        reasonLoginPre: 'You’re trying to access a page where you need to log in for. Please press ',
         reasonLoginPost: ' and see if that takes you to the page you tried to access.',
         reasonHelp:
             'You don’t have the right authorisation to access that URL. Please check the <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">Help pages</a> to see who should be able to access what.',
@@ -958,7 +958,7 @@ I18n.translations.en = {
         create_policy: 'Create new authorization policy',
         deny: 'Deny',
         deny_info:
-            'Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.',
+            'Deny policies are less common to use. If the attributes in the policy match those of the person trying to log in then this will result in a Deny. No match will result in a Permit.',
         deny_message: 'English message',
         deny_message_info: 'This is the message displayed to the user if access is denied based on this policy.',
         deny_message_nl: 'Dutch message',
@@ -978,7 +978,7 @@ I18n.translations.en = {
         rule: 'Rule',
         rules: 'Rules',
         rule_and: 'AND',
-        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.',
+        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to log in.',
         rule_info_add: ' Note that attribute values with the same attribute name always be evaluated with the logical OR.',
         rule_info_add_2:
             'Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.',

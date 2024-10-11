@@ -31,7 +31,7 @@ I18n.translations.nl = {
         you: 'Jij',
         profile: 'Profiel',
         switch_idp: 'Kies IDP',
-        loginRequired: 'Login voor meer informatie',
+        loginRequired: 'Log in voor meer informatie',
         super_user_switch: 'Switch identiteit',
         welcome_txt:
             'Je vindt hier alle op SURFconext aangesloten applicaties. Log in voor informatie toegesneden op jouw instelling.',

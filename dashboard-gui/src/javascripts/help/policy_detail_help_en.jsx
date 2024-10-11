@@ -8,7 +8,7 @@ class PolicyDetailHelpEn extends React.Component {
         <h1>How to create Policies?</h1>
 
         <p>
-          Access policies define when a user is allowed to login to an application based on the user attributes provided by
+          Access policies define when a user is allowed to log in to an application based on the user attributes provided by
           the Institution and other attribute providers.
         </p>
 
