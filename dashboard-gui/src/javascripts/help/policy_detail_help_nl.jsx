@@ -8,7 +8,7 @@ class PolicyDetailHelpNl extends React.Component {
         <h1>Hoe maak je autorisatieregels?</h1>
 
         <p>
-          Autorisatieregels definiëren of een gebruiker toegang heeft tot een bepaalde dienst. De keuze wordt gemaakt op
+          Autorisatieregels definiëren of een gebruiker toegang heeft tot een bepaalde applicatie. De keuze wordt gemaakt op
           basis van de attributen die zijn vrijgegeven door de instelling die de gebruiker heeft
           geauthenticeerd.
         </p>
@@ -18,7 +18,7 @@ class PolicyDetailHelpNl extends React.Component {
         <p>Wij raden aan om voor een 'Permit' regel te kiezen in plaats van een 'Deny'.</p>
 
         <p>
-          Het algoritme dat gebruikt wordt om te bepalen of iemand toegang heeft tot een dienst op basis van een
+          Het algoritme dat gebruikt wordt om te bepalen of iemand toegang heeft tot een applicatie op basis van een
           autorisatieregel is 'first-applicable'. Dit betekent dat de eerste match van een regel het resultaat bepaalt: 'Deny'
           of 'Permit'.
         </p>
@@ -45,15 +45,15 @@ class PolicyDetailHelpNl extends React.Component {
         <br />
         <p>
           Als je het veld Instelling(en) leeg laat (je koppelt dus 0 instellingen), dan kun je alleen een
-          autorisatieregel maken voor diensten waar jouw instelling eigenaar van is. De regel geldt dan voor alle
-          instellingen die gebruik maken van die dienst. Als je 1 of meer instellingen selecteert dan kun je een
-          autorisatieregel maken voor alle diensten die de geselecteerde instelling(en) afnemen.
+          autorisatieregel maken voor applicaties waar jouw instelling eigenaar van is. De regel geldt dan voor alle
+          instellingen die gebruik maken van die applicatie. Als je 1 of meer instellingen selecteert dan kun je een
+          autorisatieregel maken voor alle applicaties die de geselecteerde instelling(en) afnemen.
         </p>
 
-        <h2>Dienst</h2>
+        <h2>Applicatie</h2>
 
         <p>
-          De dienst bepaalt voor welke dienst deze autorisatieregel van toepassing is. Je kunt precies 1 dienst koppelen
+          De applicatie bepaalt voor welke applicatie deze autorisatieregel van toepassing is. Je kunt precies 1 applicatie koppelen
           aan een autorisatieregel.
         </p>
 
@@ -61,14 +61,14 @@ class PolicyDetailHelpNl extends React.Component {
 
         <p>
           Kies of dat alle attributen een match moeten opleveren of dat een enkele match voldoende is om de gebruiker te
-          autoriseren voor de dienst.
+          autoriseren voor de applicatie.
         </p>
 
         <h2>Attributen</h2>
 
         <p>
           De attributen en de respectievelijke waardes bepalen of een gebruiker succesvol wordt geautoriseerd voor de
-          dienst. De attributen worden gematched tegen de attributen van de gebruiker. Meer informatie over attributen
+          applicatie. De attributen worden gematched tegen de attributen van de gebruiker. Meer informatie over attributen
           kan worden gevonden op de{' '}
           <a target="_blank" rel="noopener noreferrer" href={I18n.t('policy_attributes.help_link')}>
             SURF wiki

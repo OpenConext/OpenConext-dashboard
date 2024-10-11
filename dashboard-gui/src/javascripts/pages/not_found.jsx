@@ -17,7 +17,7 @@ class NotFound extends React.Component {
             {currentUser.guest && (
               <li>
                 <span>{I18n.t('not_found.reasonLoginPre')}</span>
-                <a href="/login" onClick={e => login(e)}>Login</a>
+                <a href="/login" onClick={e => login(e)}>Log in</a>
                 <span>{I18n.t('not_found.reasonLoginPost')}</span>
               </li>
             )}
