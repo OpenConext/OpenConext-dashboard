@@ -8,7 +8,7 @@ class PolicyDetailHelpEn extends React.Component {
         <h1>How to create Policies?</h1>
 
         <p>
-          Access policies define when a user is allowed to login to a Service based on the user attributes provided by
+          Access policies define when a user is allowed to login to an application based on the user attributes provided by
           the Institution and other attribute providers.
         </p>
 
@@ -17,7 +17,7 @@ class PolicyDetailHelpEn extends React.Component {
         <p>We strongly recommend choosing the Permit access over the Deny access.</p>
 
         <p>
-          The algorithm we use to determine if someone is allowed access based on the rules in the policy is
+          The algorithm we use to determine if someone is allowed access an application based on the rules in the policy is
           'first-applicable'. This means that the first rule which holds true is the rule determining the result - i.e.
           Deny or Permit.
         </p>
@@ -44,14 +44,14 @@ class PolicyDetailHelpEn extends React.Component {
         <br />
         <p>
           If you keep the Institution field empty (you select zero Institutions), you can only make authorization
-          policies for Service Providers owned by your Institution. The policy will apply to all Institutions connected
-          to that service. If you select 1 or more Insitutions, your authorization policy can be applied to any Service
+          policies for application Providers owned by your Institution. The policy will apply to all Institutions connected
+          to that application. If you select 1 or more Insitutions, your authorization policy can be applied to any application
           Provider those Institutions are connected to.
         </p>
 
-        <h2>Service</h2>
+        <h2>Application</h2>
 
-        <p>The Service determines for which Service this policy applies. You can only link policies to one Service.</p>
+        <p>The application determines for which application this policy applies. You can only link policies to one application.</p>
 
         <h2>Rule</h2>
 
@@ -63,7 +63,7 @@ class PolicyDetailHelpEn extends React.Component {
         <h2>Attributes</h2>
 
         <p>
-          The attributes and their values actually define if a user is granted access to the service or not. For more
+          The attributes and their values actually define if a user is granted access to the application or not. For more
           information about attributes see the{' '}
           <a target="_blank" rel="noopener noreferrer" href={I18n.t('policy_attributes.help_link')}>
             SURF wiki
