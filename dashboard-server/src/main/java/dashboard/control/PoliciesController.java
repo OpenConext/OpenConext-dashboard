@@ -149,10 +149,10 @@ public class PoliciesController extends BaseController {
                 StringUtils.hasText(policy.getServiceProviderName()) ?
                         policy.getServiceProviderName() : policy.getServiceProviderId(), policy.getName(), user
                         .getDisplayName(), user.getEmail(), user.getInstitutionId()));
-        body.append("In Manage staat voor die dienst nog NIET geconfigureerd dat er moet worden gecontroleerd op " +
+        body.append("In Manage staat voor die applicatie nog NIET geconfigureerd dat er moet worden gecontroleerd op " +
                 "policies.\n");
         body.append("Als na controle van de regel in de PDP die regel goed lijkt, voeg dan in Manage in het " +
-                "Meta-tabblad de Entry 'coin:policy_enforcement_decision_required' toe aan de dienst, ");
+                "Meta-tabblad de Entry 'coin:policy_enforcement_decision_required' toe aan de applicatie, ");
         body.append("push de metadata en informeer de aanmaker van de regel.");
 
         try {

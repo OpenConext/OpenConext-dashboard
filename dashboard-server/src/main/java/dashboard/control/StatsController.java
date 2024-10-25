@@ -43,7 +43,7 @@ public class StatsController implements Constants {
         return stats.loginTimeFrame(from, to, scale, spEntityId);
     }
 
-    //Used for retrieval of all logins for all SP's
+    //Used for retrieval of all logins for all SPs
     @GetMapping("loginAggregated")
     public List<Object> loginAggregated(@RequestParam("period") String period,
                                         @RequestParam(value = "spEntityId", required = false) Optional<String> spEntityId) {
