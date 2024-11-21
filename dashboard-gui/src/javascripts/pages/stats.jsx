@@ -101,21 +101,7 @@ class Stats extends React.Component {
             p.distinct_count_user_id = uniqueOnes[key] || 0
             return p
           })
-          if (!spEntityId) {
-            const fromFormatted = from.format()
-            const emptyOnes = this.state.connectedServiceProviders
-              .filter((sp) => isEmpty(uniqueOnes[sp.value]))
-              .map((sp) => ({
-                count_user_id: 0,
-                distinct_count_user_id: 0,
-                sp_entity_id: sp.value,
-                time: fromFormatted,
-              }))
-            const chartData = data.concat(emptyOnes)
-            this.setState({ data: chartData, loaded: true })
-          } else {
-            this.setState({ data: data, loaded: true })
-          }
+          this.setState({ data: data, loaded: true })
         }
       })
     } else if (scale === 'all') {
