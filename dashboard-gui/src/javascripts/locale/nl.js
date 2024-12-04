@@ -130,13 +130,13 @@ I18n.translations.nl = {
             strong_authentication: {
                 name: 'SURFsecureID ingeschakeld',
                 tooltip:
-                    'SURFsecureID second factor authentication is vereist.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
+                    'SURFsecureID second factor authentication is vereist.<br>Zie de <a href="https://support.surfconext.nl/idp-help-en" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
                 none: 'Geen',
             },
             mfa: {
                 name: 'MFA ingeschakeld',
                 tooltip:
-                    'Multi factor authentication door de IdP is vereist.<br>Zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
+                    'Multi factor authentication door de IdP is vereist.<br>Zie de <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
                 none: 'Geen',
                 other: 'Anders'
             },
@@ -148,7 +148,7 @@ I18n.translations.nl = {
             arp: {
                 name: 'Vrijgegeven attributen',
                 tooltip:
-                    'Meer info over deze attributen vind je in de <a href="https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext " target="_blank" rel="noopener noreferrer">wiki</a>.',
+                    'Meer info over deze attributen vind je in de <a href="https://support.surfconext.nl/attributes-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
                 info_html:
                     'Mogelijkerwijs worden er meer attributen aan de Dienst geleverd door zogeheten attribuut manipulatie.',
             },
@@ -329,9 +329,9 @@ I18n.translations.nl = {
         publish_in_edugain_date: 'Gepubliceerd in eduGAIN op:',
         supports_ssa: 'SURFsecureID aangezet',
         minimalLoaLevel:
-            'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>',
+            'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">wiki</a>',
         minimalLoaLevelIdp:
-            'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van je instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">wiki</a>',
+            'Voor het inloggen op deze dienst is authenticatie met een tweede factor middels SURFsecureID vereist. Alle gebruikers van je instelling moeten een token gebruiken van minimaal zekerheidsniveau (Level of Assurance / LoA): <code>{{minimalLoaLevel}}</code>. Voor meer informatie zie de <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">wiki</a>',
         supportsSsaTooltip: 'Diensten kunnen ook dynamisch een LOA veroeken tijdens authenticatie.',
         entity_categories: 'Ondersteunde Entity Categories',
         entity_category: {
@@ -358,7 +358,7 @@ I18n.translations.nl = {
             'edugain (community)': 'Dienst aangeboden door de internationale onderwijs- en onderzoeksgemeenschap via eduGAIN.'
         },
         contractualBaseWiki:
-            ' Voor meer informatie zie de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+contractuele+info" target="_blank" rel="noopener noreferrer">wiki</a>.',
+            ' Voor meer informatie zie de <a href="https://support.surfconext.nl/contract-info-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
     },
 
     attributes_policy_panel: {
@@ -505,11 +505,11 @@ I18n.translations.nl = {
     ssid_panel: {
         title: 'SURFsecureID',
         subtitle:
-            'Met <a href="https://wiki.surfnet.nl/display/SsID" target="_blank" rel="noopener noreferrer">SURFsecureID</a> kun je de toegang tot diensten extra beveiligen met sterke authenticatie. ',
+            'Met <a href="https://support.surfconext.nl/secureid-dev-en" target="_blank" rel="noopener noreferrer">SURFsecureID</a> kun je de toegang tot diensten extra beveiligen met sterke authenticatie. ',
         subtitle2:
             'Een gebruiker logt in met een gebruikersnaam en wachtwoord (de eerste factor) en SURFsecureID zorgt vervolgens voor de tweede factor authenticatie via bijvoorbeeld een mobiele app of USB sleutel. ',
         subtitle3:
-            'Door het kiezen van een hoger <a href="https://wiki.surfnet.nl/display/SsID/Levels+of+Assurance" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.',
+            'Door het kiezen van een hoger <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> kun je de dienst extra beveiligen en voeg je een tweede factor toe aan de login van de gebruikers.',
         highestLoaReached:
             'Deze dienst heeft al het hoogste LoA level. Vanuit security overwegingen kun je via dit formulier geen verzoek doen voor een lagere LoA. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> als je een lagere LoA wenst voor deze service.',
         appHasLoaLevel:
@@ -709,7 +709,7 @@ I18n.translations.nl = {
         reasonLoginPre: 'Je probeert een pagina te bezoeken waarvoor je ingelogd moet zijn. Klik op ',
         reasonLoginPost: ' om te kijken of je op de pagina komt die je bedoelde.',
         reasonHelp:
-            'Je hebt niet de juiste rechten om deze pagina te bezoeken. Kijk op de <a href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page" target="_blank" rel="noopener noreferrer">Help</a> sectie van onze wiki om te lezen wie wat mag zien.',
+            'Je hebt niet de juiste rechten om deze pagina te bezoeken. Kijk op de <a href="https://support.surfconext.nl/idp-help-en" target="_blank" rel="noopener noreferrer">Help</a> sectie van onze wiki om te lezen wie wat mag zien.',
         reasonRemoved: 'De URL die je probeert te bekijken bestaat niet (meer). Sorry.',
         reasonUnknown:
             'Je bent ergens anders tegen aangelopen, hebt hulp nodig en/of misschien moeten wij dit oplossen. Stuur ons een mail via <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> en we zullen het onderzoeken.',
@@ -736,7 +736,7 @@ I18n.translations.nl = {
         dutch: 'Nederlands',
         roles: 'Rollen',
         sub_title_html:
-            'De volgende rollen zijn toegekend (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">toelichting</a>):',
+            'De volgende rollen zijn toegekend (<a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/rolverdeling">toelichting</a>):',
         role: 'Rol',
         users: 'Gebruiker(s)',
         settings: 'Opties',
@@ -1273,7 +1273,7 @@ I18n.translations.nl = {
     mfa_panel: {
         title: 'MFA',
         subtitle:
-            'Met <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">MFA</a> kan een multi-factor authenticatie worden afgedwongen door je eigen IdP voor deze dienst, als je IdP dat ondersteunt.',
+            'Met <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">MFA</a> kan een multi-factor authenticatie worden afgedwongen door je eigen IdP voor deze dienst, als je IdP dat ondersteunt.',
         subtitle2:
             'Je kunt kiezen voor <span>Generieke multi-factor (REFEDS MFA)</span>, een internationale standaard, of <span>Multi-factor op ADFS of Azure AD</span> specifiek voor Microsoft producten.',
         subtitle3:

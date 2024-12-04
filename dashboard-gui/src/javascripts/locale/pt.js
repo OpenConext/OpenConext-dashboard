@@ -119,7 +119,7 @@ I18n.translations.pt = {
             entity_category: {
                 name: 'eduGAIN Categorias de Entidade',
                 tooltip:
-                    'Os serviços podem obedecer a \'categorias de entidade\'.<br>Consulte a <a href="https://wiki.surfnet.nl/display/surfconextdev/Entity+categories" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.',
+                    'Os serviços podem obedecer a \'categorias de entidade\'.<br>Consulte a <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações. Aqui pode filtrar os serviços que aderem a uma determinada categoria.',
                 code_of_conduct: 'Código de Conduta',
                 code_of_conduct2: 'Código de Conduta v2',
                 research_and_scholarship: 'Pesquisa e Bolsas de Estudo',
@@ -130,13 +130,13 @@ I18n.translations.pt = {
             strong_authentication: {
                 name: 'Suporta SURFsecureID',
                 tooltip:
-                    'SURFsecureID second factor authentication is required.<br>For more information see the <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">wiki</a>.',
+                    'SURFsecureID second factor authentication is required.<br>For more information see the <a href="https://support.surfconext.nl/idp-help-en" target="_blank" rel="noopener noreferrer">wiki</a>.',
                 none: 'None',
             },
             mfa: {
                 name: 'MFA enabled',
                 tooltip:
-                    'Multi factor authentication by the IdP is required.<br>For more information see the <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">wiki</a>.',
+                    'Multi factor authentication by the IdP is required.<br>For more information see the <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
                 none: 'None',
                 other: 'Other'
             },
@@ -151,7 +151,7 @@ I18n.translations.pt = {
             },
             type_consent: {
                 tooltip:
-                    'Como é solicitado o consentimento aos novos utilizadores antes de aceder ao serviço. <br>Consulte a <a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm">wiki</a> para mais informações.',
+                    'Como é solicitado o consentimento aos novos utilizadores antes de aceder ao serviço. <br>Consulte a <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> para mais informações.',
                 name: 'Tipo de consentimento',
                 no_consent: 'Sem consentimento',
                 minimal_consent: 'Consentimento mínimo',
@@ -319,19 +319,19 @@ I18n.translations.pt = {
         disconnect: 'Saiba como desativar a ligação',
         normen_kader: 'Informação sobre o AVG/GDPR',
         normen_kader_html:
-            'Para este serviço, foi publicada informação sobre quais os dados processados e onde processam esses dados. Pode encontrar esta informação na <a href="https://wiki.surfnet.nl/pages/viewpage.action?pageId=60689334" target="_blank" rel="noopener noreferrer">wiki</a>. Durante 2018 esta informação será incorporada na nova versão do Dashboard.',
+            'Para este serviço, foi publicada informação sobre quais os dados processados e onde processam esses dados. Pode encontrar esta informação na <a href="https://support.surfconext.nl/dashboard-info-avg" target="_blank" rel="noopener noreferrer">wiki</a>. Durante 2018 esta informação será incorporada na nova versão do Dashboard.',
         no_normen_kader_html:
             'Para este serviço, ainda não foi disponibilizada informação sobre o AVG/GDPR; informação sobre quais os dados que processam e onde podem ser solicitados ao fornecedor do serviço.',
         single_tenant_service: 'Serviço single tenant',
         single_tenant_service_html:
-            '{{name}} é um serviço single tenant, como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href="https://wiki.surfnet.nl/display/services/(Cloud)services" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>',
+            '{{name}} é um serviço single tenant, como tal, requer uma instância separada para cada instituição que deseja ligar-se a este serviço. Para obter mais informações sobre serviços single tenant, consulte <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURFnet wiki</a>',
         interfed_source: 'Origem da federação',
         publish_in_edugain_date: 'Publicado no eduGAIN em:',
         supports_ssa: 'SURFsecureID enabled',
         minimalLoaLevel:
-            'For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>.',
+            'For logging in to this service, second factor authentication is required via SURFsecureID. All users are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">wiki</a>.',
         minimalLoaLevelIdp:
-            'For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">wiki</a>.',
+            'For logging in to this service, second factor authentication is required via SURFsecureID. All users from your institution are required to use a token with at least the following Level of Assurance (LoA): <code>{{minimalLoaLevel}}</code>. For more information see the <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">wiki</a>.',
         entity_categories: 'Suporta Categorias de Identidade',
         entity_category: {
             'http://wwwgeantnet/uri/dataprotection-code-of-conduct/v1': 'GÉANT Data Protection Code of Conduct',
@@ -341,7 +341,7 @@ I18n.translations.pt = {
         },
         aansluitovereenkomst: 'Protocolo de Adesão',
         aansluitovereenkomstRefused:
-            '{{organisation}} recusou-se a assinar \'Protocolo de adesão à SURFconext\' com a SURF. Leia mais sobre esta política em <a href="https://wiki.surfnet.nl/display/surfconextdev/Afspraken+-+contracten+-+trustframework" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
+            '{{organisation}} recusou-se a assinar \'Protocolo de adesão à SURFconext\' com a SURF. Leia mais sobre esta política em <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
         vendorInfo: 'This service is offered by {{organisation}}.',
         privacyInformation: 'Informação de privacidade',
         privacyInformationInfo: '{{organisation}} não disponibilizou informação de privacidade.',
@@ -485,9 +485,9 @@ I18n.translations.pt = {
         subtitle:
             'Aos novos utilizadores será pedida autorização para enviar informação de dados pessoais para este serviço.',
         subtitle2:
-            'Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm">nesta página da wiki</a>.',
+            'Nesta página pode configurar a forma como será pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. Pode configurar para ignorar o consentimento, pedir consentimento minimo e adicionar uma mensagem de consentimento personalizada para os utilizadores deste serviço. As diferentes configurações de consentimento são explicadas <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">nesta página da wiki</a>.',
         subtitle2Viewer:
-            'Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/conextsupport/Het+Consent-scherm">nesta página da wiki</a>.',
+            'Nesta página pode visualizar de que forma é pedido o consentimento aos utilizadores antes de ser enviado para {{name}}. As diferentes configurações de consentimento são explicadas <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">nesta página da wiki</a>.',
         no_consent: 'Não é necessário consentimento',
         minimal_consent: 'É necessário consentimento mínimo',
         default_consent: 'Consentimento por omissão com uma mensagem personalizada opcional',
@@ -513,11 +513,11 @@ I18n.translations.pt = {
     ssid_panel: {
         title: 'SURFsecureID',
         subtitle:
-            'With <a href="https://wiki.surfnet.nl/display/SsID" target="_blank" rel="noopener noreferrer">SURFsecureID</a> you can better secure access to services with strong authentication. ',
+            'With <a href="https://support.surfconext.nl/secureid-dev-en" target="_blank" rel="noopener noreferrer">SURFsecureID</a> you can better secure access to services with strong authentication. ',
         subtitle2:
             'A user logs in with username and password (the first factor) and SURFsecureID takes care of the second factor authentication like via a mobile app or USB key.',
         subtitle3:
-            'By chosing a higher <a href="https://edu.nl/8nm6h" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
+            'By chosing a higher <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
         highestLoaReached:
             'You already have the highest LoA setting. You can not request a lowel LoA in this form. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you want to lower the LoA for this service.',
         appHasLoaLevel:
@@ -535,7 +535,7 @@ I18n.translations.pt = {
         check: 'Verificar que',
         checklist: 'Finalize a lista de verificações antes de activar a ligação:',
         processing_agreements:
-            'Verifique se a sua instituição necessita de um <a href="https://wiki.surfnet.nl/display/surfconextdev/Data+processing+agreement" target="_blank" rel="noopener noreferrer">contrato de adesão</a> para este serviço, se sim, se o mesmo já está assinado.',
+            'Verifique se a sua instituição necessita de um <a href="https://support.surfconext.nl/dpa-en" target="_blank" rel="noopener noreferrer">contrato de adesão</a> para este serviço, se sim, se o mesmo já está assinado.',
         comments_description: 'Comentários serão enviados à SURFconext.',
         comments_placeholder: 'Adicione aqui os seus comentários...',
         comments_title: 'Comentários adicionais?',
@@ -697,7 +697,7 @@ I18n.translations.pt = {
         dutch: 'Dutch',
         roles: 'Perfis',
         sub_title_html:
-            'Os seguintes perfis foram atribuídos (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Rolverdeling+contactpersonen">mais info</a>):',
+            'Os seguintes perfis foram atribuídos (<a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/rolverdeling">mais info</a>):',
         role: 'Perfil',
         users: 'Utilizador(es)',
         settings: 'Configurações',
@@ -713,7 +713,7 @@ I18n.translations.pt = {
         services_title_none: 'Nenhum',
         service_name: 'Nome do Serviço',
         license_contact_html:
-            'Contacto Primário da Licença (<a target="_blank" rel="noopener noreferrer" href="https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?">mais info</a>):',
+            'Contacto Primário da Licença (<a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/app-activeren-nl">mais info</a>):',
         license_contact_name: 'Nome',
         license_contact_email: 'Email',
         license_contact_phone: 'Número de Telefone',
@@ -779,7 +779,7 @@ I18n.translations.pt = {
         new_logo_url: 'URL do Novo logo ',
         research_and_scholarship_info: "Ligar-se automáticamente aos SP's compatíveis com a categoria CoCo R&S",
         research_and_scholarship_tooltip:
-            'Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href="https://wiki.surfnet.nl/pages/viewpage.action?pageId=86769882" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações.',
+            'Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações.',
         allow_maintainers_to_manage_authz_rules: 'Allow maintainers to manage Authorization rules',
         allow_maintainers_to_manage_authz_rules_tooltip:
             'This means the maintainers of your<br>IdP are allow to create / edit and delete<br>Authorization rules.',
@@ -901,7 +901,7 @@ I18n.translations.pt = {
         new_value: 'Adicionar novo valor...',
         sab_info: " O(s) valor(es) têm de corresponder a perfis válidos no SAB ex. 'Instellingsbevoegde'",
         values: 'Valor(es)',
-        help_link: 'https://wiki.surfnet.nl/display/surfconextdev/Attributes+in+SURFconext',
+        help_link: 'https://support.surfconext.nl/attributes-nl',
         attributeTooltip: 'Click to read more about attributes.',
     },
 
@@ -1081,7 +1081,7 @@ I18n.translations.pt = {
             all: 'Período completo: de -> até',
         },
         helpLink:
-            'https://wiki.surfnet.nl/display/surfconextdev/Beschikbare+diensten+activeren#Beschikbaredienstenactiveren-Statistieken',
+            'https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken',
     },
     chart: {
         title: 'Logins e utilizadores por dia',
@@ -1283,7 +1283,7 @@ I18n.translations.pt = {
     mfa_panel: {
         title: 'MFA',
         subtitle:
-            'With <a href="https://wiki.surfnet.nl/display/surfconextdev/MFA+voor+diensten+achter+SURFconext" target="_blank" rel="noopener noreferrer">MFA</a> you can enforce the MultiFactor Authentication of your own IdP for this service.',
+            'With <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">MFA</a> you can enforce the MultiFactor Authentication of your own IdP for this service.',
         subtitle2:
             'You can either choose <span>Generic multi-factor (REFEDS MFA)</span> which is industry standardized or you can choose <span>Multi-factor on ADFS or Azure AD</span> which is specific for Microsoft products.',
         subtitle3:

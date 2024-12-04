@@ -32,7 +32,7 @@ class Welcome extends React.Component {
       <div className="mod-welcome">
         <div className="container">
           <a
-            href="https://wiki.surfnet.nl/display/surfconextdev/SURFconext+IdP+dashboard+-+help+page"
+            href="https://support.surfconext.nl/idp-help-en"
             target="_blank"
             rel="noreferrer noopener"
             className="welcome-text"
