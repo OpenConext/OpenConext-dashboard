@@ -31,10 +31,10 @@ I18n.translations.en = {
         you: 'You',
         profile: 'Profile',
         switch_idp: 'Switch IDP',
-        loginRequired: 'Please login for more information',
+        loginRequired: 'Please log in for more information',
         super_user_switch: 'Switch identity',
         welcome_txt:
-            'Here you will find all the services connected to SURFconext. Log in for information tailored to your institution.',
+            'Here you will find all the applications connected to SURFconext. Log in for information tailored to your institution.',
     },
     forms: {
         required: '{{name}} is a required field',
@@ -52,7 +52,7 @@ I18n.translations.en = {
     },
 
     navigation: {
-        apps: 'Services',
+        apps: 'Applications',
         policies: 'Authorization policies',
         history: 'Tickets',
         stats: 'Statistics',
@@ -61,7 +61,7 @@ I18n.translations.en = {
     },
 
     loader: {
-        loading: 'Services are being loaded',
+        loading: 'Applications are being loaded',
     },
 
     facets: {
@@ -72,14 +72,14 @@ I18n.translations.en = {
         download: 'Export overview as csv',
         unknown: 'Unknown',
         totals: {
-            all: 'Showing all {{total}} services',
-            filtered: 'Showing {{count}} of {{total}} services',
+            all: 'Showing all {{total}} applications',
+            filtered: 'Showing {{count}} of {{total}} applications',
         },
         static: {
             connection: {
                 all: 'All',
                 has_connection: 'Yes',
-                name: 'Service connected',
+                name: 'Application connected',
                 no_connection: 'No',
             },
             license: {
@@ -98,7 +98,7 @@ I18n.translations.en = {
             authorization_rules: {
                 all: 'All',
                 name: 'Authorization rules',
-                tooltip: 'Has the service an authorization rule limiting the access to the service?',
+                tooltip: 'Has the application an authorization rule limiting the access to the application?',
                 no: 'No',
                 yes: 'Yes',
             },
@@ -110,7 +110,7 @@ I18n.translations.en = {
             },
             interfed_source: {
                 tooltip:
-                    "Some services available through SURFconext have a home federation different from SURFconext. Here you can select on 'home federation'.",
+                    "Some applications available through SURFconext have a home federation different from SURFconext. Here you can select on 'home federation'.",
                 name: 'Federation source',
                 surfconext: 'SURFconext',
                 edugain: 'eduGAIN',
@@ -119,13 +119,13 @@ I18n.translations.en = {
             entity_category: {
                 name: 'eduGAIN Entity Category',
                 tooltip:
-                    'Services can comply to an \'entity categories\'.<br>See the <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> for more information. Here you can filter on services adhering to a certain category.',
+                    'Applications can comply to an \'entity categories\'.<br>See the <a href="https://support.surfconext.nl/dashboard-help-entitycategories" target="_blank" rel="noopener noreferrer">wiki</a> for more information. Here you can filter on applications adhering to a certain category.',
                 code_of_conduct: 'Code of Conduct',
                 code_of_conduct2: 'Code of Conduct v2',
                 research_and_scholarship: 'Research and Scholarship',
                 selectAll: 'Filter on all',
                 tooltipAll:
-                    'Check this to filter on services that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the services that have one of the <br>checked entity categories.',
+                    'Check this to filter on applications that<br>have all the checked entity categories.<br><br>The default unchecked behaviour is to<br>filter the applications that have one of the <br>checked entity categories.',
             },
             strong_authentication: {
                 name: 'SURFsecureID enabled',
@@ -150,11 +150,11 @@ I18n.translations.en = {
                 tooltip:
                     'More info about these attributes can be found in the <a href="https://support.surfconext.nl/attributes-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
                 info_html:
-                    'It is possible that more attributes are being released to the Service through means of attribute manipulation.',
+                    'It is possible that more attributes are being released to the application through means of attribute manipulation.',
             },
             type_consent: {
                 tooltip:
-                    'Which way new users are asked to give consent before using the service.<br>See the <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> for more information.',
+                    'Which way new users are asked to give consent before using the application.<br>See the <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> for more information.',
                 name: 'Type of consent',
                 no_consent: 'No screen',
                 minimal_consent: 'Consent screen',
@@ -172,12 +172,12 @@ I18n.translations.en = {
             settings: 'Settings',
         },
         detail: {
-            about: 'About this service',
-            application_usage: 'Service usage',
+            about: 'About this application',
+            application_usage: 'Application usage',
             attribute_policy: 'Attributes',
             close_screenshot: 'Close',
-            how_to_connect: 'Activate service',
-            how_to_disconnect: 'Deactivate service',
+            how_to_connect: 'Activate application',
+            how_to_disconnect: 'Deactivate application',
             idp_usage: 'Used by',
             license_data: 'License',
             links: 'Links',
@@ -193,7 +193,7 @@ I18n.translations.en = {
             consent: 'Consent',
             back: 'Back',
             outstandingIssue:
-                'There is already a ticket with reference {{jiraKey}} of type {{type}} and status {{status}} for this Service.',
+                'There is already a ticket with reference {{jiraKey}} of type {{type}} and status {{status}} for this application.',
             inviteAlreadyProcessed: 'The invite for ticket {{jiraKey}} has already been {{action}}.',
             inviteBeingProcessed: 'The invite for ticket {{jiraKey}} is pending to be processed.',
             outstandingIssueLink:
@@ -207,23 +207,23 @@ I18n.translations.en = {
             },
             institutions: 'Institutions',
             provided_information: '{{organisation}} provided the following information',
-            connect_service: 'Connect this service',
-            connect_service_single_tenant: 'Request this service',
-            disconnect_service: 'Disconnect this service',
+            connect_service: 'Connect this application',
+            connect_service_single_tenant: 'Request this application',
+            disconnect_service: 'Disconnect this application',
             connected: 'Connected',
             pending_connection: 'Pending connection request...',
             pending_disconnect: 'Pending disconnect request...',
             approve_invite: 'Accept invite',
             deny_invite: 'Deny invite',
-            approve_disconnect_invite: 'Accept request to disconnect this service',
-            deny_disconnect_invite: 'Deny request to disconnect this service',
+            approve_disconnect_invite: 'Accept request to disconnect this application',
+            deny_disconnect_invite: 'Deny request to disconnect this application',
         },
         overview: {
             connect: '',
             connect_button: 'Connect',
             connected: 'Connected',
-            connected_services: 'Connected services',
-            all_services: 'All services',
+            connected_services: 'Connected applications',
+            all_services: 'All applications',
             dashboardConnectOption: 'Automatic connection',
             license: 'License secured',
             licenseStatus: 'License required',
@@ -238,15 +238,15 @@ I18n.translations.en = {
             license_unknown: 'Unknown',
             name: 'Name',
             organisation: 'Vendor',
-            no_results: 'No services available',
-            processing_results: 'Retrieving all services...',
+            no_results: 'No applications available',
+            processing_results: 'Retrieving all applications...',
             search: 'Search',
-            search_hint: 'Search services...',
+            search_hint: 'Search applications...',
             add_services_hint:
-                'Can\'t find the service you\'re looking for? Send your contact at that service an email that you would like to use the service through <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO using SURFconext</a>, so you can authenticate using your institutional account, and that that is both more secure and more efficient for all parties involved. And that it makes the service more attractive for other institutions, also outside of the Netherlands. Advise them to look into it and send an email to support@surfconext.nl requesting contact to discuss connecting the service.',
+                'Can\'t find the application you\'re looking for? Send your contact at that application an email that you would like to use the application through <a href="http://support.surfconext.nl/getconexted" target="_blank" rel="noopener noreferrer">SSO using SURFconext</a>, so you can authenticate using your institutional account, and that that is both more secure and more efficient for all parties involved. And that it makes the application more attractive for other institutions, also outside of the Netherlands. Advise them to look into it and send an email to support@surfconext.nl requesting contact to discuss connecting the application.',
         },
         settings: {
-            title: 'Service settings',
+            title: 'Application settings',
             menu: {
                 consent: 'Consent',
                 authorization_policy: 'Authorization policy',
@@ -262,7 +262,7 @@ I18n.translations.en = {
         support: 'Support pages',
         login: 'Login page',
         registration_info_html:
-            'This Service Provider is available in SURFconext through <a href="https://support.surfconext.nl/edugain" target="_blank" rel="noopener noreferrer">eduGAIN</a>. The Service Provider is registered by the following federation: <a href="{{url}}" target="_blank" rel="noopener noreferrer">{{url}}</a>.',
+            'This application provider is available in SURFconext through <a href="https://support.surfconext.nl/edugain" target="_blank" rel="noopener noreferrer">eduGAIN</a>. The application provider is registered by the following federation: <a href="{{url}}" target="_blank" rel="noopener noreferrer">{{url}}</a>.',
         registration_policy: 'Registration policy',
         privacy_statement: 'Privacy statement',
         metadata_link: 'Metadata',
@@ -273,27 +273,27 @@ I18n.translations.en = {
         has_license_surfmarket_html:
             'License available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
         has_license_sp_html:
-            'A license for <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> can be acquired from {{organisation}}, the supplier of this service.',
+            'A license for <a href="{{serviceUrl}}" target="_blank" rel="noopener noreferrer">{{serviceName}}</a> can be acquired from {{organisation}}, the supplier of this application.',
         has_license_sp_html_no_service_url:
-            'A license for {{serviceName}} can be acquired from {{organisation}}, the supplier of this service.',
+            'A license for {{serviceName}} can be acquired from {{organisation}}, the supplier of this application.',
         no_license_html:
             'Your institution has no valid license available via <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.',
-        not_needed_html: 'This service does not require a license.',
+        not_needed_html: 'This application does not require a license.',
         unknown_license: 'It is unknown whether a license is required or not.',
         no_license_description_html:
             '' +
             '<ul>' +
             '   <li>Your institution can obtain a license from <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>.</li>' +
             '</ul>' +
-            '<br />In some cases this license needs to be obtained directly from the service supplier.',
+            '<br />In some cases this license needs to be obtained directly from the application supplier.',
         unknown_license_description_html:
             'There could be multiple reasons:' +
             '<ul>' +
-            '   <li>SURF or another institution is offering this service for free.</li>' +
-            '   <li>The license needs to be obtained directly from the service supplier.</li>' +
+            '   <li>SURF or another institution is offering this application for free.</li>' +
+            '   <li>The license needs to be obtained directly from the application supplier.</li>' +
             '   <li>The license hasn\'t been added to <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a>\'s administration yet.</li>' +
             '</ul>' +
-            '<p>If necessary, SURF will contact the service supplier or <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a> before activating the connection.</p>',
+            '<p>If necessary, SURF will contact the application supplier or <a href="https://mijn.surfmarket.nl" target="_blank" rel="noopener noreferrer">Mijn SURFmarket</a> before activating the connection.</p>',
     },
 
     license_info: {
@@ -310,8 +310,8 @@ I18n.translations.en = {
         entityID: 'Entity ID',
         rpClientID: 'Client ID',
         wiki_info_html:
-            'Extra information is available for this services in the SURFconext <a href="{{link}}" target="_blank" rel="noopener noreferrer">wiki</a>.',
-        no_description: 'The description of this service is not available.',
+            'Extra information is available for this applications in the SURFconext <a href="{{link}}" target="_blank" rel="noopener noreferrer">wiki</a>.',
+        no_description: 'The description of this application is not available.',
         description: 'Description',
         has_connection: 'Active connection',
         no_connection: 'Inactive connection',
@@ -319,12 +319,12 @@ I18n.translations.en = {
         disconnect: 'Read how to deactivate the connection',
         normen_kader: 'Information regarding AVG/GDPR',
         normen_kader_html:
-            'For this service the supplier has published information stating which data they process and where they process this data. You can find this information on the <a href="https://support.surfconext.nl/dashboard-info-avg" target="_blank" rel="noopener noreferrer">wiki</a>. During 2018 we will incorporate this information in a new version of this Dashboard.',
+            'For this application the supplier has published information stating which data they process and where they process this data. You can find this information on the <a href="https://support.surfconext.nl/dashboard-info-avg" target="_blank" rel="noopener noreferrer">wiki</a>. During 2018 we will incorporate this information in a new version of this Dashboard.',
         no_normen_kader_html:
-            'For this service the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.',
-        single_tenant_service: 'Single tenant service',
+            'For this application the supplier has not yet provided AVG/GDPR information; information stating which data they process and where they process this data can be requested at the supplier.',
+        single_tenant_service: 'Single tenant application',
         single_tenant_service_html:
-            '{{name}} is a single-tenant service, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant services see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
+            '{{name}} is a single-tenant application, which means the supplier needs to create a new instance for every customer before it is ready for use. For more information about single tenant applications see the <a href="https://support.surfconext.nl/dashboard-info-singletenant" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
         interfed_source: 'Federation source',
         publish_in_edugain_date: 'Published in eduGAIN on:',
         supports_ssa: 'SURFsecureID enabled',
@@ -343,19 +343,19 @@ I18n.translations.en = {
         aansluitovereenkomst: 'Connection agreement',
         aansluitovereenkomstRefused:
             '{{organisation}} has refused to sign the SURFconext connection agreement with SURF. Read more about this policy on the <a href="https://support.surfconext.nl/dashboard-info-trust" target="_blank" rel="noopener noreferrer">SURF wiki</a>.',
-        vendorInfo: 'This service is offered by {{organisation}}.',
+        vendorInfo: 'This application is offered by {{organisation}}.',
         privacyInformation: 'Privacy information',
         privacyInformationInfo: '{{organisation}} has not delivered any privacy information.',
         contractualBase: {
             na: 'No info on contractual basis available: for any questions, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
             ao: '{{organisation}} has signed the SURFconext connection agreement.',
-            ix: 'Service offered by SURFconext member institution.',
+            ix: 'Application offered by SURFconext member institution.',
             'r&s+coco':
-                'eduGAIN service that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.',
+                'eduGAIN application that has agreed to the Data Protection Code of Conduct and belongs to the Research & Scholarship entity category.',
             entree: 'Member of the Kennisnet Entree-federation.',
             clarin: 'Member of the Clarin research federation.',
             none: '{{organisation}} refused to sign the SURFconext connection agreement.',
-            'edugain (community)': 'Service offered through the international research and education community via eduGAIN.'
+            'edugain (community)': 'Application offered through the international research and education community via eduGAIN.'
         },
         contractualBaseWiki:
             'See <a href="https://support.surfconext.nl/contract-info-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
@@ -366,10 +366,10 @@ I18n.translations.en = {
             noarp: "All attributes will be exchanged with {{name}}.",
             noattr: 'No attributes will be exchanged with {{name}}.',
             manipulation:
-                "For this service a custom attribute manipulation is in effect which modifies the released attributes.",
+                "For this application a custom attribute manipulation is in effect which modifies the released attributes.",
             manipulationNotes: ' The attribute manipulation perfoms the following actions:',
             resourceServers:
-                'This Service is connected to Resource Servers and therefore all the attributes released are also accessible for the following Resource Servers:',
+                'This application is connected to Resource Servers and therefore all the attributes released are also accessible for the following Resource Servers:',
         },
         attribute: 'Attribute',
         subtitle: '{{name}} needs to receive the following attributes.',
@@ -442,7 +442,7 @@ I18n.translations.en = {
         title: 'The Sirtfi contact persons for {{name}}',
         subtitle:
             'The Security Incident Response Trust Framework for Federated Identity <a href=" https://refeds.org/sirtfi" target="_blank" rel="noopener noreferrer">(Sirtfi) </a> aims to enable the coordination of incident response across federated organisations. This assurance framework comprises a list of assertions which an organisation can attest in order to be declared Sirtfi compliant.',
-        contactPersons: 'In case of a security incident, this service can best be contacted in the following way:',
+        contactPersons: 'In case of a security incident, this application can best be contacted in the following way:',
         cp_name: 'Name',
         cp_email: 'Email',
         cp_telephoneNumber: 'Telephone number',
@@ -455,8 +455,8 @@ I18n.translations.en = {
     privacy_panel: {
         title: 'Privacy Information',
         subtitle:
-            "SURF provides new connecting Services the opportunity to share information concerning AVG policies. If available, you'll find it below. For any missing info, you can contact the supplier.",
-        subtitle2: 'The provider of the service {{name}} has supplied the following information (if any):',
+            "SURF provides new connecting applications the opportunity to share information concerning AVG policies. If available, you'll find it below. For any missing info, you can contact the supplier.",
+        subtitle2: 'The provider of the application {{name}} has supplied the following information (if any):',
         question: 'Question',
         answer: 'Answer',
         whatData: 'What (kind of) data is processed?',
@@ -469,7 +469,7 @@ I18n.translations.en = {
         otherInfo: 'Other data privacy and security information',
         noInformation: 'No info supplied by provider',
         dpaTypeEnum: {
-            dpa_not_applicable: 'The service is not a processor according to GDPR',
+            dpa_not_applicable: 'The application is not a processor according to GDPR',
             dpa_in_surf_agreement: 'Agreements are dealt with through SURF',
             dpa_model_surf: 'We are open to signing the SURF model contract/we have signed the SURF model contract',
             dpa_supplied_by_service: 'We have arranged the company\'s data processing agreement',
@@ -478,9 +478,9 @@ I18n.translations.en = {
     },
     consent_panel: {
         title: 'Consent new users',
-        subtitle: 'New users will be asked permission for sending personal data to this service.',
+        subtitle: 'New users will be asked permission for sending personal data to this application.',
         subtitle2:
-            'You can add an optional message/warning to the information/consent screen, for example to indicate the current service is <i>not an official service</i> of the institution and thus the user should not expect any support from the institution. For more information, please refer to our <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> (in Dutch).',
+            'You can add an optional message/warning to the information/consent screen, for example to indicate the current application is <i>not an official application</i> of the institution and thus the user should not expect any support from the institution. For more information, please refer to our <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a> (in Dutch).',
         subtitle2Viewer:
             ' On this page you can view in which way users will be asked for consent before they are sent to {{name}}. The different settings for consent are explained on <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">this wiki page</a>.',
         no_consent: 'Do not display information/consent screen about user attributes',
@@ -509,11 +509,11 @@ I18n.translations.en = {
         subtitle2:
             'A user logs in with username and password (the first factor) and SURFsecureID takes care of the second factor authentication like via a mobile app or USB key.',
         subtitle3:
-            'By chosing a higher <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
+            'By choosing a higher <a href="https://support.surfconext.nl/loa-en" target="_blank" rel="noopener noreferrer">Level of Assurance (LoA)</a> you can add additional protection to your service by adding a second factor to the user\'s login.',
         highestLoaReached:
-            'You already have the highest LoA setting. For security reasons you can not request a lower LoA in this form. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you want to lower the LoA for this service.',
+            'You already have the highest LoA setting. For security reasons you can not request a lower LoA in this form. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you want to lower the LoA for this application.',
         appHasLoaLevel:
-            'You can not request a Loa setting for this service. This service already has a Loa setting configured to be applied for all institutions. ',
+            'You can not request a Loa setting for this application. This application already has a Loa setting configured to be applied for all institutions. ',
     },
     how_to_connect_panel: {
         accept: 'I hereby certify that I have read these terms and that I accept them on behalf of my institution.',
@@ -521,21 +521,21 @@ I18n.translations.en = {
         attributes: 'attributes',
         attributes_policy: 'attribute policy',
         privacy_policy: 'privacy policy',
-        back_to_apps: 'Back to all services',
+        back_to_apps: 'Back to all applications',
         cancel: 'Cancel',
         close: 'Close',
         check: 'Check the',
         checklist: 'Finish this checklist before activating the connection:',
         processing_agreements:
-            'Check whether your institution needs a <a href="https://support.surfconext.nl/dashboard-help-vwo" target="_blank" rel="noopener noreferrer">processing agreement</a> for this service, and if so, has signed one.',
+            'Check whether your institution needs a <a href="https://support.surfconext.nl/dashboard-help-vwo" target="_blank" rel="noopener noreferrer">processing agreement</a> for this application, and if so, has signed one.',
         comments_description: 'Comments will be sent to SURFconext.',
         comments_placeholder: 'Enter comments here...',
         comments_title: 'Any additional comments?',
         automatic_connect: 'Activate connection immediately',
-        connect: 'Activate service',
+        connect: 'Activate application',
         connect_title: 'Connect {{app}}',
         connect_invite_title: 'Accept invite to connect {{app}}',
-        disconnect: 'Deactivate service',
+        disconnect: 'Deactivate application',
         disconnect_title: 'Deactivate connection with {{app}}',
         done_disconnect_subtitle_html:
             'You will be contacted about the further steps needed to finalize this deactivation. If you have any questions before that, please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
@@ -562,9 +562,9 @@ I18n.translations.en = {
             before: 'SURF has permission to forward the ',
         },
         info_connection_without_interaction:
-            'This service provider allows institutions to connect immediately. There is no need to wait for this connection request to be processed, you can use the service right away!',
+            'This application provider allows institutions to connect immediately. There is no need to wait for this connection request to be processed, you can use the application right away!',
         info_connection_share_institution:
-            'This service provider is a service offered by your Institution and therefore the connection can be made directly: you can use the service immediately!',
+            'This application provider is an application offered by your Institution and therefore the connection can be made directly: you can use the application immediately!',
         info_sub_title:
             'You can activate a connection from this dashboard. We advise you to follow the checklist and check the specific information for this app before you activate.',
         info_sub_invite_title:
@@ -586,14 +586,14 @@ I18n.translations.en = {
         },
         read: 'Read the',
         single_tenant_service_warning:
-            'Requests for activating a single tenant services take longer to process. SURF will contact you to discuss the activation process after it has received your request.',
+            'Requests for activating a single tenant applications take longer to process. SURF will contact you to discuss the activation process after it has received your request.',
         terms_title: 'By requesting an activation you accept these terms',
-        wiki: 'wiki for this service',
+        wiki: 'wiki for this application',
         aansluitovereenkomst_accept:
-            "I agree with connecting a service which has not signed the SURFconext connection agreement.",
-        not_published_in_edugain_idp: 'eduGAIN service',
+            "I agree with connecting an application which has not signed the SURFconext connection agreement.",
+        not_published_in_edugain_idp: 'eduGAIN application',
         not_published_in_edugain_idp_info:
-            "The service {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
+            "The application {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
         edit_my_idp_link: "Create change request in 'My Institute'",
         disconnect_jira_info:
             'If you want more information about the progress on this issue please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}',
@@ -603,32 +603,32 @@ I18n.translations.en = {
         approve: 'Accept invitation',
         deny_invitation: 'Are you  sure you want to deny the invitation to connect to {{app}}',
         deny_invitation_info: 'After you deny the invitation you can always activate the connection from this dashboard.',
-        invite_action_collision_title: 'Service {{app}} is already connected.',
+        invite_action_collision_title: 'Application {{app}} is already connected.',
         invite_action_collision_subtitle: 'Mid-air collision detected.',
         invite_action_collision:
             'The invitation to connect to {{app}} was already accepted. Perhaps a colleague has already accepted the invite? If you have any question please contact <a href="mailto:support@surfconext.nl?subject={{jiraKey}}">support@surfconext.nl</a> and include the ticket number in the subject: {{jiraKey}}.',
-        test_connected_no_connection_title: 'Service {{app}} can not be connected.',
+        test_connected_no_connection_title: 'Application {{app}} can not be connected.',
         test_connected_no_connection_subtitle:
-            'The status of your institution is staging and therefore no services can connect.',
+            'The status of your institution is staging and therefore no applications can connect.',
         test_connected_no_connection:
             'If you want to change the status of your institution please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         activate_with_email: {
-            title: 'Contact at institution for this service',
-            subTitle: 'In case the service provider wants to contact someone at your institution about this connection, who can they contact?',
+            title: 'Contact at institution for this application',
+            subTitle: 'In case the application provider wants to contact someone at your institution about this connection, who can they contact?',
             emailPlaceholder: 'Contact person at your institution',
             invalidEmail: 'Invalid email',
             emailRequired: 'Email required',
-            disclaimer: 'I opt not to share any name with the service provider',
+            disclaimer: 'I opt not to share any name with the application provider',
         },
     },
     application_usage_panel: {
-        title: 'Service usage',
+        title: 'Application usage',
         download: 'Export',
         error_html:
             'Stats are currently unavailable. <a href="mailto:support@surfconext.nl">Contact support</a> for more information.',
     },
     contact: {
-        email: 'Service support email',
+        email: 'Application support email',
     },
     export: {
         downloadCSV: 'Download as CSV',
@@ -649,7 +649,7 @@ I18n.translations.en = {
     stats: {
         filters: {
             name: 'Filters',
-            allServiceProviders: 'All Services',
+            allServiceProviders: 'All applications',
         },
         state: 'Status',
         timeScale: 'Period',
@@ -657,11 +657,11 @@ I18n.translations.en = {
         from: 'From',
         to: 'Up to and including',
         today: 'Today',
-        sp: 'Service',
+        sp: 'Application',
         period: {
             year: 'Year',
         },
-        displayDetailPerSP: 'Display details per Service',
+        displayDetailPerSP: 'Display details per application',
         scale: {
             year: 'Year',
             quarter: 'Quarter',
@@ -686,7 +686,7 @@ I18n.translations.en = {
         logins: 'Logins per {{scale}}',
         allLogins: '# Logins',
         uniqueLogins: 'Unique logins',
-        sp: 'Service',
+        sp: 'Application',
         idp: 'Institution',
     },
     clipboard: {
@@ -706,7 +706,7 @@ I18n.translations.en = {
     not_found: {
         title: 'OOPS, I currently can’t show you that page.',
         subTitle: 'This can be due to, and may be fixed by:',
-        reasonLoginPre: 'You’re trying to access a page where you need to login for. Please press ',
+        reasonLoginPre: 'You’re trying to access a page where you need to log in for. Please press ',
         reasonLoginPost: ' and see if that takes you to the page you tried to access.',
         reasonHelp:
             'You don’t have the right authorisation to access that URL. Please check the <a href="https://support.surfconext.nl/idp-help-en" target="_blank" rel="noopener noreferrer">Help pages</a> to see who should be able to access what.',
@@ -742,22 +742,22 @@ I18n.translations.en = {
         settings: 'Settings',
         settings_edit: 'Settings for my own institute',
         settings_text:
-            "This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
+            "This section contains several settings of your institute and the application provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page. If you would like to change something, please press 'Create change request'.",
         settings_text_viewer:
-            'This section contains several settings of your institute and the Service Provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page.',
+            'This section contains several settings of your institute and the application provider(s) provided to SURFconext by your institute. These settings are used in SURFconext, for instance in the Where Are You From page.',
         SURFconextverantwoordelijke: 'SURFconext owner',
         SURFconextbeheerder: 'SURFconext maintainer',
         'Dashboard supergebruiker': 'Dashboard Super User',
-        services_title: 'Services provided by your institute:',
+        services_title: 'Applications provided by your institute:',
         services_title_none: 'None',
-        service_name: 'Service name',
+        service_name: 'Application name',
         license_contact_html:
             'Primary License contact person (<a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-HoekunjeopSURFconextaangeslotendienstenactiveren?">more info</a>):',
         license_contact_name: 'Name',
         license_contact_email: 'Email',
         license_contact_phone: 'Phonenumber',
         institution: 'Institution',
-        services: 'Services',
+        services: 'Applications',
         edit: 'Create change request',
         entity_id: 'Entity ID',
         state: 'Status',
@@ -821,10 +821,10 @@ I18n.translations.en = {
             'The SURFconext maintainers of your IdP are allowed to create, edit and delete<br>Authorization rules.',
         displayAdminEmailsInDashboard: 'Allow regular members to see admin contacts',
         displayAdminEmailsInDashboardTooltip:
-            'Regular members of your institution can see the email address of the SURFconext owners <br>and owners of services of this institution.',
+            'Regular members of your institution can see the email address of the SURFconext owners <br>and owners of applications of this institution.',
         displayStatsInDashboard: 'Allow regular members to see statistics',
         displayStatsInDashboardTooltip:
-            'Regular members of your institution can see the usage / statistics of the services connected<br>to this institution.',
+            'Regular members of your institution can see the usage / statistics of the applications connected<br>to this institution.',
         contact: 'Contact persons',
         contact_name: {
             title: 'Contact name',
@@ -853,14 +853,14 @@ I18n.translations.en = {
                 display: 'Support',
                 tooltip:
                     'This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>',
-                alttooltip: 'suggestion: service desk of the institution.',
+                alttooltip: 'suggestion: application desk of the institution.',
             },
             help: {
                 title: 'Support:<br>',
                 display: 'Support',
                 tooltip:
                     'This address is referred to when end users are having difficulty logging in. Generally this is the help desk of the institution.<br><br>',
-                alttooltip: 'suggestion: service desk of the institution.',
+                alttooltip: 'suggestion: application desk of the institution.',
             },
             administrative: {
                 title: 'Administrative:<br>',
@@ -904,10 +904,10 @@ I18n.translations.en = {
         flash_created: 'created',
         flash_deleted: 'deleted',
         flash_first:
-            'Authorization policies are not yet applied for this service. Before policies for this service will be applied, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.',
+            'Authorization policies are not yet applied for this application. Before policies for this application will be applied, the SURFconext Team must manually perform a configuration change. A notification has been sent to the SURFconext Team. They will get in touch with you.',
         flash_updated: 'updated',
         new_policy: 'New authorization policy',
-        no_policies: 'There are no policies for this service.',
+        no_policies: 'There are no policies for this application.',
         how_to: 'How-to',
         policy_name_not_unique_exception: 'This policy name is already in use',
         pdp_unreachable: 'PDP unreachable',
@@ -924,7 +924,7 @@ I18n.translations.en = {
             numberOfRevisions: 'Revisions',
             search: 'Search',
             search_hint: 'Filter by name',
-            serviceProviderName: 'Service',
+            serviceProviderName: 'Application',
         },
         showMore: "Show deny messages",
         showLess: "Hide deny messages"
@@ -958,7 +958,7 @@ I18n.translations.en = {
         create_policy: 'Create new authorization policy',
         deny: 'Deny',
         deny_info:
-            'Deny policies are less common to use. If the attributes in the policy match those of the person trying to login then this will result in a Deny. No match will result in a Permit.',
+            'Deny policies are less common to use. If the attributes in the policy match those of the person trying to log in then this will result in a Deny. No match will result in a Permit.',
         deny_message: 'English message',
         deny_message_info: 'This is the message displayed to the user if access is denied based on this policy.',
         deny_message_nl: 'Dutch message',
@@ -967,7 +967,7 @@ I18n.translations.en = {
         idps_placeholder: 'Select the Identity Providers - zero or more',
         institutions: 'Institutions',
         intro:
-            'Define who can access this service. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
+            'Define who can access this application. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
         isActive: 'Active',
         isActiveDescription: 'Mark the authorization policy active',
         isActiveInfo: ' Inactive authorization policies are not evaluated in enforcement decisions',
@@ -978,7 +978,7 @@ I18n.translations.en = {
         rule: 'Rule',
         rules: 'Rules',
         rule_and: 'AND',
-        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to login.',
+        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to log in.',
         rule_info_add: ' Note that attribute values with the same attribute name always be evaluated with the logical OR.',
         rule_info_add_2:
             'Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.',
@@ -986,9 +986,9 @@ I18n.translations.en = {
         rule_or_info:
             'Policies defined with a logical OR only require one of the attributes to match the attributes of the person requesting access.',
         save_changes: 'Save changes',
-        service: 'Service',
-        spScopeInfo: "The available Services are scoped to your services if you don't select an Institution",
-        sp_placeholder: 'Select the Service Provider - required',
+        service: 'Application',
+        spScopeInfo: "The available applications are scoped to your applications if you don't select an Institution",
+        sp_placeholder: 'Select the application provider - required',
         sub_title: 'Created by {{displayName}} on {{created}}',
         submit: 'Submit',
         update_policy: 'Update authorization policy',
@@ -1009,8 +1009,8 @@ I18n.translations.en = {
         identityProviderNames: 'Institution(s)',
         name: 'Name',
         revision: 'Revision number',
-        serviceProviderName: 'Service',
-        serviceProviderNames: 'Service(s)',
+        serviceProviderName: 'Application',
+        serviceProviderNames: 'Application(s)',
         title: 'Revisions',
         intro_1:
             'Every time a policy gets updated a copy of the previous state is stored as a revision of the new policy. By comparing revisions of a policy with each other and with the most current policy we are able to display an audit log of all changes made to a policy.',
@@ -1022,7 +1022,7 @@ I18n.translations.en = {
         filter: 'Filter',
         last_updated: 'Last updated:',
         no_results: 'No results',
-        info: 'On this page you find all tickets related to (dis)connecting services and change requests.',
+        info: 'On this page you find all tickets related to (dis)connecting applications and change requests.',
         moreAwaitingTickets:
             "Not all 'Waiting for customer' tickets are shown because the period in the search filter is not broad enough.",
         requestDate: 'Created',
@@ -1032,7 +1032,7 @@ I18n.translations.en = {
         status: 'Status',
         message: 'Message',
         userName: 'By',
-        spName: 'Service',
+        spName: 'Application',
         action_types_name: {
             LINKREQUEST: 'New Connection',
             UNLINKREQUEST: 'Disconnect',
@@ -1044,7 +1044,7 @@ I18n.translations.en = {
         from: 'From',
         to: 'To',
         typeIssue: 'Type',
-        spEntityId: 'Service',
+        spEntityId: 'Application',
         statuses: {
             all: 'All tickets',
             'Open': 'Open',
@@ -1082,28 +1082,28 @@ I18n.translations.en = {
             suspended: 'Suspended',
             suspendedTooltip: 'The ticket was suspended.',
         },
-        servicePlaceHolder: 'Search and select a Service...',
+        servicePlaceHolder: 'Search and select an application...',
         noTicketsFound: 'No tickets were found for the given filters.',
         viewInvitation: 'Approve / Deny',
         resendInvitation: 'Resend invitation mail',
         resendInvitationConfirmation: 'Are you sure you want to resend the invitation mail?',
         resendInvitationFlash: 'Invitation mail for {{jiraKey}} was resent',
-        serviceDetails: 'View service details',
+        serviceDetails: 'View application details',
     },
     service_filter: {
-        title: 'Filter services',
+        title: 'Filter applications',
         state: {
-            tooltip: 'The status of the Service determines if the Service is visible on the production platform.',
+            tooltip: 'The status of the application determines if the application is visible on the production platform.',
         },
-        search: 'Search services...',
+        search: 'Search applications...',
     },
     invite_request: {
-        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected Service or disconnect from the selected Service. A <span class="emphasize">Connection Invite</span> or <span class="emphasize">Disconnection Invite</span> Jira ticket is created with the status <span class="emphasize">Waiting for customer</span>.',
+        info: 'An invite request results in a mail send to all selected contactpersons of an Institution with an invite to connect to the selected application or disconnect from the selected application. A <span class="emphasize">Connection Invite</span> or <span class="emphasize">Disconnection Invite</span> Jira ticket is created with the status <span class="emphasize">Waiting for customer</span>.',
         selectIdp: 'Search and select an Institution...',
         selectSpDisabled: 'First select an Institution',
-        selectSp: 'Now search and select the Service...',
+        selectSp: 'Now search and select the application...',
         idp: 'Institution',
-        sp: 'Service',
+        sp: 'Application',
         connectionRequestQuestion: "Invite for a connection request or disconnection request?",
         connectionRequest: "Connection request",
         disConnectionRequest: "Disconnection request",
@@ -1122,7 +1122,7 @@ I18n.translations.en = {
     profile: {
         title: 'Profile',
         sub_title:
-            'The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFconext Teams) will be stored in SURFconext and shared with services accessed via SURFconext.',
+            'The following profile data has been provided by your home institution. This data as well as your group membership data (e.g.SURFconext Teams) will be stored in SURFconext and shared with applications accessed via SURFconext.',
         my_attributes: 'My attributes',
         attribute: 'Attribute',
         value: 'Value',
@@ -1133,11 +1133,11 @@ I18n.translations.en = {
         roles: {
             ROLE_DASHBOARD_ADMIN: {
                 name: 'SURFconext owner',
-                description: 'You are authorized on behalf of your institution to manage the service connections',
+                description: 'You are authorized on behalf of your institution to manage the application connections',
             },
             ROLE_DASHBOARD_VIEWER: {
                 name: 'SURFconext maintainer',
-                description: 'You are authorized on behalf of your institution to view the information about the services',
+                description: 'You are authorized on behalf of your institution to view the information about the applications',
             },
             ROLE_DASHBOARD_MEMBER: {
                 name: 'Institution member',
@@ -1274,7 +1274,7 @@ I18n.translations.en = {
         subtitle3:
             'If your IdP does not support requesting a second factor, then consider using SURFsecureID.',
         authn_context_level: 'MFA Setting',
-        defaultAuthnContextLevel: 'Do not force MFA at my IdP for this service',
+        defaultAuthnContextLevel: 'Do not force MFA at my IdP for this application',
         multipleauthn: 'Multi-factor on ADFS or Azure AD',
         mfa: 'Generic multi-factor (REFEDS MFA)',
         transparent_authn_context: "Transparent Authn context",
@@ -1283,7 +1283,7 @@ I18n.translations.en = {
         mfa_short: 'Generic IdP',
         mobileonefactorunregistered: 'Mobile one unregistered',
         password: 'Password',
-        not_allowed: "You can not change the MFA for this service. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to change the MFA for this service."
+        not_allowed: "You can not change the MFA for this application. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to change the MFA for this application."
     },
 
 }

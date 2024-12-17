@@ -31,7 +31,7 @@ I18n.translations.pt = {
         you: 'Você',
         profile: 'Perfil',
         switch_idp: 'Escolher outro IDP',
-        loginRequired: 'Please login for more information',
+        loginRequired: 'Please log in for more information',
         super_user_switch: 'Trocar Identidade',
         welcome_txt:
             "Bem-vindo ao painel SURFconext. Nesta página, você vê quais serviços estão conectados ao SURFconext: se sua instituição permitir, você poderá acessar esses serviços usando sua conta institucional. Se você fizer login neste painel (canto superior direito), mostraremos os dados personalizados para sua instituição. Mais informações sobre este painel? Clique em 'Ajuda' no canto superior direito da tela.",
@@ -661,7 +661,7 @@ I18n.translations.pt = {
     not_found: {
         title: 'OOPS, I currently can’t show you that page.',
         subTitle: 'This can be due to, and may be fixed by:',
-        reasonLoginPre: 'You’re trying to access a page where you need to login for. Please press ',
+        reasonLoginPre: 'You’re trying to access a page where you need to log in for. Please press ',
         reasonLoginPost: ' and see if that takes you to the page you tried to access.',
         reasonHelp:
             'You don’t have the right authorisation to access that URL. Please check the Help pages <a href="https://edu.nl/p4um4" target="_blank" rel="noopener noreferrer">Help</a> to see who should be able to access what.',

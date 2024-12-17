@@ -85,7 +85,7 @@
       "en": "Entitlement"
     },
     "Description": {
-      "nl": "rechtaanduiding; URI (URL of URN) dat een recht op iets aangeeft; wordt bepaald door een contract tussen dienstaanbieder en instelling",
+      "nl": "rechtaanduiding; URI (URL of URN) dat een recht op iets aangeeft; wordt bepaald door een contract tussen applicatieaanbieder en instelling",
       "en": "entitlement which decides upon your authorization within the application"
     }
   },
@@ -215,8 +215,8 @@
       "en": "Identifier"
     },
     "Description": {
-      "nl": "UUD; Een persistent, niet opnieuw toegewezen, privacybehoud-ID voor een gebruiker die wordt gedeeld tussen een identiteitsprovider en een serviceprovider",
-      "en": "identifier; A persistent, non-reassigned, privacy-preserving identifier for a user shared between an identity provider and service provider"
+      "nl": "UUD; Een persistent, niet opnieuw toegewezen, privacybehoud-ID voor een gebruiker die wordt gedeeld tussen een identiteitsprovider en een applicatieaanbieder",
+      "en": "identifier; A persistent, non-reassigned, privacy-preserving identifier for a user shared between an identity provider and application provider"
     }
   },
   "urn:mace:surffederatie_nl:attribute-def:nlStudielinkNummer": {
@@ -305,8 +305,8 @@
       "en": "License information"
     },
     "Description": {
-      "nl": "Licentie-informatie voor de huidige dienst",
-      "en": "License information for the current service"
+      "nl": "Licentie-informatie voor de huidige applicatie",
+      "en": "License information for the current application"
     }
   },
   "urn:oid:1.3.6.1.4.1.5923.1.5.1.1": {
