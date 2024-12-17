@@ -50,8 +50,6 @@ export default function MyIdp() {
                 {Object.keys(roles).length > 0 && <RolesTable roles={roles}/>}
                 <GeneralInformation idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser}
                                     showModal={setShowStepUpModal}/>
-                <Settings idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser}
-                          showModal={setShowStepUpModal}/>
                 <ContactPersons idp={currentIdp} isDashboardAdmin={isDashboardAdmin} currentUser={currentUser}
                                 showModal={setShowStepUpModal}/>
             </div>
@@ -104,79 +102,6 @@ function Badge({enabled}) {
     return (
         <div className={`badge ${enabled ? 'enabled' : 'disabled'}`}>
             {enabled ? I18n.t('boolean.yes') : I18n.t('boolean.no')}
-        </div>
-    )
-}
-
-function Settings({idp, isDashboardAdmin, currentUser, showModal}) {
-    return (
-        <div className="settings">
-            <div className="header-with-button">
-                <h2>{I18n.t('my_idp.settings')}</h2>
-                {isDashboardAdmin && <EditIdpButton currentUser={currentUser} showModal={showModal}/>}
-            </div>
-            <table>
-                <tbody>
-                <tr>
-                    <td>{I18n.t('my_idp.published_in_edugain')}</td>
-                    <td>
-                        <Badge enabled={idp.publishedInEdugain}/>
-                    </td>
-                </tr>
-                {idp.publishedInEdugain && (
-                    <tr>
-                        <td>{I18n.t('my_idp.date_published_in_edugain')}</td>
-                        <td>{moment(idp.publishInEdugainDate).locale(I18n.locale).format('LLLL')}</td>
-                    </tr>
-                )}
-                <tr>
-                    <td>{I18n.t('my_idp.research_and_scholarship_info')}</td>
-                    <td>
-                        <div className="tooltip-container">
-                            <Badge enabled={idp.connectToRSServicesAutomatically}/>
-                            <Tooltip
-                                id="connectToRsServicesAutomatically"
-                                text={I18n.t('my_idp.research_and_scholarship_tooltip')}
-                            />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{I18n.t('my_idp.allow_maintainers_to_manage_authz_rules')}</td>
-                    <td>
-                        <div className="tooltip-container">
-                            <Badge enabled={idp.allowMaintainersToManageAuthzRules}/>
-                            <Tooltip
-                                id="allowMaintainersToManageAuthzRules"
-                                text={I18n.t('my_idp.allow_maintainers_to_manage_authz_rules_tooltip')}
-                            />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{I18n.t('my_idp.displayAdminEmailsInDashboard')}</td>
-                    <td>
-                        <div className="tooltip-container">
-                            <Badge enabled={idp.displayAdminEmailsInDashboard}/>
-                            <Tooltip
-                                id="displayAdminEmailsInDashboard"
-                                text={I18n.t('my_idp.displayAdminEmailsInDashboardTooltip')}
-                            />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{I18n.t('my_idp.displayStatsInDashboard')}</td>
-                    <td>
-                        <div className="tooltip-container">
-                            <Badge enabled={idp.displayStatsInDashboard}/>
-                            <Tooltip id="displayStatsInDashboard"
-                                     text={I18n.t('my_idp.displayStatsInDashboardTooltip')}/>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     )
 }
