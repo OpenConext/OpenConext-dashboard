@@ -777,18 +777,6 @@ I18n.translations.pt = {
         date_published_in_edugain: 'Data de publicação no eduGAIN',
         logo_url: 'Logo',
         new_logo_url: 'URL do Novo logo ',
-        research_and_scholarship_info: "Ligar-se automáticamente aos SP's compatíveis com a categoria CoCo R&S",
-        research_and_scholarship_tooltip:
-            'Isto significa que o vosso IdP ativa automáticamente ligações para todos os SPs na <br>SURFconext que aderiram à categoria ‘Research & Scholarship Entity Category’<br> e ‘GEANT Data Protection Code of Conduct’, libertanto os atributos R&S. <br>Consulte<a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> para mais informações.',
-        allow_maintainers_to_manage_authz_rules: 'Allow maintainers to manage Authorization rules',
-        allow_maintainers_to_manage_authz_rules_tooltip:
-            'This means the maintainers of your<br>IdP are allow to create / edit and delete<br>Authorization rules.',
-        displayAdminEmailsInDashboard: 'Allow members to see admin emails',
-        displayAdminEmailsInDashboardTooltip:
-            'This means that regular members of your institution<br>can see the emails of the SURFconext maintainers<br>and owners of this institution.',
-        displayStatsInDashboard: 'Allow regular members to see statistics',
-        displayStatsInDashboardTooltip:
-            'This means that regular members of your institution<br>can see the usage / statistics of the connected services<br>to this institution.',
         contact: 'Contacto',
         contact_name: {
             title: 'Nome do contacto',

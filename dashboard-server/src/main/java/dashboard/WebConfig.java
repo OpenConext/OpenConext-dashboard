@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
         String language = Stream.of(supportLanguageCodes.split(",")).map(String::trim).findFirst().orElse("nl");
         CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
         localeResolver.setCookieName(LANG);
-        localeResolver.setDefaultLocale(new Locale(language));
+        localeResolver.setDefaultLocale(Locale.of(language));
         localeResolver.setCookieMaxAge(315360000);
         return localeResolver;
     }

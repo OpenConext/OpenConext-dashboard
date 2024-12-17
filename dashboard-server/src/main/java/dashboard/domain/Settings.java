@@ -27,15 +27,11 @@ public class Settings {
     private String organisationDisplayNameEn;
     private String organisationDisplayNameNl;
     private String organisationDisplayNamePt;
-    private boolean publishedInEdugain;
-    private boolean connectToRSServicesAutomatically;
-    private boolean allowMaintainersToManageAuthzRules;
     private String comments;
     private StateType stateType;
     private ConsentType consentType;
 
     private List<ContactPerson> contactPersons;
-    private boolean displayAdminEmailsInDashboard;
     private boolean displayStatsInDashboard;
 
     private String typeMetaData;

@@ -197,21 +197,6 @@ export default function ConnectModal({ app, currentUser, isOpen, onClose, onSubm
     )
   }
 
-  if (!currentIdp.publishedInEdugain && app.publishedInEdugain) {
-    return (
-      <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
-        <div className="connect-modal-header">{I18n.t('how_to_connect_panel.not_published_in_edugain_idp')}</div>
-        <div className="connect-modal-body">
-          <p>{I18n.t('how_to_connect_panel.not_published_in_edugain_idp_info', { name: app.name })} </p>
-          <br />
-          <Link className="c-button" to={'/my-idp/edit'}>
-            {I18n.t('how_to_connect_panel.edit_my_idp_link')}
-          </Link>
-        </div>
-      </ConnectModalContainer>
-    )
-  }
-
   return (
     <ConnectModalContainer isOpen={isOpen} onClose={onClose}>
       <div className="connect-modal-header">{I18n.t(`how_to_connect_panel.${title}`, { app: app.name })}</div>

@@ -38,9 +38,8 @@ public class IdpController extends BaseController {
     @RequestMapping("/current/roles")
     public ResponseEntity<RestResponse<Map<String, Collection<SabPerson>>>> roles(@RequestHeader(Constants.HTTP_X_IDP_ENTITY_ID) String idpEntityId) {
         Optional<IdentityProvider> optionalIdentityProvider = SpringSecurity.getCurrentUser().getByEntityId(idpEntityId);
-        boolean displayAdminEmailsInDashboard = optionalIdentityProvider.map(idp -> idp.isDisplayAdminEmailsInDashboard()).orElse(false);
 
-        if (SpringSecurity.getCurrentUser().isGuest() || (SpringSecurity.getCurrentUser().isDashboardMember() && !displayAdminEmailsInDashboard)) {
+        if (SpringSecurity.getCurrentUser().isGuest() || SpringSecurity.getCurrentUser().isDashboardMember()) {
             return new ResponseEntity<>(createRestResponse(Collections.emptyMap()), HttpStatus.OK);
         }
 

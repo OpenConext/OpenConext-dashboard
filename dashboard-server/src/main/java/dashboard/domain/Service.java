@@ -78,7 +78,6 @@ public class Service implements Comparable<Service>, Serializable {
 
     private boolean connected;
     private boolean idpVisibleOnly;
-    private boolean publishedInEdugain;
     private Boolean normenkaderPresent;
     private boolean exampleSingleTenant;
     private boolean policyEnforcementDecisionRequired;
@@ -336,17 +335,6 @@ public class Service implements Comparable<Service>, Serializable {
         this.wikiUrl = wikiUrl;
     }
 
-    public boolean isPublishedInEdugain() {
-        return publishedInEdugain;
-    }
-
-    public void setPublishedInEdugain(boolean publishedInEdugain) {
-        this.publishedInEdugain = publishedInEdugain;
-    }
-
-    public String getPublishInEdugainDate() {
-        return publishInEdugainDate;
-    }
 
     public void setPublishInEdugainDate(String publishInEdugainDate) {
         this.publishInEdugainDate = publishInEdugainDate;

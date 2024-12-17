@@ -7,7 +7,6 @@ public class ServiceProviderSettings {
     private String spEntityId;
     private boolean hasGuestEnabled;
     private boolean noConsentRequired;
-    private boolean publishedInEdugain;
     private String displayNameEn;
     private String displayNameNl;
     private String displayNamePt;
@@ -42,14 +41,6 @@ public class ServiceProviderSettings {
 
     public void setNoConsentRequired(boolean noConsentRequired) {
         this.noConsentRequired = noConsentRequired;
-    }
-
-    public boolean isPublishedInEdugain() {
-        return publishedInEdugain;
-    }
-
-    public void setPublishedInEdugain(boolean publishedInEdugain) {
-        this.publishedInEdugain = publishedInEdugain;
     }
 
     public String getDisplayNameEn() {
@@ -122,7 +113,6 @@ public class ServiceProviderSettings {
                 "spEntityId='" + spEntityId + '\'' +
                 ", hasGuestEnabled=" + hasGuestEnabled +
                 ", noConsentRequired=" + noConsentRequired +
-                ", publishedInEdugain=" + publishedInEdugain +
                 ", displayNameEn='" + displayNameEn + '\'' +
                 ", displayNameNl='" + displayNameNl + '\'' +
                 ", displayNamePt='" + displayNamePt + '\'' +

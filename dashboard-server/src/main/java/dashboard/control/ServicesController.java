@@ -148,7 +148,6 @@ public class ServicesController extends BaseController {
                             service.getSupportMail(),
                             String.valueOf(service.isConnected()),
                             licenseStatus != null ? licenseStatus.name() : LicenseStatus.UNKNOWN.name(),
-                            String.valueOf(service.isPublishedInEdugain()),
                             String.valueOf(service.isExampleSingleTenant()),
                             String.valueOf(service.isStrongAuthentication()),
                             String.valueOf(arp != null ? !arp.isNoArp() : false),
@@ -157,8 +156,7 @@ public class ServicesController extends BaseController {
 
         Stream<String[]> headers = Stream.<String[]>of(new String[]{
                 "id", "name", "organisation-name", "entityID", "description", "app-url", "wiki-url", "support-mail",
-                "connected", "licenseStatus",
-                "publishedInEdugain", "singleTenant", "strongAuthentication",
+                "connected", "licenseStatus", "singleTenant", "strongAuthentication",
                 "arpEnabled", "arpAttributes"});
 
         List<String[]> rows = Stream.concat(headers, values).collect(toList());

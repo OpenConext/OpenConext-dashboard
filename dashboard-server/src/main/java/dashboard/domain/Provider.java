@@ -58,7 +58,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
     private boolean allowedAll;
     private Set<String> allowedEntityIds;
     private boolean noConsentRequired;
-    private boolean publishedInEdugain;
 
     public Provider() {
     }
@@ -103,7 +102,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
         this.allowedAll = getAllowedAll(metaData);
         this.allowedEntityIds = getAllowedEntries(metaData);
         this.noConsentRequired = booleanValue(metaData.get("coin:no_consent_required"));
-        this.publishedInEdugain = booleanValue(metaData.get("coin:publish_in_edugain"));
         this.publishInEdugainDate = (String) metaData.get("coin:publish_in_edugain_date");
     }
 
@@ -269,10 +267,6 @@ public abstract class Provider implements Comparable<Provider>, Serializable {
 
     public String getPublishInEdugainDate() {
         return publishInEdugainDate;
-    }
-
-    public boolean isPublishedInEdugain() {
-        return publishedInEdugain;
     }
 
     public String getState() {

@@ -286,8 +286,7 @@ public class UsersController extends BaseController {
         List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
 
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        IdentityProvider idp = currentUser.getSwitchedToIdp().orElse(currentUser.getIdp());
-        boolean eraseMails = currentUser.isGuest() || (currentUser.isDashboardMember() && !idp.isDisplayAdminEmailsInDashboard());
+        boolean eraseMails = currentUser.isGuest() || currentUser.isDashboardMember();
         if (eraseMails) {
             usersServices = usersServices.stream().map(service -> ServicesController.eraseMailsFromService(service)).collect(toList());
         }
@@ -564,22 +563,6 @@ public class UsersController extends BaseController {
         this.diff(pathUpdates, idp.getDisplayNames().get("en"), settings.getDisplayNamesEn(), "displayName:en");
         this.diff(pathUpdates, idp.getDisplayNames().get("nl"), settings.getDisplayNamesNl(), "displayName:nl");
         this.diff(pathUpdates, idp.getDisplayNames().get("pt"), settings.getDisplayNamesPt(), "displayName:pt");
-
-        this.diff(pathUpdates, idp.isPublishedInEdugain(), settings.isPublishedInEdugain(),
-                "coin:publish_in_edugain");
-
-        if (changed(idp.isConnectToRSServicesAutomatically(), settings.isConnectToRSServicesAutomatically())) {
-            pathUpdates.put("metaDataFields.coin:entity_categories:1", "http://refeds.org/category/research-and-scholarship");
-        }
-
-        this.diff(pathUpdates, idp.isAllowMaintainersToManageAuthzRules(), settings.isAllowMaintainersToManageAuthzRules(),
-                "coin:allow_maintainers_to_manage_authz_rules");
-
-        this.diff(pathUpdates, idp.isDisplayAdminEmailsInDashboard(), settings.isDisplayAdminEmailsInDashboard(),
-                "coin:display_admin_emails_in_dashboard");
-
-        this.diff(pathUpdates, idp.isDisplayStatsInDashboard(), settings.isDisplayStatsInDashboard(),
-                "coin:display_stats_in_dashboard");
 
         this.diff(pathUpdates, idp.getState(), settings.getStateType() != null ? settings.getStateType().name() : null, "state");
 

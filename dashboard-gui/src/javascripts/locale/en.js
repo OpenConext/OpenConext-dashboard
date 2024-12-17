@@ -813,18 +813,6 @@ I18n.translations.en = {
         date_published_in_edugain: 'Date published in eduGAIN',
         logo_url: 'Logo',
         new_logo_url: 'New logo URL',
-        research_and_scholarship_info: 'Connect to CoCo R&S SP’s automatically',
-        research_and_scholarship_tooltip:
-            'Your IdP will be automatically connected to all SPs in<br>SURFconext adhering to both ‘Research & Scholarship Entity Category’<br>and the ‘GEANT Data Protection Code of Conduct’, releasing the R&S attributes. <br>See the <a href="https://support.surfconext.nl/dashboard-help-rns" target="_blank" rel="noopener noreferrer">wiki</a> for more information.',
-        allow_maintainers_to_manage_authz_rules: 'Allow SURFconext maintainers to manage Authorization rules',
-        allow_maintainers_to_manage_authz_rules_tooltip:
-            'The SURFconext maintainers of your IdP are allowed to create, edit and delete<br>Authorization rules.',
-        displayAdminEmailsInDashboard: 'Allow regular members to see admin contacts',
-        displayAdminEmailsInDashboardTooltip:
-            'Regular members of your institution can see the email address of the SURFconext owners <br>and owners of applications of this institution.',
-        displayStatsInDashboard: 'Allow regular members to see statistics',
-        displayStatsInDashboardTooltip:
-            'Regular members of your institution can see the usage / statistics of the applications connected<br>to this institution.',
         contact: 'Contact persons',
         contact_name: {
             title: 'Contact name',

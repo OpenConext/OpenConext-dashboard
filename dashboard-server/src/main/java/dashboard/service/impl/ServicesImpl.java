@@ -133,7 +133,6 @@ public class ServicesImpl implements Services {
         service.setIdpVisibleOnly(sp.isIdpVisibleOnly());
         service.setPolicyEnforcementDecisionRequired(sp.isPolicyEnforcementDecisionRequired());
         service.setInstitutionId(sp.getInstitutionId());
-        service.setPublishedInEdugain(sp.isPublishedInEdugain());
         service.setLicenseStatus(sp.getLicenseStatus());
         service.setEntityType(sp.getEntityType());
         service.setExampleSingleTenant(sp.getEntityType().equals(EntityType.single_tenant_template));
