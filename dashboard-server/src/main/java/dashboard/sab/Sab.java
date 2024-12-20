@@ -35,7 +35,7 @@ public interface Sab {
     /**
      * Get all persons within the given organisation that have the given role.
      */
-    Collection<SabPerson> getPersonsInRoleForOrganization(String organisationAbbreviation, String role);
+    Collection<SabPerson> getPersonsInRoleForOrganization(String organisationGuid, String role);
 
     /**
      * Get all persons from the given organization that have the given role

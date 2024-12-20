@@ -83,8 +83,8 @@ public class HttpClientTransport implements SabTransport {
     }
 
     @Override
-    public InputStream getRestResponse(String organisationAbbreviation, String role) throws IOException {
-        HttpGet httpGet = new HttpGet(format("%s/profile?abbrev=%s&role=%s", restEndPoint, URLEncoder.encode(organisationAbbreviation, "UTF-8"), URLEncoder.encode(role, "UTF-8")));
+    public InputStream getRestResponse(String organisationGuid, String role) throws IOException {
+        HttpGet httpGet = new HttpGet(format("%s/profile?guid=%s&role=%s", restEndPoint, URLEncoder.encode(organisationGuid, "UTF-8"), URLEncoder.encode(role, "UTF-8")));
         return handleRequest(httpGet, restCredentials);
     }
 

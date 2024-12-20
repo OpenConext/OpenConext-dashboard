@@ -35,7 +35,7 @@ public class LocalFileTransport implements SabTransport {
     }
 
     @Override
-    public InputStream getRestResponse(String organisationAbbreviation, String role) {
+    public InputStream getRestResponse(String organisationGuid, String role) {
         return this.getClass().getResourceAsStream(restFileName);
     }
 }

@@ -73,21 +73,21 @@ public class SabClientTest {
 
     @Test
     public void testGetPersonsInRoleForOrganization() throws Exception {
-        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextverantwoordelijke");
+        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationGuid", "SURFconextverantwoordelijke");
         actual.stream().forEach(sabPerson -> assertTrue(StringUtils.hasText(sabPerson.getMiddleName())));
         assertEquals(6, actual.size());
     }
 
     @Test
     public void testOnlyReturnsPersonsWithTheGivenRole() throws Exception {
-        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "OperationeelBeheerder");
+        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationGuid", "OperationeelBeheerder");
         assertEquals(4, actual.size());
     }
 
     @Test
     public void testNoResultsFromRestInterface() throws Exception {
         sabClient = new SabClient(new LocalFileTransport("/response.xml", "/sab-json/minimal-roles.json"));
-        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationAbbreviation", "SURFconextbeheerder");
+        Collection<SabPerson> actual = sabClient.getPersonsInRoleForOrganization("organisationGuid", "SURFconextbeheerder");
         assertEquals(0, actual.size());
     }
 
