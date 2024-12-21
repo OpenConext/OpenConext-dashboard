@@ -59,6 +59,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .put("urn:mace:surffederatie.nl:attribute-def:nlEduPersonStudyBranch", Shib_NlEduPersonStudyBranch)
                 .put("urn:mace:surffederatie.nl:attribute-def:nlStudielinkNummer", Shib_NlStudielinkNummer)
                 .put("urn:mace:surf.nl:attribute-def:eckid", Shib_SURFEckid)
+                .put("urn:mace:surf.nl:attribute-def:surf-autorisaties", Shib_SURFautorisaties)
                 .build();
     }
 
@@ -130,9 +131,9 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     @Override
     protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request) {
         Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null && LOG.isTraceEnabled()) {
+        if (headerNames != null && !request.getRequestURI().endsWith("health") && !request.getRequestURI().endsWith("ico")) {
             ArrayList<String> list = Collections.list(headerNames);
-            LOG.trace("Received headers {}", list.stream().collect(toMap(
+            LOG.info("Received headers {}", list.stream().collect(toMap(
                     name -> name,
                     name -> {
                         Enumeration<String> headers = request.getHeaders(name);
