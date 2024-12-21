@@ -392,7 +392,8 @@ I18n.translations.en = {
             sab: 'SURF Autorisatie Beheer',
             ala: 'Your IdP',
             pseudo_email:'Your IdP',
-            manage: 'SURFconext'
+            manage: 'SURFconext',
+            sabrest: 'SAB'
         },
         sourceTooltip: "Which authority supplies the values for this attribute. Your IdP only needs to provide the items marked with 'Your IdP'.",
         attributes: {

@@ -392,7 +392,8 @@ I18n.translations.nl = {
             sab: 'SURF Autorisatie Beheer',
             ala: 'Je IdP',
             pseudo_email:'Je IdP',
-            manage: 'SURFconext'
+            manage: 'SURFconext',
+            sabrest: 'SAB'
         },
         sourceTooltip: "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
         attributes: {
