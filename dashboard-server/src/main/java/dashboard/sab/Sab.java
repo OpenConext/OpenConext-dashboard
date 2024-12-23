@@ -17,6 +17,7 @@
 package dashboard.sab;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,22 +26,12 @@ import java.util.Optional;
 public interface Sab {
 
     /**
-     * Get the Role/organisation info for the given userId
-     *
-     * @param userId the userId to query for
-     * @return SabRoleHolder
-     */
-    Optional<SabRoleHolder> getRoles(String userId);
-
-    /**
      * Get all persons within the given organisation that have the given role.
      */
-    Collection<SabPerson> getPersonsInRoleForOrganization(String organisationGuid, String role);
+    List<SabPerson> getPersonsInRoleForOrganization(String organisationGuid, String role);
 
     /**
      * Get all persons from the given organization that have the given role
-     *
-     * @return
      */
-    Collection<SabPerson> getSabEmailsForOrganization(String entityId, String role);
+    List<SabPerson> getSabEmailsForOrganization(String entityId, String role);
 }

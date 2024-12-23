@@ -6,10 +6,9 @@ import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
 import dashboard.manage.UrlResourceManage;
 import dashboard.pdp.*;
-import dashboard.sab.HttpClientTransport;
 import dashboard.sab.Sab;
-import dashboard.sab.SabClient;
 import dashboard.sab.SabClientMock;
+import dashboard.sab.SabRest;
 import dashboard.service.Services;
 import dashboard.service.impl.*;
 import dashboard.stats.Stats;
@@ -40,9 +39,12 @@ public class Application {
     }
 
     @Bean
-    public Sab sab(HttpClientTransport httpClientTransport,
-                   @Value("${dashboard.feature.sab}") boolean sabEnabled) {
-        return sabEnabled ? new SabClient(httpClientTransport) : new SabClientMock();
+    public Sab sab(Manage manage,
+                   @Value("${dashboard.feature.sab}") boolean sabEnabled,
+                   @Value("${sab-rest.username}") String sabRestUserName,
+                   @Value("${sab-rest.password}") String sabRestPassword,
+                   @Value("${sab-rest.endpoint}") String restEndPointURL) {
+        return sabEnabled ? new SabRest(manage, sabRestUserName, sabRestPassword, restEndPointURL) : new SabClientMock();
     }
 
     @Bean

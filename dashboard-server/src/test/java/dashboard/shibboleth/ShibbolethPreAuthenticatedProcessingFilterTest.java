@@ -5,8 +5,6 @@ import dashboard.domain.CoinAuthority;
 import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.manage.Manage;
-import dashboard.sab.Sab;
-import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClientMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,9 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static dashboard.domain.CoinAuthority.Authority.*;
 import static dashboard.shibboleth.ShibbolethHeader.*;
@@ -35,15 +31,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
+    public static final String INSTITUTION_ID = "institution_id";
     @InjectMocks
     private ShibbolethPreAuthenticatedProcessingFilter subject =
             new ShibbolethPreAuthenticatedProcessingFilter(new JiraClientMock(null, null));
 
     @Mock
     private Manage manageMock;
-
-    @Mock
-    private Sab sab;
 
     @Before
     public void before() {
@@ -55,7 +49,6 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         subject.setDashboardViewer("dashboard.viewer");
         subject.setManageConsentEnabled(true);
 
-        when(sab.getRoles(anyString())).thenReturn(Optional.empty());
     }
 
     @Test
@@ -112,8 +105,6 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
     public void testWithOrganisationSabMismatch() {
         Arrays.asList(null, "", "no_match").forEach(institutionId -> {
             MockHttpServletRequest request = httpRequest();
-            when(sab.getRoles("uid")).thenReturn(Optional.of(
-                    new SabRoleHolder(institutionId, Arrays.asList("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke"))));
             request.addHeader(Name_Id.getValue(), "uid");
             IdentityProvider idp = new IdentityProvider("mock-idp", "SURFNET", "name", 1L);
             idp.setState("prodaccepted");
@@ -136,20 +127,30 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
 
     @Test
     public void shouldAddSabEntitlements() {
-        doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextverantwoordelijke",
-                ROLE_DASHBOARD_ADMIN, null);
-        doAssertSabEntitlement("urn:mace:surfnet.nl:surfnet.nl:sab:SURFconextbeheerder",
-                ROLE_DASHBOARD_VIEWER, null);
+        doAssertSabEntitlement(ROLE_DASHBOARD_ADMIN, Map.of(Shib_SURFautorisaties,
+                List.of("urn:mace:surfnet.nl:surfnet.nl:sab:role:SURFconextverantwoordelijke",
+                        "urn:mace:surfnet.nl:surfnet.nl:sab:organizationGUID:" + INSTITUTION_ID)));
+        doAssertSabEntitlement(ROLE_DASHBOARD_VIEWER, Map.of(Shib_SURFautorisaties,
+                List.of("urn:mace:surfnet.nl:surfnet.nl:sab:role:SURFconextbeheerder",
+                        "urn:mace:surfnet.nl:surfnet.nl:sab:organizationGUID:" + INSTITUTION_ID)));
+        doAssertSabEntitlement(ROLE_DASHBOARD_MEMBER, Map.of());
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
+        assertEquals(1, user.getAuthorityEnums().size());
+        assertTrue(user.getAuthorityEnums().contains(ROLE_DASHBOARD_GUEST));
+
+
+        doAssertSabEntitlement(ROLE_DASHBOARD_MEMBER, Map.of(Shib_SURFautorisaties,
+                List.of("urn:mace:surfnet.nl:surfnet.nl:sab:role:SURFconextbeheerder",
+                        "urn:mace:surfnet.nl:surfnet.nl:sab:organizationGUID:nope")));
     }
 
     @Test
     public void shouldAddTeamsEntitlements() {
-        doAssertSabEntitlement("dashboard.admin",
-                ROLE_DASHBOARD_ADMIN, Shib_MemberOf);
-        doAssertSabEntitlement("dashboard.viewer",
-                ROLE_DASHBOARD_VIEWER, Shib_MemberOf);
-        doAssertSabEntitlement("dashboard.super.user",
-                ROLE_DASHBOARD_SUPER_USER, Shib_MemberOf);
+        doAssertSabEntitlement(ROLE_DASHBOARD_ADMIN, Map.of(Shib_MemberOf, List.of("dashboard.admin")));
+        doAssertSabEntitlement(ROLE_DASHBOARD_VIEWER, Map.of(Shib_MemberOf, List.of("dashboard.viewer")));
+        doAssertSabEntitlement(ROLE_DASHBOARD_SUPER_USER, Map.of(Shib_MemberOf, List.of("dashboard.super.user")));
     }
 
     @Test
@@ -163,19 +164,13 @@ public class ShibbolethPreAuthenticatedProcessingFilterTest {
         assertEquals(1, user.getAuthorityEnums().size());
     }
 
-    private void doAssertSabEntitlement(String entitlement, CoinAuthority.Authority role, ShibbolethHeader headerName) {
+    private void doAssertSabEntitlement(CoinAuthority.Authority role, Map<ShibbolethHeader, List<String>> headers) {
         MockHttpServletRequest request = httpRequest();
-        String institutionId = "institution_id";
-        if (headerName != null) {
-            request.addHeader(headerName.getValue(), entitlement);
-        } else {
-            when(sab.getRoles("uid")).thenReturn(Optional.of(
-                    new SabRoleHolder(institutionId, Arrays.asList(entitlement))));
-        }
-        IdentityProvider idp = new IdentityProvider("mock-idp", institutionId, "name", 1L);
+        headers.forEach((headerName, values) -> request.addHeader(headerName.getValue(), String.join(";", values)));
+        IdentityProvider idp = new IdentityProvider("mock-idp", INSTITUTION_ID, "name", 1L);
         idp.setState("prodaccepted");
         when(manageMock.getIdentityProvider("mock-idp", false)).thenReturn(Optional.of(idp));
-        when(manageMock.getInstituteIdentityProviders(institutionId)).thenReturn(Collections.singletonList(idp));
+        when(manageMock.getInstituteIdentityProviders(INSTITUTION_ID)).thenReturn(Collections.singletonList(idp));
         request.addHeader(Shib_Authenticating_Authority.getValue(), "mock-idp");
         CoinUser user = (CoinUser) subject.getPreAuthenticatedPrincipal(request);
         assertEquals(1, user.getAuthorityEnums().size());

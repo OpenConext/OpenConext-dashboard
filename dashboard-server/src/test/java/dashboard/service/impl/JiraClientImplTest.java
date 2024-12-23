@@ -9,7 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

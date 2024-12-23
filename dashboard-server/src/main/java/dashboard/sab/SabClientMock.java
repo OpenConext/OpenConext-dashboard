@@ -18,10 +18,12 @@ package dashboard.sab;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Mock implementation of SAB client that uses a predefined mapping of userIds to SabRoleHolders
@@ -47,19 +49,14 @@ public class SabClientMock implements Sab {
     );
 
     @Override
-    public Optional<SabRoleHolder> getRoles(String userId) {
-        return Optional.ofNullable(rolesMapping.get(userId));
-    }
-
-    @Override
-    public Collection<SabPerson> getPersonsInRoleForOrganization(String organisationGuid, String role) {
+    public List<SabPerson> getPersonsInRoleForOrganization(String organisationGuid, String role) {
         return sabPersons.stream()
                 .filter(person -> person.getRoles().stream().anyMatch(r -> r.roleName.equals(role)))
-                .collect(toList());
+                .toList();
     }
 
     @Override
-    public Collection<SabPerson> getSabEmailsForOrganization(String entityId, String role) {
-        return sabPersons;
+    public List<SabPerson> getSabEmailsForOrganization(String entityId, String role) {
+        return this.getPersonsInRoleForOrganization(null, role);
     }
 }

@@ -5,8 +5,9 @@ import com.google.common.collect.ImmutableMap;
 import dashboard.domain.*;
 import dashboard.manage.Manage;
 import dashboard.sab.Sab;
-import dashboard.sab.SabRoleHolder;
 import dashboard.service.impl.JiraClient;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -69,10 +70,15 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private Manage manage;
     private Sab sab;
     private final JiraClient jiraClient;
+    @Setter
     private String dashboardAdmin;
+    @Setter
     private String dashboardViewer;
+    @Setter
     private List<String> dashboardSuperUser;
+    @Setter
     private String adminSurfConextIdpRole;
+    @Setter
     private String viewerSurfConextIdpRole;
     private boolean isManageConsentEnabled;
     private boolean jiraDown;
@@ -194,20 +200,29 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                         });
             }
         }
+        //We need to get the last part, urn:mace:surfnet.nl:surfnet.nl:sab:role:SURF*
+        List<String> sabRoles = this.getShibHeaderValues(Shib_SURFautorisaties, request);
+        List<String> surfAutorisaties = sabRoles.stream()
+                .filter(s -> s.contains("sab:role"))
+                .map(autorisatie -> autorisatie.substring(autorisatie.lastIndexOf(":") + 1))
+                .toList();
+        Optional<String> optionalOrganisation = sabRoles.stream()
+                .filter(s -> s.contains("sab:organizationGUID"))
+                .map(autorisatie -> autorisatie.substring(autorisatie.lastIndexOf(":") + 1))
+                .findFirst();
 
-        Optional<SabRoleHolder> roles = sab.getRoles(uid);
         LOG.debug("SAB: received roles {} and organization {}",
-                roles.isPresent() ? roles.get().getRoles() : "None",
-                roles.isPresent() ? roles.get().getOrganisation() : "None");
+                surfAutorisaties,
+                optionalOrganisation);
 
 
         List<String> institutionIds = institutionIdentityProviders.stream()
                 .filter(provider -> StringUtils.hasText(provider.getInstitutionId()))
-                .map(provider -> provider.getInstitutionId().toUpperCase()).collect(toList());
+                .map(provider -> provider.getInstitutionId().toLowerCase()).toList();
 
         LOG.debug("Manage: received institution ID's {} ", institutionIds);
 
-        this.addDashboardRoleForEntitlements(coinUser, roles,
+        this.addDashboardRoleForEntitlements(coinUser, surfAutorisaties, optionalOrganisation,
                 institutionIds);
 
         institutionIdentityProviders.stream()
@@ -263,47 +278,44 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         }
     }
 
-    private void addDashboardRoleForEntitlements(CoinUser user, Optional<SabRoleHolder> roles, List<String> institutionIds) {
-        roles.ifPresent(sabRoleHolder -> {
-            List<String> entitlements = sabRoleHolder.getRoles();
-            String organisation = StringUtils.hasText(sabRoleHolder.getOrganisation()) ? sabRoleHolder.getOrganisation().toUpperCase() : null;
-            boolean institutionIdMatch = StringUtils.hasText(sabRoleHolder.getOrganisation()) &&
-                    institutionIds.contains(organisation);
-            if (institutionIdMatch) {
-                if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(adminSurfConextIdpRole) > -1)) {
-                    user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
-                } else if (entitlements.stream().anyMatch(entitlement -> entitlement.indexOf(viewerSurfConextIdpRole) > -1)) {
-                    user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
-                }
-            } else {
-                LOG.info("SAB: received entitlements, but the institutionIds from Manage {} do not match the organization name from SAB {}",
-                        institutionIds, organisation);
+    private void addDashboardRoleForEntitlements(CoinUser user,
+                                                 List<String> sabRoles,
+                                                 Optional<String> optionalOrganisation,
+                                                 List<String> institutionIds) {
+        String organisation = optionalOrganisation.orElse(null);
+        boolean institutionIdMatch = StringUtils.hasText(organisation) &&
+                institutionIds.contains(organisation.toLowerCase());
+        if (institutionIdMatch) {
+            if (sabRoles.stream().anyMatch(role -> role.trim().equalsIgnoreCase(adminSurfConextIdpRole.trim()))) {
+                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_ADMIN));
+            } else if (sabRoles.stream().anyMatch(role -> role.trim().equalsIgnoreCase(viewerSurfConextIdpRole.trim()))) {
+                user.addAuthority(new CoinAuthority(ROLE_DASHBOARD_VIEWER));
             }
-        });
+            LOG.info("Added grantedAuthorities {} to user {}", user.getAuthorities(), user.getUid());
+        } else {
+            LOG.warn("SAB: received autorisaties, but the institutionIds from Manage {} do not match the organization name from SAB {}",
+                    institutionIds, organisation);
+        }
     }
 
     private List<IdentityProvider> getInstitutionIdentityProviders(String idpId) {
         Optional<IdentityProvider> optionalIdentityProvider = manage.getIdentityProvider(idpId, false);
-        List<IdentityProvider> identityProviders = optionalIdentityProvider.map(idp -> {
+        return optionalIdentityProvider.map(idp -> {
             String institutionId = idp.getInstitutionId();
             return hasText(institutionId) ? manage.getInstituteIdentityProviders(institutionId) : singletonList(idp);
         }).orElse(Collections.emptyList());
-        return identityProviders;
     }
 
     private Optional<String> getFirstShibHeaderValue(ShibbolethHeader headerName, HttpServletRequest request) {
         return getShibHeaderValues(headerName, request).stream().findFirst();
     }
 
+    @SneakyThrows
     private List<String> getShibHeaderValues(ShibbolethHeader headerName, HttpServletRequest request) {
         String header = request.getHeader(headerName.getValue());
-        try {
-            String headerValue = StringUtils.hasText(header) ?
-                    new String(header.getBytes("ISO8859-1"), "UTF-8") : null;
-            return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
-        }
+        String headerValue = StringUtils.hasText(header) ?
+                new String(header.getBytes("ISO8859-1"), StandardCharsets.UTF_8) : null;
+        return headerValue == null ? Collections.emptyList() : shibHeaderValueSplitter.splitToList(headerValue);
     }
 
     @Override
@@ -332,26 +344,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         } catch (NumberFormatException e) {
             return 1;
         }
-    }
-
-    public void setDashboardAdmin(String dashboardAdmin) {
-        this.dashboardAdmin = dashboardAdmin;
-    }
-
-    public void setDashboardViewer(String dashboardViewer) {
-        this.dashboardViewer = dashboardViewer;
-    }
-
-    public void setDashboardSuperUser(List<String> dashboardSuperUsers) {
-        this.dashboardSuperUser = dashboardSuperUsers;
-    }
-
-    public void setAdminSurfConextIdpRole(String adminSurfConextIdpRole) {
-        this.adminSurfConextIdpRole = adminSurfConextIdpRole;
-    }
-
-    public void setViewerSurfConextIdpRole(String viewerSurfConextIdpRole) {
-        this.viewerSurfConextIdpRole = viewerSurfConextIdpRole;
     }
 
     public void setManageConsentEnabled(boolean manageConsentEnabled) {
