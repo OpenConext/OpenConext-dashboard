@@ -25,7 +25,7 @@ public class MockShibbolethFilter extends GenericFilterBean {
 
     public static final String idp = "http://mock-idp";//,"https://idp.surfnet.nl";//"https://localhost.surf.id"; //"https://idp.surf.nl"
     public final String authnContextClass = "urn:oasis:names:tc:SAML:2.0:ac:classes:Password";
-//    public final String authnContextClass = "http://test2.surfconext.nl/assurance/loa2";
+    //    public final String authnContextClass = "http://test2.surfconext.nl/assurance/loa2";
     public String role = "admin";
 //    public String role = "super";
 
@@ -67,9 +67,17 @@ public class MockShibbolethFilter extends GenericFilterBean {
                     break;
                 case "admin":
                     wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.admin");
+                    wrapper.setHeader(Shib_SURFautorisaties.getValue(),
+                            "urn:mace:surfnet.nl:surfnet.nl:sab:role:SURFconextverantwoordelijke;" +
+                                    "urn:mace:surfnet.nl:surfnet.nl:sab:organizationGUID:ad93daef-0911-e511-80d0-005056956c1a");
+                    wrapper.setHeader(Shib_AuthnContext_Class.getValue(), authnContextClass);
                     break;
                 case "viewer":
                     wrapper.setHeader(Shib_MemberOf.getValue(), "dashboard.viewer");
+                    wrapper.setHeader(Shib_SURFautorisaties.getValue(),
+                            "urn:mace:surfnet.nl:surfnet.nl:sab:organizationGUID:ad93daef-0911-e511-80d0-005056956c1a;" +
+                                    "urn:mace:surfnet.nl:surfnet.nl:sab:role:SURFconextbeheerder");
+                    wrapper.setHeader(Shib_AuthnContext_Class.getValue(), authnContextClass);
                     break;
                 default:
                     //nothing
