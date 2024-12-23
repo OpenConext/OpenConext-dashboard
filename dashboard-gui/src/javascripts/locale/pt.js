@@ -1262,7 +1262,7 @@ I18n.translations.pt = {
                 description: 'Educatieve Content Keten Identifier (ECK ID) is a pseudonymous identifier.',
             },
             'Shib-surf-autorisaties': {
-                name: 'SURF Authorizations',
+                name: 'Authorizations',
                 description: 'The authorizations from SURF.',
             },
         },
