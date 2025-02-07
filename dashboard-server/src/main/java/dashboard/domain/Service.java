@@ -92,7 +92,6 @@ public class Service implements Comparable<Service>, Serializable {
 
     private ARP arp;
 
-    private List<ContactPerson> contactPersons;
     private List<String> nameIds;
     private String minimalLoaLevel;
     private EntityType entityType;
@@ -432,14 +431,6 @@ public class Service implements Comparable<Service>, Serializable {
         this.noConsentRequired = noConsentRequired;
     }
 
-    public List<ContactPerson> getContactPersons() {
-        return contactPersons;
-    }
-
-    public void setContactPersons(List<ContactPerson> contactPersons) {
-        this.contactPersons = contactPersons;
-    }
-
     public PrivacyInfo getPrivacyInfo() {
         return privacyInfo;
     }
@@ -626,5 +617,12 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setOrganisation(String organisation) {
         this.organisation = organisation;
+    }
+
+    public Service sanitize(CoinUser currentUser) {
+        if (currentUser.isGuest() || currentUser.isDashboardViewer()) {
+            this.setSupportMail(null);
+        }
+        return this;
     }
 }

@@ -8,7 +8,7 @@ import { ReactComponent as EulaIcon } from '../../images/common-file-text-check.
 import { ReactComponent as RegistrationPolicyIcon } from '../../images/common-file-text-edit.svg'
 import { ReactComponent as PrivacyStatementIcon } from '../../images/single-neutral-actions-text.svg'
 
-export default function AboutService({ app, type }) {
+export default function AboutService({ app, type, currentUser }) {
   const [institutions, setInstitutions] = useState(null)
 
   if (!app) {
@@ -22,7 +22,10 @@ export default function AboutService({ app, type }) {
   }
 
   useEffect(() => {
-    fetchInstitutions()
+    if (!currentUser.guest) {
+      fetchInstitutions()
+    }
+
   }, [])
 
   return (
@@ -106,9 +109,10 @@ export default function AboutService({ app, type }) {
           )}
         </div>
       </div>
-      {app.entityType !== 'single_tenant_template' && <div className="institutions">
-        <InstitutionTable institutions={institutions} />
-      </div>}
+      {(app.entityType !== 'single_tenant_template' && institutions) &&
+          <div className="institutions">
+            <InstitutionTable institutions={institutions} />
+          </div>}
     </div>
   )
 }

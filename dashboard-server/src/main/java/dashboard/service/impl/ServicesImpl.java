@@ -108,12 +108,10 @@ public class ServicesImpl implements Services {
     }
 
     private Service buildApiService(ServiceProvider serviceProvider, String locale) {
-
         Service service = new Service();
         plainProperties(serviceProvider, service);
         languageSpecificProperties(serviceProvider, locale, service);
         categories(serviceProvider, service, locale);
-        contactPersons(serviceProvider, service);
         return service;
     }
 
@@ -234,10 +232,6 @@ public class ServicesImpl implements Services {
         Category category = new Category(locale.equals("en") ? "Type of Service" : locale.equals("pt") ? "Tipo de Serviço" : "Type Service", "type_of_service",
                 typeOfServices.stream().map(CategoryValue::new).collect(toList()));
         service.setCategories(Collections.singletonList(category));
-    }
-
-    private void contactPersons(ServiceProvider sp, Service service) {
-        service.setContactPersons(sp.getContactPersons());
     }
 
 }

@@ -283,13 +283,11 @@ public class UsersController extends BaseController {
 
     @RequestMapping(value = "/me/serviceproviders", method = RequestMethod.GET)
     public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
-        List<Service> usersServices = getServiceProvidersForCurrentUser(locale);
-
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        boolean eraseMails = currentUser.isGuest() || currentUser.isDashboardMember();
-        if (eraseMails) {
-            usersServices = usersServices.stream().map(service -> ServicesController.eraseMailsFromService(service)).collect(toList());
-        }
+        List<Service> usersServices = getServiceProvidersForCurrentUser(locale).stream()
+                .map(service -> service.sanitize(currentUser))
+                .toList();
+
         return createRestResponse(usersServices);
     }
 

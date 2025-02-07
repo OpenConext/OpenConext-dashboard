@@ -129,7 +129,7 @@ export default function ServiceDetail() {
             </Route>
           )}
           <Route>
-            <AboutService app={app} type={type} />
+            <AboutService app={app} type={type} currentUser={currentUser}/>
           </Route>
         </Switch>
       </div>

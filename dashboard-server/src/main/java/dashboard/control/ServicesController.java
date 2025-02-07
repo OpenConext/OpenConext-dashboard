@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -101,9 +102,12 @@ public class ServicesController extends BaseController {
 
     @RequestMapping(value = "/idps")
     public RestResponse<List<InstitutionIdentityProvider>> getConnectedIdps(
-            @RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
             @RequestParam String spEntityId,
             @RequestParam String type) {
+        CoinUser currentUser = SpringSecurity.getCurrentUser();
+        if (currentUser.isGuest()) {
+            throw new AuthorizationServiceException("/idps not allowed for guest)");
+        }
         ServiceProvider serviceProvider = manage.getServiceProvider(spEntityId, EntityType.valueOf(type), false)
                 .orElseThrow(IllegalArgumentException::new);
         List<InstitutionIdentityProvider> idps;
@@ -179,18 +183,10 @@ public class ServicesController extends BaseController {
         Optional<Service> serviceByEntityId = services.getServiceById(idpEntityId, spId, EntityType
                 .valueOf(entityType), locale);
         CoinUser currentUser = SpringSecurity.getCurrentUser();
-        boolean eraseMails = currentUser.isGuest() || currentUser.isDashboardMember();
-
         return serviceByEntityId
-                .map(service -> eraseMails ? eraseMailsFromService(service) : service)
+                .map(service -> service.sanitize(currentUser))
                 .map(service -> ResponseEntity.ok(createRestResponse(service)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    public static Service eraseMailsFromService(Service service) {
-        service.setSupportMail(null);
-        service.setContactPersons(Collections.emptyList());
-        return service;
     }
 
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
