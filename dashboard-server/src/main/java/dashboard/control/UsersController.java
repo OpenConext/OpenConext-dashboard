@@ -285,7 +285,6 @@ public class UsersController extends BaseController {
     public RestResponse<List<Service>> serviceProviders(Locale locale) throws IOException {
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         List<Service> usersServices = getServiceProvidersForCurrentUser(locale).stream()
-                .map(service -> service.sanitize(currentUser))
                 .toList();
 
         return createRestResponse(usersServices);

@@ -149,7 +149,6 @@ public class ServicesController extends BaseController {
                             stripBreakingWhitespace(service.getDescription()),
                             service.getAppUrl(),
                             service.getWikiUrl(),
-                            service.getSupportMail(),
                             String.valueOf(service.isConnected()),
                             licenseStatus != null ? licenseStatus.name() : LicenseStatus.UNKNOWN.name(),
                             String.valueOf(service.isExampleSingleTenant()),
@@ -184,7 +183,6 @@ public class ServicesController extends BaseController {
                 .valueOf(entityType), locale);
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         return serviceByEntityId
-                .map(service -> service.sanitize(currentUser))
                 .map(service -> ResponseEntity.ok(createRestResponse(service)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

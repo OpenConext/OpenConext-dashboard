@@ -49,7 +49,6 @@ public class Service implements Comparable<Service>, Serializable {
     private String supportUrl;
     private String eulaUrl;
     private String wikiUrl;
-    private String supportMail;
     private String enduserDescription;
     private String institutionDescription;
     private String institutionId;
@@ -238,14 +237,6 @@ public class Service implements Comparable<Service>, Serializable {
         this.screenshotUrls = screenshotUrls;
     }
 
-    public String getSupportMail() {
-        return supportMail;
-    }
-
-    public void setSupportMail(String supportMail) {
-        this.supportMail = supportMail;
-    }
-
     public String getEnduserDescription() {
         return enduserDescription;
     }
@@ -332,11 +323,6 @@ public class Service implements Comparable<Service>, Serializable {
 
     public void setWikiUrl(String wikiUrl) {
         this.wikiUrl = wikiUrl;
-    }
-
-
-    public void setPublishInEdugainDate(String publishInEdugainDate) {
-        this.publishInEdugainDate = publishInEdugainDate;
     }
 
     public LicenseStatus getLicenseStatus() {
@@ -619,10 +605,4 @@ public class Service implements Comparable<Service>, Serializable {
         this.organisation = organisation;
     }
 
-    public Service sanitize(CoinUser currentUser) {
-        if (currentUser.isGuest() || currentUser.isDashboardViewer()) {
-            this.setSupportMail(null);
-        }
-        return this;
-    }
 }

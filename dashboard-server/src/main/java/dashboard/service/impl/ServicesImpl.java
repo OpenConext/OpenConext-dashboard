@@ -124,7 +124,6 @@ public class ServicesImpl implements Services {
         service.setEulaUrl(sp.getEulaURL());
         service.setDetailLogoUrl(sp.getLogoUrl());
         service.setLogoUrl(sp.getLogoUrl());
-        service.setSupportMail(mailOfContactPerson(sp.getContactPerson(ContactPersonType.support)));
         Map<String, String> homeUrls = sp.getHomeUrls();
         service.setWebsiteUrl(CollectionUtils.isEmpty(homeUrls) ? null : homeUrls.values().iterator().next());
         service.setArp(sp.getArp());
@@ -139,7 +138,6 @@ public class ServicesImpl implements Services {
         service.setEntityCategories1(sp.getEntityCategories1());
         service.setEntityCategories2(sp.getEntityCategories2());
         service.setEntityCategories3(sp.getEntityCategories3());
-        service.setPublishInEdugainDate(sp.getPublishInEdugainDate());
         service.setStrongAuthentication(sp.isStrongAuthenticationEnabled());
         service.setMinimalLoaLevel(sp.getMinimalLoaLevel());
         service.setNames(sp.getNames());
