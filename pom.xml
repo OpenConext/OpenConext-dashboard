@@ -31,7 +31,7 @@
 
     <groupId>org.openconext</groupId>
     <artifactId>dashboard</artifactId>
-    <version>13.0.6</version>
+    <version>13.0.7</version>
     <name>dashboard</name>
     <description>OpenConext-Dashboard</description>
     <inceptionYear>2012</inceptionYear>
