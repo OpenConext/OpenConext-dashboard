@@ -537,9 +537,9 @@ public class UsersController extends BaseController {
     protected Map<String, Object> getPathUpdates(Settings settings, IdentityProvider idp) throws IOException {
         Map<String, Object> pathUpdates = new HashMap<>();
 
-        this.diff(pathUpdates, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:en");
-        this.diff(pathUpdates, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:nl");
-        this.diff(pathUpdates, idp.getKeywords().get("pt"), settings.getKeywordsPt(), "keywords:pt");
+        this.diff(pathUpdates, idp.getKeywords().get("en"), settings.getKeywordsEn(), "keywords:0:en");
+        this.diff(pathUpdates, idp.getKeywords().get("nl"), settings.getKeywordsNl(), "keywords:0:nl");
+        this.diff(pathUpdates, idp.getKeywords().get("pt"), settings.getKeywordsPt(), "keywords:0:pt");
 
         this.diff(pathUpdates, idp.getHomeUrls().get("en"), settings.getOrganisationUrlEn(), "OrganizationURL:en");
         this.diff(pathUpdates, idp.getHomeUrls().get("nl"), settings.getOrganisationUrlNl(), "OrganizationURL:nl");

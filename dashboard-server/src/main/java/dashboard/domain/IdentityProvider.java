@@ -57,8 +57,8 @@ public class IdentityProvider extends Provider implements Serializable {
         super(metaData);
         this.institutionId = (String) metaData.get("coin:institution_guid");
         this.disableConsent = (List<Consent>) metaData.getOrDefault("disableConsent", new ArrayList<>());
-        addKeywords("en", (String) metaData.get("keywords:en"));
-        addKeywords("nl", (String) metaData.get("keywords:nl"));
+        addKeywords("en", (String) metaData.get("keywords:0:en"));
+        addKeywords("nl", (String) metaData.get("keywords:0:nl"));
         IntStream.range(1, 6).forEach(i -> {
             if ("http://refeds.org/category/research-and-scholarship".equals(metaData.get("coin:entity_categories:" + i))) {
                 connectToRSServicesAutomatically = true;
