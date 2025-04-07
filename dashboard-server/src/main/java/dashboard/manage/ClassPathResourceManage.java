@@ -132,19 +132,19 @@ public class ClassPathResourceManage implements Manage {
     }
 
     private Resource getIdpResource() {
-        return new ClassPathResource("manage/identity-providers.json");
+        return new ClassPathResource("manage/identity-providers-mock.json");
     }
 
     private Resource getSpResource() {
-        return new ClassPathResource("manage/service-providers.json");
+        return new ClassPathResource("manage/service-providers-mock.json");
     }
 
     private Resource getRpResource() {
-        return new ClassPathResource("manage/relying-parties.json");
+        return new ClassPathResource("manage/relying-parties-mock.json");
     }
 
     private Resource getSingleTenantResource() {
-        return new ClassPathResource("manage/single-tenants.json");
+        return new ClassPathResource("manage/single-tenants-mock.json");
     }
 
     @Override
