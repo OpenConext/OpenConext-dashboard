@@ -1,0 +1,78 @@
+[
+{
+    "_id": "4",
+    "version": 0,
+    "type": "saml20_sp",
+    "revision": {
+      "number": 0,
+      "created": 1527254720273,
+      "updatedBy": "admin"
+    },
+    "data": {
+      "id": 4,
+      "eid": 4,
+      "entityid": "http://mock-sp",
+      "revisionid": 0,
+      "state": "prodaccepted",
+      "type": "saml20-sp",
+      "allowedall": false,
+      "manipulation": null,
+      "user": "admin",
+      "created": "2017-12-17T23:38:54+01:00",
+      "revisionnote": "Mock",
+      "active": true,
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "notes": null,
+      "metaDataFields": {
+        "AssertionConsumerService:1:index": "4",
+        "displayName:nl": "Mock SP",
+        "coin:institution_id": "SURFCONEXT",
+        "AssertionConsumerService:2:Location": "https://mock.acs",
+        "description:en": "Mock SP",
+        "AssertionConsumerService:2:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "description:nl": "Mock SP",
+        "logo:0:width": "200",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/SURFnetdienst.png",
+        "name:en": "Mock SP",
+        "contacts:0:givenName": "SURF",
+        "contacts:0:surName": "john",
+        "AssertionConsumerService:0:Location": "https://mock-sp",
+        "contacts:0:contactType": "technical",
+        "redirect.sign": "0",
+        "logo:0:height": "160",
+        "coin:institution_guid": "ad93daef-0911-e511-80d0-005056956c1a",
+        "coin:policy_enforcement_decision_required": "1",
+        "name:nl": "Mock SP",
+        "AssertionConsumerService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:PAOS",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+        "AssertionConsumerService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact",
+        "AssertionConsumerService:1:Location": "https://mocp-sp/",
+        "AssertionConsumerService:2:index": "5",
+        "displayName:en": "Mock SP",
+        "coin:privacy:gdpr_is_in_wiki": "0",
+        "coin:ss:license_status": "license_not_required",
+        "coin:ss:supports_strong_authentication": "0"
+      },
+      "allowedEntities": [
+        {
+          "name": "http://mock-idp"
+        }
+      ]
+    }
+  }]

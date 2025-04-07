@@ -1,0 +1,58 @@
+[
+  {
+    "_id": "3",
+    "version": 0,
+    "type": "single_tenant_template",
+    "revision": {
+      "number": 0,
+      "created": 1527254712082,
+      "updatedBy": "auto-generated"
+    },
+    "data": {
+      "eid": 3,
+      "entityid": "https://dummy/Single-tenant-service_op-aanvraag",
+      "state": "prodaccepted",
+      "arp": {
+        "attributes": {
+          "urn:mace:dir:attribute-def:displayName": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:uid": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:eduPersonAffiliation": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ],
+          "urn:mace:dir:attribute-def:mail": [
+            {
+              "source": "idp",
+              "value": "*"
+            }
+          ]
+        },
+        "enabled": true
+      },
+      "metaDataFields": {
+        "description:en": "Single Tenant Dummy.",
+        "description:nl": "Single Tenant Dummy",
+        "displayName:en": "Single Tenant Dummy",
+        "displayName:nl": "Single Tenant Dummy",
+        "logo:0:url": "https://static.surfconext.nl/media/sp/eduid.png",
+        "name:en": "Single Tenant Dummy",
+        "name:nl": "Single Tenant Dummy",
+        "contacts:0:contactType": "technical",
+        "contacts:0:emailAddress": "support@example.com",
+        "contacts:1:contactType": "administrative"
+      }
+    }
+  }
+]

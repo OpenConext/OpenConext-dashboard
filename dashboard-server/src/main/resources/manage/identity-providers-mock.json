@@ -1,0 +1,69 @@
+[
+  {
+    "_id": "1",
+    "version": 0,
+    "type": "saml20_idp",
+    "revision": {
+      "number": 0,
+      "created": 1527163768861,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "data": {
+      "id": 1,
+      "eid": 1,
+      "entityid": "http://mock-idp",
+      "revisionid": 0,
+      "state": "prodaccepted",
+      "stepupEntities": [
+        {
+          "name": "https://test-sp-1",
+          "level": "http://test2.surfconext.nl/assurance/loa2"
+        }
+      ],
+      "type": "saml20-idp",
+      "metadataurl": "https://mock-idp/metadata",
+      "allowedall": false,
+      "manipulation": null,
+      "user": "admin",
+      "created": "2018-03-28T17:15:51+02:00",
+      "revisionnote": "Dummy",
+      "active": true,
+      "notes": null,
+      "metaDataFields": {
+        "displayName:nl": "Mock IdP",
+        "coin:institution_id": "MOCK",
+        "description:en": "Mock IdP description",
+        "OrganizationName:en": "Mock IdP",
+        "description:nl": "Mock IdP omschrijving",
+        "logo:0:width": "200",
+        "logo:0:url": "https://static.surfconext.nl/logos/idp/eur.png",
+        "name:en": "Mock IdP",
+        "contacts:0:givenName": "John",
+        "SingleSignOnService:0:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+        "contacts:0:surName": "Doe",
+        "SingleSignOnService:1:Binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+        "contacts:0:emailAddress": "john.doe@example.com",
+        "keywords:0:en": "mock",
+        "contacts:0:contactType": "technical",
+        "redirect.sign": "0",
+        "coin:guest_qualifier": "None",
+        "coin:publish_in_edugain": "0",
+        "logo:0:height": "160",
+        "coin:institution_guid": "5D25C67F-975D-4F16-B9F3-58BE976A76C2",
+        "keywords:0:nl": "mock",
+        "OrganizationDisplayName:en": "Mock Idp Org",
+        "name:nl": "Mock Id{",
+        "OrganizationURL:en": "http://mock-idp/",
+        "displayName:en": "Mock-idp",
+        "contacts:3:contactType": "technical",
+        "SingleSignOnService:0:Location": "https://mock-idp/sso"
+      },
+      "allowedEntities": [
+        {
+          "name": "http://mock-sp"
+        }
+      ],
+      "disableConsent": []
+    }
+  }
+]

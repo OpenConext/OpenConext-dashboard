@@ -1,0 +1,54 @@
+[
+  {
+    "_id": "2",
+    "version": 0,
+    "type": "oidc10_rp",
+    "revision": {
+      "number": 0,
+      "created": 1562231716722,
+      "updatedBy": "urn:collab:person:example.com:admin"
+    },
+    "data": {
+      "entityid": "playground_client",
+      "state": "prodaccepted",
+      "allowedall": true,
+      "arp": {
+        "enabled": false,
+        "attributes": {}
+      },
+      "metaDataFields": {
+        "name:en": "Playground Client",
+        "secret": "$2a$10$KDkFwwFy72EaSYwB6dfXNunG438w/FTEFXE30H2rHBn.W2mZmadsO",
+        "redirectUrls": [
+          "http://localhost:3000/redirect"
+        ],
+        "scopes": [
+          "groups",
+          "openid"
+        ],
+        "grants": [
+          "authorization_code",
+          "implicit",
+          "refresh_token",
+          "client_credentials"
+        ],
+        "accessTokenValidity": 7200,
+        "refreshTokenValidity": 7200,
+        "isResourceServer": true,
+        "isPublicClient": true,
+        "oidc:signingCertificateUrl": "https://oidc-playground.test2.surfconext.nl/oidc/api/certs",
+        "description:en": "Playground client - do not edit please",
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
+      },
+      "allowedEntities": [],
+      "revisionnote": "Public client",
+      "eid": 24541,
+      "discoveryurl": "https://discovery",
+      "allowedResourceServers": [
+        {
+          "name": "resource-server-playground-client"
+        }
+      ]
+    }
+  }
+]
