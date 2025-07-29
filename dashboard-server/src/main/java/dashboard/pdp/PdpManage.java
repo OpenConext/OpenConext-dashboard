@@ -32,6 +32,10 @@ public class PdpManage extends PdpServiceImpl {
     @Override
     protected URI buildUri(String path) {
         checkArgument(path.startsWith("/"));
+        //bugfix for trailing slash
+        if (path.equalsIgnoreCase("/protected/attributes/")) {
+            path = "/protected/attributes";
+        }
         return URI.create(String.format("%s/manage/api/internal%s", manageBaseUrl, path));
     }
 
