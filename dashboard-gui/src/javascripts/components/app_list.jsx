@@ -126,7 +126,8 @@ export default function AppList({apps, currentUser, facets: remoteFacets, connec
             {
                 value: I18n.t('facets.static.used_by_idp.yes'),
                 searchValue: 'yes',
-                count: (apps) => apps.filter((app) => currentUser.getCurrentIdp().institutionId === app.institutionId).length,
+                count: (apps) => apps.filter((app) => currentUser.getCurrentIdp().institutionId === app.institutionId
+                        && app.institutionId !== undefined && app.institutionId !== null).length,
             },
             {
                 value: I18n.t('facets.static.used_by_idp.no'),
