@@ -24,21 +24,21 @@ public class UrlResourceManageTest {
 
     @Before
     public void before() throws Exception {
-        String spResponse = IOUtils.toString(new ClassPathResource("manage/service-providers.json").getInputStream(), Charset.defaultCharset());
+        String spResponse = IOUtils.toString(new ClassPathResource("manage/service-providers-mock.json").getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/saml20_sp")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(spResponse)));
 
-        String idpResponse = IOUtils.toString(new ClassPathResource("manage/identity-providers.json").getInputStream(), Charset.defaultCharset());
+        String idpResponse = IOUtils.toString(new ClassPathResource("manage/identity-providers-mock.json").getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/saml20_idp")).willReturn(aResponse().withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(idpResponse)));
 
-        String singleTenantTemplateResponse = IOUtils.toString(new ClassPathResource("manage/single-tenants.json")
+        String singleTenantTemplateResponse = IOUtils.toString(new ClassPathResource("manage/single-tenants-mock.json")
                 .getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/single_tenant_template")).willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json").withBody(singleTenantTemplateResponse)));
 
-        String rpTemplateResponse = IOUtils.toString(new ClassPathResource("manage/relying-parties.json")
+        String rpTemplateResponse = IOUtils.toString(new ClassPathResource("manage/relying-parties-mock.json")
                 .getInputStream(), Charset.defaultCharset());
         stubFor(post(urlEqualTo("/manage/api/internal/search/oidc10_rp")).willReturn(aResponse()
                 .withStatus(200)
@@ -50,16 +50,16 @@ public class UrlResourceManageTest {
     @Test
     public void testApi() {
         List<ServiceProvider> serviceProviders = subject.getAllServiceProviders();
-        assertEquals(1292, serviceProviders.size());
+        assertEquals(3, serviceProviders.size());
 
         List<IdentityProvider> identityProviders = subject.getAllIdentityProviders();
-        assertEquals(194, identityProviders.size());
+        assertEquals(1, identityProviders.size());
 
         ServiceProvider serviceProvider = subject.getServiceProvider(
-                "https://dummy.crosscampus.canon.nl/Single-tenant-service_op-aanvraag", EntityType.single_tenant_template, false).get();
+                "https://dummy/Single-tenant-service_op-aanvraag", EntityType.single_tenant_template, false).get();
         assertEquals(EntityType.single_tenant_template, serviceProvider.getEntityType());
 
-        serviceProvider = subject.getServiceProvider("https://teams.surfconext.nl/shibboleth",
+        serviceProvider = subject.getServiceProvider("http://mock-sp",
                 EntityType.saml20_sp, false).get();
         assertEquals(EntityType.saml20_sp, serviceProvider.getEntityType());
 
