@@ -37,4 +37,6 @@ jobs:
       run: mvn -B clean install
 
     - name: Codecov
-      uses: codecov/codecov-action@v1.3.1
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
