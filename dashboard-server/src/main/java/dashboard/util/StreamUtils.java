@@ -9,9 +9,7 @@ public abstract class StreamUtils {
 
     public static <T> Collector<Optional<T>, List<T>, List<T>> filterEmpty() {
         return Collector.of(ArrayList::new, (container, value) -> {
-                    if (value.isPresent()) {
-                        container.add(value.get());
-                    }
+            value.ifPresent(container::add);
                 }, (left, right) -> left, list -> list
         );
     }
