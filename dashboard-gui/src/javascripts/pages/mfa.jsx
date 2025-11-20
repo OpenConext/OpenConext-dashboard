@@ -27,7 +27,7 @@ export default function MFA({app}) {
 
     const getAuthContextValue = authContextLevel => {
         const splitted = authContextLevel.split(/[\/|:]/)
-        const value = splitted[splitted.length - 1].toLowerCase();
+        const value = splitted[splitted.length - 1].toLowerCase().replaceAll("-","_");
         return I18n.t(`mfa_panel.${value}`)
     }
 

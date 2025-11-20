@@ -1274,13 +1274,17 @@ I18n.translations.nl = {
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Dwing geen tweede factor af bij mijn IdP voor deze applicatie',
         multipleauthn: 'Multi-factor op ADFS of Azure AD',
+        linked_institution: 'eduID linked institution',
+        validate_names: 'eduID validated name',
+        validate_names_external: 'eduID validated name by an external (non institutional) source',
+        affiliation_student: 'eduID require student affiliation',
         mfa: 'Generieke multi-factor (REFEDS MFA)',
         transparent_authn_context: "Transparent Authn context",
         mobileonefactorcontract: "Mobile one factor",
         multipleauthn_short: 'MFA Microsoft',
+        mfa_short: 'MFA Generiek',
         mobileonefactorunregistered: 'Mobile one unregistered',
         password: 'Wachtwoord',
-        mfa_short: 'MFA Generiek',
         not_allowed: "Je kan de MFA voor deze applicatie niet aanpassen. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een andere MFA wenst voor deze applicatie.."
     },
 
