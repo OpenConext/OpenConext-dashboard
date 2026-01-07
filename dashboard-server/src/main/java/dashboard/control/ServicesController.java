@@ -181,7 +181,6 @@ public class ServicesController extends BaseController {
                                                      Locale locale) throws IOException {
         Optional<Service> serviceByEntityId = services.getServiceById(idpEntityId, spId, EntityType
                 .valueOf(entityType), locale);
-        CoinUser currentUser = SpringSecurity.getCurrentUser();
         return serviceByEntityId
                 .map(service -> ResponseEntity.ok(createRestResponse(service)))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
