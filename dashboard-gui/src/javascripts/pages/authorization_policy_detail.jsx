@@ -61,11 +61,7 @@ export default function AuthorizationPolicyDetail({ app, type, onPolicyChange })
     const action = policy.id ? I18n.t('policies.flash_updated') : I18n.t('policies.flash_created')
     try {
       await apiCall(policy)
-      if (app.policyEnforcementDecisionRequired) {
-        setFlash(I18n.t('policies.flash', { policyName: policy.name, action }))
-      } else {
-        setFlash(I18n.t('policies.flash_first'))
-      }
+      setFlash(I18n.t('policies.flash', { policyName: policy.name, action }))
       onPolicyChange()
       history.replace(`/apps/${app.id}/${type}/settings/authorization_policies`)
     } catch (e) {

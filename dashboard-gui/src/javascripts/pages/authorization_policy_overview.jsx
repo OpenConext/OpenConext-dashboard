@@ -22,7 +22,7 @@ export default function AuthorizationPolicyOverview({app, type, onPolicyChange})
     const isAllowedToMaintainPolicies =
         currentUser.dashboardAdmin || currentUser.getCurrentIdp().allowMaintainersToManageAuthzRules
 
-    const isPolicyActive = policy => app.policyEnforcementDecisionRequired && policy.active
+    const isPolicyActive = policy => policy.active
 
     const checkLoaLevel = (theLocation, callback) => {
         if (currentUser.isMFARequired(2)) {
