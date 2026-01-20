@@ -285,17 +285,17 @@ export function sendChangeRequest(data) {
 }
 
 export function loginTimeFrame(from, to, scale, spEntityId) {
-  const sp = !isEmpty(spEntityId) ? `&spEntityId=${spEntityId}` : ''
+  const sp = !isEmpty(spEntityId) ? `&spEntityId=${encodeURIComponent(spEntityId)}` : ''
   return fetchJson(`/stats/loginTimeFrame?from=${from}&to=${to}&scale=${scale}&${sp}`)
 }
 
 export function loginAggregated(period, spEntityId) {
-  const sp = !isEmpty(spEntityId) ? `&spEntityId=${spEntityId}` : ''
+  const sp = !isEmpty(spEntityId) ? `&spEntityId=${encodeURIComponent(spEntityId)}` : ''
   return fetchJson(`/stats/loginAggregated?period=${period}${sp}`)
 }
 
 export function uniqueLoginCount(from, to, spEntityId) {
-  return fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${spEntityId}`)
+  return fetchJson(`/stats/uniqueLoginCount?from=${from}&to=${to}&spEntityId=${encodeURIComponent(spEntityId)}`)
 }
 
 export function exportApps(idp, ids) {

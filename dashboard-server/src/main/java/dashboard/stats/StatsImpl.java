@@ -2,11 +2,12 @@ package dashboard.stats;
 
 import com.google.common.collect.ImmutableList;
 import dashboard.control.Constants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +17,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @SuppressWarnings("unchecked")
 public class StatsImpl implements Stats, Constants {
 
-    private RestTemplate restTemplate;
-    private String baseUrl;
+    private final RestTemplate restTemplate;
+    private final String baseUrl;
 
-    @Autowired
     public StatsImpl(@Value("${statsUser}") String user,
                      @Value("${statsPassword}") String password,
                      @Value("${statsBaseUrl}") String baseUrl) {
@@ -37,25 +37,32 @@ public class StatsImpl implements Stats, Constants {
     }
 
     public List<Object> loginTimeFrame(long from, long to, String scale, Optional<String> spEntityIdOptional) {
+        String idp = currentIdPEncoded();
         StringBuilder url = new StringBuilder(String.format(
                 "%s/public/login_time_frame?from=%s&to=%s&include_unique=true&scale=%s&epoch=ms&idp_id=%s",
-                baseUrl, from, to, scale, currentUserIdp()));
+                baseUrl, from, to, scale, idp));
         spEntityIdOptional.ifPresent(spEntityId -> url.append(String.format("&sp_id=%s", spEntityId)));
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
+    private String currentIdPEncoded() {
+        return URLEncoder.encode(currentUserIdp(), Charset.defaultCharset());
+    }
+
     public List<Object> loginAggregated(String period, Optional<String> spEntityIdOptional) {
+        String idp = currentIdPEncoded();
         StringBuilder url = new StringBuilder(String.format(
                 "%s/public/login_aggregated?period=%s&include_unique=true&idp_id=%s&group_by=sp_id",
-                baseUrl, period, currentUserIdp()));
+                baseUrl, period, idp));
         spEntityIdOptional.ifPresent(spEntityId -> url.append(String.format("&sp_id=%s", spEntityId)));
         return restTemplate.getForEntity(url.toString(), List.class).getBody();
     }
 
     public List<Object> uniqueLoginCount(long from, long to, String spEntityId) {
+        String idp = currentIdPEncoded();
         String url = String.format(
                 "%s/public/unique_login_count?from=%s&to=%s&include_unique=true&epoch=ms&idp_id=%s&sp_id=%s",
-                baseUrl, from, to, currentUserIdp(), spEntityId);
+                baseUrl, from, to, idp, spEntityId);
         return restTemplate.getForEntity(url, List.class).getBody();
     }
 
