@@ -41,7 +41,7 @@ public class SabRest implements Sab {
             return Collections.emptyList();
         }
 
-        String url = String.format("%s/profile?guid={organisationGuid}&role={role}", restEndPointURL);
+        String url = String.format("%s?guid={organisationGuid}&role={role}", restEndPointURL);
         Map<String, Object> results = restTemplate.getForEntity(
                 url,
                 Map.class,

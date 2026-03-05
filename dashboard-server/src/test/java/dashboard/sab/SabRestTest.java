@@ -39,7 +39,7 @@ public class SabRestTest {
     private final Sab sab = new SabRest(new ClassPathResourceManage(),
             "user",
             "secret",
-            "http://localhost:8891/api");
+            "http://localhost:8891/api/profile");
 
 
     @Test
