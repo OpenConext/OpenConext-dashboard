@@ -81,6 +81,9 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${dashboard.feature.jiraDown}")
     private boolean jiraDown;
 
+    @Value("${dashboard.feature.statisticsDown}")
+    private boolean statisticsDown;
+
     @Value("${dashboard.hide_tabs}")
     private String hideTabs;
 
@@ -139,7 +142,7 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, dashboardStepupEnabled, jiraDown, hideTabs, supportedLanguages, organization,
-                                defaultLoa, loaLevels, authnContextLevels),
+                                defaultLoa, loaLevels, authnContextLevels, statisticsDown),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)

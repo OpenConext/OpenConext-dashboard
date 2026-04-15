@@ -39,7 +39,7 @@ I18n.translations.en = {
     forms: {
         required: '{{name}} is a required field',
         invalidUrl: '{{url}} is an invalid URL',
-        errors: 'There are invalid / missing inputs'
+        errors: 'There are invalid / missing inputs',
     },
     confirmation_dialog: {
         title: 'Please confirm',
@@ -138,7 +138,7 @@ I18n.translations.en = {
                 tooltip:
                     'Multi factor authentication by the IdP is required.<br>For more information see the <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
                 none: 'None',
-                other: 'Other'
+                other: 'Other',
             },
             attribute_manipulation: {
                 name: 'Custom attribute manipulation script',
@@ -251,7 +251,7 @@ I18n.translations.en = {
                 consent: 'Consent',
                 authorization_policy: 'Authorization policy',
                 surf_secure_id: 'SURFsecureID',
-                mfa: 'MFA'
+                mfa: 'MFA',
             },
         },
     },
@@ -355,7 +355,8 @@ I18n.translations.en = {
             entree: 'Member of the Kennisnet Entree-federation.',
             clarin: 'Member of the Clarin research federation.',
             none: '{{organisation}} refused to sign the SURFconext connection agreement.',
-            'edugain (community)': 'Application offered through the international research and education community via eduGAIN.'
+            'edugain (community)':
+                'Application offered through the international research and education community via eduGAIN.',
         },
         contractualBaseWiki:
             'See <a href="https://support.surfconext.nl/contract-info-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
@@ -363,10 +364,10 @@ I18n.translations.en = {
 
     attributes_policy_panel: {
         arp: {
-            noarp: "All attributes will be exchanged with {{name}}.",
+            noarp: 'All attributes will be exchanged with {{name}}.',
             noattr: 'No attributes will be exchanged with {{name}}.',
             manipulation:
-                "For this application a custom attribute manipulation is in effect which modifies the released attributes.",
+                'For this application a custom attribute manipulation is in effect which modifies the released attributes.',
             manipulationNotes: ' The attribute manipulation perfoms the following actions:',
             resourceServers:
                 'This application is connected to Resource Servers and therefore all the attributes released are also accessible for the following Resource Servers:',
@@ -375,14 +376,15 @@ I18n.translations.en = {
         subtitle: '{{name}} needs to receive the following attributes.',
         title: 'Attributes',
         your_value: 'Your values',
-        your_values_tooltip: 'The values for these attributes as they are for your own account. This might not be representative for other accounts in your organization. Only values are shown for attributes that originate at your IdP.',
+        your_values_tooltip:
+            'The values for these attributes as they are for your own account. This might not be representative for other accounts in your organization. Only values are shown for attributes that originate at your IdP.',
         filter: 'Filter',
         filterTooltip: 'For this attribute the filter shown will only release the matching values.',
         motivation: 'Purpose',
         motivationTooltip:
             'The column ‘purpose‘ contains, to the extent available, the explanation of the supplier why they need this attribute.',
         source: 'Source',
-        persistentMotivation: "Primary identifier of the user",
+        persistentMotivation: 'Primary identifier of the user',
         sources: {
             idp: 'Your IdP',
             surf: 'SURFconext',
@@ -391,42 +393,44 @@ I18n.translations.en = {
             eduid: 'eduID',
             sab: 'SURF Autorisatie Beheer',
             ala: 'Your IdP',
-            pseudo_email:'Your IdP',
+            pseudo_email: 'Your IdP',
             manage: 'SURFconext',
-            sabrest: 'SAB'
+            sabrest: 'SAB',
         },
-        sourceTooltip: "Which authority supplies the values for this attribute. Your IdP only needs to provide the items marked with 'Your IdP'.",
+        sourceTooltip:
+            "Which authority supplies the values for this attribute. Your IdP only needs to provide the items marked with 'Your IdP'.",
         attributes: {
-            "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified": "Persistent identifier",
-            "urn:mace:dir:attribute-def:eduPersonTargetedID": "Unique ID",
-            "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent": "Persistent identifier",
-            "urn:mace:dir:attribute-def:eduPersonPrincipalName": "Unique identifier",
-            "urn:mace:dir:attribute-def:displayName": "Display name",
-            "urn:mace:dir:attribute-def:cn": "Common name",
-            "urn:mace:dir:attribute-def:givenName": "Given name",
-            "urn:mace:dir:attribute-def:sn": "Surname",
-            "urn:mace:dir:attribute-def:mail": "Email",
-            "urn:mace:dir:attribute-def:ou": "Organizational unit",
-            "urn:mace:terena.org:attribute-def:schacHomeOrganization": "Your IdP abbrevation",
-            "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": "Type of IdP",
-            "urn:schac:attribute-def:schacPersonalUniqueCode": "Unique code",
-            "urn:mace:dir:attribute-def:eduPersonAffiliation": "Affiliations",
-            "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": "Scoped affiliations",
-            "urn:mace:dir:attribute-def:eduPersonEntitlement": "Entitlements",
-            "urn:mace:dir:attribute-def:eduPersonOrcid": "ORCID iD",
-            "urn:mace:dir:attribute-def:eduPersonAssurance": "Assurances",
-            "urn:mace:surf.nl:attribute-def:eckid": "ECK iD",
-            "urn:mace:eduid.nl:1.1": "eduID identifier",
-            "urn:mace:surf.nl:attribute-def:surf-crm-id": "SURF CRM organization identifier",
-            "urn:mace:dir:attribute-def:isMemberOf": "Memberships",
-            "urn:mace:dir:attribute-def:uid": "Login name",
-            "urn:mace:dir:attribute-def:preferredLanguage": "Preferred language",
-            "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": "eduPerson organisation"
-        }
+            'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified': 'Persistent identifier',
+            'urn:mace:dir:attribute-def:eduPersonTargetedID': 'Unique ID',
+            'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent': 'Persistent identifier',
+            'urn:mace:dir:attribute-def:eduPersonPrincipalName': 'Unique identifier',
+            'urn:mace:dir:attribute-def:displayName': 'Display name',
+            'urn:mace:dir:attribute-def:cn': 'Common name',
+            'urn:mace:dir:attribute-def:givenName': 'Given name',
+            'urn:mace:dir:attribute-def:sn': 'Surname',
+            'urn:mace:dir:attribute-def:mail': 'Email',
+            'urn:mace:dir:attribute-def:ou': 'Organizational unit',
+            'urn:mace:terena.org:attribute-def:schacHomeOrganization': 'Your IdP abbrevation',
+            'urn:mace:terena.org:attribute-def:schacHomeOrganizationType': 'Type of IdP',
+            'urn:schac:attribute-def:schacPersonalUniqueCode': 'Unique code',
+            'urn:mace:dir:attribute-def:eduPersonAffiliation': 'Affiliations',
+            'urn:mace:dir:attribute-def:eduPersonScopedAffiliation': 'Scoped affiliations',
+            'urn:mace:dir:attribute-def:eduPersonEntitlement': 'Entitlements',
+            'urn:mace:dir:attribute-def:eduPersonOrcid': 'ORCID iD',
+            'urn:mace:dir:attribute-def:eduPersonAssurance': 'Assurances',
+            'urn:mace:surf.nl:attribute-def:eckid': 'ECK iD',
+            'urn:mace:eduid.nl:1.1': 'eduID identifier',
+            'urn:mace:surf.nl:attribute-def:surf-crm-id': 'SURF CRM organization identifier',
+            'urn:mace:dir:attribute-def:isMemberOf': 'Memberships',
+            'urn:mace:dir:attribute-def:uid': 'Login name',
+            'urn:mace:dir:attribute-def:preferredLanguage': 'Preferred language',
+            'urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit': 'eduPerson organisation',
+        },
     },
     connected_resource_servers_panel: {
         title: 'Connected Resource Servers',
-        subtitle: "{{name}} is an OIDC Relying Party and is allowed to query the API's of the following Resource Servers",
+        subtitle:
+            "{{name}} is an OIDC Relying Party and is allowed to query the API's of the following Resource Servers",
         clientId: 'Client ID',
         name: 'Name',
         description: 'Description',
@@ -473,9 +477,9 @@ I18n.translations.en = {
             dpa_not_applicable: 'The application is not a processor according to GDPR',
             dpa_in_surf_agreement: 'Agreements are dealt with through SURF',
             dpa_model_surf: 'We are open to signing the SURF model contract/we have signed the SURF model contract',
-            dpa_supplied_by_service: 'We have arranged the company\'s data processing agreement',
+            dpa_supplied_by_service: "We have arranged the company's data processing agreement",
             other: 'Other',
-        }
+        },
     },
     consent_panel: {
         title: 'Consent new users',
@@ -574,7 +578,8 @@ I18n.translations.en = {
         jira_unreachable: 'Something went wrong with your request',
         jira_unreachable_description: 'It is currently not possible to do a request. Please try again later.',
         jira_down: 'Ticketing system not available',
-        jira_down_description: 'The ticketing system is not available so change requests can not be processed right now. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> to make a change.',
+        jira_down_description:
+            'The ticketing system is not available so change requests can not be processed right now. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> to make a change.',
         license: 'license',
         license_info: 'license information',
         obtain_license: {
@@ -591,7 +596,7 @@ I18n.translations.en = {
         terms_title: 'By requesting an activation you accept these terms',
         wiki: 'wiki for this application',
         aansluitovereenkomst_accept:
-            "I agree with connecting an application which has not signed the SURFconext connection agreement.",
+            'I agree with connecting an application which has not signed the SURFconext connection agreement.',
         not_published_in_edugain_idp: 'eduGAIN application',
         not_published_in_edugain_idp_info:
             "The application {{name}} can not be connected because your institution is not published in eduGAIN. To publish your institution in eduGAIN, please tick 'Published in eduGAIN' under 'My Institute' and create a change request.",
@@ -603,7 +608,8 @@ I18n.translations.en = {
         deny: 'Deny invition',
         approve: 'Accept invitation',
         deny_invitation: 'Are you  sure you want to deny the invitation to connect to {{app}}',
-        deny_invitation_info: 'After you deny the invitation you can always activate the connection from this dashboard.',
+        deny_invitation_info:
+            'After you deny the invitation you can always activate the connection from this dashboard.',
         invite_action_collision_title: 'Application {{app}} is already connected.',
         invite_action_collision_subtitle: 'Mid-air collision detected.',
         invite_action_collision:
@@ -615,7 +621,8 @@ I18n.translations.en = {
             'If you want to change the status of your institution please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a>.',
         activate_with_email: {
             title: 'Contact at institution for this application',
-            subTitle: 'In case the application provider wants to contact someone at your institution about this connection, who can they contact?',
+            subTitle:
+                'In case the application provider wants to contact someone at your institution about this connection, who can they contact?',
             emailPlaceholder: 'Contact person at your institution',
             invalidEmail: 'Invalid email',
             emailRequired: 'Email required',
@@ -674,6 +681,8 @@ I18n.translations.en = {
             all: 'Entire period: from ⇨ until',
         },
         helpLink: 'https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken',
+        stats_down_description:
+            'The statistics backend is currently not available. We are working hard to fix the problem. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> to request statistics.',
     },
     chart: {
         title: 'Logins and users per day',
@@ -783,9 +792,12 @@ I18n.translations.en = {
             nl: 'Organization URL (nl)',
             pt: 'Organization URL (pt)',
         },
-        organizationURL_nl_tooltip: 'A URL the end user can access for more information in Dutch about the organization.',
-        organizationURL_en_tooltip: 'A URL the end user can access for more information in English about the organization.',
-        organizationURL_pt_tooltip: 'A URL the end user can access for more information in Portuguese about the organization.',
+        organizationURL_nl_tooltip:
+            'A URL the end user can access for more information in Dutch about the organization.',
+        organizationURL_en_tooltip:
+            'A URL the end user can access for more information in English about the organization.',
+        organizationURL_pt_tooltip:
+            'A URL the end user can access for more information in Portuguese about the organization.',
         organizationName: {
             general: 'Organization name',
             en: 'Organization name (en)',
@@ -915,8 +927,8 @@ I18n.translations.en = {
             search_hint: 'Filter by name',
             serviceProviderName: 'Application',
         },
-        showMore: "Show deny messages",
-        showLess: "Hide deny messages"
+        showMore: 'Show deny messages',
+        showLess: 'Hide deny messages',
     },
 
     policy_attributes: {
@@ -955,8 +967,7 @@ I18n.translations.en = {
         description: 'Rule description',
         idps_placeholder: 'Select the Identity Providers - zero or more',
         institutions: 'Institutions',
-        intro:
-            'Define who can access this application. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
+        intro: 'Define who can access this application. Need help? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Read our manual.</a>',
         isActive: 'Active',
         isActiveDescription: 'Mark the authorization policy active',
         isActiveInfo: ' Inactive authorization policies are not evaluated in enforcement decisions',
@@ -967,8 +978,10 @@ I18n.translations.en = {
         rule: 'Rule',
         rules: 'Rules',
         rule_and: 'AND',
-        rule_and_info: 'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to log in.',
-        rule_info_add: ' Note that attribute values with the same attribute name always be evaluated with the logical OR.',
+        rule_and_info:
+            'Policies with a logical AND rule enforce that all attributes defined must match those of the person trying to log in.',
+        rule_info_add:
+            ' Note that attribute values with the same attribute name always be evaluated with the logical OR.',
         rule_info_add_2:
             'Note that a Deny access authorization policy always and implicitly uses the logical AND for different attribute names.',
         rule_or: 'OR',
@@ -1036,7 +1049,7 @@ I18n.translations.en = {
         spEntityId: 'Application',
         statuses: {
             all: 'All tickets',
-            'Open': 'Open',
+            Open: 'Open',
             'In Progress': 'In progress',
             'On Hold': 'On Hold',
             'Waiting for customer': 'Pending input',
@@ -1082,7 +1095,8 @@ I18n.translations.en = {
     service_filter: {
         title: 'Filter applications',
         state: {
-            tooltip: 'The status of the application determines if the application is visible on the production platform.',
+            tooltip:
+                'The status of the application determines if the application is visible on the production platform.',
         },
         search: 'Search applications...',
     },
@@ -1093,9 +1107,9 @@ I18n.translations.en = {
         selectSp: 'Now search and select the application...',
         idp: 'Institution',
         sp: 'Application',
-        connectionRequestQuestion: "Invite for a connection request or disconnection request?",
-        connectionRequest: "Connection request",
-        disConnectionRequest: "Disconnection request",
+        connectionRequestQuestion: 'Invite for a connection request or disconnection request?',
+        connectionRequest: 'Connection request',
+        disConnectionRequest: 'Disconnection request',
         contactPersons: 'Select to which contact persons of {{name}} the invite will be sent.',
         sourcePersons: 'Contact persons from {{source}}',
         additionalPersons: 'Additional contact persons',
@@ -1126,7 +1140,8 @@ I18n.translations.en = {
             },
             ROLE_DASHBOARD_VIEWER: {
                 name: 'SURFconext maintainer',
-                description: 'You are authorized on behalf of your institution to view the information about the applications',
+                description:
+                    'You are authorized on behalf of your institution to view the information about the applications',
             },
             ROLE_DASHBOARD_MEMBER: {
                 name: 'Institution member',
@@ -1188,7 +1203,8 @@ I18n.translations.en = {
             },
             schacHomeOrganization: {
                 name: 'Organization',
-                description: 'name for the organization, making use of the domain name of the organization conform RFC 1035',
+                description:
+                    'name for the organization, making use of the domain name of the organization conform RFC 1035',
             },
             'Shib-schacHomeOrganizationType': {
                 name: 'Type of Organization',
@@ -1208,7 +1224,8 @@ I18n.translations.en = {
             },
             'Shib-nlEduPersonStudyBranch': {
                 name: 'Study Branch',
-                description: 'study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown',
+                description:
+                    'study branch; numeric string which contains the CROHOcode. can be empty if the branch is unknown',
             },
             'Shib-nlStudielinkNummer': {
                 name: 'Studielinknummer',
@@ -1256,7 +1273,7 @@ I18n.translations.en = {
         title: 'Multi-factor authentication',
         info: 'In order to perform this action it is required to add a second factor to your authentication. When you proceed you will be asked for your token and then you will return here again.',
         cancel: 'Cancel',
-        go: 'Proceed'
+        go: 'Proceed',
     },
     mfa_panel: {
         title: 'MFA',
@@ -1264,8 +1281,7 @@ I18n.translations.en = {
             'With <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">MFA</a> you can enforce the MultiFactor Authentication of your own IdP for this service if your IdP supports this.',
         subtitle2:
             'You can either choose <span>Generic multi-factor (REFEDS MFA)</span>, an international standard, you can choose <span>Multi-factor on ADFS or Azure AD</span> which is specific for Microsoft products.',
-        subtitle3:
-            'If your IdP does not support requesting a second factor, then consider using SURFsecureID.',
+        subtitle3: 'If your IdP does not support requesting a second factor, then consider using SURFsecureID.',
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Do not force MFA at my IdP for this application',
         multipleauthn: 'Multi-factor on ADFS or Azure AD',
@@ -1274,13 +1290,13 @@ I18n.translations.en = {
         validate_names_external: 'eduID validated name by an external (non institutional) source',
         affiliation_student: 'eduID require student affiliation',
         mfa: 'Generic multi-factor (REFEDS MFA)',
-        transparent_authn_context: "Transparent Authn context",
-        mobileonefactorcontract: "Mobile one factor",
+        transparent_authn_context: 'Transparent Authn context',
+        mobileonefactorcontract: 'Mobile one factor',
         multipleauthn_short: 'Microsoft IdP',
         mfa_short: 'Generic IdP',
         mobileonefactorunregistered: 'Mobile one unregistered',
         password: 'Password',
-        not_allowed: "You can not change the MFA for this application. Please contact <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> if you want to change the MFA for this application."
+        not_allowed:
+            'You can not change the MFA for this application. Please contact <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> if you want to change the MFA for this application.',
     },
-
 }

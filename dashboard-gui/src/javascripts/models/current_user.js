@@ -21,6 +21,7 @@ class CurrentUser {
         this.manageConsentEnabled = rawUser.manageConsentEnabled
         this.oidcEnabled = rawUser.oidcEnabled
         this.jiraDown = rawUser.jiraDown
+        this.statisticsDown = rawUser.statisticsDown
         this.hideTabs = rawUser.hideTabs
         this.supportedLanguages = rawUser.supportedLanguages
         this.organization = rawUser.organization

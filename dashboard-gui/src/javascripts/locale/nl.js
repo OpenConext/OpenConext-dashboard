@@ -39,7 +39,7 @@ I18n.translations.nl = {
     forms: {
         required: '{{name}} is een verplicht veld',
         invalidUrl: '{{url}} is niet een geldige URL',
-        errors: 'Er zijn ongeldige of lege verplichte waardes'
+        errors: 'Er zijn ongeldige of lege verplichte waardes',
     },
     confirmation_dialog: {
         title: 'Bevestig',
@@ -138,7 +138,7 @@ I18n.translations.nl = {
                 tooltip:
                     'Multi factor authentication door de IdP is vereist.<br>Zie de <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">wiki</a> voor meer informatie.',
                 none: 'Geen',
-                other: 'Anders'
+                other: 'Anders',
             },
             attribute_manipulation: {
                 name: 'Attribuut manipulatie script',
@@ -251,7 +251,7 @@ I18n.translations.nl = {
                 consent: 'Toestemming',
                 authorization_policy: 'Autorisatieregels',
                 surf_secure_id: 'SURFsecureID',
-                mfa: 'MFA'
+                mfa: 'MFA',
             },
         },
     },
@@ -355,7 +355,8 @@ I18n.translations.nl = {
             entree: 'Aangsloten op de Kennisnet Entree-federatie.',
             clarin: 'Onderdeel van de Clarin-onderzoeksfederatie.',
             none: '{{organisation}} heeft de SURFconext aansluitovereenkomst niet willen tekenen.',
-            'edugain (community)': 'Applicatie aangeboden door de internationale onderwijs- en onderzoeksgemeenschap via eduGAIN.'
+            'edugain (community)':
+                'Applicatie aangeboden door de internationale onderwijs- en onderzoeksgemeenschap via eduGAIN.',
         },
         contractualBaseWiki:
             ' Voor meer informatie zie de <a href="https://support.surfconext.nl/contract-info-nl" target="_blank" rel="noopener noreferrer">wiki</a>.',
@@ -363,10 +364,10 @@ I18n.translations.nl = {
 
     attributes_policy_panel: {
         arp: {
-            noarp: "Alle attributen zullen worden uitgewisseld met {{name}}.",
+            noarp: 'Alle attributen zullen worden uitgewisseld met {{name}}.',
             noattr: 'Er zullen geen attributen worden uitgewisseld met {{name}}.',
             manipulation:
-                "Voor deze applicatieaanbieder is er een aangepaste attribuutmanipulatie actief die de uitgegeven attributen wijzigt.",
+                'Voor deze applicatieaanbieder is er een aangepaste attribuutmanipulatie actief die de uitgegeven attributen wijzigt.',
             manipulationNotes: ' De attribuutmanipulatie voert het volgende uit:',
             resourceServers:
                 'Deze applicatieaanbieder is gekoppeld aan Resource Servers en daarom zijn alle attributen die worden vrijgegeven ook opvraagbaar voor de volgende Resource Servers:',
@@ -375,14 +376,15 @@ I18n.translations.nl = {
         subtitle: '{{name}} heeft de volgende attributen nodig.',
         title: 'Attributen',
         your_value: 'Jouw waardes',
-        your_values_tooltip: 'De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling. Er worden alleen waarden getoond voor attributen die door jouw IdP geleverd moeten worden.',
+        your_values_tooltip:
+            'De attributen en hun waarden voor jouw persoonlijke account worden getoond. Dit is misschien niet representatief voor andere accounts binnen jouw instelling. Er worden alleen waarden getoond voor attributen die door jouw IdP geleverd moeten worden.',
         filter: 'Filter',
         filterTooltip: 'Voor dit attribuut is een filter toegepast dat de beschikbare waarden mogelijk beperkt',
         motivation: 'Doel',
         motivationTooltip:
             'Deze kolom bevat, voor zover beschikbaar, de uitleg van de leverancier waarom deze dit attribuut nodig heeft.',
         source: 'Bron',
-        persistentMotivation: "Primaire identifier van de gebruiker",
+        persistentMotivation: 'Primaire identifier van de gebruiker',
         sources: {
             idp: 'Je IdP',
             surf: 'SURFconext',
@@ -391,42 +393,44 @@ I18n.translations.nl = {
             eduid: 'eduID',
             sab: 'SURF Autorisatie Beheer',
             ala: 'Je IdP',
-            pseudo_email:'Je IdP',
+            pseudo_email: 'Je IdP',
             manage: 'SURFconext',
-            sabrest: 'SAB'
+            sabrest: 'SAB',
         },
-        sourceTooltip: "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
+        sourceTooltip:
+            "Welke bron levert de waarden voor dit attribuut. Je IdP hoeft alleen de items te verstrekken die zijn gemarkeerd met 'Je IdP'.",
         attributes: {
-            "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified": "Unieke identifier",
-            "urn:mace:dir:attribute-def:eduPersonTargetedID": "Persistente identifier",
-            "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent": "Persistente identifier",
-            "urn:mace:dir:attribute-def:eduPersonPrincipalName": "Unieke identifier",
-            "urn:mace:dir:attribute-def:displayName": "Weergavenaam",
-            "urn:mace:dir:attribute-def:cn": "Volledige naam",
-            "urn:mace:dir:attribute-def:givenName": "Voornaam",
-            "urn:mace:dir:attribute-def:sn": "Achternaam",
-            "urn:mace:dir:attribute-def:mail": "E-mailadres",
-            "urn:mace:dir:attribute-def:ou": "Organisatieonderdeel",
-            "urn:mace:terena.org:attribute-def:schacHomeOrganization": "Je IdP-afkorting",
-            "urn:mace:terena.org:attribute-def:schacHomeOrganizationType": "Type instelling",
-            "urn:schac:attribute-def:schacPersonalUniqueCode": "Unieke code",
-            "urn:mace:dir:attribute-def:eduPersonAffiliation": "Betrekking",
-            "urn:mace:dir:attribute-def:eduPersonScopedAffiliation": "Betrekking (scoped)",
-            "urn:mace:dir:attribute-def:eduPersonEntitlement": "Rechten",
-            "urn:mace:dir:attribute-def:eduPersonOrcid": "Orcid ID",
-            "urn:mace:dir:attribute-def:eduPersonAssurance": "Assurances",
-            "urn:mace:surf.nl:attribute-def:eckid": "ECK iD",
-            "urn:mace:eduid.nl:1.1": "eduID identifier",
-            "urn:mace:surf.nl:attribute-def:surf-crm-id": "SURF CRM organisatiecode",
-            "urn:mace:dir:attribute-def:isMemberOf": "Lidmaatschappen",
-            "urn:mace:dir:attribute-def:uid": "Loginnaam",
-            "urn:mace:dir:attribute-def:preferredLanguage": "Preferred language",
-            "urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit": "eduPerson organisatie"
-        }
+            'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified': 'Unieke identifier',
+            'urn:mace:dir:attribute-def:eduPersonTargetedID': 'Persistente identifier',
+            'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent': 'Persistente identifier',
+            'urn:mace:dir:attribute-def:eduPersonPrincipalName': 'Unieke identifier',
+            'urn:mace:dir:attribute-def:displayName': 'Weergavenaam',
+            'urn:mace:dir:attribute-def:cn': 'Volledige naam',
+            'urn:mace:dir:attribute-def:givenName': 'Voornaam',
+            'urn:mace:dir:attribute-def:sn': 'Achternaam',
+            'urn:mace:dir:attribute-def:mail': 'E-mailadres',
+            'urn:mace:dir:attribute-def:ou': 'Organisatieonderdeel',
+            'urn:mace:terena.org:attribute-def:schacHomeOrganization': 'Je IdP-afkorting',
+            'urn:mace:terena.org:attribute-def:schacHomeOrganizationType': 'Type instelling',
+            'urn:schac:attribute-def:schacPersonalUniqueCode': 'Unieke code',
+            'urn:mace:dir:attribute-def:eduPersonAffiliation': 'Betrekking',
+            'urn:mace:dir:attribute-def:eduPersonScopedAffiliation': 'Betrekking (scoped)',
+            'urn:mace:dir:attribute-def:eduPersonEntitlement': 'Rechten',
+            'urn:mace:dir:attribute-def:eduPersonOrcid': 'Orcid ID',
+            'urn:mace:dir:attribute-def:eduPersonAssurance': 'Assurances',
+            'urn:mace:surf.nl:attribute-def:eckid': 'ECK iD',
+            'urn:mace:eduid.nl:1.1': 'eduID identifier',
+            'urn:mace:surf.nl:attribute-def:surf-crm-id': 'SURF CRM organisatiecode',
+            'urn:mace:dir:attribute-def:isMemberOf': 'Lidmaatschappen',
+            'urn:mace:dir:attribute-def:uid': 'Loginnaam',
+            'urn:mace:dir:attribute-def:preferredLanguage': 'Preferred language',
+            'urn:mace:surffederatie.nl:attribute-def:nlEduPersonOrgUnit': 'eduPerson organisatie',
+        },
     },
     connected_resource_servers_panel: {
         title: 'Aangesloten Resource Servers',
-        subtitle: "{{name}} is een OIDC Relying Party en kan gebruik maken van de API's van de volgende Resource Servers",
+        subtitle:
+            "{{name}} is een OIDC Relying Party en kan gebruik maken van de API's van de volgende Resource Servers",
         clientId: 'Client ID',
         name: 'Naam',
         description: 'Omschrijving',
@@ -443,7 +447,8 @@ I18n.translations.nl = {
         title: 'De Sirtfi contact personen voor {{name}}',
         subtitle:
             'Het Security Incident Response Trust Framework voor Federated Identity <a href=" https://refeds.org/sirtfi" target="_blank" rel="noopener noreferrer">(Sirtfi)</a> heeft als doel om de coördinatie van incidenten in federatieve organisaties te faciliteren. Dit vertrouwensraamwerk bestaat uit een lijst van maatregelen die een organisatie kan implementeren teneinde Sirtfi compliant te zijn.',
-        contactPersons: 'In het geval van een beveiligingsincident kan deze applicatie het beste op de volgende manier worden gecontacteerd:',
+        contactPersons:
+            'In het geval van een beveiligingsincident kan deze applicatie het beste op de volgende manier worden gecontacteerd:',
         cp_name: 'Naam',
         cp_email: 'Email',
         cp_telephoneNumber: 'Telefoonnummer',
@@ -472,14 +477,16 @@ I18n.translations.nl = {
         dpaTypeEnum: {
             dpa_not_applicable: 'De applicatie is geen verwerker volgens de AVG',
             dpa_in_surf_agreement: 'Afspraken lopen via SURF',
-            dpa_model_surf: 'Wij staan open voor ondertekening van het SURF-modelcontract/we hebben het SURF-modelcontract ondertekend',
+            dpa_model_surf:
+                'Wij staan open voor ondertekening van het SURF-modelcontract/we hebben het SURF-modelcontract ondertekend',
             dpa_supplied_by_service: 'We hebben de gegevensverwerkingsovereenkomst van het bedrijf geregeld',
             other: 'Anders',
-        }
+        },
     },
     consent_panel: {
         title: 'Toestemming',
-        subtitle: 'Nieuwe gebruikers wordt standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.',
+        subtitle:
+            'Nieuwe gebruikers wordt standaard om toestemming gevraagd voor het doorgeven van hun persoonlijke gegevens.',
         subtitle2:
             'Optioneel kun je een extra bericht/waarschuwing aan het informatie/consent-scherm toevoegen, bijvoorbeeld om de gebruiker te wijzen op het feit dat de desbetreffende applicatie <i>geen officiële</i> applicatie van de instelling is en er dus geen ondersteuning wordt geboden. Lees meer informatie hierover op onze <a target="_blank" rel="noopener noreferrer" href="https://support.surfconext.nl/dashboard-help-consent">wiki</a>.',
         subtitle2Viewer:
@@ -490,11 +497,14 @@ I18n.translations.nl = {
         consent_value: 'Type toestemming',
         consent_value_tooltip: 'Het type toestemming bepaalt hoe en of de gebruiker voor toestemming wordt gevraagd.',
         explanationNl: 'Nederlands bericht',
-        explanationNl_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers',
+        explanationNl_tooltip:
+            'Dit bericht wordt toegevoegd onderaan in het Nederlandse toestemmings-scherm voor nieuwe gebruikers',
         explanationEn: 'Engels bericht',
-        explanationEn_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers',
+        explanationEn_tooltip:
+            'Dit bericht wordt toegevoegd onderaan in het Engelse toestemmings-scherm voor nieuwe gebruikers',
         explanationPt: 'Portugees bericht',
-        explanationPt_tooltip: 'Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers',
+        explanationPt_tooltip:
+            'Dit bericht wordt toegevoegd onderaan in het Portugese toestemmings-scherm voor nieuwe gebruikers',
         save: 'Verstuur verzoek',
         request: 'Verzoek aanpassing',
         loa_level: 'SURFsecureID Level of Assurance (LoA)',
@@ -572,9 +582,11 @@ I18n.translations.nl = {
             'Je kunt de uitnodiging accepteren. We adviseren je om de checklist na te lopen en de specifieke informatie over deze applicatie door te nemen voordat je een verbinding activeert.',
         info_title: 'Verbinding activeren',
         jira_unreachable: 'Er is iets mis gegaan bij de aanvraag',
-        jira_unreachable_description: 'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer het later opnieuw.',
+        jira_unreachable_description:
+            'Het is op dit moment niet mogelijk om een aanvraag te doen. Probeer het later opnieuw.',
         jira_down: 'Ticketsysteem is niet beschikbaar',
-        jira_down_description: 'Omdat het ticketsysteem niet beschikbaar is kan nu geen wijziging worden aangevraagd. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> voor het maken van een wijziging.',
+        jira_down_description:
+            'Omdat het ticketsysteem niet beschikbaar is kan nu geen wijziging worden aangevraagd. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> voor het maken van een wijziging.',
         license: 'licentie',
         license_info: 'de licentie-informatie',
         obtain_license: {
@@ -591,7 +603,7 @@ I18n.translations.nl = {
         terms_title: 'Met het activeren van de connectie ga je akkoord met de volgende voorwaarden:',
         wiki: 'wiki voor deze applicatie',
         aansluitovereenkomst_accept:
-            "Ik stem in met het activeren van een applicatie die geweigerd heeft de SURFconext aansluitovereenkomst te ondertekenen.",
+            'Ik stem in met het activeren van een applicatie die geweigerd heeft de SURFconext aansluitovereenkomst te ondertekenen.',
         not_published_in_edugain_idp: 'eduGAIN-applicatie',
         not_published_in_edugain_idp_info:
             "De applicatie {{name}} kan niet worden gekoppeld omdat je instelling niet is gepubliceerd is in eduGAIN. Om je instelling te publiceren in eduGAIN kun je een aanvraag doen in 'Mijn Instellling' en daar 'Gepubliceerd in eduGAIN' selecteren.",
@@ -603,7 +615,8 @@ I18n.translations.nl = {
         deny: 'Uitnodiging afwijzen',
         approve: 'Uitnodiging Goedkeuren',
         deny_invitation: 'Weet je zeker dat je de uitnodiging om te koppelen met {{app}} wilt afwijzen?',
-        deny_invitation_info: 'Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.',
+        deny_invitation_info:
+            'Nadat je de uitnodiging hebt afgewezen kun je altijd nog de koppeling activeren in dit dashboard.',
         invite_action_collision_title: 'Applicatie {{app}} is al gekoppeld.',
         invite_action_collision_subtitle: 'Mid-air botsing gedetecteerd.',
         invite_action_collision:
@@ -674,6 +687,8 @@ I18n.translations.nl = {
             all: 'Totale periode: van ⇨ tot en met',
         },
         helpLink: 'https://support.surfconext.nl/dashboard-help-nl#Beschikbaredienstenactiveren-Statistieken',
+        stats_down_description:
+            'De backend voor statistieken is momenteel niet beschikbaar. We werken er hard aan om het probleem op te lossen. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> om statistieken aan te vragen.',
     },
     chart: {
         title: 'Logins en gebruikers per dag',
@@ -783,9 +798,11 @@ I18n.translations.nl = {
             nl: 'Organisatie URL (nl)',
             pt: 'Organisatie-URL (pt)',
         },
-        organizationURL_nl_tooltip: 'Een URL waar een eindgebruiker Nederlandse informatie kan lezen over de organisatie.',
+        organizationURL_nl_tooltip:
+            'Een URL waar een eindgebruiker Nederlandse informatie kan lezen over de organisatie.',
         organizationURL_en_tooltip: 'Een URL waar een eindgebruiker Engelse informatie kan lezen over de organisatie.',
-        organizationURL_pt_tooltip: 'Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.',
+        organizationURL_pt_tooltip:
+            'Een URL waar een eindgebruiker Portugese informatie kan lezen over de organisatie.',
         organizationName: {
             general: 'Organisatienaam',
             en: 'Organisatienaam (en)',
@@ -882,7 +899,8 @@ I18n.translations.nl = {
         save: 'Maak wijzigingsverzoek aan',
         change_request_created:
             'Wijzigingsverzoek ingediend bij het SURFconext-team. Het ticketnummer van het wijzigingsverzoek is {{jiraKey}}',
-        no_change_request_created: 'Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.',
+        no_change_request_created:
+            'Er is geen wijzigingsverzoek aangemaakt aangezien er geen wijzigingen zijn gemaakt.',
         change_request_failed: 'Er ging iets mis bij het aanmaken van het wijzigingsverzoek.',
         comments: 'Opmerkingen',
     },
@@ -900,7 +918,8 @@ I18n.translations.nl = {
         how_to: 'Uitleg',
         policy_name_not_unique_exception: 'Deze naam is al in gebruik',
         pdp_unreachable: 'PDP niet bereikbaar',
-        pdp_unreachable_description: 'Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.',
+        pdp_unreachable_description:
+            'Het is op dit moment niet mogelijk om policies op te halen vanuit PDP. Probeer het later nog eens.',
         pdp_active_info: 'Klik om meer te lezen over wanneer de regel actief is.',
         pdp_active_link: 'https://support.surfconext.nl/pdp-rule-active-after',
         overview: {
@@ -915,8 +934,8 @@ I18n.translations.nl = {
             search_hint: 'Filter op naam',
             serviceProviderName: 'Applicatie',
         },
-        showMore: "Toon deny berichten",
-        showLess: "Verberg deny berichten"
+        showMore: 'Toon deny berichten',
+        showLess: 'Verberg deny berichten',
     },
 
     policy_attributes: {
@@ -955,8 +974,7 @@ I18n.translations.nl = {
         description: 'Omschrijving van deze regel',
         idps_placeholder: 'Selecteer de instellingen - 0 of meer',
         institutions: 'Instelling(en)',
-        intro:
-            'Configureer wie toegang kan krijgen tot deze applicatie. Hulp nodig? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Lees de handleiding.</a>',
+        intro: 'Configureer wie toegang kan krijgen tot deze applicatie. Hulp nodig? <a href="https://support.surfconext.nl/dashboard-help-pdp" target="_blank" rel="noopener noreferrer">Lees de handleiding.</a>',
         isActive: 'Actief',
         isActiveDescription: 'Markeer de autorisatieregel actief',
         isActiveInfo: ' Inactieve autorisatieregels worden niet geevalueerd in toegangsbeslissingen',
@@ -967,15 +985,18 @@ I18n.translations.nl = {
         rule: 'Regel',
         rules: 'Regels',
         rule_and: 'EN',
-        rule_and_info: 'Autorisatieregels met een logische EN dwingen af dat alle gedefinieerde attributen moeten matchen.',
-        rule_info_add: ' Attribuutwaardes binnen hetzelfde attribuut zullen altijd worden geevalueerd met de logische OF.',
+        rule_and_info:
+            'Autorisatieregels met een logische EN dwingen af dat alle gedefinieerde attributen moeten matchen.',
+        rule_info_add:
+            ' Attribuutwaardes binnen hetzelfde attribuut zullen altijd worden geevalueerd met de logische OF.',
         rule_info_add_2:
             "Een 'Deny' autorisatieregel wordt altijd geevalueerd met de logische EN voor attribuut waarden van verschillende attributen.",
         rule_or: 'OF',
         rule_or_info: 'Voor autorisatieregels met een logische OF is het slechts vereist dat 1 attribuut matcht.',
         save_changes: 'Sla wijzigingen op',
         service: 'Applicatie',
-        spScopeInfo: 'De beschikbare applicaties zijn beperkt tot je eigen applicaties zolang er geen instelling is gekozen',
+        spScopeInfo:
+            'De beschikbare applicaties zijn beperkt tot je eigen applicaties zolang er geen instelling is gekozen',
         sp_placeholder: 'Selecteer de applicatie - verplicht',
         sub_title: 'Aangemaakt door {{displayName}} op {{created}}',
         submit: 'Verstuur',
@@ -1035,7 +1056,7 @@ I18n.translations.nl = {
         spEntityId: 'Applicatie',
         statuses: {
             all: 'Alle tickets',
-            'Open': 'Open',
+            Open: 'Open',
             'In Progress': 'Bezig',
             'On Hold': 'In de wacht',
             'Waiting for customer': 'Wachtende op goedkeuring',
@@ -1092,9 +1113,9 @@ I18n.translations.nl = {
         selectSp: 'Zoek en selecteer nu een applicatie...',
         idp: 'Instelling',
         sp: 'Applicatie',
-        connectionRequestQuestion: "Uitnodiging voor een koppelverzoek of ontkoppelverzoek?",
-        connectionRequest: "Koppelverzoek",
-        disConnectionRequest: "Ontkoppelverzoek",
+        connectionRequestQuestion: 'Uitnodiging voor een koppelverzoek of ontkoppelverzoek?',
+        connectionRequest: 'Koppelverzoek',
+        disConnectionRequest: 'Ontkoppelverzoek',
         contactPersons: 'Selecteer naar welke contactpersonen van {{name}} de uitnodiging zal worden verstuurd.',
         sourcePersons: 'Contactpersonen uit {{source}}',
         additionalPersons: 'Extra contactpersonen',
@@ -1105,8 +1126,7 @@ I18n.translations.nl = {
         jiraFlash:
             'Een Jira-ticket is aangemaakt met key {{jiraKey}}. Zodra één van de genodigden de uitnodiging heeft geaccepteerd dan zal dit worden gelogd in het commentaar van {{jiraKey}}.',
         jiraError: 'Jira responded with an error. Please check the logs or try again later',
-        resend:
-            "Ticket is aangemaakt op {{date}} en e-mails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'.",
+        resend: "Ticket is aangemaakt op {{date}} en e-mails zijn verstuurd naar {{emailTo}}. Huidige status is '{{status}}'.",
     },
     profile: {
         title: 'Profiel',
@@ -1122,11 +1142,13 @@ I18n.translations.nl = {
         roles: {
             ROLE_DASHBOARD_ADMIN: {
                 name: 'SURFconextverantwoordelijke',
-                description: 'Je bent gemachtigd om voor je instelling de connecties met applicatieaanbieders te beheren',
+                description:
+                    'Je bent gemachtigd om voor je instelling de connecties met applicatieaanbieders te beheren',
             },
             ROLE_DASHBOARD_VIEWER: {
                 name: 'SURFconextbeheerder',
-                description: 'Je bent gemachtigd om voor je instelling de connecties met applicatieaanbieders in te zien',
+                description:
+                    'Je bent gemachtigd om voor je instelling de connecties met applicatieaanbieders in te zien',
             },
             ROLE_DASHBOARD_MEMBER: {
                 name: 'Instellings gebruiker',
@@ -1261,7 +1283,7 @@ I18n.translations.nl = {
         title: 'Multi-factor-authenticatie benodigd',
         info: 'Om deze actie uit te voeren is het nodig om een tweede factor toe te voegen aan je authenticatie. Wanneer je doorgaat, word je om je token gevraagd en  daarna keer je hier weer terug.',
         cancel: 'Annuleren',
-        go: 'Doorgaan'
+        go: 'Doorgaan',
     },
     mfa_panel: {
         title: 'MFA',
@@ -1269,8 +1291,7 @@ I18n.translations.nl = {
             'Met <a href="https://support.surfconext.nl/mfa-nl" target="_blank" rel="noopener noreferrer">MFA</a> kan een multi-factor authenticatie worden afgedwongen door je eigen IdP voor deze dienst, als je IdP dat ondersteunt.',
         subtitle2:
             'Je kunt kiezen voor <span>Generieke multi-factor (REFEDS MFA)</span>, een internationale standaard, of <span>Multi-factor op ADFS of Azure AD</span> specifiek voor Microsoft producten.',
-        subtitle3:
-            'Heeft je eigen IdP geen ondersteuning voor MFA, overweeg dan om SURFsecureID af te nemen.',
+        subtitle3: 'Heeft je eigen IdP geen ondersteuning voor MFA, overweeg dan om SURFsecureID af te nemen.',
         authn_context_level: 'MFA Setting',
         defaultAuthnContextLevel: 'Dwing geen tweede factor af bij mijn IdP voor deze applicatie',
         multipleauthn: 'Multi-factor op ADFS of Azure AD',
@@ -1279,13 +1300,13 @@ I18n.translations.nl = {
         validate_names_external: 'eduID validated name by an external (non institutional) source',
         affiliation_student: 'eduID require student affiliation',
         mfa: 'Generieke multi-factor (REFEDS MFA)',
-        transparent_authn_context: "Transparent Authn context",
-        mobileonefactorcontract: "Mobile one factor",
+        transparent_authn_context: 'Transparent Authn context',
+        mobileonefactorcontract: 'Mobile one factor',
         multipleauthn_short: 'MFA Microsoft',
         mfa_short: 'MFA Generiek',
         mobileonefactorunregistered: 'Mobile one unregistered',
         password: 'Wachtwoord',
-        not_allowed: "Je kan de MFA voor deze applicatie niet aanpassen. Neem contact op met <a href=\"mailto:support@surfconext.nl\">support@surfconext.nl</a> als je een andere MFA wenst voor deze applicatie.."
+        not_allowed:
+            'Je kan de MFA voor deze applicatie niet aanpassen. Neem contact op met <a href="mailto:support@surfconext.nl">support@surfconext.nl</a> als je een andere MFA wenst voor deze applicatie..',
     },
-
 }

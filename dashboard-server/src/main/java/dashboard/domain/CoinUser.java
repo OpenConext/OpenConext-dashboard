@@ -60,6 +60,7 @@ public class CoinUser implements UserDetails {
     private List<String> loaLevels;
     private List<String> authnContextLevels;
     private Set<String> invitationRequestEntities = new HashSet<>();
+    private boolean statisticsDown;
 
     @Override
     @JsonIgnore
@@ -390,5 +391,13 @@ public class CoinUser implements UserDetails {
 
     public void setJiraDown(boolean jiraDown) {
         this.jiraDown = jiraDown;
+    }
+
+    public void setStatisticsDown(boolean statisticsDown) {
+        this.statisticsDown = statisticsDown;
+    }
+
+    public boolean isStatisticsDown() {
+        return statisticsDown;
     }
 }

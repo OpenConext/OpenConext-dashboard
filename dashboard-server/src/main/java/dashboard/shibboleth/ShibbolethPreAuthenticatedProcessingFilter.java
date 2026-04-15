@@ -64,7 +64,6 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                 .build();
     }
 
-
     private String organization;
 
     private Manage manage;
@@ -89,6 +88,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
     private List<String> loaLevels;
     private List<String> authnContextLevels;
     private boolean dashboardStepupEnabled;
+    private boolean statisticsDown;
+
 
     ShibbolethPreAuthenticatedProcessingFilter(JiraClient jiraClient) {
         this.jiraClient = jiraClient;
@@ -112,7 +113,8 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
                                                       String organization,
                                                       String defaultLoa,
                                                       List<String> loaLevels,
-                                                      List<String> authnContextLevels) {
+                                                      List<String> authnContextLevels,
+                                                      boolean statisticsDown) {
         setAuthenticationManager(authenticationManager);
         this.manage = manage;
         this.sab = sab;
@@ -132,6 +134,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         this.defaultLoa = defaultLoa;
         this.loaLevels = loaLevels;
         this.authnContextLevels = authnContextLevels;
+        this.statisticsDown = statisticsDown;
     }
 
     @Override
@@ -266,6 +269,7 @@ public class ShibbolethPreAuthenticatedProcessingFilter extends AbstractPreAuthe
         coinUser.setAuthnContextLevels(this.authnContextLevels);
         coinUser.setDashboardStepupEnabled(this.dashboardStepupEnabled);
         coinUser.setJiraDown(jiraDown);
+        coinUser.setStatisticsDown(statisticsDown);
     }
 
     private void addDashboardRoleForMemberships(CoinUser user, List<String> groups) {

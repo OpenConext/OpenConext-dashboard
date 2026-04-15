@@ -407,13 +407,30 @@ class Stats extends React.Component {
     }
   }
 
+  renderStatsDown = () => {
+      return (
+          <div className="container">
+              <div className="l-main stats">
+                  <div className="stats-down-banner">
+                      <p dangerouslySetInnerHTML={{ __html: I18n.t('stats.stats_down_description') }} />
+                  </div>
+              </div>
+          </div>
+      )
+  }
+
   render() {
     const { from, to, scale, allSp, data, displayDetailPerSP, loaded, sp, maximumTo, serviceProvidersDict } = this.state
+    const currentUser = this.context.currentUser
+    const statisticsDown = currentUser.statisticsDown
+    if (statisticsDown) {
+      return this.renderStatsDown()
+    }
+    const idp = currentUser.getCurrentIdp()
     const fullView = this.props.view === 'full'
     const spSelected = sp !== this.allServiceProviderOption.value
     const noResult = (data.length === 1 && data[0] === 'no_results') || (loaded && data.length === 0)
     const results = loaded && data.length > 0 && !noResult
-    const idp = this.context.currentUser.getCurrentIdp()
     const identityProvidersDict = {}
     identityProvidersDict[idp.id] =
       I18n.locale === 'en'
