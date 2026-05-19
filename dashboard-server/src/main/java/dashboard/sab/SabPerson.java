@@ -1,5 +1,7 @@
 package dashboard.sab;
 
+import org.springframework.util.StringUtils;
+
 import java.util.List;
 
 import static java.lang.String.format;
@@ -24,10 +26,10 @@ public class SabPerson {
     }
 
     public String resolveFullName() {
-        if (middleName.isEmpty()) {
-            return format("%s %s", firstName, surname);
+        if (StringUtils.hasText(middleName)) {
+            return format("%s %s %s", firstName, middleName, surname);
         }
-        return format("%s %s %s", firstName, middleName, surname);
+        return format("%s %s", firstName, surname);
     }
 
     public String getFullName() {
