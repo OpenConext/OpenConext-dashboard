@@ -79,7 +79,7 @@ public class StatsImpl implements Stats, Constants {
 
     private UriComponentsBuilder baseBuilder(String path) {
         return UriComponentsBuilder
-                .fromHttpUrl(baseUrl)
+                .fromUriString(baseUrl)
                 .path(path)
                 .queryParam("include_unique", true)
                 .queryParam("idp_id", getCurrentUserIdp());

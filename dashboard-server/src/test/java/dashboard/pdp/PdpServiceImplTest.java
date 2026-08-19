@@ -1,6 +1,5 @@
 package dashboard.pdp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
@@ -11,6 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import static org.junit.Assert.fail;
 
 public class PdpServiceImplTest {
 
-    private final PdpService pdpService = new PdpServiceImpl(new ObjectMapper(), "http://localhost:8889", "pdp-user", "pdp-password");
+    private final PdpService pdpService = new PdpServiceImpl(new JsonMapper(), "http://localhost:8889", "pdp-user", "pdp-password");
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8889);

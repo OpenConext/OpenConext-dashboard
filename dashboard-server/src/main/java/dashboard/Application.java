@@ -1,6 +1,5 @@
 package dashboard;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.mail.MailBox;
 import dashboard.manage.ClassPathResourceManage;
 import dashboard.manage.Manage;
@@ -14,19 +13,18 @@ import dashboard.service.impl.*;
 import dashboard.stats.Stats;
 import dashboard.stats.StatsImpl;
 import dashboard.stats.StatsMock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import tools.jackson.databind.ObjectMapper;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, FreeMarkerAutoConfiguration.class})
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class Application {
 
     public static void main(String[] args) {
@@ -56,7 +54,6 @@ public class Application {
     }
 
     @Bean
-    @Autowired
     public Stats stats(@Value("${dashboard.feature.statistics}") boolean statsEnabled,
                        @Value("${statsUser}") String user,
                        @Value("${statsPassword}") String password,

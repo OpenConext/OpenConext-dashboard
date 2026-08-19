@@ -16,23 +16,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -40,8 +40,8 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class ShibbolethSecurityConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(ShibbolethSecurityConfig.class);
 
@@ -105,15 +105,11 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${dashboard.feature.stepup}")
     private boolean dashboardStepupEnabled;
 
-    /*
-     * See http://stackoverflow.com/questions/22998731/httpsecurity-websecurity-and-authenticationmanagerbuilder
-     * for a quick overview of the differences between the three configure overrides
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web
                 .ignoring()
-                .antMatchers(
+                .requestMatchers(
                         "/public/**",
                         "/css/**",
                         "/font/**",
@@ -126,51 +122,46 @@ public class ShibbolethSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/serviceProvider/api/**");
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        LOG.info("Configuring AuthenticationManager with a PreAuthenticatedAuthenticationProvider");
+        PreAuthenticatedAuthenticationProvider authenticationProvider = new PreAuthenticatedAuthenticationProvider();
+        authenticationProvider.setPreAuthenticatedUserDetailsService(new ShibbolethUserDetailService());
+        return new ProviderManager(authenticationProvider);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         List<String> loaLevels = Arrays.stream(this.loaLevels.replaceAll("\"", "").split(",")).map(String::trim).collect(Collectors.toList());
         List<String> authnContextLevels = Arrays.stream(this.authnContextLevels.replaceAll("\"", "").split(",")).map(String::trim).collect(Collectors.toList());
         http
-                .logout()
-                .logoutUrl("/dashboard/api/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("statsToken") // remove stats cookie
-                .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
-                .addLogoutHandler(new DashboardLogoutHandler()).and()
-                .csrf().disable()
+                .logout(logout -> logout
+                        .logoutUrl("/dashboard/api/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("statsToken") // remove stats cookie
+                        .logoutSuccessHandler(new DashboardLogoutSuccessHandler())
+                        .addLogoutHandler(new DashboardLogoutHandler()))
+                .csrf(csrf -> csrf.disable())
                 .addFilterBefore(
-                        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManagerBean(), manage, sab, jiraClient,
+                        new ShibbolethPreAuthenticatedProcessingFilter(authenticationManager, manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, dashboardStepupEnabled, jiraDown, hideTabs, supportedLanguages, organization,
                                 defaultLoa, loaLevels, authnContextLevels, statisticsDown),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
-                .authorizeRequests()
-                .antMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
-                .antMatchers("/dashboard/api/stats/**")
-                .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER")
-                .antMatchers("/dashboard/api/**")
-                .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
-                .anyRequest().authenticated();
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/identity/**").hasRole("DASHBOARD_SUPER_USER")
+                        .requestMatchers("/dashboard/api/stats/**")
+                        .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER")
+                        .requestMatchers("/dashboard/api/**")
+                        .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
+                        .anyRequest().authenticated());
         if (!shibbolethEnabled) {
             http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
             http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
         }
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        LOG.info("Configuring AuthenticationManager with a PreAuthenticatedAuthenticationProvider");
-        PreAuthenticatedAuthenticationProvider authenticationProvider = new PreAuthenticatedAuthenticationProvider();
-        authenticationProvider.setPreAuthenticatedUserDetailsService(new ShibbolethUserDetailService());
-        auth.authenticationProvider(authenticationProvider);
-    }
-
-    @Bean
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+        return http.build();
     }
 
     private static class DashboardLogoutHandler implements LogoutHandler {

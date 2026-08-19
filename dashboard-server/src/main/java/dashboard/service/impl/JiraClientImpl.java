@@ -15,8 +15,6 @@
  */
 package dashboard.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import dashboard.domain.Action;
 import dashboard.domain.Action.Type;
@@ -33,6 +31,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -130,7 +130,7 @@ public class JiraClientImpl implements JiraClient {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Sending JSON {} to JIRA", objectMapper.writeValueAsString(issue));
             }
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             //ignore
         }
 
@@ -142,7 +142,7 @@ public class JiraClientImpl implements JiraClient {
             String json ;
             try {
                 json = objectMapper.writeValueAsString(issue);
-            } catch (JsonProcessingException ex) {
+            } catch (JacksonException ex) {
                 json = "Unable to parse request";
             }
             LOG.error("Failed to create Jira issue: {} ({}) with response:\n{}\nJSON Request: {}",

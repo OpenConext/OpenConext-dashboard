@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableList;
 import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.util.SpringSecurity;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -24,11 +27,15 @@ public interface Constants {
     String X_DISPLAY_NAME = "X-DISPLAY-NAME";
 
     default ClientHttpRequestFactory clientHttpRequestFactory(int timeout) {
-        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(Timeout.ofMilliseconds(timeout))
+                .build();
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .disableCookieManagement()
+                .setDefaultRequestConfig(requestConfig)
+                .build();
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         requestFactory.setReadTimeout(timeout);
-        requestFactory.setConnectTimeout(timeout);
-        requestFactory.setHttpClient(HttpClients.custom()
-                .disableCookieManagement().build());
 
         return requestFactory;
     }

@@ -1,6 +1,5 @@
 package dashboard;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.control.GsonHttpMessageConverter;
 import dashboard.util.CookieThenAcceptHeaderLocaleResolver;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +17,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.time.Duration;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -40,10 +40,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver(@Value("${supported_language_codes}") String supportLanguageCodes) {
         String language = Stream.of(supportLanguageCodes.split(",")).map(String::trim).findFirst().orElse("nl");
-        CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver();
-        localeResolver.setCookieName(LANG);
+        CookieThenAcceptHeaderLocaleResolver localeResolver = new CookieThenAcceptHeaderLocaleResolver(LANG);
         localeResolver.setDefaultLocale(Locale.of(language));
-        localeResolver.setCookieMaxAge(315360000);
+        localeResolver.setCookieMaxAge(Duration.ofSeconds(315360000));
         return localeResolver;
     }
 

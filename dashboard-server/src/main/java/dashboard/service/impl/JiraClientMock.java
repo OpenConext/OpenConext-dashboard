@@ -15,13 +15,13 @@
  */
 package dashboard.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import dashboard.domain.Action;
 import dashboard.domain.JiraFilter;
 import dashboard.domain.JiraResponse;
 import dashboard.mail.MailBox;
 import lombok.SneakyThrows;
+import tools.jackson.databind.ObjectMapper;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

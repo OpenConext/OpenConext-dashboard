@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.core.JacksonException;
 
 import java.io.*;
 import java.net.URLEncoder;
@@ -191,7 +192,7 @@ public class UrlResourceManage implements Manage {
     private List<Map<String, Object>> getMaps(InputStream inputStream) {
         try {
             return objectMapper.readValue(inputStream, List.class);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException(e);
         }
     }

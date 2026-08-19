@@ -1,8 +1,6 @@
 package dashboard.pdp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.control.Constants;
 import dashboard.domain.Attribute;
 import dashboard.domain.Policy;
@@ -17,8 +15,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +92,7 @@ public class PdpServiceImpl implements PdpService, Constants {
             try {
                 String json = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(policy);
                 LOG.info("creation of policy {}", json);
-            } catch (IOException e) {
+            } catch (JacksonException e) {
                 LOG.error("Unexpected error from PdP", e);
             }
             ResponseEntity<Policy> response = pdpRestTemplate.exchange(request, new ParameterizedTypeReference<>() {

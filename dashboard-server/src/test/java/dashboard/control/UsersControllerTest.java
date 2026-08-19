@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.NestedServletException;
+import jakarta.servlet.ServletException;
 
 import java.io.IOException;
 import java.util.*;
@@ -171,7 +171,7 @@ public class UsersControllerTest {
                     Authority.ROLE_DASHBOARD_ADMIN))
                     .contentType(MediaType.APPLICATION_JSON).header(HTTP_X_IDP_ENTITY_ID, FOO_IDP_ENTITY_ID));
             fail("expected SecurityException");
-        } catch (NestedServletException e) {
+        } catch (ServletException e) {
             assertEquals(SecurityException.class, e.getRootCause().getClass());
         }
     }

@@ -1,6 +1,5 @@
 package dashboard.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import dashboard.domain.Action;
 import dashboard.domain.JiraFilter;
@@ -9,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class JiraClientImplTest {
 
     private final JiraClientImpl jiraClient = new JiraClientImpl(
-            new ObjectMapper(),
+            new JsonMapper(),
             "http://localhost:8891",
             "user",
             "password",
@@ -82,7 +82,7 @@ public class JiraClientImplTest {
     @Test
     public void actionToIssueIdentifier() throws IOException {
         doActionToIssuerIdentifier(jiraClient);
-        doActionToIssuerIdentifier(new JiraClientImpl(new ObjectMapper(), "http://localhost:8891", "user", "password", "jiraApiKey", false, "CTX", 5, Environment.prod, 10 * 1000));
+        doActionToIssuerIdentifier(new JiraClientImpl(new JsonMapper(), "http://localhost:8891", "user", "password", "jiraApiKey", false, "CTX", 5, Environment.prod, 10 * 1000));
     }
 
     private void doActionToIssuerIdentifier(JiraClientImpl jiraClient) {

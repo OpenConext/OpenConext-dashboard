@@ -1,6 +1,5 @@
 package dashboard.pdp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dashboard.control.Constants;
 import dashboard.domain.Attribute;
 import dashboard.domain.Policy;
@@ -10,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.util.List;
