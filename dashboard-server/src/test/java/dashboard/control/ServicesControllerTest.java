@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -61,7 +62,7 @@ public class ServicesControllerTest {
         EnsureAccessToIdpFilter ensureAccessToIdp = new EnsureAccessToIdpFilter(manageMock);
 
         mockMvc = standaloneSetup(controller)
-                .setMessageConverters(new GsonHttpMessageConverter(true))
+                .setMessageConverters(new GsonHttpMessageConverter(true), new JacksonJsonHttpMessageConverter())
                 .addFilter(ensureAccessToIdp, "/*")
                 .build();
 
@@ -152,10 +153,9 @@ public class ServicesControllerTest {
 
         this.mockMvc.perform(
                         post("/dashboard/api/services/connect")
-                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
-                                .param("spEntityId", SP_ENTITY_ID)
-                                .param("type", EntityType.saml20_sp.name()))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"spEntityId\":\"" + SP_ENTITY_ID + "\",\"type\":\"" + EntityType.saml20_sp.name() + "\"}")
+                                .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
     }
@@ -169,8 +169,7 @@ public class ServicesControllerTest {
         this.mockMvc.perform(
                         post("/dashboard/api/services/disconnect")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("spEntityId", SP_ENTITY_ID)
-                                .param("type", EntityType.saml20_sp.name())
+                                .content("{\"spEntityId\":\"" + SP_ENTITY_ID + "\",\"type\":\"" + EntityType.saml20_sp.name() + "\"}")
                                 .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("payload.spId", is(SP_ENTITY_ID)));
@@ -183,8 +182,7 @@ public class ServicesControllerTest {
         this.mockMvc.perform(
                         post("/dashboard/api/services/connect")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("spEntityId", SP_ENTITY_ID)
-                                .param("type", EntityType.saml20_sp.name())
+                                .content("{\"spEntityId\":\"" + SP_ENTITY_ID + "\",\"type\":\"" + EntityType.saml20_sp.name() + "\"}")
                                 .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID))
                 .andExpect(status().isForbidden());
     }
@@ -196,9 +194,7 @@ public class ServicesControllerTest {
         this.mockMvc.perform(
                         post("/dashboard/api/services/connect")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("spEntityId", SP_ENTITY_ID)
-                                .param("type", EntityType.saml20_sp.name())
-                                .param("type", EntityType.saml20_sp.name())
+                                .content("{\"spEntityId\":\"" + SP_ENTITY_ID + "\",\"type\":\"" + EntityType.saml20_sp.name() + "\"}")
                                 .header(HTTP_X_IDP_ENTITY_ID, IDP_ENTITY_ID)
                 )
                 .andExpect(status().isForbidden());

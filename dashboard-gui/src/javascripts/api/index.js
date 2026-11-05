@@ -52,18 +52,6 @@ export function fetchJson(path, options = {}) {
   return validFetch(path, options).then(parseJson)
 }
 
-function fetchPost(path, body, options = {}) {
-  const data = new FormData()
-
-  for (const key in body) {
-    if (Object.prototype.hasOwnProperty.call(body, key)) {
-      data.append(key, body[key])
-    }
-  }
-
-  return validFetch(path, Object.assign({}, { method: 'post', body: data }, options))
-}
-
 function postJson(path, body, options = {}) {
   return validFetch(path, Object.assign({}, { method: 'post', body: JSON.stringify(body) }, options))
 }
@@ -223,19 +211,27 @@ export function searchJira(filter) {
 }
 
 export function makeConnection(app, comments, loaLevel, emailContactPerson) {
-  return fetchPost('/services/connect', {
-    comments: comments,
-    loaLevel: loaLevel,
-    spEntityId: app.spEntityId,
-    type: app.entityType,
-    emailContactPerson: emailContactPerson,
-  })
+  return postJson(
+    '/services/connect',
+    {
+      comments: comments,
+      loaLevel: loaLevel,
+      spEntityId: app.spEntityId,
+      type: app.entityType,
+      emailContactPerson: emailContactPerson,
+    },
+    { headers: { 'Content-Type': 'application/json' } }
+  )
     .then(parseJson)
     .then((json) => json.payload)
 }
 
 export function removeConnection(app, comments) {
-  return fetchPost('/services/disconnect', { comments: comments, spEntityId: app.spEntityId, type: app.entityType })
+  return postJson(
+    '/services/disconnect',
+    { comments: comments, spEntityId: app.spEntityId, type: app.entityType },
+    { headers: { 'Content-Type': 'application/json' } }
+  )
     .then(parseJson)
     .then((json) => json.payload)
 }

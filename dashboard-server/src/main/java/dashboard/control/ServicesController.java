@@ -189,14 +189,13 @@ public class ServicesController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> connect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                        @RequestParam(value = "comments", required = false) String
-                                                                comments,
-                                                        @RequestParam(value = "loaLevel", required = false) String
-                                                                loaLevel,
-                                                        @RequestParam(value = "spEntityId") String spEntityId,
-                                                        @RequestParam(value = "type") String type,
-                                                        @RequestParam(value = "emailContactPerson", required = false) String emailContactPerson,
+                                                        @RequestBody Map<String, String> body,
                                                         Locale locale) throws IOException {
+        String comments = body.get("comments");
+        String loaLevel = body.get("loaLevel");
+        String spEntityId = body.get("spEntityId");
+        String type = body.get("type");
+        String emailContactPerson = body.get("emailContactPerson");
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
             LOG.warn("Consent endpoint requires LOA level 2 or higher, currentUser {}", currentUser);
@@ -211,11 +210,11 @@ public class ServicesController extends BaseController {
     @PreAuthorize("hasAnyRole('DASHBOARD_ADMIN','DASHBOARD_VIEWER','DASHBOARD_SUPER_USER')")
     @RequestMapping(value = "/disconnect", method = RequestMethod.POST)
     public ResponseEntity<RestResponse<Action>> disconnect(@RequestHeader(HTTP_X_IDP_ENTITY_ID) String idpEntityId,
-                                                           @RequestParam(value = "comments", required = false) String
-                                                                   comments,
-                                                           @RequestParam(value = "spEntityId") String spEntityId,
-                                                           @RequestParam(value = "type") String type,
+                                                           @RequestBody Map<String, String> body,
                                                            Locale locale) throws IOException {
+        String comments = body.get("comments");
+        String spEntityId = body.get("spEntityId");
+        String type = body.get("type");
 
         CoinUser currentUser = SpringSecurity.getCurrentUser();
         if (currentUser.getCurrentLoaLevel() < 2 && dashboardStepupEnabled) {
