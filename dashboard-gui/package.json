@@ -6,7 +6,7 @@
   "dependencies": {
     "downloadjs-next": "^1.5.7",
     "github-markdown-css": "^5.1.0",
-    "js-cookie": "^3.0.1"
+    "js-cookie": "^3.0.7"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.35",
