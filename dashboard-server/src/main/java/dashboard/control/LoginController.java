@@ -4,7 +4,7 @@ import dashboard.domain.CoinUser;
 import dashboard.domain.IdentityProvider;
 import dashboard.util.SpringSecurity;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,7 +73,8 @@ public class LoginController {
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         });
-        SecurityContextHolder.clearContext();
+        //Invalidates the session, otherwise the (guest) user stored in it prevents reading the Shibboleth headers
+        new SecurityContextLogoutHandler().logout(request, response, null);
 
         //We could do this client side, but one extra redirect is not a problem
         String target = "/startSSO?redirect_url=" + redirectUrl;

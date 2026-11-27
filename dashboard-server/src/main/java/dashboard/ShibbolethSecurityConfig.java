@@ -84,6 +84,9 @@ public class ShibbolethSecurityConfig {
     @Value("${dashboard.feature.statisticsDown}")
     private boolean statisticsDown;
 
+    @Value("${dashboard.feature.surfAccessBanner:true}")
+    private boolean surfAccessBannerEnabled;
+
     @Value("${dashboard.hide_tabs}")
     private String hideTabs;
 
@@ -146,7 +149,8 @@ public class ShibbolethSecurityConfig {
                         new ShibbolethPreAuthenticatedProcessingFilter(authenticationManager, manage, sab, jiraClient,
                                 dashboardAdmin, dashboardViewer, dashboardSuperUser, adminSufConextIdpRole,
                                 viewerSurfConextIdpRole, isManageConsentEnabled, isOidcEnabled, dashboardStepupEnabled, jiraDown, hideTabs, supportedLanguages, organization,
-                                defaultLoa, loaLevels, authnContextLevels, statisticsDown),
+                                defaultLoa, loaLevels, authnContextLevels, statisticsDown,
+                                surfAccessBannerEnabled),
                         AbstractPreAuthenticatedProcessingFilter.class
                 )
                 .addFilterAfter(new EnsureAccessToIdpFilter(manage), ShibbolethPreAuthenticatedProcessingFilter.class)
@@ -157,7 +161,7 @@ public class ShibbolethSecurityConfig {
                         .requestMatchers("/dashboard/api/**")
                         .hasAnyRole("DASHBOARD_ADMIN", "DASHBOARD_VIEWER", "DASHBOARD_MEMBER", "DASHBOARD_SUPER_USER", "DASHBOARD_GUEST")
                         .anyRequest().authenticated());
-        if (!shibbolethEnabled) {
+        if (!shibbolethEnabled && false) {
             http.addFilterBefore(new MockShibbolethFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
             http.addFilterAfter(new ShibbolethSSOFilter(), ShibbolethPreAuthenticatedProcessingFilter.class);
         }

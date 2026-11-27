@@ -7,6 +7,7 @@ import Helmet from 'react-helmet'
 import CurrentUser from './models/current_user'
 import Header from './components/header'
 import Footer from './components/footer'
+import SurfAccessBanner from './components/surf_access_banner'
 import { SuperUserProtectedRoute } from './components/protected_route'
 
 import Dummy from './pages/dummy'
@@ -49,6 +50,7 @@ class App extends React.Component {
             <a id="skip-nav" className="screenreader-text" href="#main-content">
               Skip Navigation or Skip to Content
             </a>
+            <SurfAccessBanner />
             <Header />
             <Welcome />
             <main id="main-content">

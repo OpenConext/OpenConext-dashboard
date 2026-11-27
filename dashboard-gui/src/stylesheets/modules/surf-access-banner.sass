@@ -1,0 +1,32 @@
+.mod-surf-access-banner
+  display: flex
+  // #app is a flex column; without this the banner can't grow when the text wraps
+  flex-shrink: 0
+  align-items: center
+  justify-content: center
+  gap: 8px
+  min-height: 36px
+  padding: 0 16px
+  background: #000
+  color: #fff
+  font-family: "Source Sans 3", "Source Sans Pro", "Nunito", sans-serif
+  font-size: 14px
+  font-weight: 500
+  line-height: 20px
+
+  .logo
+    position: relative
+    flex-shrink: 0
+    width: 36px
+    height: 36px
+
+    // inset of the logo within its 36px box, as in the design
+    img
+      position: absolute
+      top: 4.54%
+      left: 4.55%
+      display: block
+
+  a
+    color: inherit
+    text-decoration: underline

@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32.3983" height="32.3983" viewBox="0 0 32.3983 32.3983" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1935">
+<path id="Rectangle 309" d="M6.10683 12.0208L12.0208 6.10683C14.3285 3.79919 18.0699 3.79919 20.3775 6.10683L26.2915 12.0208C28.5992 14.3285 28.5992 18.0699 26.2915 20.3775L20.3775 26.2915C18.0699 28.5992 14.3285 28.5992 12.0208 26.2915L6.10683 20.3775C3.79919 18.0699 3.79919 14.3285 6.10683 12.0208Z" stroke-width="2.72727" stroke="#00D37F"/>
+<line id="Line 18" x1="16.0909" y1="15.6537" x2="19.9091" y2="15.6537" stroke-width="10.9091" stroke-linecap="round" stroke="black"/>
+<g id="Ellipse 487">
+<ellipse cx="8.18182" cy="16.1992" rx="4.90909" ry="4.90909" fill="#B8F8DC"/>
+<mask id="stroke0_0_565" maskUnits="userSpaceOnUse" x="0.272727" y="8.10826" width="16" height="16" fill="black">
+<rect fill="white" x="0.272727" y="8.10826" width="16" height="16"/>
+<path d="M8.18182 11.2901C10.893 11.2901 13.0909 13.488 13.0909 16.1992C13.0909 18.9104 10.893 21.1083 8.18182 21.1083C5.4706 21.1083 3.27273 18.9104 3.27273 16.1992C3.27273 13.488 5.4706 11.2901 8.18182 11.2901Z"/>
+</mask>
+<ellipse cx="8.18182" cy="16.1992" rx="4.90909" ry="4.90909" stroke-width="4.54545" stroke="black" mask="url(#stroke0_0_565)"/>
+</g>
+<line id="Line 17" x1="10.9091" y1="15.9264" x2="20.1818" y2="15.9264" stroke-width="5.45455" stroke-linecap="round" stroke="#B8F8DC"/>
+<circle id="Ellipse 488" cx="6.54545" cy="16.1992" r="1.63636" fill="black"/>
+</g>
+</svg>

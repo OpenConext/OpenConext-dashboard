@@ -22,6 +22,7 @@ class CurrentUser {
         this.oidcEnabled = rawUser.oidcEnabled
         this.jiraDown = rawUser.jiraDown
         this.statisticsDown = rawUser.statisticsDown
+        this.surfAccessBannerEnabled = rawUser.surfAccessBannerEnabled
         this.hideTabs = rawUser.hideTabs
         this.supportedLanguages = rawUser.supportedLanguages
         this.organization = rawUser.organization

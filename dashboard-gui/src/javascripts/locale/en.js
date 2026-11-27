@@ -22,6 +22,12 @@ I18n.translations.en = {
             'Your version of Internet Explorer is not supported. Please update your browser to a more modern version.',
     },
 
+    surf_access_banner: {
+        message: 'The IdP Dashboard is moving to SURF Access. You can already try it out.',
+        link: 'Learn more about SURF Access',
+        link_url: 'https://surfaccess.nl/home',
+    },
+
     header: {
         welcome: 'Welcome,',
         links: {

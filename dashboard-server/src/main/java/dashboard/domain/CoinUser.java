@@ -61,6 +61,7 @@ public class CoinUser implements UserDetails {
     private List<String> authnContextLevels;
     private Set<String> invitationRequestEntities = new HashSet<>();
     private boolean statisticsDown;
+    private boolean surfAccessBannerEnabled;
 
     @Override
     @JsonIgnore
@@ -399,5 +400,13 @@ public class CoinUser implements UserDetails {
 
     public boolean isStatisticsDown() {
         return statisticsDown;
+    }
+
+    public boolean isSurfAccessBannerEnabled() {
+        return surfAccessBannerEnabled;
+    }
+
+    public void setSurfAccessBannerEnabled(boolean surfAccessBannerEnabled) {
+        this.surfAccessBannerEnabled = surfAccessBannerEnabled;
     }
 }

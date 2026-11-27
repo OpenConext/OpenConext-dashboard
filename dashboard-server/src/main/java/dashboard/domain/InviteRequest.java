@@ -1,5 +1,6 @@
 package dashboard.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.HtmlUtils;
@@ -19,6 +20,7 @@ public class InviteRequest {
 
     private List<ContactPerson> contactPersons;
 
+    @JsonCreator
     public InviteRequest() {
     }
 
